@@ -16,10 +16,12 @@ public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostat
 status](https://www.r-pkg.org/badges/version/SANETPA.png)](https://CRAN.R-project.org/package=SANETPA)
 <!-- badges: end -->
 
-This package is a research compendium for a study examining attrition
-from a sexual assault nurse examininer (SANE) training program. The
-research team is led by Dr. Katherine Dontje (PI) and Dr. Rebecca
-Campbell (Co-I) at Michigan State University.
+This package (Pierce, 2025) is a research compendium (Marwick et al.,
+2018) for a study examining attrition from a sexual assault nurse
+examiner (SANE) training program. The research team is led by
+Dr. Katherine Dontje (PI) and Dr. Rebecca Campbell (Co-I) at Michigan
+State University and was supported by a grant (Dontje & Campbell,
+07/01/2021–06/30/2025).
 
 ## Assumptions
 
@@ -388,7 +390,7 @@ project](https://support.rstudio.com/hc/en-us/articles/200526207-Using-RStudio-P
     meta-data files, `.qmd` scripts, and files used by the scripts.
     - `extdata/`: This subfolder is where you will need to put any raw
       data files mentioned in the Obtaining Data Files section below.
-    - `output/`: This subfolder holds rendered output files
+    - `output/`: This subfolder holds rendered output files.
     - `.gitignore`: This was auto-created by Quarto. Don’t edit or
       delete it.
     - `.quarto/`: This hidden folder may be created by Quarto to hold
@@ -417,6 +419,15 @@ project](https://support.rstudio.com/hc/en-us/articles/200526207-Using-RStudio-P
     - `Example_Render_to_PDF.qmd`: This is just an example script that
       you can copy to start a new script that will produce a PDF output
       file.
+    - `Import_Data.qmd`: This script imports the raw data from SPSS and
+      saves it in an .RData file for use by other scripts here.
+      Rendering this directly generates draft output named
+      `output/Import_Data_Draft.html`; you can get date-stamped
+      production output (e.g., `output/Import_Data_yyyy-mm-dd.html`) by
+      using `scripts/Production_Run. qmd` to render this script.
+    - `Production_Run.qmd`: This script is used to automate rendering
+      other scripts in the proper order to generate date-stamped
+      production outputs (e.g., `output/Import_Data_yyyy-mm-dd.html`).
     - `references.bib`: This is a BibTeX file containing the citation
       data for references mentioned in various scripts. Quarto uses it
       to get the data needed to insert reference lists.
@@ -426,8 +437,6 @@ project](https://support.rstudio.com/hc/en-us/articles/200526207-Using-RStudio-P
       from scratch. It automates an otherwise tedious process. You would
       use this before and after upgrading to a new version of R (e.g.,
       when going from version 4.3.x to 4.4.x).
-    - `Render_Scripts.qmd`: This file will eventually automate rendering
-      other scripts in the correct order.
     - `Setup_as_Package.qmd`: This is a script I used to remind myself
       of how to rapidly do various parts of turning a new repository
       into an R package. It’s only really used once.
@@ -576,6 +585,15 @@ Chacon, S., & Straub, B. (2014). *Pro Git*. Apress Media.
 
 </div>
 
+<div id="ref-Dontje-RN8757" class="csl-entry">
+
+Dontje, K., & Campbell, R. (07/01/2021–06/30/2025). *Increasing access,
+recruitment, and retention of sexual assault nurse examiners in rural
+michigan* (Grant No. T96HP42059). Health Resources and Services
+Administration.
+
+</div>
+
 <div id="ref-Mair-RN3387" class="csl-entry">
 
 Mair, P. (2016). Thou shalt be reproducible! A technology perspective.
@@ -608,7 +626,7 @@ J. A. (2016). Ten simple rules for taking advantage of Git and GitHub.
 
 Pierce, S. J. (2025). *SANETPA: Research compendium for a study of
 sexual assault nurse examiner training program attrition* (Version
-0.1.0) \[Reproducible Research Materials and Computer Program, R
+0.2.0) \[Reproducible Research Materials and Computer Program, R
 package, Private Repository Until Release\]. GitHub.
 <https://github.com/sjpierce/SANETPA>
 
@@ -639,7 +657,7 @@ and share your code*. O’Reilly Media. <https://r-pkgs.org>
 
 </div>
 
-# Citing This Package
+## Citing This Package
 
 Please cite the package itself (Pierce, 2025), plus any associated data
 files.

@@ -33,10 +33,11 @@ knitr::opts_chunk$set(
 [![CRAN status](https://www.r-pkg.org/badges/version/SANETPA)](https://CRAN.R-project.org/package=SANETPA)
 <!-- badges: end -->
 
-This package  is a research compendium for a study examining attrition from a
-sexual assault nurse examininer (SANE) training program. The research team is
-led by Dr. Katherine Dontje (PI) and Dr. Rebecca Campbell (Co-I) at Michigan
-State University.
+This package [@Pierce-RN8756] is a research compendium [@Marwick-RN3899] for a 
+study examining attrition from a sexual assault nurse examiner (SANE) training 
+program. The research team is led by Dr. Katherine Dontje (PI) and Dr. Rebecca 
+Campbell (Co-I) at Michigan State University and was supported by a grant 
+[@Dontje-RN8757].
 
 ## Assumptions
 We eventually expect two different types of users of this package: collaborators
@@ -382,7 +383,7 @@ an
       meta-data files, `.qmd` scripts, and files used by the scripts. 
         * `extdata/`: This subfolder is where you will need to put any raw data
           files mentioned in the Obtaining Data Files section below.
-        * `output/`: This subfolder holds rendered output files 
+        * `output/`: This subfolder holds rendered output files. 
         * `.gitignore`: This was auto-created by Quarto. Don't edit or delete 
           it. 
         * `.quarto/`: This hidden folder may be created by Quarto to hold 
@@ -409,6 +410,15 @@ an
           can copy to start a new script that will produce an HTML output file. 
         * `Example_Render_to_PDF.qmd`: This is just an example script that you 
           can copy to start a new script that will produce a PDF output file. 
+        * `Import_Data.qmd`: This script imports the raw data from SPSS and 
+          saves it in an .RData file for use by other scripts here. Rendering 
+          this directly generates draft output named 
+          `output/Import_Data_Draft.html`; you can get date-stamped production 
+          output (e.g., `output/Import_Data_yyyy-mm-dd.html`) by using 
+          `scripts/Production_Run. qmd` to render this script. 
+        * `Production_Run.qmd`: This script is used to automate rendering other 
+          scripts in the proper order to generate date-stamped production 
+          outputs (e.g., `output/Import_Data_yyyy-mm-dd.html`). 
         * `references.bib`: This is a BibTeX file containing the citation data 
           for references mentioned in various scripts. Quarto uses it to get the 
           data needed to insert reference lists. 
@@ -418,8 +428,6 @@ an
           scratch. It automates an otherwise tedious process. You would use this
           before and after upgrading to a new version of R (e.g., when going 
           from version 4.3.x to 4.4.x). 
-        * `Render_Scripts.qmd`: This file will eventually automate rendering 
-          other scripts in the correct order. 
         * `Setup_as_Package.qmd`: This is a script I used to remind myself of 
           how to rapidly do various parts of turning a new repository into an R
           package. It's only really used once. 
@@ -538,7 +546,7 @@ how long it took to render each report called by that file.
 ::: {#refs}
 :::
 
-# Citing This Package
+## Citing This Package
 Please cite the package itself [@Pierce-RN8756], plus any associated data files. 
 
 ## Disclaimer
