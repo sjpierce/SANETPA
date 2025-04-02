@@ -1,0 +1,8 @@
+project:
+  title: "scripts"
+  type: default
+  output-dir: "output"
+  execute-dir: file
+  render:
+    - Import_Data.qmd
+
