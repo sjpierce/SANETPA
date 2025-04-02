@@ -4,8 +4,8 @@
 # Used for temporary files.
 ^\.Rproj\.user$
 
-# Omit the Rmarkdown file used to generate README.md.
-^README\.Rmd$
+# Omit the Quarto file used to generate README.md.
+^README\.Qmd$
 
 # Omit folders created by building vignettes.
 ^doc$
@@ -18,3 +18,14 @@
 ^LICENSE\.md$
 ^LICENSE
 ^LICENSE\.note$
+
+# Exclude .Rdata files and placeholder file.
+^data/*\.Rdata$
+^data/*\.RData$
+^data/*\.Rds$
+^data/Placeholder.txt$
+
+# Omit the folders for files that only need to be in the local repository, not
+# in the installed package.
+^scripts$
+

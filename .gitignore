@@ -38,5 +38,23 @@ doc
 Meta
 inst/doc
 
-# Omit log files created by knitting to PDF.
-inst/*.log
+# Quarto files that don't need to be tracked.
+scripts/.quarto/
+
+# Omit R data files in the data folder.
+data/*.Rdata
+data/*.RData
+data/*.Rds
+
+# Omit external data files.
+scripts/extdata
+
+# Omit log, HTML, and PDF output files from knitting Quarto scripts.
+scripts/*.html
+scripts/*.log
+scripts/*.pdf
+scripts/output/*.html
+scripts/output/*.log
+scripts/output/*.pdf
+
+
