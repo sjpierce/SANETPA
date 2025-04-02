@@ -1,0 +1,367 @@
+---
+title: \bfseries{Example Script for Rendering PDF Output\LARGE}
+author: 
+  - name: Steven J. Pierce
+    orcid: 0000-0002-0679-3019
+    email: pierces1@msu.edu
+    affiliations: 
+      - name: Michigan State University, Center for Statistical Training and Consulting
+params:
+  SourceDir: "scripts/"
+  SourceFile: "Example_Render_to_PDF.qmd"
+  LogFile: "Example_Render_to_PDF.pdf"
+format: 
+  pdf:
+    output-file: "Example_Render_to_PDF.pdf"
+    output-ext: "pdf"
+    documntclass: scrartcl
+    papersize: letter
+    geometry: 
+      - top=1in
+      - bottom=1in
+      - left=1in
+      - right=1in
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    number-depth: 3
+    colorlinks: true
+    template-partials: 
+      - title.tex
+    include-in-header: 
+      - file: compact-title.tex
+      - text: | 
+          \usepackage{fancyhdr}
+          \usepackage[noblocks]{authblk}
+          \renewcommand*{\Authsep}{, }
+          \renewcommand*{\Authand}{, }
+          \renewcommand*{\Authands}{, }
+          \renewcommand\Affilfont{\small}
+          \usepackage[yyyymmdd,hhmmss]{datetime}
+          \usepackage{lastpage}         %% For pageref command
+          \usepackage{fontspec}
+          \defaultfontfeatures{Ligatures=TeX}
+          \usepackage[font={small}, margin=1cm, skip=2pt]{caption}
+          \usepackage{url}
+          \usepackage{verbatim}         %% For the comment command
+          \usepackage{placeins}         %% For FloatBarrier command
+          \usepackage{booktabs}         %% Used by kableExtra
+          \usepackage{longtable}        %% Used by kableExtra
+          \usepackage{array}            %% Used by kableExtra
+          \usepackage{multirow}         %% Used by kableExtra
+          \usepackage{wrapfig}          %% Used by kableExtra
+          \usepackage{colortbl}         %% Used by kableExtra
+          \usepackage{pdflscape}        %% Used by kableExtra
+          \usepackage{tabu}             %% Used by kableExtra
+          \usepackage[normalem]{ulem}   %% Used by kableExtra
+          \usepackage{makecell}         %% Used by kableExtra
+          \usepackage{xcolor}           %% Used by kableExtra
+          \usepackage{dcolumn}
+          \usepackage{titling}
+          \usepackage{threeparttable}   %% Used by kableExtra
+          \usepackage{threeparttablex}  %% Used by kableExtra
+          \pretitle{\begin{center}\LARGE\bfseries}
+          \posttitle{\end{center}}
+          \pagestyle{fancy}
+          \lhead{Left header text }
+          \rhead{\today\ \currenttime}
+          \cfoot{ }
+          \fancyfoot[R]{\thepage\ of \pageref*{LastPage}}
+          \renewcommand{\headrulewidth}{0.4pt}
+          \renewcommand{\footrulewidth}{0.4pt}
+          \fancypagestyle{plain}{\pagestyle{fancy}}
+execute:
+  eval: true
+  echo: fenced
+  output: true
+  message: true
+  warning: true
+  error: true
+  include: true
+knitr:
+  opts_chunk: 
+    message: true
+    cfsize: "scriptsize"
+---
+
+\begin{comment}
+# Hidden: Notes for User
+This script makes use of the LaTeX `verbatim` package's `\comment` command to
+build in hidden headings and text that are here for the team preparing the
+report but will be omitted from the knitted PDF output file. This makes it
+easier to put important comments directly in the file while still creating fully
+formatted output that only shows the desired content. So, text inside a comment
+block will be omitted from the PDF output.
+
+We can also use code chunks with chunk options such as `#| include: false`, 
+`#| echo: false`, `#| message: false`, `#| warning: false` and so on to 
+precisely control what R output shows up in the final PDF file. Thus, a script 
+file can both serve as process documentation and efficiently generate the final 
+version of a report output by applying the reproducible research and literate
+programming concepts and tools. 
+
+The `\lfoot` command just below sets the left footer to match the script's 
+`LofgFile` parameter value, which we can pass along when rendering the script. 
+Ideally it would be in the YAML `include-in-header:` with other pieces, but
+I can't get inline code to work if I do it that way. This is the only way I 
+could get the filename-based footer to work. 
+
+The LaTeX `placeins` pacakg provides the `\FloatBarrier` command. Using that 
+before section headings help keep the figures and tables in their respective 
+sections. 
+\end{comment}
+
+\lfoot{\texttt{\small \detokenize{`r params$LogFile`}}} 
+
+\FloatBarrier
+
+# Purpose
+This script provides a template example you can use to jump-start creating a 
+new report that writes PDF output. It illustrates some convenient features of
+Quarto.
+
+\FloatBarrier
+
+# Setup
+Global R chunk options are defined in the YAML header but local chunk options 
+will over-ride global options. We can temporarily disable an individual chunk by 
+inserting `#| eval: false` on a line at the top of the chunk. The method for
+creating a `cfsize` option that controls font size in code chunks and their text
+output is based on an answer to a question posted on
+[stackoverflow.com](https://stackoverflow.com/a/46526740).
+
+``` {r}
+#| label: global-options
+#| message: true
+
+# Create a custom chunk hook/option for controlling font size in chunk & output.
+def.chunk.hook  <- knitr::knit_hooks$get("chunk")
+knitr::knit_hooks$set(chunk = function(x, options) {
+  x <- def.chunk.hook(x, options)
+  ifelse(options$cfsize != "normalsize", 
+         paste0("\n \\", options$cfsize,"\n\n", x, "\n\n \\normalsize"), 
+         x)
+  })
+```
+
+``` {r}
+#| label: test-message1
+
+# This message should show in results because of global options in YAML. 
+message("test message 1")
+```
+
+``` {r}
+#| label: test-message2
+#| message: false
+
+# This message should not show in results because of chunk-level options. 
+message("test message 2")
+```
+
+\FloatBarrier
+
+## Declare Path
+This next chunk declares the path to this script relative to the project-level 
+root directory. If the file is not in the right location under the project root
+you'll get a warning message. This helps ensure relative paths are all working 
+as expected. 
+
+``` {r}
+#| label: declare-path
+
+# Declare path to this script relative to the project root directory.
+here::i_am(path = paste0(params$SourceDir, params$SourceFile))
+```
+
+\FloatBarrier
+
+## Load Packages
+Next we load R packages required for this script to work. 
+
+```{r}
+#| label: load-packages
+
+library(devtools)       
+library(here)         # for here(), i_am()
+library(dplyr)        # for %>%, arrange(), filter(), group_by(), mutate(), etc.
+library(tidyr)        # for pivot_longer(), pivot_wider(), etc.
+library(rmarkdown)    # for render()
+library(knitr)        # for kable()
+options(kableExtra.latex.load_packages = FALSE)
+library(kableExtra)
+library(piercer)      # for git_report(), which_latex().
+library(quarto)       # for quarto_version()
+```
+
+\FloatBarrier
+
+# Heading Level 1
+Put text here. 
+
+\FloatBarrier
+
+## Heading Level 2
+Put text here. 
+
+\FloatBarrier
+
+### Heading Level 3
+Put text here. 
+
+\FloatBarrier
+
+#### Heading Level 4
+The `toc-depth: 3` option in YAML means this heading is omitted from the side 
+menu. The `number-depth: 3` option in YAML is why this heading lacks a section
+number. 
+
+\FloatBarrier
+
+# Examples of Callouts
+These are examples of how to use callouts in Quarto documents. 
+
+::: {.callout-note}
+Note that there are five types of callouts, including:
+`note`, `warning`, `important`, `tip`, and `caution`.
+:::
+
+::: {.callout-important}
+This is an example of an important callout without a caption.
+:::
+
+::: {.callout-warning}
+This is an example of an warning callout without a caption.
+:::
+
+::: {.callout-tip}
+# Tip With Caption
+This is an example of a tip callout with a caption.
+:::
+
+::: {.callout-caution}
+# Caution: Collapse option does not work in PDF output
+In PDF output, callouts created with `collapse="true"` just get expanded as if
+you had used `collapse="false"`. There is no way to make an interactive, 
+expandable callout in this output format.
+:::
+
+\FloatBarrier
+
+# Example Table
+See @tbl-Test for an example of the table created below. 
+
+```{r}
+#| label: tbl-Test
+#| tbl-cap: Table Caption Via Chunk Option. 
+FN <- "This is the footnote."
+
+# Create some data.
+MyData <- data.frame(x = 1:5, y = 2:6, z = 3:7, a = 4:8) 
+
+# Create a table and bold the first row, and add a footnote. 
+kable(MyData, format = "latex", booktabs = TRUE) %>% 
+  row_spec(row = 1, bold = TRUE) %>% 
+  footnote(general = FN, general_title = "Note: ", footnote_as_chunk = TRUE,
+           threeparttable = FALSE)
+```
+
+::: {.callout-tip}
+## Tip: Setting the Table Caption
+Use the `tbl-cap` chunk option to set the table caption rather than using the 
+`caption = ` argument to `kable()`. The latter causes rendering problems. 
+:::
+
+::: {.callout-caution}
+## kableExtra in PDF output
+It looks like kableExtra footnotes work in PDF output from Quarto documents if 
+`threeparttable = FALSE`, but that makes the table wider rather than wrapping 
+long footnotes to match the table width. Setting `threeparttable = TRUE` breaks 
+rendering. The latter setting works fine in R Markdown documents.
+:::
+
+\FloatBarrier
+
+# Example Figure
+Below is @fig-example, which is pretty simple. 
+
+```{r}
+#| label: fig-example
+#| fig-cap: !expr paste("Here's a Computed", 
+#|                      "Figure Caption.")
+#| fig-width: 6
+#| fig-height: 4
+
+plot(MyData)
+```
+
+::: {.callout-tip}
+## Tip: Setting the Figure Caption
+Use the `fig-cap` chunk option to set the figure caption. Here you can see the 
+use of `!expr` preceding inline r code that computes a dynamic caption. 
+:::
+
+\FloatBarrier
+
+# Example Graphvis Diagram
+Here is an example diagram. Notice that it does not get a Figure number by 
+default. We can also just use the `DiagrammeR` package to generate a figure 
+that gets numbered. 
+
+```{dot}
+digraph D {
+  A -> {B, C, D} -> {F}
+}
+```
+
+\FloatBarrier
+
+# Software Information
+We used [R](https://www.r-project.org/) as our main computing environment and 
+[Quarto](https://quarto.org/) scripts to enhance reproducibility. We used 
+[RStudio](www.rstudio.org) as the editor to interface with R and Quarto. 
+
+- Software chain:
+  **qmd file > RStudio > Quarto > R > knitr > md file > Pandoc > tex file > TinyTeX > PDF file**.
+- Source file: \texttt{\detokenize{`r params$SourceFile`}} 
+- Output file: \texttt{\detokenize{`r params$LogFile`}} 
+- [Quarto `r quarto_version()`](https://quarto.org/) runs `*.qmd` files through 
+  [R](https://www.r-project.org/) and [knitr](https://yihui.org/knitr/) to 
+  produce `*.md` markdown files.
+- [Pandoc `r rmarkdown::pandoc_version()`](https://pandoc.org) converts markdown 
+  files (`*.md`) to other formats, including LaTeX (`*.tex`) and HTML (`*.html`) 
+  among others.
+- [TinyTeX](https://yihui.org/tinytex/) compiles LaTeX files (`*.tex`) into PDF 
+  files. It should be viable to use [MiKTeX](https://miktex.org) or another 
+  LaTeX distribution instead. 
+
+\FloatBarrier
+
+## Versions
+This document was generated using the following computational environment and 
+dependencies: 
+
+``` {r}
+#| label: show-version
+#| cfsize: scriptsize
+#| echo: true
+
+# Check and report whether we used TinyTex or other LaTeX software. 
+which_latex()
+
+# Get R and R package version numbers in use.
+devtools::session_info()
+```
+
+\FloatBarrier
+
+## Git Details
+The current Git commit details and status are:
+
+``` {r}
+#| label: git-details
+#| cfsize: scriptsize
+#| echo: true
+
+git_report()
+```

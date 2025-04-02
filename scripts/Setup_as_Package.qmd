@@ -1,0 +1,403 @@
+---
+title: "Setup a Research Compendium R Package" 
+author: 
+  - name: Steven J. Pierce
+    orcid: 0000-0002-0679-3019
+    email: pierces1@msu.edu
+    affiliations: 
+      - name: Michigan State University, Center for Statistical Training and Consulting
+date: now 
+date-modified: last-modified 
+date-format: YYYY-MM-DD HH:mm:ss z 
+format: 
+  html: 
+    toc: true 
+    toc-depth: 3 
+    toc-location: left 
+    number-sections: true 
+    number-depth: 3 
+    code-fold: show 
+    code-tools: true 
+    code-line-numbers: true 
+    embed-resources: true 
+    anchor-sections: true 
+execute: 
+  eval: true 
+  echo: fenced 
+  output: true 
+  warning: true 
+  error: true 
+  include: true 
+knitr: 
+  opts_chunk: 
+    message: true 
+---
+
+# Purpose
+This [Quarto](https://quarto.org/) script illustrates the process of taking a new repository created
+from the research compendium R package template located at
+https://github.com/sjpierce/rcrpkg.template.git 
+and turning it into a full R package. It is intended to be a script that you
+use interactively. Examine each section below, look at what the next chunk does,
+edit is desired, and then run it. You will need to manually edit some of the 
+files created by certain chunks below. 
+
+::: {.callout-tip}
+# Quarto versus R Markdown
+Quarto is the successor to [R Markdown](https://rmarkdown.rstudio.com/). It 
+offers more features and so I have converted over to using Quarto for new
+projects. There are examples of both Quarto (`*.qmd` files) and R Markdown
+scripts (`*.Rmd` files) in this repository but I now prefer and recommend
+relying only on Quarto. If you intend to do that, you can delete the (`*.Rmd`
+files) from your repository. The R Markdown files are only here for historical
+examples of the older approach.
+:::
+
+# Setup
+Global R chunk options are defined in the YAML header but local chunk options 
+will over-ride global options. We can temporarily disable an individual chunk by 
+inserting `#| eval: false` on a line at the top of the chunk. 
+
+``` {r}
+#| label: declare-path
+
+# Declare path to this script relative to the project root directory.
+here::i_am(path = "scripts/Setup_as_Package.qmd")
+```
+
+```{r}
+#| label: install-packages-1
+#| eval: false
+
+install.packages("assertthat")  
+install.packages("git2r")  
+install.packages("here")  
+install.packages("tinytex") 
+```
+
+```{r}
+#| label: install-packages-2
+#| eval: false 
+
+# Packages we load below (that are not already in the list above)
+install.packages("available") 
+install.packages("devtools")
+install.packages("fs")
+install.packages("here")  
+install.packages("usethis") 
+```
+
+Next we load R packages required for this script to work. 
+
+```{r}
+#| label: load-packages
+
+# Load some packages
+library(available)  # for available()
+library(devtools)   #  
+library(fs)         # for dir_create()
+library(here)       # for here(), i_am()
+library(usethis)    # 
+```
+
+# Check Candidate Package Names
+There are some conventions for naming R packages that you should probably comply 
+with. You can use the available package's `available()` function to check 
+candidate names for you package. This particular function should actually be
+used before you create a new repository from the `rcrpkg.template` because you
+want to give the new repository a sensible name from the beginning rather than
+have to change it later!
+
+```{r}
+#| label: check-pkg-names
+#| eval: false 
+
+# Check availability of the intended package name. 
+available("insert.your.package.name")
+```
+
+# Create a New Repository Using the Template
+On GitHub, you can create a new repository by copying from a template, such as 
+my `rcrpkg.template` repository. I think other users should be able to fork and 
+clone that repository to their own GitHub accounts, then use it as a template 
+themselves. 
+
+- Login to GitHub.
+- For users other than myself, I think you would have to start by forking and 
+  cloning my `rcrpkg.template` repository to make it available in your own 
+  GitHub account. I haven't figured out a way to make the GitHub web interface
+  let me try applying a template from another user's account. I'll have to test
+  with a colleague to see whether that is possible. 
+- Start the process of creating a new repository by visiting 
+  https://github.com/new. 
+- Use the *Repository template* control to select the `rcrpkg.template`.
+- Fill in your new package's name in the *Repository name* box. 
+- Add a description.
+- Select whether you want the repository to be public or private. 
+- Click the *Create repository* button. 
+
+That will add the new repository to your GitHub account.
+
+# Clone the New Repository to Your Computer
+Use Git to clone your new repository to your local computer. I use R Studio to
+do that with the process described at
+https://happygitwithr.com/new-github-first.html#new-rstudio-project-via-git. 
+
+# Rename the R Studio Project File to Match your Repository Name
+Your new repository will include an R Studio project file called 
+`rcrpkg.template.Rproj` that it inherited from the `rcrpkg.template` repository. 
+You will need to rename that file so it matches the name you chose for your new 
+repository. So if your new repository is called `MyStudy` you would rename 
+`rcrpkg.template.Rproj` to `MyStudy.Rproj`. 
+
+Afterward, use the project file to open your project in R Studio. The remainder 
+of this script assumes you have that project file open already. 
+
+# Create a DESCRIPTION File
+An R package must have a file called `DESCRIPTION` in the root folder. This file 
+holds meta-data about the package. The `create-DESCRIPTION` chunk below will 
+create a bare-bones file for you, but then you need to edit that file. In 
+particular, you should edit the author, title, and description fields. There is
+section of the this script below that will help with the license field. You 
+should track the `DESCRIPTION` file in Git. 
+
+```{r}
+#| label: create-DESCRIPTION
+#| eval: false 
+
+# Create a DESCRIPTION file. Once it is created, you need to go edit it and 
+# then commit it into Git. Make sure you list authors and their roles.
+use_description(check_name = TRUE)
+```
+
+# Create README.Rmd and README.md Files 
+It is very useful for an R package to have README files, which are described 
+at https://r-pkgs.org/release.html#important-files. 
+
+The `usethis` package supports an easy way to create such files with 
+[R Markdown](https://rmarkdown.rstudio.com/) scripts. You can use the 
+`create-README-Rmd` chunk below to set up an initial `README.Rmd` file. You can 
+edit that file and then knit it to produce the `README.md` file. You should 
+track both the `README.Rmd` and `README.md` files in Git. For an example of 
+what I put in these files for a package used as a research compendium, see 
+[https://github.com/sjpierce/SSACHR](https://github.com/sjpierce/SSACHR). 
+
+```{r}
+#| label: create-README-Rmd
+#| eval: false 
+
+# Create a README.Rmd file that will knit to README.md.  
+use_readme_rmd()
+```
+
+One effect of the chunk above is that it configures a pre-commit hook for Git 
+that forces you to commit changes to both `README.Rmd` and `README.md` at the 
+same time. 
+
+[Quarto](https://quarto.org) is the next generation-successor to R Markdown, so 
+I now personally create my `README.md` files with a Quarto script called 
+`README.qmd` instead of the `README.Rmd` file created by the chunk above. I 
+still run the chunk above, but then just rename `README.Rmd` to `README.qmd` and 
+then edit the content to make it use Quarto code instead of R Markdown code. 
+
+```{r}
+#| label: rename-README-Rmd
+#| eval: false 
+
+file_move(path = here("README.Rmd"), 
+          new_path = here("README.qmd"))
+```
+
+To get Git to require committing changes to both `README.qmd` and `README.md` 
+we use the following chunk to replace the pre-commit hook created by 
+`use_readme_rmd()` with one that references a Quarto file instead of an R 
+Markdown file. 
+
+```{r}
+#| label: move-pre-commit-hook
+#| eval: false 
+
+file_move(path = here("scripts/pre-commit"), 
+          new_path = here(".git/hooks/pre-commit"))
+```
+
+# Create a NEWS.md File 
+You should consider using a `NEWS.md` file to record key changes to your 
+package. See discussion of such files at https://r-pkgs.org/release.html#news. 
+The `create-NEWS` chunk below will set up basic file for you, then you just need 
+to edit it as you create new versions of your package. You should track the 
+`NEWS.md` file in Git. 
+
+```{r}
+#| label: create-NEWS
+#| eval: false 
+
+# Create a NEWS.md file we can use to log changes associated with each version.
+# Once it is created, you need to go edit it and then commit it into Git. 
+use_news_md()
+```
+
+# Create Package-Level Help Documentation
+You probably want to do this after you have edited the `DESCRIPTION` file.
+
+```{r}
+#| label: create-pkg-help
+#| eval: false 
+
+# Create a dummy .R file in the "R" subfolder that will prompt roxygen to 
+# generate basic package-level documentation.
+use_package_doc()
+```
+
+# Create or Update Help Files and NAMESPACE File
+
+```{r}
+#| label: create-NAMESPACE
+#| eval: false 
+
+# Create a NAMESPACE file. Once it is created, you commit it into Git. 
+# When DESCRIPTION changes, or when you add new custom functions in the "R"
+# subfolder, you should re-run this document() command and commit the updated
+# NAMESPACE and help files in the "man" subfolder file to Git. 
+document()
+```
+
+# Create a Folder for Data
+I use the conventional R package structure that calls for storing .Rdata and 
+.Rds files in a subfolder called `data`. The `create-data-folder` chunk below
+will create the folder for you. 
+
+```{r}
+#| label: create-data-placeholder
+#| eval: false 
+
+# Create the folder
+dir_create(path = here("data"))
+
+# Write out the placeholder file. 
+Placeholder.txt <- file(here("data/Placeholder.txt"))
+Content <- paste("Tracking this file in Git automates creating the folder it", 
+                 "is in when the repository is cloned.")
+writeLines(text = Content, con = Placeholder.txt)
+close(Placeholder.txt)
+```
+
+# Create a Folder for External Data Files
+I use the conventional R package structure that calls for placing external data
+files (i.e., those not stored as .Rdata or .Rds files) in a subfolder called 
+`inst/extdata`. The `create-extdata-placeholder` chunk below automates adding a
+simple text file called `inst/extdata/Placeholder.txt`. If you want to make sure
+someone else cloning your repository will have that folder, just run the chunk 
+and then track that file with Git. 
+
+```{r}
+#| label: create-extdata-placeholder
+#| eval: false 
+
+# Create the folder
+dir_create(path = here("inst/extdata"))
+
+# Write out the placeholder file. 
+Placeholder.txt <- file(here("inst/extdata/Placeholder.txt"))
+Content <- paste("Tracking this file in Git automates creating the folder it", 
+                 "is in when the repository is cloned.")
+writeLines(text = Content, con = Placeholder.txt)
+close(Placeholder.txt)
+```
+
+# Choose a Software License for the Package
+If you do not want to make your package open source (at this time), you can use
+the `choose-proprietary-license` chunk below to indicate that you are reserving 
+all rights to the copyright holders. You can always change the license later. 
+
+```{r}
+#| label: choose-proprietary-license
+#| eval: false
+
+# Until otherwise decided, we will assume a proprietary license rather than an
+# open-source license. 
+use_proprietary_license(copyright_holder)
+```
+
+On the other hand, if you are using the package as a research compendium that 
+you intend to publish, you may want to use the open-source GNU General Public 
+License version 3 ([GPL3](https://www.gnu.org/licenses/gpl-3.0.en.html)) or 
+or higher for the source code and license all other content under the Creative 
+Commons Attribution-ShareAlike 4.0 International 
+[CC BY-SA-4.0](https://creativecommons.org/licenses/by-sa/4.0/)) license. I use
+those options to promote reproducible research. You can use the 
+`choose-GPL3-and-CC-BY-SA-4` chunk below to do that. After running the chunk, 
+edit your `DESCRIPTION` file to make the license field read as 
+follows: `License: GPL (>= 3) + file LICENSE`. 
+
+```{r}
+#| label: choose-GPL3-and-CC-BY-SA-4
+#| eval: false
+
+# Choose the GPL (>= 3) license
+use_gpl_license(version = 3, include_future = TRUE)
+
+# Download the GPL3 license to a file called LICENSE.md
+download.file(url = "https://www.gnu.org/licenses/gpl-3.0.txt", 
+              destfile = here("LICENSE.md"))
+
+# Write out a LICENSE.note file. 
+LICENSE.note <- file(here("LICENSE.note"))
+writeLines(c("Source code in this package falls under the GPL (>= 3) license ",
+             "(see https://www.gnu.org/licenses/gpl-3.0.en.html or the ",
+             "LICENSE.md file). All other contents are licensed under the CC ",
+             "BY-SA-4.0 license (see https://creativecommons.org/licenses/by-sa/4.0/ ",
+             "or the LICENSE file)."), 
+           LICENSE.note)
+close(LICENSE.note)
+
+# Write out a LICENSE file. 
+download.file(url = "https://creativecommons.org/licenses/by-sa/4.0/legalcode.txt", 
+              destfile = here("LICENSE"))
+```
+
+# Software Information
+Show information about the current software environment. We could put the 
+contents of this section in a collapsed callout instead. 
+
+We used [R](https://www.r-project.org/) as our main computing environment and 
+[Quarto](https://quarto.org/) scripts to enhance reproducibility. We used 
+[RStudio](www.rstudio.org) as the editor to interface with R and Quarto. 
+
+- Software chain:
+  **qmd file > RStudio > Quarto > R > knitr > md file > Pandoc > HTML file**.
+- Source file: **`r params$SourceFile`**
+- Output file: **`r params$LogFile`**
+- [Quarto `r quarto_version()`](https://quarto.org/) runs `*.qmd` files through 
+  [R](https://www.r-project.org/) and [knitr](https://yihui.org/knitr/) to 
+  produce `*.md` markdown files.
+- [Pandoc `r rmarkdown::pandoc_version()`](https://pandoc.org) converts markdown 
+  files (`*.md`) to other formats, including LaTeX (`*.tex`) and HTML (`*.html`) 
+  among others.
+
+\FloatBarrier
+
+## Versions
+This document was generated using the following computational environment and 
+dependencies: 
+
+``` {r}
+#| label: show-version
+#| echo: true
+
+# Get R and R package version numbers in use.
+devtools::session_info()
+```
+
+\FloatBarrier
+
+## Git Details
+The current Git commit details and status are:
+
+``` {r}
+#| label: git-details
+#| echo: true
+
+git_report()
+```
+
