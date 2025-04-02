@@ -113,7 +113,7 @@ have to change it later!
 #| eval: false 
 
 # Check availability of the intended package name. 
-available("insert.your.package.name")
+available("SANETPA")
 ```
 
 # Create a New Repository Using the Template
