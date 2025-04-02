@@ -1,0 +1,36 @@
+Package: SANETPA
+Title: Research Compendium for a Study of Sexual Assault Nurse Examiner Training Program Attrition
+Version: 0.0.0.9000
+Date: 2025-04-01
+Authors@R: 
+    person(given = c("Steven", "J."),
+           family = "Pierce",
+           role = c("aut", "cre", "cph"),
+           email = "pierces1@msu.edu",
+           comment = c(ORCID = "0000-0002-0679-3019"))
+Description: This package is a research compendium for a study examining 
+    attrition from a sexual assault nurse examininer (SANE) training program. 
+    The research team is led by Dr. Katherine Dontje (PI) and Dr. Rebecca 
+    Campbell (Co-I) at Michigan State University. 
+License: file LICENSE
+URL: https://github.com/sjpierce/SANETPA
+BugReport: https://github.com/sjpierce/SANETPA/issues
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2
+Depends: 
+    R (>= 4.4),
+    piercer (>= 0.18.0)
+Suggests: 
+    devtools,
+    dplyr,
+    git2r,
+    haven,
+    here,
+    kableExtra,
+    knitr,
+    quarto,
+    rmarkdown, 
+    tidyverse,
+    tinytex
+VignetteBuilder: knitr
