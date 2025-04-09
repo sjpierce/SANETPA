@@ -1,5 +1,24 @@
 # SANETPA News 
 
+## 0.3.0, 2025-04-09
+* `README.qmd` and `README.md`
+    * Updated Quarto software version. 
+    * Updated Repository Structure and Contents section. 
+* `scripts/_quarto.yml` 
+    * List additional scripts in the render key so that their output will 
+      automatically be directed into `scripts/output` instead of remaining in 
+      the folder where those script files are stored. 
+* `scripts/CR_model.qmd`
+    * Added initial draft skeleton for the file. 
+* `scripts/Import_Data.qmd` 
+    * Fixed default value for SourceFile parameter. 
+    * Added default output file name. 
+    * Improve narrative text. 
+* `scripts/Production_Run.qmd`
+    * Added initial draft skeleton for the file. 
+* `scripts/references.bib`
+    * Updated Quarto software version. 
+
 ## 0.2.0, 2025-04-02
 * `README.qmd` and `README.md`
     * Improved introduction, cited sources, and updated repository contents 
