@@ -13,7 +13,7 @@ bibliography: references.bib          # File holds BibTeX data for references
 csl: apa.csl                          # File controls citation & reference list format
 params:                               # Default values for parameters
   SourceDir: "scripts/"               # Relative path to folder holding this file
-  SourceFile: "Import_data.qmd"       # Name of this script file
+  SourceFile: "Import_Data.qmd"       # Name of this script file
   LogFile: "Import_Data_Draft.html"   # Default name of rendered output file
 date: now                             # Sets Date Published = when script is rendered
 date-modified: last-modified          # Sets Date Modified = when code was last saved
