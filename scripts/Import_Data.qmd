@@ -23,6 +23,7 @@ title-block-banner: true              # Enable the banner, per CSTAT_style.css
 title-block-banner-color: "#18453B"   # Spartan Green color for title text. 
 format: 
   html:                               # Settings for HTML output
+    output-file: "Import_Data_Draft.html"      # Default output file name
     theme: [default, brand, CSTAT_theme.scss]  # Theme controls output formatting
     toc: true                         # Include table of contents (TOC)
     toc-depth: 3                      # Number of layers in TOC
