@@ -357,7 +357,7 @@ check()
 install()
 ```
 
-## Understanding the Repository Structure and Contents
+## Repository Structure and Contents
 
 The structure for the package is shown in the outline below, where
 folder names and file names are `highlighted like this` and comments are
@@ -391,6 +391,21 @@ project](https://support.rstudio.com/hc/en-us/articles/200526207-Using-RStudio-P
     - `extdata/`: This subfolder is where you will need to put any raw
       data files mentioned in the Obtaining Data Files section below.
     - `output/`: This subfolder holds rendered output files.
+      - `CR_Model_Draft.html`: This is temporary draft output obtained
+        by rendering the `scripts/CR_Model.qmd` script directly.
+      - `CR_Model_yyyy-mm-dd.html`: Production output obtained by using
+        `scripts/Production_Run.qmd` to render the
+        `scripts/CR_Model.qmd` script will have names following this
+        date-stamped naming convention. An actual rendering date will
+        replace the `yyyy-mm-dd` notation.
+      - `Import_Data_Draft.html`: This is temporary draft output
+        obtained by rendering the `scripts/Import_Data.qmd` script
+        directly.
+      - `Import_Data_yyyy-mm-dd.html`: Production output obtained by
+        using `scripts/Production_Run.qmd` to render the
+        `scripts/Import_Data.qmd` script will have names following this
+        date-stamped naming convention. An actual rendering date will
+        replace the `yyyy-mm-dd` notation.
     - `.gitignore`: This was auto-created by Quarto. Don’t edit or
       delete it.
     - `.quarto/`: This hidden folder may be created by Quarto to hold
@@ -408,6 +423,14 @@ project](https://support.rstudio.com/hc/en-us/articles/200526207-Using-RStudio-P
       file’s YAML header via the in_header option. It just formats the
       title of the rendered PDF file so it uses less vertical white
       space. It is used by multiple other scripts.
+    - `CR_Model.qmd`: This script runs the continuation-ratio model(s)
+      that comprises the main analysis for the study. Methodology notes,
+      references, and results interpretation will be built into this
+      script and its output. Rendering this directly generates draft
+      output named `output/CR_Model_Draft.html`; you can get
+      date-stamped production output (e.g.,
+      `output/CR_Model_yyyy-mm-dd.html`) by using
+      `scripts/Production_Run.qmd` to render this script.
     - `Delete_nul_file.bat`: This is a Windows batch file that automates
       removing a nuisance file sometimes left over when rendering a
       Quarto or R Markdown script doesn’t work right.
@@ -424,7 +447,7 @@ project](https://support.rstudio.com/hc/en-us/articles/200526207-Using-RStudio-P
       Rendering this directly generates draft output named
       `output/Import_Data_Draft.html`; you can get date-stamped
       production output (e.g., `output/Import_Data_yyyy-mm-dd.html`) by
-      using `scripts/Production_Run. qmd` to render this script.
+      using `scripts/Production_Run.qmd` to render this script.
     - `Production_Run.qmd`: This script is used to automate rendering
       other scripts in the proper order to generate date-stamped
       production outputs (e.g., `output/Import_Data_yyyy-mm-dd.html`).
