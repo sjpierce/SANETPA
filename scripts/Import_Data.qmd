@@ -54,7 +54,7 @@ This file is part of a research compendium [@Pierce-RN8756] associated with a
 study about a sexual assault nurse examiner training program [@Dontje-RN8757]. 
 It imports data from from an SPSS data file provided by the investigators, does
 some data cleaning and management, then saves out an R data file that will be 
-used by the analyses scripts in this compendium. 
+used by other scripts in this compendium. 
 
 # Setup
 This section documents some setup tasks that are useful to the statistician on 
@@ -107,7 +107,7 @@ here::i_am(path = paste0(params$SourceDir, params$SourceFile))
 ## Read Data {#sec-Read-Data}
 The raw data provided by the investigators is in an SPSS data file. This section 
 imports it into an R data frame/tibble. The raw data is de-identified to 
-preserve participant privacy and protect confidentiality.
+preserve participant privacy and protect confidentiality. 
 
 ```{r}
 #| label: import-data
@@ -203,7 +203,7 @@ code in some way since it was last committed.
 
 ::: {.callout-tip}
 Untracked files are files located in the repository that Git has not been told 
-to entirely ignore, but have also not been commited into the version history. 
+to entirely ignore, but have also not been committed into the version history. 
 
 Unstaged changes to files indicate that some of the contents have been modified 
 since the last time the file was committed to Git. In production runs, we want 
