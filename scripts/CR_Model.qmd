@@ -1,0 +1,181 @@
+---
+title: Continuation-Ratio Modeling Results
+subtitle: | 
+          | CSTAT Case: C1788
+          | Clients: Campbell, Rebecca; Ashley, Autumn; Dontje, Katherine
+author: 
+  - name: Steven J. Pierce
+    orcid: 0000-0002-0679-3019
+    email: pierces1@msu.edu
+    affiliations: 
+      - name: Michigan State University, Center for Statistical Training and Consulting  ([https://cstat.msu.edu](https://cstat.msu.edu))
+bibliography: references.bib          # File holds BibTeX data for references
+csl: apa.csl                          # File controls citation & reference list format
+params:                               # Default values for parameters
+  SourceDir: "scripts/"               # Relative path to folder holding this file
+  SourceFile: "CR_Model.qmd"          # Name of this script file
+  LogFile: "CR_Model_Draft.html"      # Name of rendered output file
+date: now                             # Sets Date Published = when script is rendered
+date-modified: last-modified          # Sets Date Modified = when code was last saved
+date-format: YYYY-MM-DD HH:mm:ss z    # Show date, time, & timezone
+css: CSTAT_style.css                  # File formats title banner block w/ logo.
+title-block-banner: true              # Enable the banner, per CSTAT_style.css 
+title-block-banner-color: "#18453B"   # Spartan Green color for title text. 
+format: 
+  html:                               # Settings for HTML output
+    output-file: "CR_Model_Draft.html"         # Default output file name 
+    theme: [default, brand, CSTAT_theme.scss]  # Theme controls output formatting
+    toc: true                         # Include table of contents (TOC)
+    toc-depth: 3                      # Number of layers in TOC
+    toc-location: left                # Where to display the TOC
+    number-sections: true             # Auto-number each section
+    number-depth: 3                   # Number of layers for section numbering
+    code-fold: true                   # Default to collapsing code chunks
+    code-tools: true                  # Adds control for show/hide all code
+    code-line-numbers: false          # Skip numbering lines in code chunks
+    embed-resources: true             # Makes HTML output file self-contained
+    anchor-sections: true             # Allow linking to section headings
+execute:                              # Default Quarto chunk execution options
+  eval: true
+  echo: fenced                        # Show the code in the output file
+  output: true
+  warning: true
+  error: true
+  include: true
+knitr:                                # Default R knitr package chunk options
+  opts_chunk: 
+    message: true
+---
+
+\FloatBarrier
+
+# Purpose
+This file is part of a research compendium [@Pierce-RN8756] associated with a 
+study about a sexual assault nurse examiner training program [@Dontje-RN8757]. 
+It reads an R data file created by another script in this compendium, documents 
+some methodology decisions and details, then runs the continuation-ratio models
+that comprise the main analysis for the study. This file also contains some 
+narrative interpretation of the results and supplementary output such as tables 
+and graphs derived from the models. 
+
+# Setup
+This section documents some setup tasks that are useful to the statistician on 
+the team. Most readers of this document will probably want skip directly to 
+@sec-CR-Modeling.
+
+## Define Global Options
+Global R chunk options are defined in the YAML header but local chunk options
+will over-ride global options. We can temporarily disable an individual chunk by
+inserting `#| eval: false` on a line at the top of the chunk.
+
+## Load Packages
+R packages usually add new functions to the base R software, allowing you to do 
+more things. Here, we load the specific R packages required for this script to 
+work.
+
+```{r}
+#| label: load-packages
+library(here)           # for here(), i_am(), makes code more portable.
+library(devtools)       # for session_info()
+library(rmarkdown)      # for pandoc_version()
+library(knitr)          # for kable()
+library(dplyr)          # for %>%, filter(), group_by(), mutate(), rename(), etc.
+options(kableExtra.latex.load_packages = FALSE)
+library(kableExtra)     # for kable_styling(), add_header_above(), 
+                        # column_spec(), row_spec() etc. 
+library(kableExtra)     # for kable_styling 
+library(piercer)        # for git_report(), sim_2arm_prepost()
+library(quarto)         # for quarto_version()
+library(SANETPA)        # for version info 
+```
+
+## Declare Path
+This next chunk declares the path to this script relative to the project-level 
+root directory. If the file is not in the right location under the project root
+you'll get a warning message. This helps ensure relative paths are all working 
+as expected. The chunk below uses the `SourceDir` and `SourceFile` parameters 
+set in the YAML header. 
+
+``` {r}
+#| label: declare-path
+
+# Declare path to this script relative to the project root directory.
+here::i_am(path = paste0(params$SourceDir, params$SourceFile))
+```
+
+## Load Data {#sec-Load-Data}
+This subsection loads the data created by rendering `scripts/Import_Data.qmd`. 
+The data is de-identified to preserve participant privacy and protect 
+confidentiality. 
+
+``` {r}
+#| label: load-data
+#| eval: false
+
+load(file=here("data/Imported_SANETP_Data.RData"))
+```
+
+# Continuation-Ratio Modeling {#sec-CR-Modeling}
+This section needs to be written. 
+
+# References
+::: {#refs}
+:::
+
+# Software Information
+This section documents information that is important for reproducibility. Most
+users will not need to read it. It is primarily here for use by the statistician 
+on the team if we need to troubleshoot reproducibility issues because someone 
+else is unable to get the same results from the same code. Start by checking for 
+differences in package versions. 
+
+We used [R](https://www.r-project.org/) as our main computing environment and
+[Quarto](https://quarto.org/) scripts to enhance reproducibility. We used
+[RStudio](www.rstudio.org) as the editor to interface with R and Quarto.
+
+- Software chain:
+  **qmd file > RStudio > Quarto > R > knitr > md file > Pandoc > HTML file**.
+- Source file: **`{r} paste0(params$SourceDir, params$SourceFile)`**
+- Output file: **`{r} paste0(params$SourceDir, "output/", params$LogFile)`**
+- [Quarto `{r} quarto_version()`](https://quarto.org/) runs `*.qmd` files through 
+  [R](https://www.r-project.org/) and [knitr](https://yihui.org/knitr/) to 
+  produce `*.md` markdown files.
+- [Pandoc `{r} rmarkdown::pandoc_version()`](https://pandoc.org) converts 
+  markdown files (`*.md`) to other formats, including LaTeX (`*.tex`) and HTML 
+  (`*.html`) among others.
+
+## Versions
+This document was generated using the following computational environment and 
+dependencies:
+
+```{r}
+#| label: show-version
+#| echo: true
+
+# Get R and R package version numbers in use.
+devtools::session_info()
+```
+
+## Git Details
+The current Git commit details and status are:
+
+``` {r}
+#| label: git-details
+#| echo: true
+
+git_report()
+```
+
+This is useful because it tells us exactly which commit in the Git history 
+we would need to be using to make sure we are running the exact same code. 
+Sometimes another person is not using the most current code, or has changed the 
+code in some way since it was last committed.  
+
+::: {.callout-tip}
+Untracked files are files located in the repository that Git has not been told 
+to entirely ignore, but have also not been committed into the version history. 
+
+Unstaged changes to files indicate that some of the contents have been modified 
+since the last time the file was committed to Git. In production runs, we want 
+the Git output to not show any unstaged changes to key files!
+::: 
