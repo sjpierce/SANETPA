@@ -169,13 +169,12 @@ You may also want to read GitHub documentation about managing PATs
 
 Visit https://github.com/settings/tokens to create a PAT that has the
 `gist`, `repo`, `user`, and `workflow` scopes. Once you have it, you’ll
-need to store it in two places so your computer can find your PAT
-automatically.
+need to store it so your computer can find your PAT automatically.
 
 #### Store your GitHub PAT in the Git Credential Manager
 
-We also want to store your PAT in the Git Credential Manager because
-that allows RStudio and Git to easily connect to GitHub for pushing and
+We want to store your PAT in the Git Credential Manager because that
+allows RStudio and Git to easily connect to GitHub for pushing and
 pulling commits.
 
 We can use the
@@ -190,7 +189,7 @@ install.packages("credentials")
 Then, run the following function call.
 
 ``` r
-credentials::git_credential_ask("https://gitlab.msu.edu")
+credentials::git_credential_ask("https://github.com")
 ```
 
 If this prompts you for username and password, use the PAT as the
@@ -199,7 +198,7 @@ your PAT, run the code below then enter your GitHub username and use
 your PAT as the password.
 
 ``` r
-credentials::git_credential_update("https://gitlab.msu.edu")
+credentials::git_credential_update("https://github.com")
 ```
 
 ### Install *devtools* Package
@@ -545,6 +544,10 @@ you can load *SANETPA* via the following R console command. That
 provides access to the custom R functions we have included in the
 package.
 
+``` r
+library(SANETPA)
+```
+
 Loading the package will also mean that we can use functions like
 `devtools::session_info()` to show the package version number in our
 output. That facilitates reproducibility by making it easier to see the
@@ -556,6 +559,10 @@ You can see information about the package by using the following command
 in the R console. The resulting help page has an Index link at the
 bottom that will show you a list of all the custom functions in the
 package.
+
+``` r
+?SANETPA
+```
 
 ## Example Use Case
 
