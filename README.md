@@ -86,7 +86,7 @@ stored on GitHub. You will need to be able to use Git and GitHub to
 synchronize changes between your local copy of the repository and
 GitHub.
 
-### Install R 4.4.3 or later.
+### Install R 4.5.0 or later.
 
 You can get the most recent version of R from the [Comprehensive R
 Archive Network (CRAN)](https://cran.r-project.org/).
@@ -114,7 +114,7 @@ below.
 
 We rely on [Quarto](https://quarto.org) (Allaire et al., 2025) scripts
 to enhance reproducibility because they provide excellent support for
-generating dynamic reports (Mair, 2016). Install Quarto version 1.7.22
+generating dynamic reports (Mair, 2016). Install Quarto version 1.7.28
 or later. Although RStudio bundles a version of Quarto, we want the most
 recent stable release instead. Quarto also includes a copy of
 [Pandoc](https://pandoc.org/).
@@ -267,15 +267,14 @@ likely to run into problems when doing that.
 update.packages(ask='graphics', checkBuilt=TRUE)
 ```
 
-If you previously were using an older version of R (any version in the
-4.2.x or 4.3.x series), you should plan to reinstall all your R packages
-from scratch under R 4.4.0 or later. The best way to do that is to use a
-script such as `scripts/Reinstall_Packages.R` under the older version to
-save a data file containing the names of installed packages, then remove
-the older version of R and replace it with the newest version of R, and
-use the remainder of that script to read in that list of packages and
-install them. That will take several minutes if you have a lot of
-packages.
+If you previously were using an older version of R (any version before
+4.5.0), you should plan to reinstall all your R packages from scratch.
+The best way to do that is to use a script such as
+`scripts/Reinstall_Packages.R` under the older version to save a data
+file containing the names of installed packages, then remove the older
+version of R and replace it with the newest version of R, and use the
+remainder of that script to read in that list of packages and install
+them. That will take several minutes if you have a lot of packages.
 
 ### Clone the *SANETPA* Repository from GitHub to your Local Computer
 
@@ -309,7 +308,7 @@ You have to install the package to your personal R package library
 before some of the scripts will work because they may depend on
 functions defined in the package. This personal R package library would
 usually be in a location such as
-`C:\Users\username\AppData\Local\R\win-library\4.4\SANETPA` on your
+`C:\Users\username\AppData\Local\R\win-library\4.5\SANETPA` on your
 laptop, desktop, or on the server. Note that this is distinct from the
 local repository folder!
 
@@ -581,7 +580,7 @@ entry-spacing="0" line-spacing="2">
 <div id="ref-Allaire-RN8427" class="csl-entry">
 
 Allaire, J. J., Dervieux, C., Scheidegger, C., Teague, C., & Xie, Y.
-(2025). *Quarto* (Version 1.7.22) \[Computer Program\]. Posit Software,
+(2025). *Quarto* (Version 1.7.28) \[Computer Program\]. Posit Software,
 PBC. <https://quarto.org>
 
 </div>
@@ -649,7 +648,7 @@ J. A. (2016). Ten simple rules for taking advantage of Git and GitHub.
 
 Pierce, S. J. (2025). *SANETPA: Research compendium for a study of
 sexual assault nurse examiner training program attrition* (Version
-0.2.0) \[Reproducible Research Materials and Computer Program, R
+0.4.0) \[Reproducible Research Materials and Computer Program, R
 package, Private Repository Until Release\]. GitHub.
 <https://github.com/sjpierce/SANETPA>
 
