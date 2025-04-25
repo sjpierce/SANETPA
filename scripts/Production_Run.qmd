@@ -115,11 +115,11 @@ called `scripts/output/example/`).
 
 ## Import Data
 Work on this script has begun but we don't yet have the required data file. The 
-chunk is enabled so that I can test the production rendering process. 
+chunk is disabled for now. 
 
 ``` {r}
 #| label: Import-Data
-#| eval: true
+#| eval: false
 
 # Memory garbage collection (for more consistent chunk timing).
 gc()
