@@ -523,7 +523,7 @@ To obtain the data files, you can contact the package author Steven J.
 Pierce at pierces1@msu.edu. If you are a CSTAT employee assigned to the
 project team, you can find the data files on CSTAT’s secure network
 drive at `P:\Consulting\Cases_1600-1799\C1788\Data`. When you get the
-files, you will need to put them all in the `scripts/extdata` subfolder
+files, you will need to put them all in the `scripts/extdata/` subfolder
 of your local repository.
 
 Members of our research team should not distribute the data files to
@@ -564,20 +564,49 @@ package.
 ?SANETPA
 ```
 
-## Example Use Case
+## Reproducing Our Results
 
 One of the main uses of the package is to run scripts that import,
-manage, and analyze data for the manuscript it supports. For example, if
-you want to just reproduce the results, you can double-click the
-`SANETPA.Rproj` file from Windows Explorer to open the project in
-RStudio. Then, use RStudio to open the file `scripts/Render_Scripts.qmd`
-and click the “Render” button in RStudio.
+manage, and analyze data for the manuscript it supports. If you want to
+reproduce the results, you can double-click the `SANETPA.Rproj` file
+from Windows Explorer to open the project in RStudio. Rendering a Quarto
+script:
 
-If you have everything set up correctly, that will start generating
-files in the `scripts/output` folder. It will also generate
-`scripts/Render_Scripts.pdf`, which is the log of running that rendering
-script and contains information on how long it took to render each
-report called by that file.
+- May read external data files from the `scripts/extdata/` folder.
+- May write R data files to the `data/` folder.
+- Will generate output files in the `scripts/output/` folder.
+
+Scripts in this package can generate either draft or production output.
+I wrote a [blog
+post](https://sjpierce.github.io/posts/output/draft_vs_production.html)
+describing a rationale for, and approach to, separating draft and
+production output. That approach has been implemented in this
+compendium.
+
+### Draft Output
+
+You can get draft output by rendering a script with its default
+parameters. Just use RStudio to open the relevant Quarto script (e.g.,
+`scripts/Import_Data.qmd`) and then click the “Render” button in
+RStudio. This is most useful to collaborators on our research team while
+we’re developing the compendium before publication of the associated
+paper. This allows us to focus on one script at a time. We tend to edit
+and render draft output frequently as we do so, overwriting the draft
+output each time to avoid creating too much file clutter.
+
+### Production Output
+
+Our final results for publication will be generated as production
+output. The production process requires rendering each of the main
+scripts in a specific order. We automated that process via the
+`scripts/Production_Run.qmd` script. Use RStudio to open that file and
+then click the “Render” button. If you have everything set up correctly,
+that will create date-stamped output files in the `scripts/output/`
+folder, plus the file `scripts/output/Production_Run.html`. The latter
+file contains a data flow diagram showing all the inputs and outputs of
+the production process, how long it took to render each script called by
+the production script, and information about the software environment
+used.
 
 ## References
 
