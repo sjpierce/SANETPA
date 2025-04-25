@@ -100,6 +100,48 @@ set in the YAML header.
 here::i_am(path = paste0(params$SourceDir, params$SourceFile))
 ```
 
+# Workflow
+Scripts in the SANETPA package can generate either draft or production output.
+I wrote a 
+[blog post](https://sjpierce.github.io/posts/output/draft_vs_production.html) 
+describing my general rationale and approach for doing that. I implemented that 
+strategy in this compendium. @fig-production shows the production workflow 
+implemented by this script. 
+ 
+```{dot}
+//| label: fig-production
+//| fig-cap: "Data Flow Diagram"
+//| fig-width: 7
+//| fig-height: 3.5
+
+digraph Production {
+rankdir="LR";
+
+node [shape = "box", style= "filled", fontname = "Arial", fontsize = 9, fillcolor = "#C3FFEC"]
+Script2 [label = "CR_Model.qmd\n(Quarto Script)"]
+HTML2 [label = "CR_Model_YYYY-MM-DD.html\n(HTML Output)"]
+Script1 [label = "Import_Data.qmd\n(Quarto Script)"]
+RawData [label = "Raw_Data.sav\n(SPSS Data File)"]
+FinalData [label = "Final_Data.RData\n(R Data File)"]
+HTML1 [label = "Import_Data_YYYY-MM-DD.html\n(HTML Output)"]
+HTML0 [label = "Production_Run.html\n(HTML Output)"]
+Script0 [label = "Production_Run.qmd\n(Quarto Script)"]
+
+edge [fontname = "Arial", fontsize = 9]
+Script0 -> Script1 [label = "Render with\ncustom parameters"]
+Script0 -> Script2 [label = "Render with\ncustom parameters"]
+RawData -> Script1 [label = "Read"]
+Script0 -> HTML0 [label = "Renders"]
+Script1 -> HTML1 [label = "Renders"]
+Script1 -> FinalData [label = "Write"]
+FinalData -> Script2 [label = "Read"]
+Script2 -> HTML2 [label = "Renders"]
+
+{ rank=same; RawData; Script2; Script1; FinalData}
+{ rank=same; Script0; HTML0}
+}
+```
+
 # Render Other Scripts
 Each subsection below contains code that will render another Quarto script. By 
 default I am storing the Quarto scripts to be rendered in the `scripts/` folder 
