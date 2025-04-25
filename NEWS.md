@@ -1,5 +1,15 @@
 # SANETPA News 
 
+## 0.4.0, 2025-04-23
+* `README.qmd` and `README.md`
+    * Update Reproducing Our Results section.
+* `scripts/Production_Run.qmd`
+    * Disable import script for now. 
+    * Added Workflow section.
+* `scripts/references.bib`
+    * Updated software version & citation info. 
+    * Improve narrative text. 
+
 ## 0.3.0, 2025-04-09
 * `README.qmd` and `README.md`
     * Updated Quarto software version. 
