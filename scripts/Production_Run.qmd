@@ -119,11 +119,11 @@ rankdir="LR";
 
 node [shape = "box", style= "filled", fontname = "Arial", fontsize = 9, fillcolor = "#C3FFEC"]
 Script2 [label = "CR_Model.qmd\n(Quarto Script)"]
-HTML2 [label = "CR_Model_YYYY-MM-DD.html\n(HTML Output)"]
+HTML2 [label = "CR_Model_YYYY-MM-DD.pdf\n(PDF Output)"]
 Script1 [label = "Import_Data.qmd\n(Quarto Script)"]
 RawData [label = "Raw_Data.sav\n(SPSS Data File)"]
 FinalData [label = "Final_Data.RData\n(R Data File)"]
-HTML1 [label = "Import_Data_YYYY-MM-DD.html\n(HTML Output)"]
+HTML1 [label = "Import_Data_YYYY-MM-DD.pdf\n(PDF Output)"]
 HTML0 [label = "Production_Run.html\n(HTML Output)"]
 Script0 [label = "Production_Run.qmd\n(Quarto Script)"]
 
