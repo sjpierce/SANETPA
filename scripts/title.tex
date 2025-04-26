@@ -7,16 +7,14 @@ $if(subtitle)$
 $endif$
 
 $for(by-author)$
-  \author{$by-author.name.literal$}
-  $if(by-author.affiliations)$
-    $for(by-author.affiliations)$
-      \affil{%
-        $if(by-author.affiliations.name)$
-          $by-author.affiliations.name$
-        $endif$
-      }
-    $endfor$
-  $endif$
+\author$if(it.metadata.affil-id)$[$it.metadata.affil-id$]$endif${$it.name.literal$}
 $endfor$
+
+$if(by-affiliation)$
+$for(by-affiliation)$
+\affil[$it.id$]{$it.name$, $it.department$, $it.url$}
+$endfor$
+$endif$
+
 
 \date{$date$}
