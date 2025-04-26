@@ -389,21 +389,23 @@ project](https://support.rstudio.com/hc/en-us/articles/200526207-Using-RStudio-P
     - `extdata/`: This subfolder is where you will need to put any raw
       data files mentioned in the Obtaining Data Files section below.
     - `output/`: This subfolder holds rendered output files.
-      - `CR_Model_Draft.html`: This is temporary draft output obtained
-        by rendering the `scripts/CR_Model.qmd` script directly.
-      - `CR_Model_yyyy-mm-dd.html`: Production output obtained by using
+      - `CR_Model_Draft.pdf`: This is temporary draft output obtained by
+        rendering the `scripts/CR_Model.qmd` script directly.
+      - `CR_Model_yyyy-mm-dd.pdf`: Production output obtained by using
         `scripts/Production_Run.qmd` to render the
         `scripts/CR_Model.qmd` script will have names following this
         date-stamped naming convention. An actual rendering date will
         replace the `yyyy-mm-dd` notation.
-      - `Import_Data_Draft.html`: This is temporary draft output
-        obtained by rendering the `scripts/Import_Data.qmd` script
-        directly.
-      - `Import_Data_yyyy-mm-dd.html`: Production output obtained by
+      - `Import_Data_Draft.pdf`: This is temporary draft output obtained
+        by rendering the `scripts/Import_Data.qmd` script directly.
+      - `Import_Data_yyyy-mm-dd.pdf`: Production output obtained by
         using `scripts/Production_Run.qmd` to render the
         `scripts/Import_Data.qmd` script will have names following this
         date-stamped naming convention. An actual rendering date will
         replace the `yyyy-mm-dd` notation.
+      - `Production_Run.html`: This is the log resulting from rendering
+        `scripts/Production_Run.qmd`. This documents when the production
+        process was last run and the result of each step.
     - `.gitignore`: This was auto-created by Quarto. Don’t edit or
       delete it.
     - `.quarto/`: This hidden folder may be created by Quarto to hold
@@ -425,10 +427,9 @@ project](https://support.rstudio.com/hc/en-us/articles/200526207-Using-RStudio-P
       that comprises the main analysis for the study. Methodology notes,
       references, and results interpretation will be built into this
       script and its output. Rendering this directly generates draft
-      output named `output/CR_Model_Draft.html`; you can get
-      date-stamped production output (e.g.,
-      `output/CR_Model_yyyy-mm-dd.html`) by using
-      `scripts/Production_Run.qmd` to render this script.
+      output named `output/CR_Model_Draft.pdf`; you can get date-stamped
+      production output (e.g., `output/CR_Model_yyyy-mm-dd.html`) by
+      using `scripts/Production_Run.qmd` to render this script.
     - `Delete_nul_file.bat`: This is a Windows batch file that automates
       removing a nuisance file sometimes left over when rendering a
       Quarto or R Markdown script doesn’t work right.
@@ -443,12 +444,13 @@ project](https://support.rstudio.com/hc/en-us/articles/200526207-Using-RStudio-P
     - `Import_Data.qmd`: This script imports the raw data from SPSS and
       saves it in an .RData file for use by other scripts here.
       Rendering this directly generates draft output named
-      `output/Import_Data_Draft.html`; you can get date-stamped
-      production output (e.g., `output/Import_Data_yyyy-mm-dd.html`) by
+      `output/Import_Data_Draft.pdf`; you can get date-stamped
+      production output (e.g., `output/Import_Data_yyyy-mm-dd.pdf`) by
       using `scripts/Production_Run.qmd` to render this script.
     - `Production_Run.qmd`: This script is used to automate rendering
       other scripts in the proper order to generate date-stamped
-      production outputs (e.g., `output/Import_Data_yyyy-mm-dd.html`).
+      production outputs (e.g., `output/Import_Data_yyyy-mm-dd.pdf`). It
+      also produces `scripts/output/Production_Run.html`.
     - `references.bib`: This is a BibTeX file containing the citation
       data for references mentioned in various scripts. Quarto uses it
       to get the data needed to insert reference lists.
