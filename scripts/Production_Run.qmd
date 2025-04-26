@@ -169,11 +169,11 @@ gc()
 # Start chunk timer.
 chunk.start <- proc.time()
 
-OutFile <- paste0("Import_Data_", Sys.Date(), ".html")
+OutFile <- paste0("Import_Data_", Sys.Date(), ".pdf")
 
 # Render the script in a fresh R session.
 quarto_render(input = here::here("scripts/Import_Data.qmd"), 
-              output_format = "html",
+              output_format = "pdf",
               output_file = OutFile, 
               execute_params = list(SourceDir = params$SourceDir, 
                                     SourceFile = "Import_Data.qmd", 
@@ -200,11 +200,11 @@ gc()
 # Start chunk timer.
 chunk.start <- proc.time()
 
-OutFile <- paste0("CR_Model_", Sys.Date(), ".html")
+OutFile <- paste0("CR_Model_", Sys.Date(), ".pdf")
 
 # Render the script in a fresh R session.
 quarto_render(input = here::here("scripts/CR_Model.qmd"), 
-              output_format = "html",
+              output_format = "pdf",
               output_file = OutFile, 
               execute_params = list(SourceDir = params$SourceDir, 
                                     SourceFile = "CR_Model.qmd", 
