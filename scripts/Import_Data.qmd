@@ -117,10 +117,14 @@ It imports data from from an SPSS data file provided by the investigators, does
 some data cleaning and management, then saves out an R data file that will be 
 used by other scripts in this compendium. 
 
+\FloatBarrier
+
 # Setup
 This section documents some setup tasks that are useful to the statistician on 
 the team. Most readers of this document will probably want skip directly to 
 @sec-Data-Mgt.
+
+\FloatBarrier
 
 ## Define Global Options
 Global R chunk options are defined in the YAML header but local chunk options
@@ -142,6 +146,8 @@ knitr::knit_hooks$set(chunk = function(x, options) {
          x)
   })
 ```
+
+\FloatBarrier
 
 ## Load Packages
 R packages usually add new functions to the base R software, allowing you to do 
@@ -165,6 +171,8 @@ library(quarto)         # for quarto_version()
 library(SANETPA)        # for version info 
 ```
 
+\FloatBarrier
+
 ## Declare Path
 This next chunk declares the path to this script relative to the project-level 
 root directory. If the file is not in the right location under the project root
@@ -179,7 +187,11 @@ set in the YAML header.
 here::i_am(path = paste0(params$SourceDir, params$SourceFile))
 ```
 
+\FloatBarrier
+
 # Data Management {#sec-Data-Mgt}
+
+\FloatBarrier
 
 ## Read Data {#sec-Read-Data}
 The raw data provided by the investigators is in an SPSS data file. This section 
@@ -193,6 +205,8 @@ preserve participant privacy and protect confidentiality.
 SANETP_RAW <- read_spss(here("scripts/extdata/Filename.sav")) 
 names(SANETP_RAW)
 ```
+
+\FloatBarrier
 
 # Save Data
 
@@ -225,9 +239,13 @@ load(file=here("data/Imported_SANETP_Data.RData"))
 ```
 :::
 
+\FloatBarrier
+
 # References
 ::: {#refs}
 :::
+
+\FloatBarrier
 
 # Software Information
 This section documents information that is important for reproducibility. Most
@@ -254,6 +272,8 @@ We used [R](https://www.r-project.org/) as our main computing environment and
   files. It should be viable to use [MiKTeX](https://miktex.org) or another 
   LaTeX distribution instead. 
 
+\FloatBarrier
+
 ## Versions
 This document was generated using the following computational environment and 
 dependencies:
@@ -268,6 +288,8 @@ which_latex()
 # Get R and R package version numbers in use.
 devtools::session_info()
 ```
+
+\FloatBarrier
 
 ## Git Details
 The current Git commit details and status are:
