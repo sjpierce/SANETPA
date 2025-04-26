@@ -57,4 +57,9 @@ scripts/output/*.html
 scripts/output/*.log
 scripts/output/*.pdf
 
+# Omit Windows files for caching thumbnail images.
+Thumbs.db
+
+# Omit MacOS Desktop Services Store files from all subfolders.
+**/*.DS_Store
 
