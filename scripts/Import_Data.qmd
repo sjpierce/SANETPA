@@ -18,27 +18,81 @@ csl: apa.csl                          # File controls citation & reference list 
 params:                               # Default values for parameters
   SourceDir: "scripts/"               # Relative path to folder holding this file
   SourceFile: "Import_Data.qmd"       # Name of this script file
-  LogFile: "Import_Data_Draft.html"   # Default name of rendered output file
-date: now                             # Sets Date Published = when script is rendered
-date-modified: last-modified          # Sets Date Modified = when code was last saved
-date-format: YYYY-MM-DD HH:mm:ss z    # Show date, time, & timezone
-css: CSTAT_style.css                  # File formats title banner block w/ logo.
-title-block-banner: true              # Enable the banner, per CSTAT_style.css 
-title-block-banner-color: "#18453B"   # Spartan Green color for title text. 
+  LogFile: "Import_Data_Draft.pdf"   # Default name of rendered output file
 format: 
-  html:                               # Settings for HTML output
-    output-file: "Import_Data_Draft.html"      # Default output file name
-    theme: [default, brand, CSTAT_theme.scss]  # Theme controls output formatting
-    toc: true                         # Include table of contents (TOC)
-    toc-depth: 3                      # Number of layers in TOC
-    toc-location: left                # Where to display the TOC
-    number-sections: true             # Auto-number each section
-    number-depth: 3                   # Number of layers for section numbering
-    code-fold: true                   # Default to collapsing code chunks
-    code-tools: true                  # Adds control for show/hide all code
-    code-line-numbers: false          # Skip numbering lines in code chunks
-    embed-resources: true             # Makes HTML output file self-contained
-    anchor-sections: true             # Allow linking to section headings
+  pdf:                                # Settings for PDF output
+    output-file: "Import_Data_Draft.pdf" # Default output file name 
+    output-ext: "pdf"                 # Default file name extension
+    documentclass: scrartcl           # LaTeX document type
+    papersize: letter
+    geometry:                         # Control page margins
+      - top=1in
+      - bottom=1in
+      - left=1in
+      - right=1in
+    number-sections: true           # Auto-number each section
+    toc: true                       # Include table of contents (TOC)
+    toc-depth: 3                    # Number of layers in TOC
+    colorlinks: true
+    template-partials: 
+      - title.tex   # Controls author affiliation formatting
+    include-in-header:
+      - file: compact-title.tex    # Controls spacing around title. 
+      - text: |
+          \usepackage{fancyhdr}
+          \usepackage[noblocks]{authblk}
+          \renewcommand*{\Authsep}{, }
+          \renewcommand*{\Authand}{, }
+          \renewcommand*{\Authands}{, }
+          \renewcommand\Affilfont{\small}
+          \usepackage[yyyymmdd,hhmmss]{datetime}    %% for currenttime command
+          \usepackage{lastpage}                     %% For pageref command
+          \usepackage{fontspec}
+          \defaultfontfeatures{Ligatures=TeX}
+          \usepackage[font={small}, margin=1cm, skip=2pt]{caption}
+          \usepackage{url}
+          \usepackage{floatrow}                     %% For controlling float placement
+          \floatsetup[table]{capposition=top}       %% Puts table caption at top.
+          \floatsetup[longtable]{margins=centering} %% Centers longtable tables
+          \floatplacement{figure}{!ht}              %% Control placement of figures
+          \floatplacement{table}{!ht}               %% Control placement of tables
+          \usepackage[labelfont=bf, textfont=bf]{caption}  %% For bolded table/figure captions
+          \usepackage{placeins}                     %% For FloatBarrier command
+          \usepackage{booktabs}                     %% Used by kableExtra
+          \usepackage{longtable}                    %% Used by kableExtra
+          \usepackage{array}                        %% Used by kableExtra
+          \usepackage{multirow}                     %% Used by kableExtra
+          \usepackage{wrapfig}                      %% Used by kableExtra
+          \usepackage{colortbl}                     %% Used by kableExtra
+          \usepackage{pdflscape}                    %% Used by kableExtra
+          \usepackage{tabu}                         %% Used by kableExtra
+          \usepackage[normalem]{ulem}               %% Used by kableExtra
+          \usepackage{makecell}                     %% Used by kableExtra
+          \usepackage{xcolor}                       %% Used by kableExtra
+          \usepackage{dcolumn}                      %% Used by kableExtra
+          \usepackage{threeparttable}               %% Used by kableExtra
+          \usepackage{threeparttablex}              %% Used by kableExtra
+          \usepackage{amsmath}                      %% for equation support. 
+          \usepackage{titling}      
+          \usepackage{verbatim}                     %% For comment command
+          \pretitle{\begin{center}\LARGE\bfseries\sffamily}
+          \posttitle{\end{center}}
+          \pagestyle{fancy}
+          \lhead{SANETPA Import Data}
+          \chead{\includegraphics[height=0.85cm]{../graphics/Combomark-Horiz_Pantone-567.eps}}
+          \rhead{\today\ \currenttime}
+          \cfoot{ }
+          \fancyfoot[R]{\thepage\ of \pageref*{LastPage}}
+          \renewcommand{\headrulewidth}{0.4pt}
+          \renewcommand{\footrulewidth}{0.4pt}
+          \fancypagestyle{plain}{\pagestyle{fancy}}
+          \newcommand*\tocentryformat[1]{{\sffamily#1}}  %% Fix TOC font style
+          \RedeclareSectionCommands                      %% Fix TOC font style
+            [
+              tocentryformat=\tocentryformat,
+              tocpagenumberformat=\tocentryformat
+            ]
+            {section,subsection,subsubsection,paragraph,subparagraph}
 execute:                              # Default Quarto chunk execution options
   eval: true
   echo: fenced                        # Show the code in the output file
@@ -49,7 +103,10 @@ execute:                              # Default Quarto chunk execution options
 knitr:                                # Default R knitr package chunk options
   opts_chunk: 
     message: true
+    cfsize: "scriptsize"  
 ---
+
+\lfoot{\texttt{\small \detokenize{`r params$LogFile`}}}
 
 \FloatBarrier
 
@@ -68,7 +125,23 @@ the team. Most readers of this document will probably want skip directly to
 ## Define Global Options
 Global R chunk options are defined in the YAML header but local chunk options
 will over-ride global options. We can temporarily disable an individual chunk by
-inserting `#| eval: false` on a line at the top of the chunk.
+inserting `#| eval: false` on a line at the top of the chunk. The method for
+creating a `cfsize` option that controls font size in code chunks and their text
+output is based on an answer to a question posted on
+[stackoverflow.com](https://stackoverflow.com/a/46526740).
+
+``` {r}
+#| label: global-options
+
+# Create a custom chunk hook/option for controlling font size in chunk & output.
+def.chunk.hook  <- knitr::knit_hooks$get("chunk")
+knitr::knit_hooks$set(chunk = function(x, options) {
+  x <- def.chunk.hook(x, options)
+  ifelse(options$cfsize != "normalsize", 
+         paste0("\n \\", options$cfsize,"\n\n", x, "\n\n \\normalsize"), 
+         x)
+  })
+```
 
 ## Load Packages
 R packages usually add new functions to the base R software, allowing you to do 
@@ -168,15 +241,18 @@ We used [R](https://www.r-project.org/) as our main computing environment and
 [RStudio](www.rstudio.org) as the editor to interface with R and Quarto.
 
 - Software chain:
-  **qmd file > RStudio > Quarto > R > knitr > md file > Pandoc > HTML file**.
-- Source file: **`{r} paste0(params$SourceDir, params$SourceFile)`**
-- Output file: **`{r} paste0(params$SourceDir, "output/", params$LogFile)`**
-- [Quarto `{r} quarto_version()`](https://quarto.org/) runs `*.qmd` files through 
+  **qmd file > RStudio > Quarto > R > knitr > md file > Pandoc > tex file > TinyTeX > PDF file**.
+- Source file: \texttt{\detokenize{`r params$SourceFile`}} 
+- Output file: \texttt{\detokenize{`r params$LogFile`}} 
+- [Quarto `r quarto_version()`](https://quarto.org/) runs `*.qmd` files through 
   [R](https://www.r-project.org/) and [knitr](https://yihui.org/knitr/) to 
   produce `*.md` markdown files.
-- [Pandoc `{r} rmarkdown::pandoc_version()`](https://pandoc.org) converts 
-  markdown files (`*.md`) to other formats, including LaTeX (`*.tex`) and HTML 
-  (`*.html`) among others.
+- [Pandoc `r rmarkdown::pandoc_version()`](https://pandoc.org) converts markdown 
+  files (`*.md`) to other formats, including LaTeX (`*.tex`) and HTML (`*.html`) 
+  among others.
+- [TinyTeX](https://yihui.org/tinytex/) compiles LaTeX files (`*.tex`) into PDF 
+  files. It should be viable to use [MiKTeX](https://miktex.org) or another 
+  LaTeX distribution instead. 
 
 ## Versions
 This document was generated using the following computational environment and 
@@ -185,6 +261,9 @@ dependencies:
 ```{r}
 #| label: show-version
 #| echo: true
+
+# Check and report whether we used TinyTex or other LaTeX software. 
+which_latex()
 
 # Get R and R package version numbers in use.
 devtools::session_info()
