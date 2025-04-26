@@ -2,7 +2,7 @@
 title: Import and Manage SANE Training Program Data
 subtitle: | 
           | CSTAT Case: C1788
-          | Clients: Campbell, Rebecca; Ashley, Autumn; Dontje, Katherine
+          | Clients: Rebecca Campbell, Autumn Ashley, & Katherine Dontje
 author: 
   - name: Steven J. Pierce
     orcid: 0000-0002-0679-3019
