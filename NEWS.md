@@ -1,5 +1,34 @@
 # SANETPA News 
 
+## 0.5.0, 2025-04-26
+* `.gitignore`
+    * Omit Windows thumbnail files and MacOS .DS_Store files from Git tracking.
+* `README.qmd` and `README.md`
+    * Update software version & citation info.
+    * Update Repository Structure section.
+* `graphics/Combomark-Horiz_Green.png`
+    * Added MSU Helmet/wordmark combination logo for use in HTML output. 
+* `graphics/Combomark-Horiz_Pantone-567.eps`
+    * Added MSU Helmet/wordmark combination logo for use in PDF output. 
+* `scripts/CR_Model.qmd`
+    * Updated subtitle (which will not display in PDF output).
+    * Update author affiliation data. 
+    * Changed output format to PDF per client preference. 
+    * Add \FloatBarrier commands to keep tables/figures in their own sections. 
+* `scripts/Import_Data.qmd`
+    * Updated subtitle (which will not display in PDF output).
+    * Update author affiliation data. 
+    * Changed output format to PDF per client preference. 
+    * Add \FloatBarrier commands to keep tables/figures in their own sections. 
+* `scripts/Production_Run.qmd` 
+    * Updated data flow diagram.
+    * Updated to write PDF output for import and modeling scripts. 
+* `scripts/references.bib`
+    * Updated software version & citation info. 
+* `scripts/title.tex`
+    * Show each numbered author affiliation only once, with name, department, 
+      and url.
+
 ## 0.4.0, 2025-04-23
 * `README.qmd` and `README.md`
     * Update Reproducing Our Results section.
