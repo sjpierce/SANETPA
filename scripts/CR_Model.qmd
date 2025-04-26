@@ -7,8 +7,12 @@ author:
   - name: Steven J. Pierce
     orcid: 0000-0002-0679-3019
     email: pierces1@msu.edu
-    affiliations: 
-      - name: Michigan State University, Center for Statistical Training and Consulting  ([https://cstat.msu.edu](https://cstat.msu.edu))
+    affil-id: 1 
+affiliations: 
+  - id: 1 
+    name: Michigan State University
+    department: Center for Statistical Training and Consulting
+    url: "[https://cstat.msu.edu](https://cstat.msu.edu)"
 bibliography: references.bib          # File holds BibTeX data for references
 csl: apa.csl                          # File controls citation & reference list format
 params:                               # Default values for parameters
