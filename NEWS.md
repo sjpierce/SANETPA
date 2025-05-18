@@ -1,5 +1,28 @@
 # SANETPA News 
 
+## 0.6.0, 2025-05-18
+* `DESCRIPTION` 
+    * Updated Depends field to require R 4.5.
+* `README.qmd` and `README.md`
+    * Update software version & citation info.
+* `scripts/Import_data.qmd`
+    * Decreased default font size for code chunks.
+    * Load more R packages. 
+    * Improve headings and narrative text.
+    * Add callout about raw data file.
+    * Add table with meta-data about raw data file.
+    * Add raw data file name and enable import chunk.
+    * Update list of objects saved out and enable chunk for saving data.
+    * Fix line breaks.
+    * Rename variables. 
+    * Add table with meta-data about imported data file.
+    * Update Save Data section.
+* `scripts/CR_Model.qmd`
+    * Add narrative text. 
+* `scripts/references.bib`
+    * Updated software version & citation info. 
+    * Added citations for papers on continuation ratio modeling.
+    
 ## 0.5.0, 2025-04-26
 * `.gitignore`
     * Omit Windows thumbnail files and MacOS .DS_Store files from Git tracking.
