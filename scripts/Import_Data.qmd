@@ -222,8 +222,8 @@ file.info(RawFile, extra_cols = FALSE) %>%
   mutate(rowname = basename(rowname)) %>% 
   select(-isdir, -mode) %>% 
   kable(, format = "latex", booktabs = TRUE, 
-        col.names = c("File Name", "Size (Bytes)", "Modified", "Last Status Change", 
-                      "Last Accessed")) %>% 
+        col.names = c("File Name", "Size (Bytes)", "Modified", 
+                      "Last Status Change", "Last Accessed")) %>% 
   kable_styling() %>% 
   column_spec(column = 3:5, width = "2cm")
 ```
