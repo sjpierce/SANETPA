@@ -208,6 +208,26 @@ it includes all applicants (even those who were ineligible), and shows the date
 I received the file. 
 :::
 
+@tbl-raw-data-file shows meta-data about the raw data file we will import.
+
+```{r}
+#| label: tbl-raw-data-file
+#| tbl-cap: "Meta-Data About Raw Data File"
+
+# Store path to raw data file. 
+RawFile <- here("scripts/extdata/All_Applicants_2025-05-16.sav")
+
+file.info(RawFile, extra_cols = FALSE) %>% 
+  rownames_to_column() %>% 
+  mutate(rowname = basename(rowname)) %>% 
+  select(-isdir, -mode) %>% 
+  kable(, format = "latex", booktabs = TRUE, 
+        col.names = c("File Name", "Size (Bytes)", "Modified", "Last Status Change", 
+                      "Last Accessed")) %>% 
+  kable_styling() %>% 
+  column_spec(column = 3:5, width = "2cm")
+```
+
 ```{r}
 #| label: import-data
 #| eval: false
