@@ -372,6 +372,21 @@ Applicants <- Applicants_Raw %>%
          Mod12_SDate = Mod12Start)
   
 ```
+
+The imported `Applicants` data frame has `r nrow(Applicants)` rows and 
+`r ncol(Applicants)` variables. @tbl-Applicants shows a list of the 
+variable positions, names, classes, and labels.
+
+\FloatBarrier
+
+## Create Person-Stage Dataset
+To run the planned continuation-ratio model, we need to reorganize the data from 
+one row per person, to one row per person per stage attempted. This is similar 
+to the person-period form of organizing longitudinal data for use in growth 
+curve models implemented as mixed models. 
+
+\FloatBarrier
+
 # Save Data
 
 ``` {r}
