@@ -200,6 +200,14 @@ The raw data provided by the investigators is in an SPSS data file. This section
 imports it into an R data frame/tibble. The raw data is de-identified to 
 preserve participant privacy and protect confidentiality. 
 
+:::{.callout-note}
+The original data file sent to me was named `all group 5.16.sav`, but I renamed 
+it to `All_Applicants_2025-05-16.sav` before placing it in my local repository. 
+This makes the file name more portable across operating systems, indicates that 
+it includes all applicants (even those who were ineligible), and shows the date
+I received the file. 
+:::
+
 ```{r}
 #| label: import-data
 #| eval: false
