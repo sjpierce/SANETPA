@@ -228,6 +228,11 @@ file.info(RawFile, extra_cols = FALSE) %>%
   column_spec(column = 3:5, width = "2cm")
 ```
 
+Next, we actually read that SPSS file into a data frame called `Applicants_Raw`. 
+That will be an intermediate form of the data because we may need to do some 
+data management before it is ready for use in descriptive and inferential 
+analyses. 
+
 ```{r}
 #| label: import-data
 
