@@ -268,21 +268,33 @@ kable(ApplicantsVars, format = "latex", booktabs = TRUE, longtable = TRUE) %>%
 
 :::{.callout-tip}
 Both `finisheddidac` and `Didactic_Status` are binary variables coding whether 
-a person completed the didactic training. The difference between the variables 
-is `finisheddidac` has no missing data because applicants who were not enrolled 
-are coded with 0 (did not finish). Applicants who were not enrolled have missing 
-values (`NA`) on `Didactic_Status`. The crosstab output below illustrates this.
+a person completed the didactic training. The crosstab outputs below show that  
+the difference between them is that `finisheddidac` has no missing data (`NA`), 
+but a substantial number of applicants have missing `Didactic_Status` paired
+with `finisheddidac = 0`. All applicants with `finisheddidac = 1` had 
+`Didactic_Status = 1`. 
 
 ```{r}
 #| label: xtab-finisheddidac-Didactic-Status
 
-xtabs(~finisheddidac + Didactic_Status + Enrolled, addNA = TRUE, 
+xtabs(~finisheddidac + Didactic_Status, addNA = TRUE, 
       data = Applicants_Raw) %>% 
   addmargins()
 ```
 
-We will retain both variables because each may be useful depending on the 
-summary desired.
+We can also see that only applicants who were not enrolled have missing values 
+(`NA`) on `Didactic_Status`. 
+
+```{r}
+#| label: xtab-Enrolled-Didactic-Status
+
+xtabs(~Enrolled + Didactic_Status, addNA = TRUE, 
+      data = Applicants_Raw) %>% 
+  addmargins()
+```
+
+We will retain both `finisheddidac` and `Didactic_Status` because each may be 
+useful depending on the summary desired.
 :::
 
 \FloatBarrier
