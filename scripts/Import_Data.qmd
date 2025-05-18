@@ -200,6 +200,13 @@ The raw data provided by the investigators is in an SPSS data file. This section
 imports it into an R data frame/tibble. The raw data is de-identified to 
 preserve participant privacy and protect confidentiality. 
 
+The `ID` variable in the data has no intrinsic meaning and could only be linked
+to actual participant names via the key retained by the principal investigators.
+Per email communication that accompanied delivery of the data, it has missing 
+data because "The ids were not generated until the end of application 1- so they 
+would have had to get through all of the questions for part a first" (A. Ashley, 
+personal communication, May 18, 2025). 
+
 :::{.callout-note}
 The original data file sent to me was named `all group 5.16.sav`, but I renamed 
 it to `All_Applicants_2025-05-16.sav` before placing it in my local repository. 
@@ -241,7 +248,7 @@ Applicants_Raw <- read_spss(RawFile)
 
 The imported `Applicants_Raw` data frame has `r nrow(Applicants_Raw)` rows and 
 `r ncol(Applicants_Raw)` variables. @tbl-Applicants-Raw shows a list of the 
-variable positions, names, classes, and labels.
+variable positions, names, classes, and labels prior to any data management.
 
 ``` {r}
 #| label: tbl-Applicants-Raw
@@ -264,7 +271,8 @@ kable(ApplicantsVars, format = "latex", booktabs = TRUE, longtable = TRUE) %>%
 ## Update Applicants Data
 This section creates the `Applicants` data frame from an updated version of the 
 `Applicants_Raw` data frame. These changes prepare the data for the planned 
-analyses by applying more convenient naming conventions, converting variables . 
+analyses by applying more consistent and convenient naming conventions, 
+converting categorical variables to factors, and so on. 
 
 ```{r}
 #| label: create-Applicants
