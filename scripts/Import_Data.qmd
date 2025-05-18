@@ -297,9 +297,9 @@ converting categorical variables to factors, and so on.
 #| label: create-Applicants
 
 Applicants <- Applicants_Raw %>% 
-  rename(Education - Educ_dem_num,
+  rename(Education = educ_dem_num,
          License = license_num,
-         Setting - practicset_dem_num,
+         Setting = practicset_dem_num,
          Employ_Status = employment_dem_num,
          Employ_Nurse = employednurse_dem_num,
          Nurse_Years = nursexperience_years,
@@ -394,7 +394,7 @@ Applicants <- Applicants_Raw %>%
          Didactic_SDate = Didactic_Start,
          Didactic_EDate = Didactic_End,
          Attrited = prog_attrited,
-         Exit_Date - exit_date,
+         Exit_Date = exit_date,
          Stage_Reached = stg_reached,
          Started_Mod_1 = Mod1_started,
          Finished_Mod_1 = Mod1_finished,
