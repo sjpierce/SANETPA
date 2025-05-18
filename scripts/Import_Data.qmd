@@ -442,7 +442,7 @@ variable positions, names, classes, and labels.
 #| label: tbl-Applicants
 #| tbl-cap: "Applicants: Updated Variable Names and Classes."
 
-ApplicantsVars <- list(Applicants_Raw) %>% 
+ApplicantsVars <- list(Applicants) %>% 
   map_dfr(~ tibble(Name = names(.x), 
                    Class = map_chr(.x, all_classes),
                    Label = var_label(.x))) %>% 
