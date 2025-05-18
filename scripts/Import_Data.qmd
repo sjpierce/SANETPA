@@ -262,12 +262,11 @@ kable(ApplicantsVars, format = "latex", booktabs = TRUE, longtable = TRUE) %>%
 #| label: create-save-what
 
 # Character vector of object names that will be saved.
-save_what <- c("SANETP_RAW")
+save_what <- c("Applicants_Raw")
 ```
 
 ``` {r}
 #| label: save-data
-#| eval: false
 
 save(list = save_what, 
      file=here("data/Imported_SANETP_Data.RData"))
