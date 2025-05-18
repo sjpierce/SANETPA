@@ -230,10 +230,28 @@ file.info(RawFile, extra_cols = FALSE) %>%
 
 ```{r}
 #| label: import-data
-#| eval: false
 
-SANETP_RAW <- read_spss(here("scripts/extdata/Filename.sav")) 
-names(SANETP_RAW)
+Applicants_Raw <- read_spss(RawFile) 
+```
+
+The imported `Applicants_Raw` data frame has `r nrow(Applicants_Raw)` rows and 
+`r ncol(Applicants_Raw)` variables. @tbl-Applicants-Raw shows a list of the 
+variable positions, names, classes, and labels.
+
+``` {r}
+#| label: tbl-Applicants-Raw
+#| tbl-cap: "Applicants_Raw: Variable Names and Classes."
+
+ApplicantsVars <- list(Applicants_Raw) %>% 
+  map_dfr(~ tibble(Name = names(.x), 
+                   Class = map_chr(.x, all_classes),
+                   Label = var_label(.x))) %>% 
+  rowid_to_column(., "Position")
+
+kable(ApplicantsVars, format = "latex", booktabs = TRUE, longtable = TRUE) %>%
+  kable_styling(font_size = 7, latex_options = c("repeat_header")) %>% 
+  column_spec(column = 3, width = "3cm") %>% 
+  column_spec(column = 4, width = "6.5cm")
 ```
 
 \FloatBarrier
