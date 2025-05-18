@@ -401,6 +401,22 @@ save_what <- c("Applicants_Raw")
 
 save(list = save_what, 
      file=here("data/Imported_SANETP_Data.RData"))
+
+@tbl-imported-data-file shows meta-data about the data file we just saved.
+
+```{r}
+#| label: tbl-imported-data-file
+#| tbl-cap: "Meta-Data About the Imported Data File Saved Out"
+
+file.info(DataFile, extra_cols = FALSE) %>% 
+  rownames_to_column() %>% 
+  mutate(rowname = basename(rowname)) %>% 
+  select(-isdir, -mode) %>% 
+  kable(, format = "latex", booktabs = TRUE, 
+        col.names = c("File Name", "Size (Bytes)", "Modified", 
+                      "Last Status Change", "Last Accessed")) %>% 
+  kable_styling() %>% 
+  column_spec(column = 3:5, width = "2cm")
 ```
 
 ::: {.callout-tip}
