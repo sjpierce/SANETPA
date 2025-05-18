@@ -156,17 +156,19 @@ work.
 
 ```{r}
 #| label: load-packages
-library(here)           # for here(), i_am(), makes code more portable.
 library(devtools)       # for session_info()
+library(here)           # for here(), i_am(), makes code more portable.
 library(rmarkdown)      # for pandoc_version()
 library(knitr)          # for kable()
 library(dplyr)          # for %>%, filter(), group_by(), mutate(), rename(), etc.
+library(tidyverse)      # for map_dfr(), map_chr(), rowid_to_column()
 library(haven)          # for read_SPSS()
+library(labelled)       # for var_label()
 options(kableExtra.latex.load_packages = FALSE)
 library(kableExtra)     # for kable_styling(), add_header_above(), 
                         # column_spec(), row_spec() etc. 
 library(kableExtra)     # for kable_styling 
-library(piercer)        # for git_report(), sim_2arm_prepost()
+library(piercer)        # for git_report(), which_latex()
 library(quarto)         # for quarto_version()
 library(SANETPA)        # for version info 
 ```
