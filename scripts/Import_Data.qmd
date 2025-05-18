@@ -443,7 +443,13 @@ Applicants <- Applicants_Raw %>%
          Mod_9_SDate = Mod9Start,
          Mod_10_SDate = Mod10Start,
          Mod_11_SDate = Mod11Start,
-         Mod_12_SDate = Mod12Start)
+         Mod_12_SDate = Mod12Start) %>% 
+  set_variable_labels(ID = "Applicant ID (may be blank if application was incomplete)",
+                      NPQ_1_r = "I am happy. (reverse coded)", 
+                      NPQ_4_r = "I feel connected to others. (reverse coded)", 
+                      NPQ_15_r = "I have beliefs that sustain me. (reverse coded)",
+                      NPQ_17_r = "I am the person I always wanted to be. (reverse coded)",
+                      NPQ_29_r = "I am a very caring person. (reverse coded)")
 ```
 
 The imported `Applicants` data frame has `r nrow(Applicants)` rows and 
