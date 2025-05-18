@@ -205,7 +205,31 @@ load(file=here("data/Imported_SANETP_Data.RData"))
 \FloatBarrier
 
 # Continuation-Ratio Modeling {#sec-CR-Modeling}
-This section needs to be written. 
+Participants' progress through the training program can be measured by an 
+ordinal stage variable that identifies the maximum stage reached in a sequential 
+selection process. 
+
+
+
+[@Cole-RN8770]
+
+[@Davidson-RN8773]
+
+[@Fullerton-RN8774]
+
+[@Liu-RN8772]
+
+[@Liu-RN8771]
+
+[@Smithson-RN2775]
+
+Because the stage of program participation reach 
+at which We will use an ordinal regression approach called model 
+
+The continuation-ratio model is a regression model specifically designed for ordinal
+outcome data generated from a sequential selection process (O’Connell, 2006, ch. 5).
+The model parameters can be translated into additional estimates and graphs that are
+easy to interpret and meaningful for assessing the validity and characteristics of the selfassessment.
 
 \FloatBarrier
 
