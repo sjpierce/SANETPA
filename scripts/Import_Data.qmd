@@ -306,6 +306,14 @@ analyses by applying more consistent and convenient naming conventions,
 converting categorical variables to factors, and so on. 
 
 ```{r}
+#| label: create-value-labels
+
+# Create vector of value labels we can re-use later.
+reversed_NPQ_value_labels <- c(`Very Often` = 1, Often = 2, Sometimes = 3, 
+                               Rarely = 4, Never = 5)
+```
+
+```{r}
 #| label: create-Applicants
 
 Applicants <- Applicants_Raw %>% 
@@ -449,7 +457,12 @@ Applicants <- Applicants_Raw %>%
                       NPQ_4_r = "I feel connected to others. (reverse coded)", 
                       NPQ_15_r = "I have beliefs that sustain me. (reverse coded)",
                       NPQ_17_r = "I am the person I always wanted to be. (reverse coded)",
-                      NPQ_29_r = "I am a very caring person. (reverse coded)")
+                      NPQ_29_r = "I am a very caring person. (reverse coded)") %>% 
+  set_value_labels(NPQ_1_r = reversed_NPQ_value_labels, 
+                   NPQ_4_r = reversed_NPQ_value_labels, 
+                   NPQ_15_r = reversed_NPQ_value_labels,
+                   NPQ_17_r = reversed_NPQ_value_labels,
+                   NPQ_29_r = reversed_NPQ_value_labels)
 ```
 
 The imported `Applicants` data frame has `r nrow(Applicants)` rows and 
