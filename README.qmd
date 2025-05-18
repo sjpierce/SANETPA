@@ -112,7 +112,7 @@ built-in support for using some of the other software discussed below.
 ### Install Quarto
 We rely on [Quarto](https://quarto.org) [@Allaire-RN8427] scripts to enhance 
 reproducibility because they provide excellent support for generating dynamic 
-reports [@Mair-RN3387]. Install Quarto version 1.7.30 or later. Although 
+reports [@Mair-RN3387]. Install Quarto version 1.7.31 or later. Although 
 RStudio bundles a version of Quarto, we want the most recent stable release 
 instead. Quarto also includes a copy of [Pandoc](https://pandoc.org/).
 
