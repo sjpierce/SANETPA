@@ -195,7 +195,7 @@ here::i_am(path = paste0(params$SourceDir, params$SourceFile))
 
 \FloatBarrier
 
-## Read Data {#sec-Read-Data}
+## Read SPSS Data {#sec-Read-Data}
 The raw data provided by the investigators is in an SPSS data file. This section 
 imports it into an R data frame/tibble. The raw data is de-identified to 
 preserve participant privacy and protect confidentiality. 
