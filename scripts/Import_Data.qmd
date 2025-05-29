@@ -330,9 +330,19 @@ Treating that case as having stopped at finishing the didactic training
 ```{r}
 #| label: create-value-labels
 
-# Create vector of value labels we can re-use later.
+# Create vectors of value labels.
 reversed_NPQ_value_labels <- c(`Very Often` = 1, Often = 2, Sometimes = 3, 
                                Rarely = 4, Never = 5)
+
+# More concise labels for the raw stages. 
+Stage_Raw_value_labels <- c(`Applied` = 1, `Eligible` = 2, `Enrolled` = 3, 
+                            `Started DT` = 4, `Finished DT` = 5, 
+                            `Started CSW` = 6, `Finished CSW` = 7)
+
+# Final stages to be modeled. 
+Stage_Reached_value_labels <- c(`Eligible` = 1, `Enrolled` = 2, 
+                                `Started DT` = 3, `Finished DT` = 4, 
+                                `Finished CSW` = 5)
 ```
 
 ```{r}
@@ -437,7 +447,7 @@ Applicants <- Applicants_Raw %>%
          Didactic_EDate = Didactic_End,
          Attrited = prog_attrited,
          Exit_Date = exit_date,
-         Stage_Reached = stg_reached,
+         Stage_Raw = stg_reached,
          Started_Mod_1 = Mod1_started,
          Finished_Mod_1 = Mod1_finished,
          Started_Mod_2 = Mod2_started,
@@ -474,17 +484,29 @@ Applicants <- Applicants_Raw %>%
          Mod_10_SDate = Mod10Start,
          Mod_11_SDate = Mod11Start,
          Mod_12_SDate = Mod12Start) %>% 
+  # Recode Stage_Raw into final set of stages to be modeled.
+  mutate(Stage_Reached = case_when(Stage_Raw == 2 ~ 1,
+                                   Stage_Raw == 3 ~ 2,
+                                   Stage_Raw == 4 ~ 3,
+                                   Stage_Raw == 5 ~ 4,
+                                   Stage_Raw == 6 ~ 4,
+                                   Stage_Raw == 7 ~ 5,
+                                   .default = NA)) %>% 
   set_variable_labels(ID = "Applicant ID (may be blank if application was incomplete)",
                       NPQ_1_r = "I am happy. (reverse coded)", 
                       NPQ_4_r = "I feel connected to others. (reverse coded)", 
                       NPQ_15_r = "I have beliefs that sustain me. (reverse coded)",
                       NPQ_17_r = "I am the person I always wanted to be. (reverse coded)",
-                      NPQ_29_r = "I am a very caring person. (reverse coded)") %>% 
+                      NPQ_29_r = "I am a very caring person. (reverse coded)",
+                      Stage_Raw = "Stage Reached by Participant (Raw Values)",
+                      Stage_Reached = "Maximum Stage Reached by Participant (Recoded)") %>% 
   set_value_labels(NPQ_1_r = reversed_NPQ_value_labels, 
                    NPQ_4_r = reversed_NPQ_value_labels, 
                    NPQ_15_r = reversed_NPQ_value_labels,
                    NPQ_17_r = reversed_NPQ_value_labels,
-                   NPQ_29_r = reversed_NPQ_value_labels)
+                   NPQ_29_r = reversed_NPQ_value_labels,
+                   Stage_Raw = Stage_Raw_value_labels,
+                   Stage_Reached = Stage_Reached_value_labels)
 ```
 
 The imported `Applicants` data frame has `r nrow(Applicants)` rows and 
