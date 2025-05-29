@@ -531,11 +531,23 @@ kable(ApplicantsVars, format = "latex", booktabs = TRUE, longtable = TRUE) %>%
 
 \FloatBarrier
 
-## Create Person-Stage Dataset
-To run the planned continuation-ratio model, we need to reorganize the data from 
-one row per person, to one row per person per stage attempted. This is similar 
-to the person-period form of organizing longitudinal data for use in growth 
-curve models implemented as mixed models. 
+## Create `Eligible_Applicants` Dataset
+The study's focus is on examining attrition among eligible applicants. The 
+research team believes that the recruitment materials were sufficiently clear 
+about the program's eligibility criteria, so while it will be useful to report 
+an eligibility rate, they have no substantive interest examining predictors of 
+ineligibilty. 
+
+For modeling purposes, we need to subset the data to create an 
+`Eligible_Applicants` dataset. 
+
+```{r}
+#| label: create-Eligible-Applicants
+
+Eligible_Applicants <- Applicants %>% 
+  filter(Stage_Raw >= 2)
+```
+
 
 \FloatBarrier
 
