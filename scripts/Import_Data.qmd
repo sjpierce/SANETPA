@@ -651,6 +651,37 @@ T4 <- Eligible_Applicants %>%
 Thresholds <- bind_rows(T1, T2, T3, T4)
 ```
 
+@tbl-Dataset-Size shows the sizes of datasets created above in terms of number 
+rows and columns, with additional computed columns showing how many records 
+stopped from proceeding to the next stage of case selection and how many 
+continued. This allowed me to double-check that the sizes each made sense. For 
+the `Applicants` row, the stopped cases are the ineligible applicants, while for 
+`Eligible_Applicants`, the stopped cases are those that did not enroll. Datasets 
+`T1` to `T4` each have one row per person, with the stopped cases being those that 
+attrited at the specified threshold. The `Thresholds` dataset contains one row 
+per person per threshold encountered because it combined the rows of `T1` to 
+`T4`, with the stopped cases being all the rows that indicated attrition 
+occurred. 
+
+```{r}
+#| label: tbl-Dataset-Size
+#| tbl-cap: Dataset Sizes
+
+tibble(DataFrame = c("Applicants", "Eligible_Applicants", "T1", "T2", "T3", 
+                     "T4", "Thresholds"),
+       N_Rows = c(nrow(Applicants), nrow(Eligible_Applicants), nrow(T1), 
+                  nrow(T2), nrow(T3), nrow(T4), nrow(Thresholds)),
+       N_Cols = c(ncol(Applicants), ncol(Eligible_Applicants), ncol(T1), 
+                  ncol(T2), ncol(T3), ncol(T4), ncol(Thresholds)),
+       Stopped = c(sum(is.na(Applicants$Stage_Reached)),
+                   sum(Eligible_Applicants$Stage_Reached < 2),
+                   sum(T1$Attrit), sum(T2$Attrit), sum(T3$Attrit), 
+                   sum(T4$Attrit), sum(Thresholds$Attrit))) %>% 
+  mutate(Continued = N_Rows - Stopped) %>% 
+  kable(format = "latex") %>% 
+  kable_styling()
+```
+
 
 \FloatBarrier
 
