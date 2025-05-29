@@ -1,5 +1,18 @@
 # SANETPA News 
 
+## 0.7.0, 2025-05-28
+* `scripts/Import_data.qmd`
+   * Renamed more variables. 
+   * Add a table with variables names & labels for updated applicants data. 
+   * Improve narrative text. 
+   * Add comments about similar variables and crosstab showing how they handle 
+     missing data differently. 
+   * Rename variables.
+   * Add variable and value labels.
+   * Created Eligible_Applicants and Thresholds datasets. 
+   * Added summary of dataset sizes.
+   * Save out additional datasets.
+   
 ## 0.6.0, 2025-05-18
 * `DESCRIPTION` 
     * Updated Depends field to require R 4.5.
