@@ -195,7 +195,7 @@ here::i_am(path = paste0(params$SourceDir, params$SourceFile))
 
 \FloatBarrier
 
-## Read SPSS Data {#sec-Read-Data}
+## Read SPSS Data into `Applicants_Raw` Dataset {#sec-Read-Data}
 The raw data provided by the investigators is in an SPSS data file. This section 
 imports it into an R data frame/tibble. The raw data is de-identified to 
 preserve participant privacy and protect confidentiality. 
@@ -299,11 +299,33 @@ useful depending on the summary desired.
 
 \FloatBarrier
 
-## Update Applicants Data
+## Create `Applicants` Dataset
 This section creates the `Applicants` data frame from an updated version of the 
 `Applicants_Raw` data frame. These changes prepare the data for the planned 
-analyses by applying more consistent and convenient naming conventions, 
-converting categorical variables to factors, and so on. 
+analyses by applying more consistent and convenient naming conventions, updating 
+value labels, converting categorical variables to factors, and so on. 
+
+:::{.callout-tip}
+The expected uses for the `Applicants` data are:
+
+* Serve as the source dataset from which other required datasets are derived. 
+* Compute eligibility rate and associated confidence interval. 
+
+:::
+
+In the raw data, `stg_reached` was coded into 7 ordered categories to get the 
+most granular set of categories we thought we might need. Below we replace the 
+imported value labels for those stages with more concise labels. We also rename 
+that variable to `Stage_Raw`, then use it to create the `Stage_Reached` variable 
+by recoding `Stage_Raw` = 1 to missing values (ineligible applicants will be 
+excluded from modeling) and then renumering remaining stages after collapsing 
+two stages together because only one participant started the clinical skills 
+training without finishing it (`Stage_Raw` = 6). For that stage, the stopping 
+rate would be really close to 0 for the transition between starting and
+finishing clinical training. That could cause a separation issue (estimation
+could break down due to insufficient outcome variability at that threshold).
+Treating that case as having stopped at finishing the didactic training 
+(`Stage_Raw` = 5; `Stage_Reached` = 4) should avoid that problem.
 
 ```{r}
 #| label: create-value-labels
