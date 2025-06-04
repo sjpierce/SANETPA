@@ -1,0 +1,371 @@
+---
+title: Descriptive Analyses for SANE Training Program Data
+subtitle: | 
+          | CSTAT Case: C1788
+          | Clients: Rebecca Campbell, Autumn Ashley, & Katherine Dontje
+author: 
+  - name: Steven J. Pierce
+    orcid: 0000-0002-0679-3019
+    email: pierces1@msu.edu
+    affil-id: 1 
+affiliations: 
+  - id: 1 
+    name: Michigan State University
+    department: Center for Statistical Training and Consulting
+    url: "[https://cstat.msu.edu](https://cstat.msu.edu)"
+bibliography: references.bib          # File holds BibTeX data for references
+csl: apa.csl                          # File controls citation & reference list format
+params:                               # Default values for parameters
+  SourceDir: "scripts/"               # Relative path to folder holding this file
+  SourceFile: "Descriptive_Analyses.qmd"    # Name of this script file
+  LogFile: "Descriptive_Analyses_Draft.pdf" # Default name of rendered output file
+format: 
+  pdf:                                # Settings for PDF output
+    output-file: "Descriptive_Analyses_Draft.pdf" # Default output file name 
+    output-ext: "pdf"                 # Default file name extension
+    documentclass: scrartcl           # LaTeX document type
+    papersize: letter
+    geometry:                         # Control page margins
+      - top=1in
+      - bottom=1in
+      - left=1in
+      - right=1in
+    number-sections: true           # Auto-number each section
+    toc: true                       # Include table of contents (TOC)
+    toc-depth: 3                    # Number of layers in TOC
+    colorlinks: true
+    template-partials: 
+      - title.tex   # Controls author affiliation formatting
+    include-in-header:
+      - file: compact-title.tex    # Controls spacing around title. 
+      - text: |
+          \usepackage{fancyhdr}
+          \usepackage[noblocks]{authblk}
+          \renewcommand*{\Authsep}{, }
+          \renewcommand*{\Authand}{, }
+          \renewcommand*{\Authands}{, }
+          \renewcommand\Affilfont{\small}
+          \usepackage[yyyymmdd,hhmmss]{datetime}    %% for currenttime command
+          \usepackage{lastpage}                     %% For pageref command
+          \usepackage{fontspec}
+          \defaultfontfeatures{Ligatures=TeX}
+          \usepackage[font={small}, margin=1cm, skip=2pt]{caption}
+          \usepackage{url}
+          \usepackage{floatrow}                     %% For controlling float placement
+          \floatsetup[table]{capposition=top}       %% Puts table caption at top.
+          \floatsetup[longtable]{margins=centering} %% Centers longtable tables
+          \floatplacement{figure}{!ht}              %% Control placement of figures
+          \floatplacement{table}{!ht}               %% Control placement of tables
+          \usepackage[labelfont=bf, textfont=bf]{caption}  %% For bolded table/figure captions
+          \usepackage{placeins}                     %% For FloatBarrier command
+          \usepackage{booktabs}                     %% Used by kableExtra
+          \usepackage{longtable}                    %% Used by kableExtra
+          \usepackage{array}                        %% Used by kableExtra
+          \usepackage{multirow}                     %% Used by kableExtra
+          \usepackage{wrapfig}                      %% Used by kableExtra
+          \usepackage{colortbl}                     %% Used by kableExtra
+          \usepackage{pdflscape}                    %% Used by kableExtra
+          \usepackage{tabu}                         %% Used by kableExtra
+          \usepackage[normalem]{ulem}               %% Used by kableExtra
+          \usepackage{makecell}                     %% Used by kableExtra
+          \usepackage{xcolor}                       %% Used by kableExtra
+          \usepackage{dcolumn}                      %% Used by kableExtra
+          \usepackage{threeparttable}               %% Used by kableExtra
+          \usepackage{threeparttablex}              %% Used by kableExtra
+          \usepackage{amsmath}                      %% for equation support. 
+          \usepackage{titling}      
+          \usepackage{verbatim}                     %% For comment command
+          \pretitle{\begin{center}\LARGE\bfseries\sffamily}
+          \posttitle{\end{center}}
+          \pagestyle{fancy}
+          \lhead{SANETPA Descriptive Analyses}
+          \chead{\includegraphics[height=0.85cm]{../graphics/Combomark-Horiz_Pantone-567.eps}}
+          \rhead{\today\ \currenttime}
+          \cfoot{ }
+          \fancyfoot[R]{\thepage\ of \pageref*{LastPage}}
+          \renewcommand{\headrulewidth}{0.4pt}
+          \renewcommand{\footrulewidth}{0.4pt}
+          \fancypagestyle{plain}{\pagestyle{fancy}}
+          \newcommand*\tocentryformat[1]{{\sffamily#1}}  %% Fix TOC font style
+          \RedeclareSectionCommands                      %% Fix TOC font style
+            [
+              tocentryformat=\tocentryformat,
+              tocpagenumberformat=\tocentryformat
+            ]
+            {section,subsection,subsubsection,paragraph,subparagraph}
+execute:                              # Default Quarto chunk execution options
+  eval: true
+  echo: fenced                        # Show the code in the output file
+  output: true
+  warning: true
+  error: true
+  include: true
+knitr:                                # Default R knitr package chunk options
+  opts_chunk: 
+    message: true
+    cfsize: "footnotesize"  
+---
+
+\lfoot{\texttt{\small \detokenize{`r params$LogFile`}}}
+
+\FloatBarrier
+
+# Purpose
+This file is part of a research compendium [@Pierce-RN8756] associated with a 
+study about a sexual assault nurse examiner training program [@Dontje-RN8757]. 
+It contains results from descriptive analyses. 
+
+\FloatBarrier
+
+# Setup
+This section documents some setup tasks that are useful to the statistician on 
+the team. Most readers of this document will probably want skip directly to 
+@sec-Read-Data.
+
+\FloatBarrier
+
+## Define Global Options
+Global R chunk options are defined in the YAML header but local chunk options
+will over-ride global options. We can temporarily disable an individual chunk by
+inserting `#| eval: false` on a line at the top of the chunk. The method for
+creating a `cfsize` option that controls font size in code chunks and their text
+output is based on an answer to a question posted on
+[stackoverflow.com](https://stackoverflow.com/a/46526740).
+
+``` {r}
+#| label: global-options
+
+# Create a custom chunk hook/option for controlling font size in chunk & output.
+def.chunk.hook  <- knitr::knit_hooks$get("chunk")
+knitr::knit_hooks$set(chunk = function(x, options) {
+  x <- def.chunk.hook(x, options)
+  ifelse(options$cfsize != "normalsize", 
+         paste0("\n \\", options$cfsize,"\n\n", x, "\n\n \\normalsize"), 
+         x)
+  })
+```
+
+\FloatBarrier
+
+## Load Packages
+R packages usually add new functions to the base R software, allowing you to do 
+more things. Here, we load the specific R packages required for this script to 
+work.
+
+```{r}
+#| label: load-packages
+library(devtools)       # for session_info()
+library(here)           # for here(), i_am(), makes code more portable.
+library(rmarkdown)      # for pandoc_version()
+library(knitr)          # for kable()
+library(dplyr)          # for %>%, filter(), group_by(), mutate(), rename(), etc.
+library(tidyverse)      # for map_dfr(), map_chr(), rowid_to_column()
+library(haven)          # for read_SPSS()
+library(labelled)       # for var_label()
+options(kableExtra.latex.load_packages = FALSE)
+library(kableExtra)     # for kable_styling(), add_header_above(), 
+                        # column_spec(), row_spec() etc. 
+library(kableExtra)     # for kable_styling 
+library(piercer)        # for git_report(), which_latex()
+library(PropCIs)        # for scoreci()
+library(quarto)         # for quarto_version()
+library(SANETPA)        # for version info 
+```
+
+\FloatBarrier
+
+## Declare Path
+This next chunk declares the path to this script relative to the project-level 
+root directory. If the file is not in the right location under the project root
+you'll get a warning message. This helps ensure relative paths are all working 
+as expected. The chunk below uses the `SourceDir` and `SourceFile` parameters 
+set in the YAML header. 
+
+``` {r}
+#| label: declare-path
+
+# Declare path to this script relative to the project root directory.
+here::i_am(path = paste0(params$SourceDir, params$SourceFile))
+```
+
+\FloatBarrier
+
+# Read Data {#sec-Read-Data}
+We start be reading in the datafile, which contains the following datasets:
+
+* `Applicants`. This is a person-level data file containing one row for every 
+  applicant, regardless of eligibility status., 
+* `Eligible_Applicants`. This is a person-level file containing one row for 
+  every person who both applied and was eligible for the program. It omits 
+   those who were ineligible. 
+* `Thresholds`. This is a person-threshold level file with one row per threshold 
+  encountered by each eligible applicant. 
+
+``` {r}
+#| label: load-data
+#| eval: true
+
+# Store path to data file. 
+DataFile <- here("data/Imported_SANETP_Data.RData")
+
+load(file = DataFile)
+```
+
+@tbl-imported-data-file shows meta-data about the data file we just loaded and
+@tbl-datasets shows the sizes of the datasets it contains. 
+
+```{r}
+#| label: tbl-imported-data-file
+#| tbl-cap: "Meta-Data About the Data File Loaded"
+
+file.info(DataFile, extra_cols = FALSE) %>% 
+  rownames_to_column() %>% 
+  mutate(rowname = basename(rowname)) %>% 
+  select(-isdir, -mode) %>% 
+  kable(, format = "latex", booktabs = TRUE, 
+        col.names = c("File Name", "Size (Bytes)", "Modified", 
+                      "Last Status Change", "Last Accessed")) %>% 
+  kable_styling() %>% 
+  column_spec(column = 3:5, width = "2cm")
+```
+
+
+```{r}
+#| label: tbl-datasets
+#| tbl-cap: "Sizes of the Datasets"
+
+data.frame(Dataset = c("Applicants", "Eligible_Applicants", "Thresholds"),
+           N_Rows = c(nrow(Applicants), nrow(Eligible_Applicants), 
+                      nrow(Thresholds)),
+           N_Cols = c(ncol(Applicants), ncol(Eligible_Applicants), 
+                      ncol(Thresholds))) %>% 
+  kable(, format = "latex", booktabs = TRUE, 
+        col.names = c("Dataset", "N Rows", "N Columns")) %>% 
+  kable_styling() 
+```
+
+\FloatBarrier
+
+# Summaries of Applicants Data
+The first thing we need to examine in the `Applicants` data is the distribution 
+for a few key variables. @tbl-Stage-Raw-Eligible shows the crosstabulation of 
+the raw stage variable by the eligibility status. 
+
+```{r}
+#| label: tbl-Stage-Raw-Eligible
+#| tbl-cap: Stage_Raw by Eligible Contingency Table
+
+xtabs(~as_factor(Stage_Raw) + Eligible, addNA = TRUE, 
+      data = Applicants) %>% 
+  addmargins() %>% 
+  kable(format = "latex", booktabs = TRUE, 
+        col.names = c("Stage_Raw", "No", "Yes", "Sum")) %>% 
+  kable_styling() %>% 
+  add_header_above(header = c(" ", "Eligible" = 2, " ")) %>% 
+  column_spec(column = 4, italic = TRUE) %>% 
+  row_spec(row = 8, italic = TRUE)
+```
+
+:::{.callout-caution}
+* People who exited at the Applied stage should all be coded as ineligible. 
+* People in the remaining stages should all be coded as eligible. 
+* Cell count for Applied/Yes should be 0. Positive values there may be a result 
+  of data entry errors. 
+
+:::
+
+```{r}
+#| label: tbl-Eligible-Rate
+#| tbl-cap: Eligibility Rate and Wilson Score Confidence Interval
+
+ER <- mean(Applicants$Eligible)
+ERCI <- scoreci(x = sum(Applicants$Eligible), n = nrow(Applicants), conf.level = 0.95)
+
+data.frame(Rate = mean(Applicants$Eligible),
+           CI.LL = ERCI$conf.int[1],
+           CI.UL = ERCI$conf.int[2]) %>% 
+  kable(format = "latex", booktabs = TRUE, digits = 2, 
+        format.args = list(nsmall = 2)) %>% 
+  kable_styling() %>% 
+  add_header_above(header = c(" ", "95% CI" = 2))
+```
+
+# Summaries of Eligible Applicants Data
+
+
+# Summaries of Thresholds Data
+
+
+# References
+::: {#refs}
+:::
+
+\FloatBarrier
+
+# Software Information
+This section documents information that is important for reproducibility. Most
+users will not need to read it. It is primarily here for use by the statistician 
+on the team if we need to troubleshoot reproducibility issues because someone 
+else is unable to get the same results from the same code. Start by checking for 
+differences in package versions. 
+
+We used [R](https://www.r-project.org/) as our main computing environment and
+[Quarto](https://quarto.org/) scripts to enhance reproducibility. We used
+[RStudio](www.rstudio.org) as the editor to interface with R and Quarto.
+
+- Software chain:
+  **qmd file > RStudio > Quarto > R > knitr > md file > Pandoc > tex file > TinyTeX > PDF file**.
+- Source file: \texttt{\detokenize{`r params$SourceFile`}} 
+- Output file: \texttt{\detokenize{`r params$LogFile`}} 
+- [Quarto `r quarto_version()`](https://quarto.org/) runs `*.qmd` files through 
+  [R](https://www.r-project.org/) and [knitr](https://yihui.org/knitr/) to 
+  produce `*.md` markdown files.
+- [Pandoc `r rmarkdown::pandoc_version()`](https://pandoc.org) converts markdown 
+  files (`*.md`) to other formats, including LaTeX (`*.tex`) and HTML (`*.html`) 
+  among others.
+- [TinyTeX](https://yihui.org/tinytex/) compiles LaTeX files (`*.tex`) into PDF 
+  files. It should be viable to use [MiKTeX](https://miktex.org) or another 
+  LaTeX distribution instead. 
+
+\FloatBarrier
+
+## Versions
+This document was generated using the following computational environment and 
+dependencies:
+
+```{r}
+#| label: show-version
+#| echo: true
+
+# Check and report whether we used TinyTex or other LaTeX software. 
+which_latex()
+
+# Get R and R package version numbers in use.
+devtools::session_info()
+```
+
+\FloatBarrier
+
+## Git Details
+The current Git commit details and status are:
+
+``` {r}
+#| label: git-details
+#| echo: true
+
+git_report()
+```
+
+This is useful because it tells us exactly which commit in the Git history 
+we would need to be using to make sure we are running the exact same code. 
+Sometimes another person is not using the most current code, or has changed the 
+code in some way since it was last committed.  
+
+::: {.callout-tip}
+Untracked files are files located in the repository that Git has not been told 
+to entirely ignore, but have also not been committed into the version history. 
+
+Unstaged changes to files indicate that some of the contents have been modified 
+since the last time the file was committed to Git. In production runs, we want 
+the Git output to not show any unstaged changes to key files!
+::: 
