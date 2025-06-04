@@ -330,7 +330,10 @@ Treating that case as having stopped at finishing the didactic training
 ```{r}
 #| label: create-value-labels
 
-# Create vectors of value labels.
+# Labels for binary variables
+Binary_Labels <- c(No = 0, Yes = 1)
+
+# Create vectors of value labels for reverse-coded NPQ items.
 reversed_NPQ_value_labels <- c(`Very Often` = 1, Often = 2, Sometimes = 3, 
                                Rarely = 4, Never = 5)
 
@@ -506,7 +509,8 @@ Applicants <- Applicants_Raw %>%
                    NPQ_17_r = reversed_NPQ_value_labels,
                    NPQ_29_r = reversed_NPQ_value_labels,
                    Stage_Raw = Stage_Raw_value_labels,
-                   Stage_Reached = Stage_Reached_value_labels)
+                   Stage_Reached = Stage_Reached_value_labels,
+                   Eligible = Binary_Labels)
 ```
 
 The imported `Applicants` data frame has `r nrow(Applicants)` rows and 
