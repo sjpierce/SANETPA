@@ -678,7 +678,7 @@ tibble(DataFrame = c("Applicants", "Eligible_Applicants", "T1", "T2", "T3",
                    sum(T1$Attrit), sum(T2$Attrit), sum(T3$Attrit), 
                    sum(T4$Attrit), sum(Thresholds$Attrit))) %>% 
   mutate(Continued = N_Rows - Stopped) %>% 
-  kable(format = "latex") %>% 
+  kable(format = "latex", booktabs = TRUE) %>% 
   kable_styling()
 ```
 
