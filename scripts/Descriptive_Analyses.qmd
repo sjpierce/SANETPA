@@ -305,10 +305,62 @@ data.frame(No = sum(1 - Applicants$Eligible),
 ```
 
 # Summaries of Eligible Applicants Data
+@tbl-Stage-Reached shows the frequency distribution for the stage reached among 
+the eligible applicants. This is the stage variable we will use for modeling. 
 
+```{r}
+#| label: tbl-Stage-Reached
+#| tbl-cap: Stage_Reached Frequency Distribution Among Eligible Applicants
+
+# Footnote text. 
+FN <- paste("Denominator for percents is total number of eligible applicants.", 
+      "CSW, clinical skills workshop; DT, didactic training.")
+
+xtabs(~as_factor(Stage_Reached), addNA = TRUE, 
+      data = Eligible_Applicants) %>% 
+  addmargins() %>% 
+  as.data.frame() %>% 
+  rename(Stage_Reached = as_factor.Stage_Reached.) %>% 
+  mutate(Percent = 100*Freq/nrow(Eligible_Applicants),
+         Cumulative = if_else(Stage_Reached == "Sum", 
+                              true = 100, 
+                              false = cumsum(Percent))) %>% 
+  kable(format = "latex", booktabs = TRUE, digits = 1,
+        col.names = c("Stage_Reached", "Freq", "%", "Cumulative %")) %>% 
+  kable_styling() %>% 
+  row_spec(row = 6, italic = TRUE) %>% 
+  footnote(kable_input = ., general = FN, footnote_as_chunk = TRUE, 
+           threeparttable = TRUE)
+```
 
 # Summaries of Thresholds Data
 
+```{r}
+#| label: tbl-Threshold-Attrit
+#| tbl-cap: Threshold by Attrit Contingency Table
+
+# Footnote text. 
+FN <- paste("Denominator for percents is row N.", 
+            "CSW, clinical skills workshop; DT, didactic training; N, number",
+            "of participants who reached the from stage.")
+
+Thresholds %>% 
+  mutate(Threshold = as_factor(Threshold),
+         Attrit = as_factor(Attrit)) %>% 
+  group_by(Threshold, Attrit) %>% 
+  summarise(N = n()) %>% 
+  pivot_wider(names_from = Attrit, values_from = N) %>% 
+  mutate(N = No + Yes,
+         Percent = 100*Yes/N) %>% 
+  select(Threshold, N, No, Yes, Percent) %>% 
+  kable(format = "latex", booktabs = TRUE, digits = 1, 
+        col.names= c("Threshold (from/to)", "N", "No (0)", 
+                     "Yes (1)", "%")) %>% 
+  kable_styling() %>% 
+  add_header_above(header = c(" " = 2, "Attrit" = 3)) %>% 
+  footnote(kable_input = ., general = FN, footnote_as_chunk = TRUE, 
+           threeparttable = TRUE)
+```
 
 # References
 ::: {#refs}
