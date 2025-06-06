@@ -301,7 +301,9 @@ data.frame(No = sum(1 - Applicants$Eligible),
   kable(format = "latex", booktabs = TRUE, digits = c(0, 0, 0, 2, 2, 2), 
         format.args = list(nsmall = c(0, 0, 0, 2, 2, 2))) %>% 
   kable_styling() %>% 
-  add_header_above(header = c("Eligible (N)" = 3, " ", "95% CI" = 2))
+  add_header_above(header = c("Eligible (N)" = 3, " ", "95% CI" = 2)) %>% 
+  footnote(kable_input = ., general = FN, footnote_as_chunk = TRUE, 
+           threeparttable = TRUE)
 ```
 
 # Summaries of Eligible Applicants Data
