@@ -652,7 +652,14 @@ T4 <- Eligible_Applicants %>%
 ```{r}
 #| label: create-Thresholds
 
-Thresholds <- bind_rows(T1, T2, T3, T4)
+TLabels <- c("T1 (Eligible/Enrolled)",
+             "T2 (Enrolled/Started DT)",
+             "T3 (Started DT/Finished DT)",
+             "T4 (Finished DT/Finished CSW)")
+
+Thresholds <- bind_rows(T1, T2, T3, T4) %>% 
+  mutate(Threshold_Label = factor(Threshold, levels = 1:4, labels = TLabels)) %>% 
+  relocate(ID, Threshold, Threshold_Label, Attrit)
 ```
 
 @tbl-Dataset-Size shows the sizes of datasets created above in terms of number 
