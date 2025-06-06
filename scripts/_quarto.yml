@@ -5,6 +5,7 @@ project:
   execute-dir: file
   render:
     - Import_Data.qmd
+    - Descriptive_Analyses.qmd
     - CR_Model.qmd
     - Production_Run.qmd
 
