@@ -271,13 +271,16 @@ xtabs(~as_factor(Stage_Raw) + Eligible, addNA = TRUE,
            threeparttable = TRUE)
 ```
 
-:::{.callout-caution}
+:::{.callout-tip}
 * People who exited at the Applied stage should all be coded as ineligible. 
 * People in the remaining stages should all be coded as eligible. 
 * Cell count for Applied/Yes should be 0. Positive values there may be a result 
-  of data entry errors. 
+  of inaccurate data entry (we previously detected and fixed 4 cases with this 
+  check). 
 
 :::
+
+The next thing to examine is the eligibility rate (see @tbl-Eligible-Rate). 
 
 ```{r}
 #| label: tbl-Eligible-Rate
