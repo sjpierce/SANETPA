@@ -650,16 +650,22 @@ T4 <- Eligible_Applicants %>%
 ```
 
 ```{r}
+#| label: create-value-labels-2
+
+# Create vectors of value labels for reverse-coded NPQ items.
+Threshold_Labels <- c("T1 (Eligible/Enrolled)",
+                      "T2 (Enrolled/Started DT)",
+                      "T3 (Started DT/Finished DT)",
+                      "T4 (Finished DT/Finished CSW)")
+```
+
+```{r}
 #| label: create-Thresholds
 
-TLabels <- c("T1 (Eligible/Enrolled)",
-             "T2 (Enrolled/Started DT)",
-             "T3 (Started DT/Finished DT)",
-             "T4 (Finished DT/Finished CSW)")
-
 Thresholds <- bind_rows(T1, T2, T3, T4) %>% 
-  mutate(Threshold_Label = factor(Threshold, levels = 1:4, labels = TLabels)) %>% 
-  relocate(ID, Threshold, Threshold_Label, Attrit)
+  relocate(ID, Threshold, Attrit) %>% 
+  set_value_labels(Threshold = Threshold_Labels, 
+                   Attrit = Binary_Labels)
 ```
 
 @tbl-Dataset-Size shows the sizes of datasets created above in terms of number 
@@ -692,7 +698,6 @@ tibble(DataFrame = c("Applicants", "Eligible_Applicants", "T1", "T2", "T3",
   kable(format = "latex", booktabs = TRUE) %>% 
   kable_styling()
 ```
-
 
 \FloatBarrier
 
