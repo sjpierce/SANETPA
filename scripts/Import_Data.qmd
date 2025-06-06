@@ -653,10 +653,10 @@ T4 <- Eligible_Applicants %>%
 #| label: create-value-labels-2
 
 # Create vectors of value labels for reverse-coded NPQ items.
-Threshold_Labels <- c("T1 (Eligible/Enrolled)",
-                      "T2 (Enrolled/Started DT)",
-                      "T3 (Started DT/Finished DT)",
-                      "T4 (Finished DT/Finished CSW)")
+Threshold_Labels <- c("T1 (Eligible/Enrolled)" = 1,
+                      "T2 (Enrolled/Started DT)" = 2,
+                      "T3 (Started DT/Finished DT)" = 3,
+                      "T4 (Finished DT/Finished CSW)" = 4)
 ```
 
 ```{r}
