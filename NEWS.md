@@ -1,7 +1,22 @@
 # SANETPA News 
 
+## 0.8.0, 2025-06-06
+* `scripts/Descriptive_Analyses.qmd`
+    * Added file. 
+    * Improved table content, formatting, & footnote.
+    * Added more tables. 
+    * Improved narrative text.
+    * Added stage/threshold figure.
+* `scripts/Import_Data.qmd`
+    * Improve table formatting.
+    * Improve narrative text. 
+    * Stopped saving out `Aplpicants_Raw` dataset. 
+    * Add some value labels.
+    * Updated source data file. 
+    * Add value labels to `Thresholds` dataset. 
+
 ## 0.7.0, 2025-05-28
-* `scripts/Import_data.qmd`
+* `scripts/Import_Data.qmd`
    * Renamed more variables. 
    * Add a table with variables names & labels for updated applicants data. 
    * Improve narrative text. 
@@ -18,7 +33,7 @@
     * Updated Depends field to require R 4.5.
 * `README.qmd` and `README.md`
     * Update software version & citation info.
-* `scripts/Import_data.qmd`
+* `scripts/Import_Data.qmd`
     * Decreased default font size for code chunks.
     * Load more R packages. 
     * Improve headings and narrative text.
