@@ -284,18 +284,24 @@ The next thing to examine is the eligibility rate (see @tbl-Eligible-Rate).
 
 ```{r}
 #| label: tbl-Eligible-Rate
-#| tbl-cap: Eligibility Rate and Wilson Score Confidence Interval
+#| tbl-cap: Eligibility Rate Among All Applicants
+
+FN <- paste("We used a Wilson score interval for the 95% confidence interval.")
 
 ER <- mean(Applicants$Eligible)
-ERCI <- scoreci(x = sum(Applicants$Eligible), n = nrow(Applicants), conf.level = 0.95)
+ERCI <- scoreci(x = sum(Applicants$Eligible), n = nrow(Applicants), 
+                conf.level = 0.95)
 
-data.frame(Rate = mean(Applicants$Eligible),
-           CI.LL = ERCI$conf.int[1],
-           CI.UL = ERCI$conf.int[2]) %>% 
-  kable(format = "latex", booktabs = TRUE, digits = 2, 
-        format.args = list(nsmall = 2)) %>% 
+data.frame(No = sum(1 - Applicants$Eligible),
+           Yes = sum(Applicants$Eligible),
+           Total = nrow(Applicants),
+           Rate = mean(Applicants$Eligible),
+           LL = ERCI$conf.int[1],
+           UL = ERCI$conf.int[2]) %>% 
+  kable(format = "latex", booktabs = TRUE, digits = c(0, 0, 0, 2, 2, 2), 
+        format.args = list(nsmall = c(0, 0, 0, 2, 2, 2))) %>% 
   kable_styling() %>% 
-  add_header_above(header = c(" ", "95% CI" = 2))
+  add_header_above(header = c("Eligible (N)" = 3, " ", "95% CI" = 2))
 ```
 
 # Summaries of Eligible Applicants Data
