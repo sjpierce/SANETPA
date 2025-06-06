@@ -208,11 +208,11 @@ would have had to get through all of the questions for part a first" (A. Ashley,
 personal communication, May 18, 2025). 
 
 :::{.callout-note}
-The original data file sent to me was named `all group 5.16.sav`, but I renamed 
-it to `All_Applicants_2025-05-16.sav` before placing it in my local repository. 
-This makes the file name more portable across operating systems, indicates that 
-it includes all applicants (even those who were ineligible), and shows the date
-I received the file. 
+I recevied an updated data file called `All_group_1_2025-06-03.sav` that fixed
+some inaccurate data values detected by a previous iteration of the descriptive
+analyses. It is now in my local repository and replaced the previous data file.
+It includes all applicants (even those who were ineligible). The date in the
+file name is when I received the file.
 :::
 
 @tbl-raw-data-file shows meta-data about the raw data file we will import.
@@ -222,7 +222,7 @@ I received the file.
 #| tbl-cap: "Meta-Data About Raw Data File"
 
 # Store path to raw data file. 
-RawFile <- here("scripts/extdata/All_Applicants_2025-05-16.sav")
+RawFile <- here("scripts/extdata/All_group_1_2025-06-03.sav")
 
 file.info(RawFile, extra_cols = FALSE) %>% 
   rownames_to_column() %>% 
