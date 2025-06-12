@@ -819,10 +819,10 @@ Sometimes another person is not using the most current code, or has changed the
 code in some way since it was last committed.  
 
 ::: {.callout-tip}
-Untracked files are files located in the repository that Git has not been told 
-to entirely ignore, but have also not been committed into the version history. 
-
-Unstaged changes to files indicate that some of the contents have been modified 
-since the last time the file was committed to Git. In production runs, we want 
-the Git output to not show any unstaged changes to key files!
+* Untracked files are files located in the repository that Git has not been told 
+  to entirely ignore, but have also not been committed into the version history. 
+* Unstaged changes to files indicate that some of the contents have been 
+  modified since the last time the file was committed to Git. In production 
+  runs, we want the Git output to not show any unstaged changes to key files!
+  
 ::: 
