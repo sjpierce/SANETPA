@@ -553,8 +553,8 @@ Eligible_Applicants <- Applicants %>%
 ```
 
 ## Create Person-Threshold Dataset
-This study will use a stopping-ratio model, which is also called a backward 
-continuation-ratio model [@Liu-RN8772] or a stage model [@Fullerton-RN8774]. To 
+This study will use a stopping-ratio model, which is also called a forward 
+continuation-ratio model or a stage model [@Fullerton-RN8774; @Liu-RN8772]. To 
 run the planned model, we first reorganize the data from one row per person to
 one row per person per threshold attempted [@Cole-RN8770; @Fullerton-RN8774]. 
 That reorganization allows us to use standard logistic regression modeling
