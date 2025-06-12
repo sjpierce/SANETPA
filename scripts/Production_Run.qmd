@@ -156,8 +156,9 @@ stored in `scripts/example/` will end up putting output in a subfolder
 called `scripts/output/example/`). 
 
 ## Import Data
-Work on this script has begun but we don't yet have the required data file. The 
-chunk is disabled for now. 
+We now have a working data file and a working data import script. The chunk 
+below runs the data import script, which creates a data file used by other 
+scripts.
 
 ``` {r}
 #| label: Import-Data
@@ -187,8 +188,8 @@ chunk.end - chunk.start
 ```
 
 ## Continuation-Ratio Model
-Work on this script has not really started yet. It is just a skeleton for future 
-use, so the chunk below is currently disabled. 
+Work on this script has begun but is not yet complete. The modeling script seeks 
+to answer several of the research questions. 
 
 ``` {r}
 #| label: CR-Model
