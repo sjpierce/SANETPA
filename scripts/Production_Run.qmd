@@ -162,7 +162,7 @@ scripts.
 
 ``` {r}
 #| label: Import-Data
-#| eval: false
+#| eval: true
 
 # Memory garbage collection (for more consistent chunk timing).
 gc()
@@ -193,7 +193,7 @@ to answer several of the research questions.
 
 ``` {r}
 #| label: CR-Model
-#| eval: false
+#| eval: true
 
 # Memory garbage collection (for more consistent chunk timing).
 gc()
