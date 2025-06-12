@@ -335,6 +335,33 @@ xtabs(~as_factor(Stage_Reached), addNA = TRUE,
            threeparttable = TRUE)
 ```
 
+@tbl-Setting shows the frequency distribution for the setting stage where 
+eligible applicants practice. 
+
+```{r}
+#| label: tbl-Setting
+#| tbl-cap: Practice Setting Frequency Distribution Among Eligible Applicants
+
+# Footnote text. 
+FN <- paste("Denominator for percents is total number of eligible applicants.")
+
+xtabs(~as_factor(Setting), addNA = TRUE, 
+      data = Eligible_Applicants) %>% 
+  addmargins() %>% 
+  as.data.frame() %>% 
+  rename(Setting = as_factor.Setting.) %>% 
+  mutate(Percent = 100*Freq/nrow(Eligible_Applicants),
+         Cumulative = if_else(Setting == "Sum", 
+                              true = 100, 
+                              false = cumsum(Percent))) %>% 
+  kable(format = "html", booktabs = TRUE, digits = 1,
+        col.names = c("Setting", "Freq", "%", "Cumulative %")) %>% 
+  kable_styling() %>% 
+  row_spec(row = 5, italic = TRUE) %>% 
+  footnote(kable_input = ., general = FN, footnote_as_chunk = TRUE, 
+           threeparttable = TRUE)
+```
+
 # Summaries of Thresholds Data
 @fig-Stages shows the final set of stages and thresholds between them at which
 attrition from the training program could occur. The arrows associated with each
