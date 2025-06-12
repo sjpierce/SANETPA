@@ -142,6 +142,10 @@ Script2 -> HTML2 [label = "Renders"]
 }
 ```
 
+::: {.callout-caution}
+Task: Expand the workflow diagram to show the descriptive analyses. 
+:::
+
 # Render Other Scripts
 Each subsection below contains code that will render another Quarto script. By 
 default I am storing the Quarto scripts to be rendered in the `scripts/` folder 
