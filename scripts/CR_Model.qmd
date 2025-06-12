@@ -247,9 +247,44 @@ confidentiality.
 
 ``` {r}
 #| label: load-data
-#| eval: false
+#| eval: true
 
-load(file=here("data/Imported_SANETP_Data.RData"))
+# Store path to data file. 
+DataFile <- here("data/Imported_SANETP_Data.RData")
+
+load(file = DataFile)
+```
+
+@tbl-imported-data-file shows meta-data about the data file we just loaded and
+@tbl-datasets shows the sizes of the datasets it contains. 
+
+```{r}
+#| label: tbl-imported-data-file
+#| tbl-cap: "Meta-Data About the Data File Loaded"
+
+file.info(DataFile, extra_cols = FALSE) %>% 
+  rownames_to_column() %>% 
+  mutate(rowname = basename(rowname)) %>% 
+  select(-isdir, -mode) %>% 
+  kable(, format = "latex", booktabs = TRUE, 
+        col.names = c("File Name", "Size (Bytes)", "Modified", 
+                      "Last Status Change", "Last Accessed")) %>% 
+  kable_styling() %>% 
+  column_spec(column = 3:5, width = "2cm")
+```
+
+```{r}
+#| label: tbl-datasets
+#| tbl-cap: "Sizes of the Datasets"
+
+data.frame(Dataset = c("Applicants", "Eligible_Applicants", "Thresholds"),
+           N_Rows = c(nrow(Applicants), nrow(Eligible_Applicants), 
+                      nrow(Thresholds)),
+           N_Cols = c(ncol(Applicants), ncol(Eligible_Applicants), 
+                      ncol(Thresholds))) %>% 
+  kable(, format = "latex", booktabs = TRUE, 
+        col.names = c("Dataset", "N Rows", "N Columns")) %>% 
+  kable_styling() 
 ```
 
 \FloatBarrier
