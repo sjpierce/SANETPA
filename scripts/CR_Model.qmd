@@ -211,6 +211,8 @@ library(devtools)       # for session_info()
 library(rmarkdown)      # for pandoc_version()
 library(knitr)          # for kable()
 library(dplyr)          # for %>%, filter(), group_by(), mutate(), rename(), etc.
+library(tidyverse)      # for map_dfr(), map_chr(), rowid_to_column(), 
+                        # rownames_to_column()
 options(kableExtra.latex.load_packages = FALSE)
 library(kableExtra)     # for kable_styling(), add_header_above(), 
                         # column_spec(), row_spec() etc. 
