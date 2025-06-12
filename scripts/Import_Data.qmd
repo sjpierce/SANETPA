@@ -161,7 +161,8 @@ library(here)           # for here(), i_am(), makes code more portable.
 library(rmarkdown)      # for pandoc_version()
 library(knitr)          # for kable()
 library(dplyr)          # for %>%, filter(), group_by(), mutate(), rename(), etc.
-library(tidyverse)      # for map_dfr(), map_chr(), rowid_to_column()
+library(tidyverse)      # for map_dfr(), map_chr(), rowid_to_column(), 
+                        # rownames_to_column()
 library(haven)          # for read_SPSS()
 library(labelled)       # for var_label()
 options(kableExtra.latex.load_packages = FALSE)
