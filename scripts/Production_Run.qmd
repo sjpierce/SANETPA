@@ -187,6 +187,39 @@ chunk.end <- proc.time()
 chunk.end - chunk.start
 ```
 
+## Descriptive_Analyses.qmd
+Work on this script has begun but is not complete. The results in the output 
+produced by the descriptive analyses script do not answer the research questions 
+but instead provide basic information about the sample and the data that may be 
+reported in the manuscript or supplemental files. 
+
+``` {r}
+#| label: Descriptive-Analyses
+#| eval: true
+
+# Memory garbage collection (for more consistent chunk timing).
+gc()
+
+# Start chunk timer.
+chunk.start <- proc.time()
+
+OutFile <- paste0("Descriptive_Analyses_", Sys.Date(), ".pdf")
+
+# Render the script in a fresh R session.
+quarto_render(input = here::here("scripts/Descriptive_Analyses.qmd"), 
+              output_format = "pdf",
+              output_file = OutFile, 
+              execute_params = list(SourceDir = params$SourceDir, 
+                                    SourceFile = "Descriptive_Analyses.qmd", 
+                                    LogFile = OutFile),
+              execute_dir = here::here("scripts"),
+              as_job = "auto")
+
+# End chunk timer
+chunk.end <- proc.time()
+chunk.end - chunk.start
+```
+
 ## Continuation-Ratio Model
 Work on this script has begun but is not yet complete. The modeling script seeks 
 to answer several of the research questions. 
