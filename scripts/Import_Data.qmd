@@ -300,7 +300,7 @@ useful depending on the summary desired.
 
 \FloatBarrier
 
-## Create `Applicants` Dataset
+## Create Applicants Dataset
 This section creates the `Applicants` data frame from an updated version of the 
 `Applicants_Raw` data frame. These changes prepare the data for the planned 
 analyses by applying more consistent and convenient naming conventions, updating 
@@ -536,7 +536,7 @@ kable(ApplicantsVars, format = "latex", booktabs = TRUE, longtable = TRUE) %>%
 
 \FloatBarrier
 
-## Create `Eligible_Applicants` Dataset
+## Create Eligible Applicants Dataset
 The study's focus is on examining attrition among eligible applicants. The 
 research team believes that the recruitment materials were sufficiently clear 
 about the program's eligibility criteria, so while it will be useful to report 
@@ -553,7 +553,7 @@ Eligible_Applicants <- Applicants %>%
   filter(Stage_Raw >= 2)
 ```
 
-## Create Person-Threshold Dataset
+## Create Thresholds Dataset
 This study will use a stopping-ratio model, which is also called a forward 
 continuation-ratio model or a stage model [@Fullerton-RN8774; @Liu-RN8772]. To 
 run the planned model, we first reorganize the data from one row per person to
