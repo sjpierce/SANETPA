@@ -1,5 +1,15 @@
 # SANETPA News 
 
+## 0.9.0, 2025-06-11
+* `scripts/_quarto.yml`
+    *  Updated render key list of scripts.
+* `scripts/CR_Model.qmd`
+    * Improve narrative text and add stage diagram.
+* `scripts/Descriptive_Analyses.qmd`
+    * Added table footnote.
+* `scripts/Import_Data.qmd`
+    * Improve narrative text. 
+
 ## 0.8.0, 2025-06-06
 * `scripts/Descriptive_Analyses.qmd`
     * Added file. 
