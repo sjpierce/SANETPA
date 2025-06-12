@@ -113,11 +113,59 @@ knitr:                                # Default R knitr package chunk options
 # Purpose
 This file is part of a research compendium [@Pierce-RN8756] associated with a 
 study about a sexual assault nurse examiner training program [@Dontje-RN8757]. 
-It reads an R data file created by another script in this compendium, documents 
-some methodology decisions and details, then runs the continuation-ratio models
-that comprise the main analysis for the study. This file also contains some 
-narrative interpretation of the results and supplementary output such as tables 
-and graphs derived from the models. 
+The study aims to document rates of attrition at four points during the 
+program and understand predictors of attrition at each of those points. 
+
+This file reads an R data file created by another script in this compendium,
+documents some methodology decisions and details, then runs the
+continuation-ratio models that comprise the main analysis for the study. This
+file also contains some narrative interpretation of the results and
+supplementary output such as tables and graphs derived from the models.
+
+# Research Questions
+The research questions may be briefly stated as follows:
+
+* **RQ1.** What are the attrition rates from the program at each of the four 
+  thresholds representing transitions between stages of program participation?
+* **RQ2.** How much do the following factors predict attrition rates at each 
+  those four thresholds? 
+    * Whether the trainee practices nursing in a rural area.
+    * Whether the trainee perceives a lack of other local resources for 
+      survivors of sexual assault.
+    * Whether the trainee has a personal connection to the issue of sexual 
+      assault. 
+    * Whether there are other outside demands on a trainee's time.
+    * The trainee's level of exposure to vicarious trauma. 
+* **RQ3.** Which predictors have parallel effects (constant across thresholds) 
+  on attrition and which ones have non-parallel (threshold-specific) effects?
+* **RQ4.** How strongly is starting each of specific modules in the didactic 
+  training associated with attrition during the didactic training? 
+* **RQ5.** Is starting the module on the physical exam of a sexual assault 
+  survivor a particularly strong predictor of attrition during the didactic 
+  training? Program staff think encountering the content of this module may be a 
+  crucial event that drives trainees to attrit. 
+
+::: {.callout-tip}
+This file addresses research questions RQ1, RQ2, and RQ3 because those are best 
+handled via continuation-ratio models. Research questions RQ4 and RQ5 will be 
+answered in another file because they are better handled with different 
+statistical methods. 
+:::
+
+::: {.callout-note}
+The investigators and the program staff have explicitly decided that the 
+following potential predictors are not of substantive interest and should not be
+pursued in this paper.
+
+* Trainee satisfaction with the training is not of interest because there is 
+  such low variance that it would likely exhibit ceiling effects. 
+* Trainee's learning scores in the didactic training and clinical skills 
+  workshop are not of interest. 
+* Trainee demographics (sex, age, race, etc.) are not of interest because the 
+  team wants to focus on analyzing predictors that have more intrinsic meaning 
+  and for which there are theoretical reasons to expect effects on attrition. 
+
+:::
 
 \FloatBarrier
 
@@ -204,12 +252,105 @@ load(file=here("data/Imported_SANETP_Data.RData"))
 
 \FloatBarrier
 
-# Continuation-Ratio Modeling {#sec-CR-Modeling}
-Participants' progress through the training program can be measured by an 
-ordinal stage variable that identifies the maximum stage reached in a sequential 
-selection process. 
+# Overview of Continuation-Ratio Modeling {#sec-CR-Modeling}
+Attrition from the training program can be conceptualized as a sequential 
+filtering process. There are various threshold points between stages of program 
+participation where a participant may either attrit or continue participating.
+Each of those thresholds is a filter: participants that attrit at a given 
+threshold are filtered out of the program. That reduces the number of
+participants who reach the next stage of program participation and encounter the
+next threshold.
+
+That means an eligible applicant's progress through the training program can be
+measured by an ordinal stage variable that records the maximum stage reached by
+the applicant in that sequential filtering process. In this study, the ordinal 
+variable is called `Stage_Reached`. It is a multinomial ordinal variable with 
+$J = 5$ possible stages and observed values denoted by stage $j$, where 
+$j \in \{1, 2, 3, 4, 5\}$. 
+
+@fig-Stages shows the final set of stages and thresholds (T1 to T4) between them
+at which attrition from the training program could occur. The arrows associated
+with each threshold are labeled according to how the outcome variable is coded
+on the corresponding person-threshold record, depending on whether the person
+stopped participating at the current stage or moved on to the next stage. 
+
+```{dot}
+//| label: fig-Stages
+//| fig-cap: Stages, Thresholds (T1-T4), and Stopping Ratios (SR1-SR4) in the 
+//|          SANE Training Program. CSW, clinical skills workshop; DT, didactic 
+//|          training.
+//| fig-width: 6
+//| fig-height: 3
+
+digraph StagesModeled {
+
+graph [rankdir="LR"];
+
+node [shape = "box", style= "filled", fillcolor = "Gray90", fontsize = "7"];
+A1 [label = "Attrited 1\nNot Enrolled\nSR1"]
+A2 [label = "Attrited 2\nBefore DT\nSR2"]
+A3 [label = "Attrited 3\nDuring DT\nSR3"]
+A4 [label = "Attrited 4\nBefore CSW\nSR4"]
+
+S1 [label = "Stage 1\nEligible\nj = 1"]
+S2 [label = "Stage 2\nEnrolled\nj = 2"]
+S3 [label = "Stage 3\nStarted DT\nj = 3"]
+S4 [label = "Stage 4\nFinished DT\nj = 4"]
+S5 [label = "Stage 5\nFinished CSW\nj = 5"]
+
+edge [fontsize = "7"];
+
+S1 -> A1 [label = "T1\nAttrit = 1"]
+S2 -> A2 [label = "T2\nAttrit = 1"]
+S3 -> A3 [label = "T3\nAttrit = 1"]
+S4 -> A4 [label = "T4\nAttrit = 1"]
+
+S1 -> S2 [label = "Attrit = 0"]
+S2 -> S3 [label = "Attrit = 0"]
+S3 -> S4 [label = "Attrit = 0"]
+S4 -> S5 [label = "Attrit = 0"]
+}
+```
+
+There are several variations of regression models designed to analyze ordinal
+outcomes: they test different hypotheses, estimate different parameters, and
+yield different insights [@Fullerton-RN8774]. The research questions for this
+study are best aligned with a broad class of ordinal regression models usually
+called continuation-ratio (CR) models, though they are also called 
+stopping-ratio (SR) models or stage models 
+[@Fullerton-RN8774; @Liu-RN8772; @Yee-RN3711]. The CR model is ideally suited
+for ordinal outcome data generated from a sequential selection process where all
+individuals start from the same initial stage, must pass through earlier stages
+to reach later ones, and all stage transitions are irreversible
+[@Fullerton-RN8774; @OConnell-RN8769]. 
+
+One key to understanding CR models is that they divide the analysis of a single 
+ordinal outcome into a series of binary outcomes regarding what happens at each 
+of the thresholds between stages
 
 
+a set of transitions between stages
+
+@Liu-RN8772 distinguished between forward and backward types of CR models and 
+emphasized that each type can be expressed in two different sub-models depending 
+on which of the two complementary conditional probabilities for a binary event 
+one wants to emphasize (odds versus inversed odds). Regression coefficients 
+from the two sub-models of the same type of CR model (forward or backward) have 
+the same magnitude but opposite signs. The sub-models for a given type (e.g., 
+forward) will also have the same model fit. However, results and interpretation 
+will differ between types: the forward and backward CR models are not equivalent 
+because they test different hypotheses. 
+
+
+Because our focus is on predicting attrition--which stops a trainee's 
+progression to the next stage of program participation--we will use the SR 
+nomenclature in most cases. 
+
+
+
+The SR model is attractive because its parameters can be translated into 
+additional estimates and graphs that are easy to interpret and meaningful for 
+assessing the effects of predictors on program attrition.
 
 [@Cole-RN8770]
 
@@ -223,13 +364,6 @@ selection process.
 
 [@Smithson-RN2775]
 
-Because the stage of program participation reach 
-at which We will use an ordinal regression approach called model 
-
-The continuation-ratio model is a regression model specifically designed for ordinal
-outcome data generated from a sequential selection process (O’Connell, 2006, ch. 5).
-The model parameters can be translated into additional estimates and graphs that are
-easy to interpret and meaningful for assessing the validity and characteristics of the selfassessment.
 
 \FloatBarrier
 
