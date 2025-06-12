@@ -544,13 +544,16 @@ an eligibility rate, they have no substantive interest examining predictors of
 ineligibilty. 
 
 For modeling purposes, we need to subset the data to create an 
-`Eligible_Applicants` dataset. 
+`Eligible_Applicants` dataset. Along the way, we create a centered form of the
+`ProQOL_STS` variable that we'll use in modeling because we expect to test 
+interaction terms involving that variable.  
 
 ```{r}
 #| label: create-Eligible-Applicants
 
 Eligible_Applicants <- Applicants %>% 
-  filter(Stage_Raw >= 2)
+  filter(Stage_Raw >= 2) %>% 
+  mutate(Centered_STS = ProQOL_STS - mean(ProQOL_STS, na.rm = TRUE))
 ```
 
 ## Create Thresholds Dataset
