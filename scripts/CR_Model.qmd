@@ -534,6 +534,36 @@ emmeans(m1, specs = ~ Threshold_T, regrid = "response") %>%
            threeparttable = TRUE)
 ```
 
+## Model 2: Thresholds & Parallel Effects for Focal Predictors
+In SR models, a predictor has a parallel effect when its regression coefficient 
+is constrained equal across all thresholds. Thus, the predictor only has a 
+main effect and does not interact with the threshold. 
+
+::: {.callout-tip}
+* We need all focal predictors to have only main effects in this model to get 
+  parallel effects. 
+* We can probably use `emmeans()` or `predict()` to get conditional rates for 
+  plotting effects. 
+    
+:::
+
+## Model 3: Thresholds & Non-Parallel Effects for Focal Predictors
+In SR models, a predictor has a non-parallel effect when its regression 
+coefficient is allowed to vary across all thresholds. Thus, the predictor has a 
+main effect and an interaction with the threshold. 
+
+::: {.callout-tip}
+* We need all focal predictors to have both main effects and interactions with 
+  threshold in this model to get non-parallel effects. Main effects are 
+  required for proper estimation of the interaction. 
+* Continuous predictors must be appropriately centered before model fitting.
+* We can probably use either `emmeans()` or `glht()` to get contrasts that 
+  clarify simple slopes for interactions. 
+* We can probably use `emmeans()` or `predict()` to get conditional rates for 
+  plotting effects. 
+    
+:::
+
 # References
 ::: {#refs}
 :::
