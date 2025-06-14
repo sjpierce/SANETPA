@@ -1,5 +1,29 @@
 # SANETPA News 
 
+## 0.10.0, 2025-06-12
+* `scripts/CR_Model.qmd`
+    * Load more R packages. 
+    * Enable load-data chunk, add tables about the data file and datasets it 
+      contains.
+    * Improve narrative text. 
+    * Add Prepare Data section.
+    * Add Results section, with initial draft of Model 1. 
+    * Add subsections for Models 2 and 3 as placeholders. 
+* `scripts/Descriptive_Analyses.qmd`
+    * Add a frequency table for setting. 
+    * Improve narrative text. 
+* `scripts/Import_Data.qmd`
+    * Update comments about R packages loaded.
+    * Improve headings. 
+* `scripts/Production_Run.qmd`
+    * Improved narrative text. 
+    * Enabled chunks for import & modeling scripts. 
+    * Add chunk for descriptive analyses script.
+    * Updated data flow diagram. 
+    * Add a callout about pending tasks. 
+* `scripts/references.bib`
+    * Updated software version and citation data. 
+
 ## 0.9.0, 2025-06-11
 * `scripts/_quarto.yml`
     *  Updated render key list of scripts.
@@ -9,6 +33,8 @@
     * Added table footnote.
 * `scripts/Import_Data.qmd`
     * Improve narrative text. 
+* `scripts/references.bib`
+    * Added references. 
 
 ## 0.8.0, 2025-06-06
 * `scripts/Descriptive_Analyses.qmd`

@@ -1,7 +1,7 @@
 Package: SANETPA
 Title: Research Compendium for a Study of Sexual Assault Nurse Examiner Training Program Attrition
-Version: 0.9.0
-Date: 2025-06-11
+Version: 0.10.0
+Date: 2025-06-13
 Authors@R: 
     person(given = c("Steven", "J."),
            family = "Pierce",
