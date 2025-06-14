@@ -418,6 +418,122 @@ assessing the effects of predictors on program attrition.
 
 \FloatBarrier
 
+# Results
+Below we fit and examine a series of stopping-ratio models using the 
+`Thresholds` dataset and the `glm()` function. The modeling strategy aims to 
+estimate the minimum number of models required to answer research questions 
+RQ1, RQ2, and RQ3 and obtain a parsimonious final model. We examine model 
+diagnostics and fit statistics, model comparisons, and other supplementary 
+output (e.g., effect sizes, estimated marginal means, etc.) as needed. 
+
+## Model 1: Thresholds Alone
+The modeling starts by first fitting a very simple model (`m1`) containing only 
+a threshold main effect. Using only `Threshold_T` as a predictor and omitting 
+the normal intercept term allows us to estimate a separate intercept for each 
+threshold. @tbl-params-m1 shows the the model parameters and @tbl-fit-m1 shows 
+its fit statistics. 
+
+```{r}
+#| label: display-num
+
+display_num <- function(x) {
+  case_when(x >= 1000000 ~ sprintf("%.2e", x),
+            x < .001 ~ sprintf("%.2e", x),
+            .default = sprintf("%.3f", x)) 
+}
+```
+
+```{r}
+#| label: tbl-params-m1
+#| tbl-cap: "Model 1 Parameters"
+
+m1 <- glm(Attrit ~ Threshold_T - 1, data = Thresholds, 
+          family = binomial(link = "logit"))
+#summary(m1)
+
+FN <- paste("Values shown are on the link function (logit) scale.",
+            "Likelihood profile confidence intervals are reported.")
+
+tidy(m1) %>% 
+  cbind(confint.default(m1)) %>% 
+  as_tibble() %>% 
+  rename(Parameter = term, Est = estimate, SE = std.error, z = statistic, 
+         p = p.value, LL = `2.5 %`, UL = `97.5 %`) %>% 
+  mutate(p = display_num(p),
+         OR = exp(Est), 
+         OR.LL = exp(LL), 
+         OR.UL = exp(UL)) %>% 
+  relocate(Parameter, Est, SE, LL, UL, OR, OR.LL, OR.UL, z, p) %>% 
+  kable(format = "latex", booktabs = TRUE, digits = 2) %>% 
+  kable_styling() %>% 
+  add_header_above(header = c(" " = 3, "95% Wald CI" = 2, " " = 1, 
+                              "OR 95% Wald CI" = 2, "Wald Test" =  2))
+```
+```{r}
+#| label: tbl-fit-m1
+#| tbl-cap: "Model 1 Fit Statistics"
+
+glance(m1) %>% 
+  kable(format = "latex", booktabs = TRUE, 
+        digits = c(2, 0, 2, 2, 2, 2, 0, 0)) %>% 
+  kable_styling()
+```
+
+::: {.callout-tip}
+* We can probably use either `emmeans()` or `glht()` to get contrasts that 
+  clarify simple slopes for interactions. 
+* We can probably use `emmeans()` or `predict()` to get conditional rates for 
+  plotting effects. 
+    
+:::
+
+### Single Term Deletion Tests
+@tbl-anova-m1 shows the effect of deleting specific terms from the model to 
+determine whether doing so worsens model fit. Significant effects should be 
+retained in the model because omitting them would damage the model fit.
+
+```{r}
+#| label: tbl-anova-m1
+#| tbl-cap: "Model 1 Single Term Deletion Tests (Type II SS)"
+#| warning: false
+
+m1 %>% 
+  drop1(., test = "LRT") %>% 
+  tidy() %>% 
+  rename(p = p.value) %>% 
+  mutate(p = display_num(p)) %>% 
+  kable(format = "latex", booktabs = TRUE,
+        digits = c(0, 0, 2, 2, 2, Inf),
+        col.names = c("Term Deleted", "df", "Deviance", "AIC", "LRT", "p")) %>% 
+  kable_styling() 
+```
+
+### Estimated Marginal Means
+Because `Threshold_T` is the sole predictor, we get estimated marginal means 
+(EMMs) based on the intercept parameters that can be back-transformed to the
+response (probability) scale. These directly estimate the attrition rate at each
+threshold and agree with the simple descriptive statistics for percent attrition
+at each threshold. @tbl-emmeans-m1 shows the EMMs. 
+
+```{r}
+#| label: tbl-emmeans-m1
+#| tbl-cap: "Model 1 Conditional Attrition Rate by Threshold"
+
+FN <- paste("Values are on the probability scale.",
+            "EMM, estimated marginal mean.")
+
+emmeans(m1, specs = ~ Threshold_T, regrid = "response") %>% 
+  as_tibble() %>% 
+  select(!df) %>% 
+  kable(format = "latex", booktabs = TRUE, 
+        digits = c(0, 3, 3, 3, 3),
+        col.names = c("Threshold", "Rate (EMM)", "SE", "LL", "UL")) %>% 
+  kable_styling() %>% 
+  add_header_above(header = c(" " = 3, "95% Wald CI" = 2)) %>% 
+  footnote(kable_input = ., general = FN, footnote_as_chunk = TRUE, 
+           threeparttable = TRUE)
+```
+
 # References
 ::: {#refs}
 :::
