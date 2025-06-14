@@ -292,6 +292,18 @@ data.frame(Dataset = c("Applicants", "Eligible_Applicants", "Thresholds"),
 
 \FloatBarrier
 
+# Prepare Data
+
+```{r}
+#| label: prepare-data
+
+Thresholds <- Thresholds %>% 
+  # Convert variables to factors
+  mutate(Threshold_T = factor(Threshold))
+```
+
+\FloatBarrier
+
 # Overview of Continuation-Ratio Modeling {#sec-CR-Modeling}
 Attrition from the training program can be conceptualized as a sequential 
 filtering process. There are various threshold points between stages of program 
@@ -403,7 +415,6 @@ assessing the effects of predictors on program attrition.
 [@Liu-RN8771]
 
 [@Smithson-RN2775]
-
 
 \FloatBarrier
 
