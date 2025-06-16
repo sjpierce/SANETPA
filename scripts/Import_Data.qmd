@@ -328,6 +328,19 @@ could break down due to insufficient outcome variability at that threshold).
 Treating that case as having stopped at finishing the didactic training 
 (`Stage_Raw` = 5; `Stage_Reached` = 4) should avoid that problem.
 
+::: {.callout-important}
+The raw `practicset_dem_num` variable was coded into 4 categories (Urban, Rural,
+Suburban, Tribal) but initial descriptive analyses revealed that there are too 
+few observations to use Tribal as a separate category. The study investigators 
+decided that omitting the small number of participants who practice in nursing 
+Tribal settings was inappropriate. Feedback from project stakeholders led them 
+to combine Rural and Tribal categories because those categories represent
+settings most similar in size. However, we must acknowledge in our paper that
+this glosses over important cultural differences between Rural and Tribal
+settings. It is an imperfect way to include data from those participants, but we
+have no better option.
+:::
+
 ```{r}
 #| label: create-value-labels
 
@@ -347,6 +360,9 @@ Stage_Raw_value_labels <- c(`Applied` = 1, `Eligible` = 2, `Enrolled` = 3,
 Stage_Reached_value_labels <- c(`Eligible` = 1, `Enrolled` = 2, 
                                 `Started DT` = 3, `Finished DT` = 4, 
                                 `Finished CSW` = 5)
+
+# Final settings to be modeled
+Setting_Labels <- c("Urban" = 1, "Rural/Tribal" = 2, "Suburban" = 3)
 ```
 
 ```{r}
@@ -355,7 +371,6 @@ Stage_Reached_value_labels <- c(`Eligible` = 1, `Enrolled` = 2,
 Applicants <- Applicants_Raw %>% 
   rename(Education = educ_dem_num,
          License = license_num,
-         Setting = practicset_dem_num,
          Employ_Status = employment_dem_num,
          Employ_Nurse = employednurse_dem_num,
          Nurse_Years = nursexperience_years,
@@ -496,6 +511,10 @@ Applicants <- Applicants_Raw %>%
                                    Stage_Raw == 6 ~ 4,
                                    Stage_Raw == 7 ~ 5,
                                    .default = NA)) %>% 
+  # Recode practicset_dem_num into Setting, combining Rural & Tribal categories.
+  mutate(Setting = if_else(practicset_dem_num %in% c(2,4), 
+                           true = 2, 
+                           false = practicset_dem_num)) %>% 
   set_variable_labels(ID = "Applicant ID (may be blank if application was incomplete)",
                       NPQ_1_r = "I am happy. (reverse coded)", 
                       NPQ_4_r = "I feel connected to others. (reverse coded)", 
@@ -503,7 +522,8 @@ Applicants <- Applicants_Raw %>%
                       NPQ_17_r = "I am the person I always wanted to be. (reverse coded)",
                       NPQ_29_r = "I am a very caring person. (reverse coded)",
                       Stage_Raw = "Stage Reached by Participant (Raw Values)",
-                      Stage_Reached = "Maximum Stage Reached by Participant (Recoded)") %>% 
+                      Stage_Reached = "Maximum Stage Reached by Participant (Recoded)",
+                      Setting = "How would you describe the primary setting you practice nursing in? (recoded)") %>% 
   set_value_labels(NPQ_1_r = reversed_NPQ_value_labels, 
                    NPQ_4_r = reversed_NPQ_value_labels, 
                    NPQ_15_r = reversed_NPQ_value_labels,
@@ -511,7 +531,8 @@ Applicants <- Applicants_Raw %>%
                    NPQ_29_r = reversed_NPQ_value_labels,
                    Stage_Raw = Stage_Raw_value_labels,
                    Stage_Reached = Stage_Reached_value_labels,
-                   Eligible = Binary_Labels)
+                   Eligible = Binary_Labels,
+                   Setting = Setting_Labels)
 ```
 
 The imported `Applicants` data frame has `r nrow(Applicants)` rows and 
