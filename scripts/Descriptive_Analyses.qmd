@@ -335,18 +335,48 @@ xtabs(~as_factor(Stage_Reached), addNA = TRUE,
            threeparttable = TRUE)
 ```
 
-@tbl-Setting shows the frequency distribution for the setting stage where 
-eligible applicants practice. 
+@tbl-Setting-original shows the frequency distribution for the setting where 
+eligible applicants practice in its original coding. It shows that the Tribal 
+category is too small to model as a separate level,, so we need to combine it 
+with another category. 
 
 ```{r}
-#| label: tbl-Setting
-#| tbl-cap: Practice Setting Frequency Distribution Among Eligible Applicants
+#| label: tbl-Setting-original
+#| tbl-cap: Original Practice Setting Frequency Distribution Among Eligible Applicants
 
 # Footnote text. 
 FN <- paste("Denominator for percents is total number of eligible applicants.")
 
-xtabs(~as_factor(Setting), addNA = TRUE, 
+xtabs(~as_factor(practicset_dem_num), addNA = TRUE, 
       data = Eligible_Applicants) %>% 
+  addmargins() %>% 
+  as.data.frame() %>% 
+  rename(practicset_dem_num = as_factor.practicset_dem_num.) %>% 
+  mutate(Percent = 100*Freq/nrow(Eligible_Applicants),
+         Cumulative = if_else(practicset_dem_num == "Sum", 
+                              true = 100, 
+                              false = cumsum(Percent))) %>% 
+  kable(format = "html", booktabs = TRUE, digits = 1,
+        col.names = c("practicset_dem_num", "Freq", "%", "Cumulative %")) %>% 
+  kable_styling() %>% 
+  row_spec(row = 5, italic = TRUE) %>% 
+  footnote(kable_input = ., general = FN, footnote_as_chunk = TRUE, 
+           threeparttable = TRUE)
+```
+
+@tbl-Setting-recoded shows the updated frequency distribution it after 
+collapsing the Rural and Tribal categories together. This glosses over important 
+cultural differences between those settings, but these are the two settings most 
+similar in size. 
+ 
+```{r}
+#| label: tbl-Setting-recoded
+#| tbl-cap: Recoded Practice Setting Frequency Distribution Among Eligible Applicants
+
+# Footnote text. 
+FN <- paste("Denominator for percents is total number of eligible applicants.")
+
+xtabs(~as_factor(Setting), addNA = TRUE, data = Eligible_Applicants) %>% 
   addmargins() %>% 
   as.data.frame() %>% 
   rename(Setting = as_factor.Setting.) %>% 
@@ -355,9 +385,9 @@ xtabs(~as_factor(Setting), addNA = TRUE,
                               true = 100, 
                               false = cumsum(Percent))) %>% 
   kable(format = "html", booktabs = TRUE, digits = 1,
-        col.names = c("Setting", "Freq", "%", "Cumulative %")) %>% 
+        col.names = c("Setting (Recoded)", "Freq", "%", "Cumulative %")) %>% 
   kable_styling() %>% 
-  row_spec(row = 5, italic = TRUE) %>% 
+  row_spec(row = 4, italic = TRUE) %>% 
   footnote(kable_input = ., general = FN, footnote_as_chunk = TRUE, 
            threeparttable = TRUE)
 ```
