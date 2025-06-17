@@ -1,6 +1,17 @@
 # SANETPA News 
 
-## 0.10.0, 2025-06-12
+## 0.11.0
+* `README.qmd` and `README.md`
+    * Update software version & citation info.
+* `scripts/Import_Data.qmd`
+    * Recode practicset_dem_num into Setting & combine Rural and Tribal 
+      categories along the way.
+* `scripts/Descriptive_Analyses.qmd`
+    * Update to show original vs recoded setting frequency distributions. 
+* `scripts/references.bib`
+    * Updated software version and citation data. 
+
+## 0.10.0, 2025-06-13
 * `scripts/CR_Model.qmd`
     * Load more R packages. 
     * Enable load-data chunk, add tables about the data file and datasets it 
