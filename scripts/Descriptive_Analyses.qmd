@@ -356,7 +356,7 @@ xtabs(~as_factor(practicset_dem_num), addNA = TRUE,
          Cumulative = if_else(practicset_dem_num == "Sum", 
                               true = 100, 
                               false = cumsum(Percent))) %>% 
-  kable(format = "html", booktabs = TRUE, digits = 1,
+  kable(format = "latex", booktabs = TRUE, digits = 1,
         col.names = c("practicset_dem_num", "Freq", "%", "Cumulative %")) %>% 
   kable_styling() %>% 
   row_spec(row = 5, italic = TRUE) %>% 
@@ -384,7 +384,7 @@ xtabs(~as_factor(Setting), addNA = TRUE, data = Eligible_Applicants) %>%
          Cumulative = if_else(Setting == "Sum", 
                               true = 100, 
                               false = cumsum(Percent))) %>% 
-  kable(format = "html", booktabs = TRUE, digits = 1,
+  kable(format = "latex", booktabs = TRUE, digits = 1,
         col.names = c("Setting (Recoded)", "Freq", "%", "Cumulative %")) %>% 
   kable_styling() %>% 
   row_spec(row = 4, italic = TRUE) %>% 
