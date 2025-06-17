@@ -91,7 +91,7 @@ necessary because the main branch of the package repository is stored on GitHub.
 You will need to be able to use Git and GitHub to synchronize changes between 
 your local copy of the repository and GitHub. 
 
-### Install R 4.5.0 or later. 
+### Install R 4.5.1 or later. 
 You can get the most recent version of R [@R-Devel-Core-RN8182] from the 
 [Comprehensive R Archive Network (CRAN)](https://cran.r-project.org/). 
 
@@ -112,7 +112,7 @@ built-in support for using some of the other software discussed below.
 ### Install Quarto
 We rely on [Quarto](https://quarto.org) [@Allaire-RN8427] scripts to enhance 
 reproducibility because they provide excellent support for generating dynamic 
-reports [@Mair-RN3387]. Install Quarto version 1.7.31 or later. Although 
+reports [@Mair-RN3387]. Install Quarto version 1.7.32 or later. Although 
 RStudio bundles a version of Quarto, we want the most recent stable release 
 instead. Quarto also includes a copy of [Pandoc](https://pandoc.org/).
 
