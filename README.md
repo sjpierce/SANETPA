@@ -687,7 +687,7 @@ J. A. (2016). Ten simple rules for taking advantage of Git and GitHub.
 
 Pierce, S. J. (2025). *SANETPA: Research compendium for a study of
 sexual assault nurse examiner training program attrition* (Version
-0.11.0) \[Reproducible Research Materials and Computer Program, R
+0.12.0) \[Reproducible Research Materials and Computer Program, R
 package, Private Repository Until Release\]. GitHub.
 <https://github.com/sjpierce/SANETPA>
 
@@ -712,7 +712,7 @@ Software, PBC. <https://posit.co>
 <div id="ref-Torvalds-RN3929" class="csl-entry">
 
 Torvalds, L., Hamano, J. C., & other contributors to the Git Project.
-(2025). *Git for Windows* (Version 2.49.0(1)) \[Computer Program\].
+(2025). *Git for Windows* (Version 2.50.0(1)) \[Computer Program\].
 Software Freedom Conservancy. <https://git-scm.com>
 
 </div>
