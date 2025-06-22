@@ -159,15 +159,15 @@ library(here)           # for here(), i_am(), makes code more portable.
 library(rmarkdown)      # for pandoc_version()
 library(knitr)          # for kable()
 library(dplyr)          # for %>%, filter(), group_by(), mutate(), rename(), etc.
-library(tidyverse)      # for map_dfr(), map_chr(), rowid_to_column()
-library(haven)          # for read_SPSS()
+library(tidyverse)      # for map_dfr(), map_chr(), rowid_to_column(), etc.
+library(haven)          # for as_factor()
 library(labelled)       # for var_label()
 options(kableExtra.latex.load_packages = FALSE)
 library(kableExtra)     # for kable_styling(), add_header_above(), 
                         # column_spec(), row_spec() etc. 
-library(kableExtra)     # for kable_styling 
 library(piercer)        # for git_report(), which_latex()
 library(PropCIs)        # for scoreci()
+library(psych)          # for alpha()
 library(quarto)         # for quarto_version()
 library(SANETPA)        # for version info 
 ```
