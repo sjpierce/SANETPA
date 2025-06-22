@@ -1,5 +1,22 @@
 # SANETPA News 
 
+## 0.12.0
+* `README.qmd` and `README.md`
+    * Update software version & citation info.
+* `scripts/Descriptive_Analyses.qmd`
+    * Update list of R packages loaded.
+    * Improve narrative text and headings. 
+    * Add more crosstab output.
+    * Assess reliability of Barrier_TD scale. 
+    * Examine predictor distributions.
+* `scripts/Import_Data.qmd`
+    * Compute a Barrier_TD scale score.
+    * Compute centered scale scores for potential predictors. 
+* `scripts/references.bib`
+    * Updated software version and citation data. 
+    * Add a reference for ProQOL manual.
+
+
 ## 0.11.0
 * `README.qmd` and `README.md`
     * Update software version & citation info.
