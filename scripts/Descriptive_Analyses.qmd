@@ -307,6 +307,33 @@ data.frame(No = sum(1 - Applicants$Eligible),
            threeparttable = TRUE)
 ```
 
+@tbl-Time-Demands-Eligible shows the joint distribution of the `Barrier_TD` 
+scale score and the `Eligible` indicator. This allows us to demonstrate that 
+all eligible applicants have observed scale scores in the expected range and all 
+ineligible applicants have missing values. 
+
+```{r}
+#| label: tbl-Time-Demands-Eligible
+#| tbl-cap: Barrier_TD by Eligible Contingency Table
+
+# Footnote text. 
+FN <- paste("The range of possible values for Barrier_TD is [3, 15].",
+            "NA, not available (missing data).")
+
+xtabs(~Barrier_TD + Eligible, addNA = TRUE, data = Applicants) %>% 
+  addmargins() %>% 
+  kable(format = "latex", booktabs = TRUE, 
+        col.names = c("Barrier_TD", "No", "Yes", "Sum")) %>% 
+  kable_styling() %>% 
+  add_header_above(header = c(" ", "Eligible" = 2, " ")) %>% 
+  column_spec(column = 4, italic = TRUE) %>% 
+  row_spec(row = 8, italic = TRUE) %>% 
+  footnote(kable_input = ., general = FN, footnote_as_chunk = TRUE, 
+           threeparttable = TRUE)
+```
+
+\FloatBarrier
+
 # Summaries of Eligible Applicants Data
 @tbl-Stage-Reached shows the frequency distribution for the stage reached among 
 the eligible applicants. This is the stage variable we will use for modeling. 
