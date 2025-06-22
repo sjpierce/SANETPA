@@ -395,6 +395,231 @@ Given the oor to questionable reliability demonstrated by the results above, I
 have asked the investigators whether they still want me to use `Barrier_TD` as a
 predictor in the model.
 
+## Predictor Distributions
+
+\FloatBarrier
+
+### Continuous Predictors
+We plan to use the ProQual compassion (`ProQOL_CS`), burnout (`ProQOL_BO`), and 
+secondary traumatic stress (`ProQOL_STS`) scale scores [@Stamm-RN8775] as 
+predictors, along with a new, custom scale score measuring barriers to 
+participation due to personal and professional demands on applicants' time 
+(`Barrier_TD`). 
+
+@tbl-continuous-vars shows descriptive statistics for each of these 
+continuous predictors, along with corresponding mean-centered versions of each 
+one. Histograms of the undecentered versions of the variables are shown in 
+@fig-ProQOL-BO, @fig-ProQOL-CS, @fig-ProQOL-STS, and @fig-Barrier-TD.
+
+```{r}
+#| label: tbl-continuous-vars
+#| tbl-cap: Descriptive Statistics for Continuous Predictor Variables Among 
+#|          Eligible Applicants
+
+# Footnote text.
+FN <- paste("N_m, number of missing values; N_o, number of observed values.")
+
+VNames <- c("ProQOL_BO", "ProQOL_CS", "ProQOL_STS", "Barrier_TD",
+            "CProQOL_BO", "CProQOL_CS", "CProQOL_STS", "CBarrier_TD")
+VLabels <- rep(c("Burnout", "Compassion Satisfaction", 
+                 "Secondary Traumatic Stress", "Time Demands"), times = 2)
+CNames <- c("Variable", "Construct", "N", "N_m", "N_o", "Mean", "SD", 
+            "Min", "Max")
+
+Eligible_Applicants %>% 
+  select(ID, ProQOL_BO, ProQOL_CS, ProQOL_STS, Barrier_TD, CProQOL_BO,
+         CProQOL_CS, CProQOL_STS, CBarrier_TD) %>% 
+  pivot_longer(cols = c(ProQOL_BO, ProQOL_CS, ProQOL_STS, Barrier_TD, 
+                        CProQOL_BO, CProQOL_CS, CProQOL_STS, CBarrier_TD),
+               names_to = "VarName", 
+               values_to = "Value") %>% 
+  mutate(VarName = factor(VarName, levels = VNames, labels = VNames),
+         Construct = factor(VarName, levels = VNames, labels = VLabels)) %>% 
+  relocate(ID, VarName, Construct) %>% 
+  group_by(VarName, Construct) %>% 
+  summarise(N = n(),
+            N_missing = sum(is.na(Value)), 
+            N_observed = sum(!is.na(Value)), 
+            Mean = mean(Value, na.rm = TRUE),
+            SD = sd(Value, na.rm = TRUE),
+            Min = min(Value, na.rm = TRUE),
+            Max = max(Value, na.rm = TRUE)) %>% 
+  kable(., format = "latex", booktabs = TRUE, digits = 1, 
+        col.names = CNames, row.names = FALSE) %>% 
+  kable_styling() %>% 
+  group_rows(., group_label = "Uncentered Scale Scores", start_row = 1, 
+             end_row = 4, italic = TRUE) %>% 
+  group_rows(., group_label = "Mean-Centered Scale Scores", start_row = 5, 
+             end_row = 8, italic = TRUE) %>% 
+  footnote(kable_input = ., general = FN, footnote_as_chunk = TRUE)
+```
+
+```{r}
+#| label: fig-ProQOL-BO
+#| fig-cap: Histogram of ProQOL Burnout Among Eligible Applicants
+#| fig-width: 5
+#| fig-height: 2.5
+#| warning: false
+
+ggplot(data = Eligible_Applicants, aes(x = ProQOL_BO)) +
+  geom_histogram(aes(y = after_stat(density)), binwidth = 1, color = "black", 
+                 fill = "grey") +
+  geom_density(alpha = .6, fill = "#FF6666") +
+  geom_vline(aes(xintercept = mean(ProQOL_BO, na.rm = TRUE)), color = "blue", 
+             linetype = "solid", linewidth = 1) +
+  geom_vline(xintercept = c(22.5, 41.5), color = "black", linetype = "dashed", 
+             linewidth = 1) +
+  coord_cartesian(xlim = c(10, 50), ylim = c(0, 0.16)) + 
+  scale_x_continuous(breaks = seq(from = 10, to = 50, by = 5)) +
+  scale_y_continuous(breaks = seq(from = 0, to = 0.16, by = 0.02)) +
+  labs(subtitle = "Low / Moderate / High Cutoffs (Dashed Lines)", 
+       x = "ProQOL Burnout", 
+       y = "Density")
+```
+
+```{r}
+#| label: fig-ProQOL-CS
+#| fig-cap: Histogram of ProQOL Compassion Satisfaction Among Eligible Applicants
+#| fig-width: 5
+#| fig-height: 2.5
+#| warning: false
+
+ggplot(data = Eligible_Applicants, aes(x = ProQOL_CS)) +
+  geom_histogram(aes(y = after_stat(density)), binwidth = 1, color = "black", 
+                 fill = "grey") +
+  geom_density(alpha = .6, fill = "#FF6666") +
+  geom_vline(aes(xintercept = mean(ProQOL_CS, na.rm = TRUE)), color = "blue", 
+             linetype = "solid", linewidth = 1) +
+  geom_vline(xintercept = c(22.5, 41.5), color = "black", linetype = "dashed", 
+             linewidth = 1) +
+  coord_cartesian(xlim = c(10, 50), ylim = c(0, 0.16)) + 
+  scale_x_continuous(breaks = seq(from = 10, to = 50, by = 5)) +
+  scale_y_continuous(breaks = seq(from = 0, to = 0.16, by = 0.02)) +
+  labs(subtitle = "Low / Moderate / High Cutoffs (Dashed Lines)", 
+       x = "ProQOL Compassion Satisfaction", 
+       y = "Density")
+```
+
+```{r}
+#| label: fig-ProQOL-STS
+#| fig-cap: Histogram of ProQOL Secondary Traumatic Stress Among Eligible Applicants
+#| fig-width: 5
+#| fig-height: 2.5
+#| warning: false
+
+ggplot(data = Eligible_Applicants, aes(x = ProQOL_STS)) +
+  geom_histogram(aes(y = after_stat(density)), binwidth = 1, color = "black", 
+                 fill = "grey") +
+  geom_density(alpha = .6, fill = "#FF6666") +
+  geom_vline(aes(xintercept = mean(ProQOL_STS, na.rm = TRUE)), color = "blue", 
+             linetype = "solid", linewidth = 1) +
+  geom_vline(xintercept = c(22.5, 41.5), color = "black", linetype = "dashed", 
+             linewidth = 1) +
+  coord_cartesian(xlim = c(10, 50), ylim = c(0, 0.16)) + 
+  scale_x_continuous(breaks = seq(from = 10, to = 50, by = 5)) +
+  scale_y_continuous(breaks = seq(from = 0, to = 0.16, by = 0.02)) +
+  labs(subtitle = "Low / Moderate / High Cutoffs (Dashed Lines)", 
+       x = "ProQOL Secondary Traumatic Stress", 
+       y = "Density")
+```
+
+```{r}
+#| label: fig-Barrier-TD
+#| fig-cap: Histogram of Barrier Time Demands Among Eligible Applicants
+#| fig-width: 5
+#| fig-height: 2.5
+
+ggplot(data = Eligible_Applicants, aes(x = Barrier_TD)) +
+  geom_histogram(aes(y = after_stat(density)), binwidth = 1, color = "black", 
+                 fill = "grey") +
+  geom_density(alpha = .6, fill = "#FF6666") +
+  geom_vline(aes(xintercept = mean(Barrier_TD, na.rm = TRUE)), color = "blue", 
+             linetype = "solid", linewidth = 1) +
+  coord_cartesian(xlim = c(3, 15), ylim = c(0, 0.30)) + 
+  scale_x_continuous(breaks = seq(from = 3, to = 15, by = 1)) +
+  scale_y_continuous(breaks = seq(from = 0, to = 0.30, by = 0.05)) +
+  labs(subtitle = "", 
+       x = "Barrier Time Demands", 
+       y = "Density")
+```
+
+```{r}
+#| label: tbl-continuous-corr
+#| tbl-cap: Pearson Correlation Matrix for Continuous Predictor Variables 
+
+N_used <- Eligible_Applicants %>% 
+  select(ProQOL_BO, ProQOL_CS, ProQOL_STS, Barrier_TD) %>% 
+  na.omit() %>% 
+  nrow()
+
+N_omit <- nrow(Eligible_Applicants) - N_used
+
+FN <- paste0("N = ", N_used, " after listwise deletion of missing data (",
+             N_omit, " observations).")
+
+Eligible_Applicants %>% 
+  select(ProQOL_BO, ProQOL_CS, ProQOL_STS, Barrier_TD) %>% 
+  cor(x = ., use = "complete.obs", method = "pearson") %>% 
+  kable(format = "latex", booktabs = TRUE, digits = 2) %>% 
+  kable_styling() %>% 
+  footnote(kable_input = ., general = FN, footnote_as_chunk = TRUE)
+```
+
+\FloatBarrier
+
+### Categorical Predictors
+@tbl-Motivation-NeedSANE and @tbl-Motivation-PersonalConn respectively show the 
+frequency distributions for `Motivation_NeedSANE` and `Motivation_PersonalConn`, 
+which are both binary variables. 
+
+```{r}
+#| label: tbl-Motivation-NeedSANE
+#| tbl-cap: Motivation_NeedSANE Frequency Distribution Among Eligible Applicants
+
+# Footnote text. 
+FN <- paste("Denominator for percents is total number of eligible applicants.")
+
+Eligible_Applicants %>% 
+xtabs(~as_factor(Motivation_NeedSANE), addNA = TRUE, data = .) %>% 
+  addmargins() %>% 
+  as.data.frame() %>% 
+  rename(Motivation_NeedSANE = as_factor.Motivation_NeedSANE.) %>% 
+  mutate(Percent = 100*Freq/nrow(Eligible_Applicants),
+         Cumulative = if_else(Motivation_NeedSANE == "Sum", 
+                              true = 100, 
+                              false = cumsum(Percent))) %>% 
+  kable(format = "latex", booktabs = TRUE, digits = 1,
+        col.names = c("Motivation_NeedSANE", "Freq", "%", "Cumulative %")) %>% 
+  kable_styling() %>% 
+  row_spec(row = 3, italic = TRUE) %>% 
+  footnote(kable_input = ., general = FN, footnote_as_chunk = TRUE, 
+           threeparttable = TRUE)
+```
+
+```{r}
+#| label: tbl-Motivation-PersonalConn
+#| tbl-cap: Motivation_PersonalConn Frequency Distribution Among Eligible Applicants
+
+# Footnote text. 
+FN <- paste("Denominator for percents is total number of eligible applicants.")
+
+Eligible_Applicants %>% 
+xtabs(~as_factor(Motivation_PersonalConn), addNA = TRUE, data = .) %>% 
+  addmargins() %>% 
+  as.data.frame() %>% 
+  rename(Motivation_PersonalConn = as_factor.Motivation_PersonalConn.) %>% 
+  mutate(Percent = 100*Freq/nrow(Eligible_Applicants),
+         Cumulative = if_else(Motivation_PersonalConn == "Sum", 
+                              true = 100, 
+                              false = cumsum(Percent))) %>% 
+  kable(format = "latex", booktabs = TRUE, digits = 1,
+        col.names = c("Motivation_PersonalConn", "Freq", "%", "Cumulative %")) %>% 
+  kable_styling() %>% 
+  row_spec(row = 3, italic = TRUE) %>% 
+  footnote(kable_input = ., general = FN, footnote_as_chunk = TRUE, 
+           threeparttable = TRUE)
+```
+
 @tbl-Setting-original shows the frequency distribution for the setting where 
 eligible applicants practice in its original coding. It shows that the Tribal 
 category is too small to model as a separate level,, so we need to combine it 
@@ -424,10 +649,10 @@ xtabs(~as_factor(practicset_dem_num), addNA = TRUE,
            threeparttable = TRUE)
 ```
 
-@tbl-Setting-recoded shows the updated frequency distribution it after 
+@tbl-Setting-recoded shows the updated frequency distribution for setting after 
 collapsing the Rural and Tribal categories together. This glosses over important 
-cultural differences between those settings, but these are the two settings most 
-similar in size. 
+cultural differences between those settings, but these two settings are similar 
+in size. 
  
 ```{r}
 #| label: tbl-Setting-recoded
@@ -451,6 +676,8 @@ xtabs(~as_factor(Setting), addNA = TRUE, data = Eligible_Applicants) %>%
   footnote(kable_input = ., general = FN, footnote_as_chunk = TRUE, 
            threeparttable = TRUE)
 ```
+
+\FloatBarrier
 
 # Summaries of Thresholds Data
 @fig-Stages shows the final set of stages and thresholds between them at which
@@ -523,6 +750,8 @@ Thresholds %>%
   footnote(kable_input = ., general = FN, footnote_as_chunk = TRUE, 
            threeparttable = TRUE)
 ```
+
+\FloatBarrier
 
 # References
 ::: {#refs}
