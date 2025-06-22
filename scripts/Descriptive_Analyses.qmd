@@ -247,9 +247,10 @@ data.frame(Dataset = c("Applicants", "Eligible_Applicants", "Thresholds"),
 \FloatBarrier
 
 # Summaries of Applicants Data
-The first thing we need to examine in the `Applicants` data is the distribution 
-for a few key variables. @tbl-Stage-Raw-Eligible shows the crosstabulation of 
-the raw stage variable by the eligibility status. 
+There are `r nrow(Applicants)` rows in the `Applicants` dataset. The first thing
+we need to examine is the distribution for a few key variables.
+@tbl-Stage-Raw-Eligible shows the crosstabulation of the raw stage variable by
+the eligibility status.
 
 ```{r}
 #| label: tbl-Stage-Raw-Eligible
