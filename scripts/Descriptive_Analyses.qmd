@@ -335,6 +335,12 @@ xtabs(~Barrier_TD + Eligible, addNA = TRUE, data = Applicants) %>%
 \FloatBarrier
 
 # Summaries of Eligible Applicants Data
+There are `r nrow(Eligible_Applicants)` rows in the `Eligible_Applicants` 
+dataset. 
+
+\FloatBarrier
+
+## Outcome Distribution
 @tbl-Stage-Reached shows the frequency distribution for the stage reached among 
 the eligible applicants. This is the stage variable we will use for modeling. 
 
