@@ -341,6 +341,24 @@ settings. It is an imperfect way to include data from those participants, but we
 have no better option.
 :::
 
+Below we also need to construct a scale measuring the extent to which personal
+and professional demands on participants' time are a barrier to participation in
+the training program (`Barrier_TD`) using the following three items from the
+training application form:
+* `train_goal_fac_bar_5_numeric`: I have time in my schedule to focus on this 
+  course. 
+* `train_goal_fac_bar_8_numeric`: I have a lot of work responsibilities.
+* `train_goal_fac_bar_5_numeric`: I have a lot of family obligations right now. 
+
+These ordinal Likert-response items are coded (1, strongly disagree; 2, somewhat 
+disagree; 3, neither agree or disagree; 4, somewhat agree; and 5, strongly 
+agree). We want to create an unweighted sum of the items such that large values 
+indicate high external demands on the participant's time, so we must reverse 
+the coding of `train_goal_fac_bar_5_numeric` to (1, strongly agree; 2, somewhat 
+agree; 3, neither agree or disagree; 4, somewhat disagree; and 5, strongly 
+disagree) for that to make sense. This script will construct the sum score, but 
+the descriptive analyses script will assess its reliability. 
+
 ```{r}
 #| label: create-value-labels
 
@@ -363,6 +381,11 @@ Stage_Reached_value_labels <- c(`Eligible` = 1, `Enrolled` = 2,
 
 # Final settings to be modeled
 Setting_Labels <- c("Urban" = 1, "Rural/Tribal" = 2, "Suburban" = 3)
+
+# Reversed training barriers value labels
+Barriers_Reversed_Labels <-  c(`strongly agree` = 1, `somewhat agree` = 2, 
+                               `neither agree nor disagree` = 3, 
+                               `somewhat disagree` = 4, `strongly disagree` = 5)
 ```
 
 ```{r}
@@ -515,6 +538,13 @@ Applicants <- Applicants_Raw %>%
   mutate(Setting = if_else(practicset_dem_num %in% c(2,4), 
                            true = 2, 
                            false = practicset_dem_num)) %>% 
+  # Reverse code an item, then compute a sum score for a new scale. 
+  mutate(Train_Goal_Fac_Bar_5R = 6 - Train_Goal_Fac_Bar_5) %>% 
+  rowwise() %>% 
+  mutate(Barrier_TD = sum(c(Train_Goal_Fac_Bar_5R, Train_Goal_Fac_Bar_8,
+                            Train_Goal_Fac_Bar_10), na.rm = FALSE)) %>% 
+  ungroup() %>% 
+  # Set variable and value labels. 
   set_variable_labels(ID = "Applicant ID (may be blank if application was incomplete)",
                       NPQ_1_r = "I am happy. (reverse coded)", 
                       NPQ_4_r = "I feel connected to others. (reverse coded)", 
@@ -523,7 +553,9 @@ Applicants <- Applicants_Raw %>%
                       NPQ_29_r = "I am a very caring person. (reverse coded)",
                       Stage_Raw = "Stage Reached by Participant (Raw Values)",
                       Stage_Reached = "Maximum Stage Reached by Participant (Recoded)",
-                      Setting = "How would you describe the primary setting you practice nursing in? (recoded)") %>% 
+                      Setting = "How would you describe the primary setting you practice nursing in? (recoded)",
+                      Train_Goal_Fac_Bar_5R = "I have time in my schedule to focus on this course",
+                      Barrier_TD = "Demands on Time Scale Score (3-item sum, possible range [3, 15])") %>% 
   set_value_labels(NPQ_1_r = reversed_NPQ_value_labels, 
                    NPQ_4_r = reversed_NPQ_value_labels, 
                    NPQ_15_r = reversed_NPQ_value_labels,
@@ -532,7 +564,8 @@ Applicants <- Applicants_Raw %>%
                    Stage_Raw = Stage_Raw_value_labels,
                    Stage_Reached = Stage_Reached_value_labels,
                    Eligible = Binary_Labels,
-                   Setting = Setting_Labels)
+                   Setting = Setting_Labels,
+                   Train_Goal_Fac_Bar_5R = Barriers_Reversed_Labels)
 ```
 
 The imported `Applicants` data frame has `r nrow(Applicants)` rows and 
