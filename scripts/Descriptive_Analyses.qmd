@@ -369,6 +369,32 @@ xtabs(~as_factor(Stage_Reached), addNA = TRUE,
            threeparttable = TRUE)
 ```
 
+\FloatBarrier
+
+## Reliability: Barrier Time Demands
+Below we esimate the reliability of a scale measuring the extent to which 
+personal and professional demands on participants' time are a barrier to 
+participation in the training program (`Barrier_TD`) using the following three 
+items from the training application form:
+
+* `Train_Goal_Fac_Bar_5R`: I have time in my schedule to focus on this 
+  course.  
+* `Train_Goal_Fac_Bar_8`: I have a lot of work responsibilities.
+* `Train_Goal_Fac_Bar_10`: I have a lot of family obligations right now. 
+
+```{r}
+#| label: reliability-Barrier-TD
+
+Eligible_Applicants %>% 
+  select(Train_Goal_Fac_Bar_5R, Train_Goal_Fac_Bar_8, Train_Goal_Fac_Bar_10) %>% 
+  as.data.frame() %>% 
+  alpha(x = ., cumulative = TRUE, discrete = TRUE)
+```
+
+Given the oor to questionable reliability demonstrated by the results above, I
+have asked the investigators whether they still want me to use `Barrier_TD` as a
+predictor in the model.
+
 @tbl-Setting-original shows the frequency distribution for the setting where 
 eligible applicants practice in its original coding. It shows that the Tribal 
 category is too small to model as a separate level,, so we need to combine it 
