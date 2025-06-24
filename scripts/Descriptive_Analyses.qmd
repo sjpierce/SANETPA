@@ -412,7 +412,7 @@ xtabs(~as_factor(Train_Goal_Fac_Bar_5R), addNA = TRUE, data = .) %>%
          Cumulative = if_else(Train_Goal_Fac_Bar_5R == "Sum", 
                               true = 100, 
                               false = cumsum(Percent))) %>% 
-  kable(format = "html", booktabs = TRUE, digits = 1,
+  kable(format = "latex", booktabs = TRUE, digits = 1,
         col.names = c("Train_Goal_Fac_Bar_5R", "Freq", "%", "Cumulative %")) %>% 
   kable_styling() %>% 
   row_spec(row = 6, italic = TRUE) %>% 
