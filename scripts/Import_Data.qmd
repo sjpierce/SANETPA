@@ -343,21 +343,25 @@ have no better option.
 
 Below we also need to construct a scale measuring the extent to which personal
 and professional demands on participants' time are a barrier to participation in
-the training program (`Barrier_TD`) using the following three items from the
-training application form:
+the training program (`Barrier_TD`). We considered using the following three 
+items from the training application form:
+
 * `train_goal_fac_bar_5_numeric`: I have time in my schedule to focus on this 
   course. 
 * `train_goal_fac_bar_8_numeric`: I have a lot of work responsibilities.
-* `train_goal_fac_bar_5_numeric`: I have a lot of family obligations right now. 
+* `train_goal_fac_bar_10_numeric`: I have a lot of family obligations right now. 
 
 These ordinal Likert-response items are coded (1, strongly disagree; 2, somewhat 
 disagree; 3, neither agree or disagree; 4, somewhat agree; and 5, strongly 
-agree). We want to create an unweighted sum of the items such that large values 
-indicate high external demands on the participant's time, so we must reverse 
+agree). We wanted to create an unweighted sum of the items such that large 
+values indicate high external demands on the participant's time, so we reversed 
 the coding of `train_goal_fac_bar_5_numeric` to (1, strongly agree; 2, somewhat 
 agree; 3, neither agree or disagree; 4, somewhat disagree; and 5, strongly 
-disagree) for that to make sense. This script will construct the sum score, but 
-the descriptive analyses script will assess its reliability. 
+disagree) for that to make sense. The `Descriptive_Analyses.qmd` script examined 
+the 3 items and the led us to decide to only use the latter two. See the output 
+from that script for why we excluded the first of those items. This script will 
+construct the sum score for the remaining two items, but the descriptive 
+analyses script will assess its reliability. 
 
 ```{r}
 #| label: create-value-labels
@@ -541,8 +545,8 @@ Applicants <- Applicants_Raw %>%
   # Reverse code an item, then compute a sum score for a new scale. 
   mutate(Train_Goal_Fac_Bar_5R = 6 - Train_Goal_Fac_Bar_5) %>% 
   rowwise() %>% 
-  mutate(Barrier_TD = sum(c(Train_Goal_Fac_Bar_5R, Train_Goal_Fac_Bar_8,
-                            Train_Goal_Fac_Bar_10), na.rm = FALSE)) %>% 
+  mutate(Barrier_TD = sum(c(Train_Goal_Fac_Bar_8, Train_Goal_Fac_Bar_10), 
+                          na.rm = FALSE)) %>% 
   ungroup() %>% 
   # Set variable and value labels. 
   set_variable_labels(ID = "Applicant ID (may be blank if application was incomplete)",
@@ -555,7 +559,7 @@ Applicants <- Applicants_Raw %>%
                       Stage_Reached = "Maximum Stage Reached by Participant (Recoded)",
                       Setting = "How would you describe the primary setting you practice nursing in? (recoded)",
                       Train_Goal_Fac_Bar_5R = "I have time in my schedule to focus on this course",
-                      Barrier_TD = "Demands on Time Scale Score (3-item sum, possible range [3, 15])") %>% 
+                      Barrier_TD = "Barrier Time Demands Scale Score (3-item sum, possible range [2, 10])") %>% 
   set_value_labels(NPQ_1_r = reversed_NPQ_value_labels, 
                    NPQ_4_r = reversed_NPQ_value_labels, 
                    NPQ_15_r = reversed_NPQ_value_labels,
