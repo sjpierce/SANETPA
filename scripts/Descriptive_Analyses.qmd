@@ -372,15 +372,106 @@ xtabs(~as_factor(Stage_Reached), addNA = TRUE,
 \FloatBarrier
 
 ## Reliability: Barrier Time Demands
-Below we esimate the reliability of a scale measuring the extent to which 
-personal and professional demands on participants' time are a barrier to 
-participation in the training program (`Barrier_TD`) using the following three 
-items from the training application form:
+We need a measure of the extent to which competing personal and professional
+demands on participants' time are a barrier to completing the training program.
+The program staff believe that this construct (`Barrier_TD`) is likely to be a
+major driver of attrition from the program. Similarly, external stakeholders
+familiar with forensic nursing emphasized competing demands on time/bandwidth as
+a likely factor in attrition. Therefore, It is a high priority to have some 
+measure of `Barrier_TD` in our models. The challenge is operationalizing it. 
 
-* `Train_Goal_Fac_Bar_5R`: I have time in my schedule to focus on this 
-  course.  
+There are three items from the training application form that are good 
+candidates for inclusion in the scale. 
+
+* `Train_Goal_Fac_Bar_5R`: I have time in my schedule to focus on this course.  
 * `Train_Goal_Fac_Bar_8`: I have a lot of work responsibilities.
 * `Train_Goal_Fac_Bar_10`: I have a lot of family obligations right now. 
+
+These ordinal Likert-response items are all coded such that low values indicate 
+few barrier time demands and high values mean more barrier time demands. 
+
+### Item Distributions
+The frequency distributions for each of those items are shown in 
+@tbl-Train-Goal-Fac-Bar-5R, @tbl-Train-Goal-Fac-Bar-8, and 
+@tbl-Train-Goal-Fac-Bar-10. 
+
+```{r}
+#| label: tbl-Train-Goal-Fac-Bar-5R
+#| tbl-cap: Train_Goal_Fac_Bar_5R Frequency Distribution Among Eligible Applicants
+
+# Footnote text. 
+FN <- paste("Item text: 'I have time in my schedule to focus on this course.'", 
+            "Denominator for percents is total number of eligible applicants.")
+
+Eligible_Applicants %>% 
+xtabs(~as_factor(Train_Goal_Fac_Bar_5R), addNA = TRUE, data = .) %>% 
+  addmargins() %>% 
+  as.data.frame() %>% 
+  rename(Train_Goal_Fac_Bar_5R = as_factor.Train_Goal_Fac_Bar_5R.) %>% 
+  mutate(Percent = 100*Freq/nrow(Eligible_Applicants),
+         Cumulative = if_else(Train_Goal_Fac_Bar_5R == "Sum", 
+                              true = 100, 
+                              false = cumsum(Percent))) %>% 
+  kable(format = "html", booktabs = TRUE, digits = 1,
+        col.names = c("Train_Goal_Fac_Bar_5R", "Freq", "%", "Cumulative %")) %>% 
+  kable_styling() %>% 
+  row_spec(row = 6, italic = TRUE) %>% 
+  footnote(kable_input = ., general = FN, footnote_as_chunk = TRUE, 
+           threeparttable = TRUE)
+```
+
+```{r}
+#| label: tbl-Train-Goal-Fac-Bar-8
+#| tbl-cap: Train_Goal_Fac_Bar_8 Frequency Distribution Among Eligible Applicants
+
+# Footnote text. 
+FN <- paste("Item text: 'I have a lot of work responsibilities.'", 
+            "Denominator for percents is total number of eligible applicants.")
+
+Eligible_Applicants %>% 
+xtabs(~as_factor(Train_Goal_Fac_Bar_8), addNA = TRUE, data = .) %>% 
+  addmargins() %>% 
+  as.data.frame() %>% 
+  rename(Train_Goal_Fac_Bar_8 = as_factor.Train_Goal_Fac_Bar_8.) %>% 
+  mutate(Percent = 100*Freq/nrow(Eligible_Applicants),
+         Cumulative = if_else(Train_Goal_Fac_Bar_8 == "Sum", 
+                              true = 100, 
+                              false = cumsum(Percent))) %>% 
+  kable(format = "latex", booktabs = TRUE, digits = 1,
+        col.names = c("Train_Goal_Fac_Bar_8", "Freq", "%", "Cumulative %")) %>% 
+  kable_styling() %>% 
+  row_spec(row = 6, italic = TRUE) %>% 
+  footnote(kable_input = ., general = FN, footnote_as_chunk = TRUE, 
+           threeparttable = TRUE)
+```
+
+```{r}
+#| label: tbl-Train-Goal-Fac-Bar-10
+#| tbl-cap: Train_Goal_Fac_Bar_10 Frequency Distribution Among Eligible Applicants
+
+# Footnote text. 
+FN <- paste("Item text: 'I have a lot of family obligations right now.'", 
+            "Denominator for percents is total number of eligible applicants.")
+
+Eligible_Applicants %>% 
+xtabs(~as_factor(Train_Goal_Fac_Bar_10), addNA = TRUE, data = .) %>% 
+  addmargins() %>% 
+  as.data.frame() %>% 
+  rename(Train_Goal_Fac_Bar_10 = as_factor.Train_Goal_Fac_Bar_10.) %>% 
+  mutate(Percent = 100*Freq/nrow(Eligible_Applicants),
+         Cumulative = if_else(Train_Goal_Fac_Bar_10 == "Sum", 
+                              true = 100, 
+                              false = cumsum(Percent))) %>% 
+  kable(format = "latex", booktabs = TRUE, digits = 1,
+        col.names = c("Train_Goal_Fac_Bar_10", "Freq", "%", "Cumulative %")) %>% 
+  kable_styling() %>% 
+  row_spec(row = 6, italic = TRUE) %>% 
+  footnote(kable_input = ., general = FN, footnote_as_chunk = TRUE, 
+           threeparttable = TRUE)
+```
+
+### 3-Item Scale Reliability
+Our first attempt at building this scale used all three items. 
 
 ```{r}
 #| label: reliability-Barrier-TD
@@ -391,9 +482,45 @@ Eligible_Applicants %>%
   alpha(x = ., cumulative = TRUE, discrete = TRUE)
 ```
 
-Given the oor to questionable reliability demonstrated by the results above, I
-have asked the investigators whether they still want me to use `Barrier_TD` as a
-predictor in the model.
+The results above show poor to questionable reliability and that omitting 
+`Train_Goal_Fac_Bar_5R` may increase the reliability by a very small amount. 
+@tbl-Train-Goal-Fac-Bar-5R provides some clues about why that may be happening. 
+The item has a very skewed distribution: almost none of the eligible applicants
+disagreed with the idea that they had enough time in their schedule to focus on
+this course. One concern is that applicants may have perceived this item to be a 
+screening question where *expressing disagreement might prevent them from* 
+*getting into the program*. It may have elicited less honest and accurate 
+answers than the other two questions, which have more variability, less skew,
+and wording less likely to be seen as a pure screening tool.
+
+:::{.callout-note}
+We decided to omit the problematic item `Train_Goal_Fac_Bar_5R` and just use the 
+other two items. 
+::: 
+
+### 2-Item Scale Reliability
+We know from basic psychometric theory that reliability tends to increase with
+the number of items used to measure the construct. Scales with two items are
+unlikely to have high reliability. The Cronbach's alpha is neither appreciably
+better nor worse after deleting the problematic item as shown below.
+
+```{r}
+#| label: reliability-Barrier-TD
+
+Eligible_Applicants %>% 
+  select(Train_Goal_Fac_Bar_8, Train_Goal_Fac_Bar_10) %>% 
+  as.data.frame() %>% 
+  alpha(x = ., cumulative = TRUE, discrete = TRUE)
+```
+
+:::{.callout-note}
+We will use the two-item scale for `Barrier_TD` because that has higher
+reliability than using either of those remaining items alone and helps keep the
+number of predictors in the models manageable. It allows us to address a crucial
+hypothesis better than other available options. We are relying here on the
+strong face validity of the items being combined. We will recommend pursuing
+better measurement of this construct in future studies.
+::: 
 
 ## Predictor Distributions
 
