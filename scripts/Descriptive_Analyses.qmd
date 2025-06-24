@@ -377,7 +377,7 @@ demands on participants' time are a barrier to completing the training program.
 The program staff believe that this construct (`Barrier_TD`) is likely to be a
 major driver of attrition from the program. Similarly, external stakeholders
 familiar with forensic nursing emphasized competing demands on time/bandwidth as
-a likely factor in attrition. Therefore, It is a high priority to have some 
+a likely factor in attrition. Therefore, it is a high priority to have some 
 measure of `Barrier_TD` in our models. The challenge is operationalizing it. 
 
 There are three items from the training application form that are good 
@@ -501,8 +501,11 @@ other two items.
 ### 2-Item Scale Reliability
 We know from basic psychometric theory that reliability tends to increase with
 the number of items used to measure the construct. Scales with two items are
-unlikely to have high reliability. The Cronbach's alpha is neither appreciably
-better nor worse after deleting the problematic item as shown below.
+unlikely to have high reliability. The point estimate of Cronbach's alpha for
+this reduced version of the scale is slightly better than the one for the
+three-item version but still in the questionable range. The upper bound on the
+95% CI is now just below the 0.70 threshold often used as a value considered
+acceptable for research purposes.
 
 ```{r}
 #| label: reliability-Barrier-TD
@@ -520,6 +523,11 @@ number of predictors in the models manageable. It allows us to address a crucial
 hypothesis better than other available options. We are relying here on the
 strong face validity of the items being combined. We will recommend pursuing
 better measurement of this construct in future studies.
+
+One consequence of low reliability in a predictor should be a weaker regression 
+coefficient relating it to an outcome. I suspect that we are more likely to 
+underestimate the effect of barrier time demands on attrition than to 
+overestimate it. 
 ::: 
 
 ## Predictor Distributions
