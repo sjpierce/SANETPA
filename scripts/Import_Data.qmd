@@ -602,9 +602,15 @@ an eligibility rate, they have no substantive interest examining predictors of
 ineligibilty. 
 
 For modeling purposes, we need to subset the data to create an 
-`Eligible_Applicants` dataset. Along the way, we create centered forms of the
-continuous predictors that we'll use in modeling because we expect to test 
-interaction terms involving them.  
+`Eligible_Applicants` dataset. 
+
+:::{.callout-caution}
+We need to create centered forms of the continuous predictors that we'll use in 
+modeling because we expect to test interaction terms involving them. However, 
+I need to move the code for doing this into the modeling script because we'll 
+have to handle missing data via listwise deletion. Centering should occur after 
+that step, not before it!
+:::
 
 ```{r}
 #| label: create-Eligible-Applicants
