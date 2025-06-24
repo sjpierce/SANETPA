@@ -474,7 +474,7 @@ xtabs(~as_factor(Train_Goal_Fac_Bar_10), addNA = TRUE, data = .) %>%
 Our first attempt at building this scale used all three items. 
 
 ```{r}
-#| label: reliability-Barrier-TD
+#| label: reliability-Barrier-TD-3item
 
 Eligible_Applicants %>% 
   select(Train_Goal_Fac_Bar_5R, Train_Goal_Fac_Bar_8, Train_Goal_Fac_Bar_10) %>% 
@@ -508,7 +508,7 @@ three-item version but still in the questionable range. The upper bound on the
 acceptable for research purposes.
 
 ```{r}
-#| label: reliability-Barrier-TD
+#| label: reliability-Barrier-TD-2item
 
 Eligible_Applicants %>% 
   select(Train_Goal_Fac_Bar_8, Train_Goal_Fac_Bar_10) %>% 
