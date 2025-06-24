@@ -169,7 +169,8 @@ options(kableExtra.latex.load_packages = FALSE)
 library(kableExtra)     # for kable_styling(), add_header_above(), 
                         # column_spec(), row_spec() etc. 
 library(kableExtra)     # for kable_styling 
-library(piercer)        # for git_report(), which_latex()
+library(piercer)        # for cvv_missingness(), git_report(), var_missingness(), 
+                        # which_latex()
 library(quarto)         # for quarto_version()
 library(SANETPA)        # for version info 
 ```
