@@ -794,25 +794,30 @@ rows and columns, with additional computed columns showing how many records
 stopped from proceeding to the next stage of case selection and how many 
 continued. This allowed me to double-check that the sizes each made sense. For 
 the `Applicants` row, the stopped cases are the ineligible applicants, while for 
-`Eligible_Applicants`, the stopped cases are those that did not enroll. Datasets 
-`T1` to `T4` each have one row per person, with the stopped cases being those that 
-attrited at the specified threshold. The `Thresholds` dataset contains one row 
-per person per threshold encountered because it combined the rows of `T1` to 
-`T4`, with the stopped cases being all the rows that indicated attrition 
-occurred. 
+`Eligible_Applicants` the stopped cases are those that enrolled but lacked 
+complete data on variables required for modeling. For `Eligible_Applicants_CD`, 
+stopped cases were those who did not enroll. `T1` to `T4` each have one row per
+person, with the stopped cases being those that attrited at the specified
+threshold. The `Thresholds` dataset contains one row per person per threshold
+encountered because it combined the rows of `T1` to `T4`, with the stopped cases
+being all the rows that indicated attrition occurred.
 
 ```{r}
 #| label: tbl-Dataset-Size
 #| tbl-cap: Dataset Sizes
 
-tibble(DataFrame = c("Applicants", "Eligible_Applicants", "T1", "T2", "T3", 
-                     "T4", "Thresholds"),
-       N_Rows = c(nrow(Applicants), nrow(Eligible_Applicants), nrow(T1), 
-                  nrow(T2), nrow(T3), nrow(T4), nrow(Thresholds)),
-       N_Cols = c(ncol(Applicants), ncol(Eligible_Applicants), ncol(T1), 
-                  ncol(T2), ncol(T3), ncol(T4), ncol(Thresholds)),
+tibble(DataFrame = c("Applicants", "Eligible_Applicants", 
+                     "Eligible_Applicants_CD", "T1", "T2", "T3", "T4", 
+                     "Thresholds"),
+       N_Rows = c(nrow(Applicants), nrow(Eligible_Applicants), 
+                  nrow(Eligible_Applicants_CD), nrow(T1), nrow(T2), nrow(T3), 
+                  nrow(T4), nrow(Thresholds)),
+       N_Cols = c(ncol(Applicants), ncol(Eligible_Applicants), 
+                  ncol(Eligible_Applicants_CD), ncol(T1), ncol(T2), ncol(T3), 
+                  ncol(T4), ncol(Thresholds)),
        Stopped = c(sum(is.na(Applicants$Stage_Reached)),
-                   sum(Eligible_Applicants$Stage_Reached < 2),
+                   sum(is.na(Eligible_Applicants$ProQOL_BO)),
+                   sum(Eligible_Applicants_CD$Stage_Reached < 2),
                    sum(T1$Attrit), sum(T2$Attrit), sum(T3$Attrit), 
                    sum(T4$Attrit), sum(Thresholds$Attrit))) %>% 
   mutate(Continued = N_Rows - Stopped) %>% 
