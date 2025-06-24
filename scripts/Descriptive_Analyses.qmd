@@ -662,8 +662,8 @@ ggplot(data = Eligible_Applicants, aes(x = Barrier_TD)) +
   geom_density(alpha = .6, fill = "#FF6666") +
   geom_vline(aes(xintercept = mean(Barrier_TD, na.rm = TRUE)), color = "blue", 
              linetype = "solid", linewidth = 1) +
-  coord_cartesian(xlim = c(3, 15), ylim = c(0, 0.30)) + 
-  scale_x_continuous(breaks = seq(from = 3, to = 15, by = 1)) +
+  coord_cartesian(xlim = c(1, 11), ylim = c(0, 0.30)) + 
+  scale_x_continuous(breaks = seq(from = 2, to = 10, by = 1)) +
   scale_y_continuous(breaks = seq(from = 0, to = 0.30, by = 0.05)) +
   labs(subtitle = "", 
        x = "Barrier Time Demands", 
