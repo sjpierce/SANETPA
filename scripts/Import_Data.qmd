@@ -729,7 +729,9 @@ vertically stack the threshold-specific datasets (`T1` to `T4`).
 ```{r}
 #| label: create-T1
 
-T1 <- Eligible_Applicants %>% 
+T1 <- Eligible_Applicants_CD %>% 
+  select(ID, Stage_Reached, Barrier_TD, ProQOL_BO, ProQOL_CS, ProQOL_STS, 
+         Motivation_NeedSANE, Motivation_PersonalConn, Setting) %>% 
   filter(Stage_Reached >= 1) %>% 
   mutate(Threshold = 1, 
          Attrit = if_else(Stage_Reached == Threshold, true = 1, false = 0))
@@ -738,7 +740,9 @@ T1 <- Eligible_Applicants %>%
 ```{r}
 #| label: create-T2
 
-T2 <- Eligible_Applicants %>% 
+T2 <- Eligible_Applicants_CD %>% 
+  select(ID, Stage_Reached, Barrier_TD, ProQOL_BO, ProQOL_CS, ProQOL_STS, 
+         Motivation_NeedSANE, Motivation_PersonalConn, Setting) %>% 
   filter(Stage_Reached >= 2) %>% 
   mutate(Threshold = 2, 
          Attrit = if_else(Stage_Reached == Threshold, true = 1, false = 0))
@@ -747,7 +751,9 @@ T2 <- Eligible_Applicants %>%
 ```{r}
 #| label: create-T3
 
-T3 <- Eligible_Applicants %>% 
+T3 <- Eligible_Applicants_CD %>% 
+  select(ID, Stage_Reached, Barrier_TD, ProQOL_BO, ProQOL_CS, ProQOL_STS, 
+         Motivation_NeedSANE, Motivation_PersonalConn, Setting) %>% 
   filter(Stage_Reached >= 3) %>% 
   mutate(Threshold = 3, 
          Attrit = if_else(Stage_Reached == Threshold, true = 1, false = 0))
@@ -756,7 +762,9 @@ T3 <- Eligible_Applicants %>%
 ```{r}
 #| label: create-T4
 
-T4 <- Eligible_Applicants %>% 
+T4 <- Eligible_Applicants_CD %>% 
+  select(ID, Stage_Reached, Barrier_TD, ProQOL_BO, ProQOL_CS, ProQOL_STS, 
+         Motivation_NeedSANE, Motivation_PersonalConn, Setting) %>% 
   filter(Stage_Reached >= 4) %>% 
   mutate(Threshold = 4, 
          Attrit = if_else(Stage_Reached == Threshold, true = 1, false = 0))
