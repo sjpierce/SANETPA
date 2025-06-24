@@ -595,34 +595,74 @@ kable(ApplicantsVars, format = "latex", booktabs = TRUE, longtable = TRUE) %>%
 
 \FloatBarrier
 
-## Create Eligible Applicants Dataset
+## Create Eligible Applicants Datasets
 The study's focus is on examining attrition among eligible applicants. The 
 research team believes that the recruitment materials were sufficiently clear 
 about the program's eligibility criteria, so while it will be useful to report 
 an eligibility rate, they have no substantive interest examining predictors of 
 ineligibilty. 
 
-For modeling purposes, we need to subset the data to create an 
-`Eligible_Applicants` dataset. 
-
-:::{.callout-caution}
-We need to create centered forms of the continuous predictors that we'll use in 
-modeling because we expect to test interaction terms involving them. However, 
-I need to move the code for doing this into the modeling script because we'll 
-have to handle missing data via listwise deletion. Centering should occur after 
-that step, not before it!
-:::
+We need to subset the data to create an `Eligible_Applicants` dataset so we can 
+focus on the intended population to which we want to generalize. 
 
 ```{r}
 #| label: create-Eligible-Applicants
 
 Eligible_Applicants <- Applicants %>% 
-  filter(Stage_Raw >= 2) %>% 
+  filter(Stage_Raw >= 2) 
+```
+
+However, we also need to assess whether these eligible applicants all have 
+complete data on the variables to be used in our models. 
+@tbl-Eligible-Applicants-cvv-missingness shows an overview of missingness 
+with respect to cases, variables, and values. 
+
+```{r}
+#| label: tbl-Eligible-Applicants-cvv-missingness
+
+ Eligible_Applicants %>% 
+  select(ID, Stage_Reached, Barrier_TD, ProQOL_BO, ProQOL_CS, ProQOL_STS,
+         Motivation_NeedSANE, Motivation_PersonalConn, Setting) %>% 
+  cvv_missingness() %>% 
+  kable(format = "latex", booktabs = TRUE, digits = 1) %>% 
+  kable_styling() 
+```
+
+We can see that a few eligible applicants have any missing data on the variables 
+we want to use in the models. @tbl-Eligible-Applicants-var-missingness shows 
+variable-specific rates of missingness. 
+
+```{r}
+#| label: tbl-Eligible-Applicants-var-missingness
+
+ Eligible_Applicants %>% 
+  select(ID, Stage_Reached, Barrier_TD, ProQOL_BO, ProQOL_CS, ProQOL_STS,
+         Motivation_NeedSANE, Motivation_PersonalConn, Setting) %>% 
+  var_missingness() %>% 
+  kable(format = "latex", booktabs = TRUE, digits = 1) %>% 
+  kable_styling()
+```
+
+The missing data are all ProQOL scale scores and it appears that a handful of 
+people simply did not complete the entire instrument. The rate of missingness 
+is small enough that it should be ignorable and listwise deletion will perform
+adequately. Therefore, below we create `Eligible_Applicants_CD` to include only
+those eligible applicants who have complete (non-missing) data on the variables
+that will be used in the stopping ratio model.
+
+```{r}
+#| label: create-Eligible-Applicants-CD
+
+Eligible_Applicants_CD <- Eligible_Applicants %>% 
+  # Retain cases with no missing data on variables to be used in models. 
+  filter(if_all(c(ID, Stage_Reached, Barrier_TD, ProQOL_BO, ProQOL_CS, 
+                  ProQOL_STS, Motivation_NeedSANE, Motivation_PersonalConn, 
+                  Setting), ~ !is.na(.x))) %>% 
   # Create mean-centered versions of continuous predictors. 
-  mutate(CProQOL_BO = ProQOL_BO - mean(ProQOL_BO, na.rm = TRUE),
-         CProQOL_CS = ProQOL_CS - mean(ProQOL_CS, na.rm = TRUE),
-         CProQOL_STS = ProQOL_STS - mean(ProQOL_STS, na.rm = TRUE),
-         CBarrier_TD = Barrier_TD - mean(Barrier_TD, na.rm = TRUE))
+  mutate(CProQOL_BO = ProQOL_BO - mean(ProQOL_BO),
+         CProQOL_CS = ProQOL_CS - mean(ProQOL_CS),
+         CProQOL_STS = ProQOL_STS - mean(ProQOL_STS),
+         CBarrier_TD = Barrier_TD - mean(Barrier_TD))
 ```
 
 ## Create Thresholds Dataset
