@@ -543,7 +543,7 @@ participation due to personal and professional demands on applicants' time
 
 @tbl-continuous-vars shows descriptive statistics for each of these 
 continuous predictors, along with corresponding mean-centered versions of each 
-one. Histograms of the undecentered versions of the variables are shown in 
+one. Histograms of the uncentered versions of the variables are shown in 
 @fig-ProQOL-BO, @fig-ProQOL-CS, @fig-ProQOL-STS, and @fig-Barrier-TD.
 
 ```{r}
