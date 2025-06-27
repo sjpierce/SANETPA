@@ -341,15 +341,19 @@ dataset.
 \FloatBarrier
 
 ## Outcome Distribution
-@tbl-Stage-Reached shows the frequency distribution for the stage reached among 
-the eligible applicants. This is the stage variable we will use for modeling. 
+`Stage_Reached` is the stage variable we will use for modeling purposes. 
+@tbl-Stage-Reached-all shows the frequency distribution for the stage reached 
+among all eligible applicants (before listwise deletion), while @
+tbl-Stage-Reached-cd shows it after removing those with incomplete data on the 
+variables to be included in the model (after listwise deletion). 
 
 ```{r}
-#| label: tbl-Stage-Reached
-#| tbl-cap: Stage_Reached Frequency Distribution Among Eligible Applicants
+#| label: tbl-Stage-Reached-all
+#| tbl-cap: Stage_Reached Frequency Distribution Among Eligible Applicants 
+#|          (Before Listwise Deletion)
 
 # Footnote text. 
-FN <- paste("Denominator for percents is total number of eligible applicants.", 
+FN <- paste("Denominator for percents is the frequency sum.", 
       "CSW, clinical skills workshop; DT, didactic training.")
 
 xtabs(~as_factor(Stage_Reached), addNA = TRUE, 
@@ -358,6 +362,32 @@ xtabs(~as_factor(Stage_Reached), addNA = TRUE,
   as.data.frame() %>% 
   rename(Stage_Reached = as_factor.Stage_Reached.) %>% 
   mutate(Percent = 100*Freq/nrow(Eligible_Applicants),
+         Cumulative = if_else(Stage_Reached == "Sum", 
+                              true = 100, 
+                              false = cumsum(Percent))) %>% 
+  kable(format = "latex", booktabs = TRUE, digits = 1,
+        col.names = c("Stage_Reached", "Freq", "%", "Cumulative %")) %>% 
+  kable_styling() %>% 
+  row_spec(row = 6, italic = TRUE) %>% 
+  footnote(kable_input = ., general = FN, footnote_as_chunk = TRUE, 
+           threeparttable = TRUE)
+```
+
+```{r}
+#| label: tbl-Stage-Reached-cd
+#| tbl-cap: Stage_Reached Frequency Distribution Among Eligible Applicants 
+#|          (After Listwise Deletion)
+
+# Footnote text. 
+FN <- paste("Denominator for percents is the frequency sum.", 
+      "CSW, clinical skills workshop; DT, didactic training.")
+
+xtabs(~as_factor(Stage_Reached), addNA = TRUE, 
+      data = Eligible_Applicants_CD) %>% 
+  addmargins() %>% 
+  as.data.frame() %>% 
+  rename(Stage_Reached = as_factor.Stage_Reached.) %>% 
+  mutate(Percent = 100*Freq/nrow(Eligible_Applicants_CD),
          Cumulative = if_else(Stage_Reached == "Sum", 
                               true = 100, 
                               false = cumsum(Percent))) %>% 
