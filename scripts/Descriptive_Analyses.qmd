@@ -335,8 +335,11 @@ xtabs(~Barrier_TD + Eligible, addNA = TRUE, data = Applicants) %>%
 \FloatBarrier
 
 # Summaries of Eligible Applicants Data
-There are `r nrow(Eligible_Applicants)` rows in the `Eligible_Applicants` 
-dataset. 
+`Eligible_Applicants` is the dataset before listwise deletion of applicants with 
+missing data on any variable to be used in the models. It has 
+`r nrow(Eligible_Applicants)` rows. `Eligible_Applicants_CD` is the dataset of 
+eligible applicants with complete data (remaining after listwise deletion). It 
+has `r nrow(Eligible_Applicants_CD)` rows.
 
 \FloatBarrier
 
@@ -559,7 +562,7 @@ reliability than using either of those remaining items alone and helps keep the
 number of predictors in the models manageable. It allows us to address a crucial
 hypothesis better than other available options. We are relying here on the
 strong face validity of the items being combined. We will recommend pursuing
-better measurement of this construct in future studies.
+better measurement of this construct in future studies. 
 
 One consequence of low reliability in a predictor should be a weaker regression 
 coefficient relating it to an outcome. I suspect that we are more likely to 
