@@ -420,6 +420,13 @@ candidates for inclusion in the scale.
 These ordinal Likert-response items are all coded such that low values indicate 
 few barrier time demands and high values mean more barrier time demands. 
 
+::: {.callout-tip}
+We use the data for all eligible applicants (before listwise deletion) in this 
+section. It does not make any meaningful difference if we run the same analyses 
+on the subset of eligible applicants with complete data on the variables to be 
+used in modeling. 
+::: 
+
 ### Item Distributions
 The frequency distributions for each of those items are shown in 
 @tbl-Train-Goal-Fac-Bar-5R, @tbl-Train-Goal-Fac-Bar-8, and 
