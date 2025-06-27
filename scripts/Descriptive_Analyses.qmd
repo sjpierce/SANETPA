@@ -663,12 +663,13 @@ Eligible_Applicants_CD %>%
 
 ```{r}
 #| label: fig-ProQOL-BO
-#| fig-cap: Histogram of ProQOL Burnout Among Eligible Applicants
+#| fig-cap: Histogram of ProQOL Burnout Among Eligible Applicants (After 
+#|          Listwise Deletion)
 #| fig-width: 5
 #| fig-height: 2.5
 #| warning: false
 
-ggplot(data = Eligible_Applicants, aes(x = ProQOL_BO)) +
+ggplot(data = Eligible_Applicants_CD, aes(x = ProQOL_BO)) +
   geom_histogram(aes(y = after_stat(density)), binwidth = 1, color = "black", 
                  fill = "grey") +
   geom_density(alpha = .6, fill = "#FF6666") +
@@ -686,12 +687,13 @@ ggplot(data = Eligible_Applicants, aes(x = ProQOL_BO)) +
 
 ```{r}
 #| label: fig-ProQOL-CS
-#| fig-cap: Histogram of ProQOL Compassion Satisfaction Among Eligible Applicants
+#| fig-cap: Histogram of ProQOL Compassion Satisfaction Among Eligible 
+#|          Applicants (After Listwise Deletion)
 #| fig-width: 5
 #| fig-height: 2.5
 #| warning: false
 
-ggplot(data = Eligible_Applicants, aes(x = ProQOL_CS)) +
+ggplot(data = Eligible_Applicants_CD, aes(x = ProQOL_CS)) +
   geom_histogram(aes(y = after_stat(density)), binwidth = 1, color = "black", 
                  fill = "grey") +
   geom_density(alpha = .6, fill = "#FF6666") +
@@ -709,12 +711,13 @@ ggplot(data = Eligible_Applicants, aes(x = ProQOL_CS)) +
 
 ```{r}
 #| label: fig-ProQOL-STS
-#| fig-cap: Histogram of ProQOL Secondary Traumatic Stress Among Eligible Applicants
+#| fig-cap: Histogram of ProQOL Secondary Traumatic Stress Among Eligible 
+#|          Applicants (After Listwise Deletion)
 #| fig-width: 5
 #| fig-height: 2.5
 #| warning: false
 
-ggplot(data = Eligible_Applicants, aes(x = ProQOL_STS)) +
+ggplot(data = Eligible_Applicants_CD, aes(x = ProQOL_STS)) +
   geom_histogram(aes(y = after_stat(density)), binwidth = 1, color = "black", 
                  fill = "grey") +
   geom_density(alpha = .6, fill = "#FF6666") +
@@ -732,11 +735,12 @@ ggplot(data = Eligible_Applicants, aes(x = ProQOL_STS)) +
 
 ```{r}
 #| label: fig-Barrier-TD
-#| fig-cap: Histogram of Barrier Time Demands Among Eligible Applicants
+#| fig-cap: Histogram of Barrier Time Demands Among Eligible Applicants (After 
+#|          Listwise Deletion) 
 #| fig-width: 5
 #| fig-height: 2.5
 
-ggplot(data = Eligible_Applicants, aes(x = Barrier_TD)) +
+ggplot(data = Eligible_Applicants_CD, aes(x = Barrier_TD)) +
   geom_histogram(aes(y = after_stat(density)), binwidth = 1, color = "black", 
                  fill = "grey") +
   geom_density(alpha = .6, fill = "#FF6666") +
