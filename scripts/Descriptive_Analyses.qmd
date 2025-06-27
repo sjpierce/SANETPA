@@ -782,17 +782,19 @@ which are both binary variables.
 
 ```{r}
 #| label: tbl-Motivation-NeedSANE
-#| tbl-cap: Motivation_NeedSANE Frequency Distribution Among Eligible Applicants
+#| tbl-cap: Motivation_NeedSANE Frequency Distribution Among Eligible Applicants 
+#|          (After Listwise Deletion)
+           
 
 # Footnote text. 
-FN <- paste("Denominator for percents is total number of eligible applicants.")
+FN <- paste("Denominator for percents is the frequency sum.")
 
-Eligible_Applicants %>% 
+Eligible_Applicants_CD %>% 
 xtabs(~as_factor(Motivation_NeedSANE), addNA = TRUE, data = .) %>% 
   addmargins() %>% 
   as.data.frame() %>% 
   rename(Motivation_NeedSANE = as_factor.Motivation_NeedSANE.) %>% 
-  mutate(Percent = 100*Freq/nrow(Eligible_Applicants),
+  mutate(Percent = 100*Freq/nrow(Eligible_Applicants_CD),
          Cumulative = if_else(Motivation_NeedSANE == "Sum", 
                               true = 100, 
                               false = cumsum(Percent))) %>% 
@@ -806,17 +808,18 @@ xtabs(~as_factor(Motivation_NeedSANE), addNA = TRUE, data = .) %>%
 
 ```{r}
 #| label: tbl-Motivation-PersonalConn
-#| tbl-cap: Motivation_PersonalConn Frequency Distribution Among Eligible Applicants
+#| tbl-cap: Motivation_PersonalConn Frequency Distribution Among Eligible 
+#|          Applicants (After Listwise Deletion)
 
 # Footnote text. 
-FN <- paste("Denominator for percents is total number of eligible applicants.")
+FN <- paste("Denominator for percents is the frequency sum.")
 
-Eligible_Applicants %>% 
-xtabs(~as_factor(Motivation_PersonalConn), addNA = TRUE, data = .) %>% 
+Eligible_Applicants_CD %>% 
+  xtabs(~as_factor(Motivation_PersonalConn), addNA = TRUE, data = .) %>% 
   addmargins() %>% 
   as.data.frame() %>% 
   rename(Motivation_PersonalConn = as_factor.Motivation_PersonalConn.) %>% 
-  mutate(Percent = 100*Freq/nrow(Eligible_Applicants),
+  mutate(Percent = 100*Freq/nrow(Eligible_Applicants_CD),
          Cumulative = if_else(Motivation_PersonalConn == "Sum", 
                               true = 100, 
                               false = cumsum(Percent))) %>% 
@@ -835,17 +838,18 @@ with another category.
 
 ```{r}
 #| label: tbl-Setting-original
-#| tbl-cap: Original Practice Setting Frequency Distribution Among Eligible Applicants
+#| tbl-cap: Original Practice Setting Frequency Distribution Among Eligible 
+#|          Applicants (After Listwise Deletion)
 
 # Footnote text. 
-FN <- paste("Denominator for percents is total number of eligible applicants.")
+FN <- paste("Denominator for percents is the frequency sum.")
 
-xtabs(~as_factor(practicset_dem_num), addNA = TRUE, 
-      data = Eligible_Applicants) %>% 
+Eligible_Applicants_CD %>% 
+  xtabs(~as_factor(practicset_dem_num), addNA = TRUE, data = .) %>% 
   addmargins() %>% 
   as.data.frame() %>% 
   rename(practicset_dem_num = as_factor.practicset_dem_num.) %>% 
-  mutate(Percent = 100*Freq/nrow(Eligible_Applicants),
+  mutate(Percent = 100*Freq/nrow(Eligible_Applicants_CD),
          Cumulative = if_else(practicset_dem_num == "Sum", 
                               true = 100, 
                               false = cumsum(Percent))) %>% 
@@ -864,12 +868,14 @@ in size.
  
 ```{r}
 #| label: tbl-Setting-recoded
-#| tbl-cap: Recoded Practice Setting Frequency Distribution Among Eligible Applicants
+#| tbl-cap: Recoded Practice Setting Frequency Distribution Among Eligible 
+#|          Applicants (After Listwise Deletion)
 
 # Footnote text. 
-FN <- paste("Denominator for percents is total number of eligible applicants.")
+FN <- paste("Denominator for percents is the frequency sum.")
 
-xtabs(~as_factor(Setting), addNA = TRUE, data = Eligible_Applicants) %>% 
+Eligible_Applicants_CD %>% 
+  xtabs(~as_factor(Setting), addNA = TRUE, data = .) %>% 
   addmargins() %>% 
   as.data.frame() %>% 
   rename(Setting = as_factor.Setting.) %>% 
