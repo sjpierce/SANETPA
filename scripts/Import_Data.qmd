@@ -793,6 +793,11 @@ Threshold_Labels <- c("T1 (Eligible/Enrolled)" = 1,
 
 Thresholds <- bind_rows(T1, T2, T3, T4) %>% 
   relocate(ID, Threshold, Attrit) %>% 
+  # Convert categorical predictors to factors with a "." variable name suffix
+  mutate(Threshold. = factor(Threshold),
+         Setting. = as_factor(Setting),
+         Motivation_NeedSANE. = as_factor(Motivation_NeedSANE),
+         Motivation_PersonalConn. = as_factor(Motivation_PersonalConn)) %>% 
   set_value_labels(Threshold = Threshold_Labels, 
                    Attrit = Binary_Labels)
 ```
