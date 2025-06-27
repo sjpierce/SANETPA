@@ -756,19 +756,16 @@ ggplot(data = Eligible_Applicants_CD, aes(x = Barrier_TD)) +
 
 ```{r}
 #| label: tbl-continuous-corr
-#| tbl-cap: Pearson Correlation Matrix for Continuous Predictor Variables 
+#| tbl-cap: Pearson Correlation Matrix for Continuous Predictor Variables (After 
+#|          Listwise Deletion)
 
-N_used <- Eligible_Applicants %>% 
-  select(ProQOL_BO, ProQOL_CS, ProQOL_STS, Barrier_TD) %>% 
-  na.omit() %>% 
-  nrow()
-
+N_used <- nrow(Eligible_Applicants_CD)
 N_omit <- nrow(Eligible_Applicants) - N_used
 
 FN <- paste0("N = ", N_used, " after listwise deletion of missing data (",
              N_omit, " observations).")
 
-Eligible_Applicants %>% 
+Eligible_Applicants_CD %>% 
   select(ProQOL_BO, ProQOL_CS, ProQOL_STS, Barrier_TD) %>% 
   cor(x = ., use = "complete.obs", method = "pearson") %>% 
   kable(format = "latex", booktabs = TRUE, digits = 2) %>% 
