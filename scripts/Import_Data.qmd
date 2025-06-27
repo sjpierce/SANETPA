@@ -648,7 +648,9 @@ people simply did not complete the entire instrument. The rate of missingness
 is small enough that it should be ignorable and listwise deletion will perform
 adequately. Therefore, below we create `Eligible_Applicants_CD` to include only
 those eligible applicants who have complete (non-missing) data on the variables
-that will be used in the stopping ratio model.
+that will be used in the stopping ratio model. Along the way, we create 
+mean-centered versions of the continuous predictors that can be idenified by 
+a `C` prefix on the variable name`. 
 
 ```{r}
 #| label: create-Eligible-Applicants-CD
@@ -724,7 +726,9 @@ To create the person-threshold dataset `Thresholds`, we first create a data
 frame for each distinct threshold by filtering the `Eligible_Applicants` data by 
 `Stage_Reached`, add a binary outcome variable called `Attrit` coded 1 
 for people who attrited at that threshold and 0 for people who did not, then 
-vertically stack the threshold-specific datasets (`T1` to `T4`). 
+vertically stack the threshold-specific datasets (`T1` to `T4`). Along the way, 
+we create factor versions of the categorical variables that can be identifed by 
+the `.` suffix on the variable name. 
 
 ```{r}
 #| label: create-T1
