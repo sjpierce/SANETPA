@@ -940,7 +940,7 @@ S4 -> S5 [label = "Attrit = 0"]
 
 ```{r}
 #| label: tbl-Threshold-Attrit
-#| tbl-cap: Threshold by Attrit Contingency Table
+#| tbl-cap: Threshold by Attrit Contingency Table (After Listwise Deletion)
 
 # Footnote text. 
 FN <- paste("Denominator for percents is row N.", 
