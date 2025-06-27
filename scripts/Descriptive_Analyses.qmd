@@ -578,15 +578,19 @@ predictors, along with a new, custom scale score measuring barriers to
 participation due to personal and professional demands on applicants' time 
 (`Barrier_TD`). 
 
-@tbl-continuous-vars shows descriptive statistics for each of these 
-continuous predictors, along with corresponding mean-centered versions of each 
-one. Histograms of the uncentered versions of the variables are shown in 
-@fig-ProQOL-BO, @fig-ProQOL-CS, @fig-ProQOL-STS, and @fig-Barrier-TD.
+@tbl-continuous-vars-all shows descriptive statistics for each of these 
+continuous predictors among all eligible applicants before application of 
+listwise deletion, while @tbl-continuous-vars-cd shows descriptive statistics 
+for each of these continuous predictors among eligible applicants with complete 
+data on the variables to be used in modeling, along with corresponding 
+mean-centered versions of each one. Histograms of the uncentered versions of the 
+variables after listwise deletion are shown in @fig-ProQOL-BO, @fig-ProQOL-CS, 
+@fig-ProQOL-STS, and @fig-Barrier-TD.
 
 ```{r}
-#| label: tbl-continuous-vars
+#| label: tbl-continuous-vars-all
 #| tbl-cap: Descriptive Statistics for Continuous Predictor Variables Among 
-#|          Eligible Applicants
+#|          Eligible Applicants (Before Listwise Deletion)
 
 # Footnote text.
 FN <- paste("N_m, number of missing values; N_o, number of observed values.")
@@ -599,10 +603,8 @@ CNames <- c("Variable", "Construct", "N", "N_m", "N_o", "Mean", "SD",
             "Min", "Max")
 
 Eligible_Applicants %>% 
-  select(ID, ProQOL_BO, ProQOL_CS, ProQOL_STS, Barrier_TD, CProQOL_BO,
-         CProQOL_CS, CProQOL_STS, CBarrier_TD) %>% 
-  pivot_longer(cols = c(ProQOL_BO, ProQOL_CS, ProQOL_STS, Barrier_TD, 
-                        CProQOL_BO, CProQOL_CS, CProQOL_STS, CBarrier_TD),
+  select(ID, ProQOL_BO, ProQOL_CS, ProQOL_STS, Barrier_TD) %>% 
+  pivot_longer(cols = c(ProQOL_BO, ProQOL_CS, ProQOL_STS, Barrier_TD),
                names_to = "VarName", 
                values_to = "Value") %>% 
   mutate(VarName = factor(VarName, levels = VNames, labels = VNames),
@@ -619,11 +621,44 @@ Eligible_Applicants %>%
   kable(., format = "latex", booktabs = TRUE, digits = 1, 
         col.names = CNames, row.names = FALSE) %>% 
   kable_styling() %>% 
+  footnote(kable_input = ., general = FN, footnote_as_chunk = TRUE)
+```
+
+```{r}
+#| label: tbl-continuous-vars-cd
+#| tbl-cap: Descriptive Statistics for Continuous Predictor Variables Among 
+#|          Eligible Applicants (After Listwise Deletion)
+
+# Footnote text.
+VNames <- c("ProQOL_BO", "ProQOL_CS", "ProQOL_STS", "Barrier_TD",
+            "CProQOL_BO", "CProQOL_CS", "CProQOL_STS", "CBarrier_TD")
+VLabels <- rep(c("Burnout", "Compassion Satisfaction", 
+                 "Secondary Traumatic Stress", "Time Demands"), times = 2)
+CNames <- c("Variable", "Construct", "N", "Mean", "SD", "Min", "Max")
+
+Eligible_Applicants_CD %>% 
+  select(ID, ProQOL_BO, ProQOL_CS, ProQOL_STS, Barrier_TD, CProQOL_BO,
+         CProQOL_CS, CProQOL_STS, CBarrier_TD) %>% 
+  pivot_longer(cols = c(ProQOL_BO, ProQOL_CS, ProQOL_STS, Barrier_TD, 
+                        CProQOL_BO, CProQOL_CS, CProQOL_STS, CBarrier_TD),
+               names_to = "VarName", 
+               values_to = "Value") %>% 
+  mutate(VarName = factor(VarName, levels = VNames, labels = VNames),
+         Construct = factor(VarName, levels = VNames, labels = VLabels)) %>% 
+  relocate(ID, VarName, Construct) %>% 
+  group_by(VarName, Construct) %>% 
+  summarise(N = n(),
+            Mean = mean(Value, na.rm = TRUE),
+            SD = sd(Value, na.rm = TRUE),
+            Min = min(Value, na.rm = TRUE),
+            Max = max(Value, na.rm = TRUE)) %>% 
+  kable(., format = "latex", booktabs = TRUE, digits = 1, 
+        col.names = CNames, row.names = FALSE) %>% 
+  kable_styling() %>% 
   group_rows(., group_label = "Uncentered Scale Scores", start_row = 1, 
              end_row = 4, italic = TRUE) %>% 
   group_rows(., group_label = "Mean-Centered Scale Scores", start_row = 5, 
-             end_row = 8, italic = TRUE) %>% 
-  footnote(kable_input = ., general = FN, footnote_as_chunk = TRUE)
+             end_row = 8, italic = TRUE) 
 ```
 
 ```{r}
