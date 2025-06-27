@@ -938,6 +938,12 @@ S4 -> S5 [label = "Attrit = 0"]
 }
 ```
 
+::: {.callout-tip}
+The `Thresholds` dataset contains only data from eligible applicants remaining 
+after listwise deletion of applicants with missing data on the variables used 
+for modeling. 
+::: 
+
 ```{r}
 #| label: tbl-Threshold-Attrit
 #| tbl-cap: Threshold by Attrit Contingency Table (After Listwise Deletion)
