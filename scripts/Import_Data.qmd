@@ -731,6 +731,7 @@ vertically stack the threshold-specific datasets (`T1` to `T4`).
 
 T1 <- Eligible_Applicants_CD %>% 
   select(ID, Stage_Reached, Barrier_TD, ProQOL_BO, ProQOL_CS, ProQOL_STS, 
+         CBarrier_TD, CProQOL_BO, CProQOL_CS, CProQOL_STS, 
          Motivation_NeedSANE, Motivation_PersonalConn, Setting) %>% 
   filter(Stage_Reached >= 1) %>% 
   mutate(Threshold = 1, 
@@ -742,6 +743,7 @@ T1 <- Eligible_Applicants_CD %>%
 
 T2 <- Eligible_Applicants_CD %>% 
   select(ID, Stage_Reached, Barrier_TD, ProQOL_BO, ProQOL_CS, ProQOL_STS, 
+         CBarrier_TD, CProQOL_BO, CProQOL_CS, CProQOL_STS, 
          Motivation_NeedSANE, Motivation_PersonalConn, Setting) %>% 
   filter(Stage_Reached >= 2) %>% 
   mutate(Threshold = 2, 
@@ -753,6 +755,7 @@ T2 <- Eligible_Applicants_CD %>%
 
 T3 <- Eligible_Applicants_CD %>% 
   select(ID, Stage_Reached, Barrier_TD, ProQOL_BO, ProQOL_CS, ProQOL_STS, 
+         CBarrier_TD, CProQOL_BO, CProQOL_CS, CProQOL_STS, 
          Motivation_NeedSANE, Motivation_PersonalConn, Setting) %>% 
   filter(Stage_Reached >= 3) %>% 
   mutate(Threshold = 3, 
@@ -764,6 +767,7 @@ T3 <- Eligible_Applicants_CD %>%
 
 T4 <- Eligible_Applicants_CD %>% 
   select(ID, Stage_Reached, Barrier_TD, ProQOL_BO, ProQOL_CS, ProQOL_STS, 
+         CBarrier_TD, CProQOL_BO, CProQOL_CS, CProQOL_STS, 
          Motivation_NeedSANE, Motivation_PersonalConn, Setting) %>% 
   filter(Stage_Reached >= 4) %>% 
   mutate(Threshold = 4, 
