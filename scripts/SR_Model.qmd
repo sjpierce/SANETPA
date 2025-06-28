@@ -1082,6 +1082,20 @@ emmeans(m4, specs = ~ Threshold., regrid = "response") %>%
 ```
 
 ```{r}
+#| label: fig-emmeans-m4-Threshold
+#| fig-cap: Model 4 Conditional Attrition Rate by Threshold (Main Effect 
+#|          Averaged Over Motivation_NeedSANE)
+#| fig-width: 4
+#| fig-height: 2.5
+
+emmeans(m4, specs = ~ Threshold., regrid = "response") %>% 
+  plot(horizontal = FALSE) +
+  xlab("Attrition Rate") + 
+  ylab("Threshold") + 
+  scale_x_continuous(lim = c(0.00, 0.50), labels = label_number(accuracy = 0.01))
+```
+
+```{r}
 #| label: tbl-emmeans-m4-NeedSANE
 #| tbl-cap: Model 4 Conditional Attrition Rate by Motivation_NeedSANE (Main 
 #|          Effect)
@@ -1101,6 +1115,20 @@ emmeans(m4, specs = ~ Motivation_NeedSANE., regrid = "response") %>%
   add_header_above(header = c(" " = 3, "95% Wald CI" = 2)) %>% 
   footnote(kable_input = ., general = FN, footnote_as_chunk = TRUE, 
            threeparttable = TRUE)
+```
+
+```{r}
+#| label: fig-emmeans-m4-NeedSANE
+#| fig-cap: Model 4 Conditional Attrition Rate by Motivation_NeedSANE (Parallel 
+#|          Main Effect Averaged Over Threshold)
+#| fig-width: 2
+#| fig-height: 2.5
+
+emmeans(m4, specs = ~ Motivation_NeedSANE., regrid = "response") %>% 
+  plot(horizontal = FALSE) +
+  xlab("Attrition Rate") + 
+  ylab("Motivation_NeedSANE") + 
+  scale_x_continuous(lim = c(0.00, 0.50), labels = label_number(accuracy = 0.01))
 ```
 
 ```{r}
