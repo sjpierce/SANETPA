@@ -230,12 +230,12 @@ chunk.end <- proc.time()
 chunk.end - chunk.start
 ```
 
-## Continuation-Ratio Model
+## Stopping-Ratio Model
 Work on this script has begun but is not yet complete. The modeling script seeks 
 to answer several of the research questions. 
 
 ``` {r}
-#| label: CR-Model
+#| label: SR-Model
 #| eval: true
 
 # Memory garbage collection (for more consistent chunk timing).
@@ -244,14 +244,14 @@ gc()
 # Start chunk timer.
 chunk.start <- proc.time()
 
-OutFile <- paste0("CR_Model_", Sys.Date(), ".pdf")
+OutFile <- paste0("SR_Model_", Sys.Date(), ".pdf")
 
 # Render the script in a fresh R session.
-quarto_render(input = here::here("scripts/CR_Model.qmd"), 
+quarto_render(input = here::here("scripts/SR_Model.qmd"), 
               output_format = "pdf",
               output_file = OutFile, 
               execute_params = list(SourceDir = params$SourceDir, 
-                                    SourceFile = "CR_Model.qmd", 
+                                    SourceFile = "SR_Model.qmd", 
                                     LogFile = OutFile),
               execute_dir = here::here("scripts"),
               as_job = "auto")
