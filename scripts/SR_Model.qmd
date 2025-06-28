@@ -1021,7 +1021,7 @@ tidy(m4) %>%
 
 ```{r}
 #| label: tbl-fit-m4
-#| tbl-cap: "Model 2 Fit Statistics"
+#| tbl-cap: "Model 4 Fit Statistics"
 
 glance(m4) %>% 
   kable(format = "latex", booktabs = TRUE, 
@@ -1029,7 +1029,9 @@ glance(m4) %>%
   kable_styling()
 ```
 
-### Compare Models 1 and 2
+\FloatBarrier
+
+### Compare Models 1 and 4
 @tbl-lrt-m1-m2 shows a likelihood ratio test (LRT) comparing Models 1 and 4. 
 
 ```{r}
