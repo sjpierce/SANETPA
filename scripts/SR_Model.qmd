@@ -174,7 +174,7 @@ pursued in this paper.
 # Setup
 This section documents some setup tasks that are useful to the statistician on 
 the team. Most readers of this document will probably want skip directly to 
-@sec-CR-Modeling.
+@sec-SR-Modeling.
 
 \FloatBarrier
 
@@ -306,7 +306,7 @@ Thresholds <- Thresholds %>%
 
 \FloatBarrier
 
-# Overview of Continuation-Ratio Modeling {#sec-CR-Modeling}
+# Overview of Stopping-Ratio Modeling {#sec-SR-Modeling}
 Attrition from the training program can be conceptualized as a sequential 
 filtering process. There are various threshold points between stages of program 
 participation where a participant may either attrit or continue participating.
