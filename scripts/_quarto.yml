@@ -6,6 +6,6 @@ project:
   render:
     - Import_Data.qmd
     - Descriptive_Analyses.qmd
-    - CR_Model.qmd
+    - SR_Model.qmd
     - Production_Run.qmd
 
