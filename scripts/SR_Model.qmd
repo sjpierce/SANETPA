@@ -983,7 +983,7 @@ m3 %>%
 We can safely drop all of the interaction effects from the model. None of them 
 improve the model fit. It may be worth trying a final pair of models that are 
 more parsimonious than Models 2 and 3: they should include models with threshold 
-effect and just parallel and non-parallel effects of `Motivation_NeedSANE.` 
+effect and just parallel and non-parallel effects of `Motivation_NeedSANE` 
 without other focal predictors. 
 :::
 
