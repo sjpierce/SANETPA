@@ -684,21 +684,162 @@ retained. We could in theory remove all the other focal predictors.
 
 \FloatBarrier
 
+## Model 3: Thresholds & Non-Parallel Effects for All Focal Predictors
 In SR models, a predictor has a non-parallel effect when its regression 
-coefficient is allowed to vary across all thresholds. Thus, the predictor has a 
-main effect and an interaction with the threshold. 
+coefficient is allowed to vary across all thresholds. That is implemented by 
+allowing the predictor to have both a main effect and an interaction with the 
+threshold. Continuous predictors must be appropriately centered before model 
+fitting as usual when testing interactions (i.e., moderator hypotheses). Model 3 
+(`m3`) treats threshold as a moderator of the other predictors' effects. See 
+@tbl-params-m3 for paramter estimates and @tbl-fit-m3 for fit ststistics. 
+
+We are continuing to include predictors that did not have significant main 
+effects in Model 2 because it is possible that threshold moderates the effects 
+of other predictors such that there are non-parallel (threshold-specific) 
+effects that get canceled out when averaging across them to estimate a parallel 
+main effect. Thus, our approach maximizes the chance that we detect any 
+unusually nuanced non-parallel effects if they exist. 
+
+```{r}
+#| label: tbl-params-m3
+#| tbl-cap: "Model 3 Parameters"
+
+m3 <- glm(Attrit ~ Threshold. + CBarrier_TD + CProQOL_BO + CProQOL_CS + 
+            CProQOL_STS + Motivation_NeedSANE. + Motivation_PersonalConn. + 
+            Setting. + Threshold.:CBarrier_TD + Threshold.:CProQOL_BO + 
+            Threshold.:CProQOL_CS + Threshold.:CProQOL_STS + 
+            Threshold.:Motivation_NeedSANE. + 
+            Threshold.:Motivation_PersonalConn. + Threshold.:Setting. + 1, 
+          data = Thresholds, family = binomial(link = "logit"))
+
+m5 <- glm(Attrit ~ Threshold. + Motivation_NeedSANE. + 
+          Threshold.:Motivation_NeedSANE. + 1, 
+          data = Thresholds, family = binomial(link = "logit"))
+
+FN <- paste("Values shown are on the link function (logit) scale.")
+
+tidy(m3) %>% 
+  cbind(confint.default(m3)) %>% 
+  as_tibble() %>% 
+  rename(Parameter = term, Est = estimate, SE = std.error, z = statistic, 
+         p = p.value, LL = `2.5 %`, UL = `97.5 %`) %>% 
+  mutate(Parameter = str_replace(string = Parameter, pattern = ":", 
+                                 replacement = " x "), 
+         p = display_num(p),
+         OR = exp(Est), 
+         OR.LL = exp(LL), 
+         OR.UL = exp(UL)) %>% 
+  relocate(Parameter, Est, SE, LL, UL, OR, OR.LL, OR.UL, z, p) %>% 
+  kable(format = "latex", booktabs = TRUE, digits = 2) %>% 
+  kable_styling(font_size = 10) %>% 
+  add_header_above(header = c(" " = 3, "95% Wald CI" = 2, " " = 1, 
+                              "OR 95% Wald CI" = 2, "Wald Test" =  2)) %>% 
+  column_spec(column = 1, width = "5.5cm")
+```
+
+```{r}
+#| label: tbl-fit-m3
+#| tbl-cap: "Model 1 Fit Statistics"
+
+glance(m3) %>% 
+  kable(format = "latex", booktabs = TRUE, 
+        digits = c(2, 0, 2, 2, 2, 2, 0, 0)) %>% 
+  kable_styling()
+```
+
+\FloatBarrier
+
+### Check for Multicollinearity
+@tbl-GVIF-m3 shows the generalized variance inflation factors (GVIF) for Model 
+3. 
+
+```{r}
+#| label: tbl-GVIF-m3
+#| tbl-cap: Model 3 Generalized Variance Inflation Factors for Predictors
+#| warning: false
+
+FN <- paste("Values >= 3 in the last column indicate multicollinearity problems.")
+
+car::vif(m3) %>% 
+  as.data.frame() %>% 
+  rownames_to_column(var = "Term") %>% 
+  mutate(Term = str_replace(string = Term, pattern = ":", 
+                            replacement = " x ")) %>%  
+  kable(format = "latex", booktabs = TRUE, digits = 2) %>% 
+  kable_styling() %>% 
+  footnote(kable_input = ., general = FN, footnote_as_chunk = TRUE, 
+           threeparttable = TRUE)
+```
 
 ::: {.callout-tip}
-* We need all focal predictors to have both main effects and interactions with 
-  threshold in this model to get non-parallel effects. Main effects are 
-  required for proper estimation of the interaction. 
-* Continuous predictors must be appropriately centered before model fitting.
-* We can probably use either `emmeans()` or `glht()` to get contrasts that 
-  clarify simple slopes for interactions. 
-* We can probably use `emmeans()` or `predict()` to get conditional rates for 
-  plotting effects. 
-    
+We do not appear to have any multicollinearity problems in Model 3
 :::
+
+\FloatBarrier
+
+### Compare Models 2 and 3
+@tbl-lrt-m2-m3 shows a likelihood ratio test (LRT) comparing Models 2 and 3. 
+
+```{r}
+#| label: tbl-lrt-m2-m3
+#| tbl-cap: "Likehood Ratio Test Comparing Models 2 and 3"
+
+test_lrt(m2, m3) %>% 
+  as_tibble() %>% 
+  mutate(p = display_num(p),
+         Model = if_else(Name == "m2", 
+                         true = "Thesholds + All Parallel Effects", 
+                         false = "Thresholds + All Non-Parallel Effects")) %>% 
+  #select(-term) %>% 
+  kable(format = "latex", booktabs = TRUE, digits = c(0, 0, 0, 0, 2, 3),
+        col.names = c("Model", "Terms", "df", "df_diff", "LRT", "p")) %>% 
+  kable_styling()
+```
+
+::: {.callout-caution}
+This is a simultaneous test of whether adding non-parallel effects for all of 
+the focal predictors as a block improved the model fit enough to justify adding 
+that many extra parameters. Apparently it did not. We should still look more 
+closely at the effects of individual predictors via single-term deletion tests.
+:::
+
+\FloatBarrier
+
+### Single Term Deletion Tests
+@tbl-drop1-m3 shows the effect of deleting specific interaction terms from the 
+model to determine whether doing so worsens model fit. Significant effects 
+should be retained in the model because omitting them would damage the model 
+fit. We do not test main effects for predictors involved in interactions because 
+we need to respect the principle of marginality 
+[@Fox-RN3484; @Hector-RN3472; @Langsrud-RN1287]. 
+
+```{r}
+#| label: tbl-drop1-m3
+#| tbl-cap: "Model 3 Single Term Deletion Tests (Type II SS)"
+#| warning: false
+
+m3 %>% 
+  drop1(., test = "LRT") %>% 
+  tidy() %>% 
+  rename(p = p.value) %>% 
+  mutate(term = str_replace(string = term, pattern = ":", 
+                            replacement = " x "), 
+         p = display_num(p)) %>% 
+  kable(format = "latex", booktabs = TRUE,
+        digits = c(0, 0, 2, 2, 2, Inf),
+        col.names = c("Term Deleted", "df", "Deviance", "AIC", "LRT", "p")) %>% 
+  kable_styling() 
+```
+
+::: {.callout-tip}
+We can safely drop all of the interaction effects from the model. None of them 
+improve the model fit. It may be worth trying a final pair of models that are 
+more parsimonious than Models 2 and 3: they should include models with threshold 
+effect and just parallel and non-parallel effects of `Motivation_NeedSANE.` 
+without other focal predictors. 
+:::
+
+\FloatBarrier
 
 # References
 ::: {#refs}
