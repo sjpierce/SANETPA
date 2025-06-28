@@ -103,7 +103,7 @@ execute:                              # Default Quarto chunk execution options
 knitr:                                # Default R knitr package chunk options
   opts_chunk: 
     message: true
-    cfsize: "footnotesize"  
+    cfsize: "tiny"  
 ---
 
 \lfoot{\texttt{\small \detokenize{`r params$LogFile`}}}
