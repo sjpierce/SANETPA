@@ -127,8 +127,7 @@ The research questions may be briefly stated as follows:
 
 * **RQ1.** What are the attrition rates from the program at each of the four 
   thresholds representing transitions between stages of program participation?
-* **RQ2.** How well do the following factors predict attrition rates at each 
-  those four thresholds? 
+* **RQ2.** Which focal predictors affect attrition rates? 
     * Burnout.
     * Compassion satisfaction.
     * Secondary traumatic stress.
@@ -138,8 +137,9 @@ The research questions may be briefly stated as follows:
       community or organization.
     * Motivated to seek the training by a personal connection to sexual assault 
       (e.g., someone they know is a survivor). 
-* **RQ3.** Which predictors have parallel effects (constant across thresholds) 
-  on attrition and which ones have non-parallel (threshold-specific) effects?
+* **RQ3.** Which focal predictors have parallel effects (constant across 
+  thresholds) on attrition and which ones have non-parallel (threshold-specific) 
+  effects?
 * **RQ4.** How strongly is starting each of specific modules in the didactic 
   training associated with attrition during the didactic training? 
 * **RQ5.** Is starting the module on the physical exam of a sexual assault 
