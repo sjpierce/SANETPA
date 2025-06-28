@@ -231,6 +231,19 @@ library(SANETPA)        # for version info
 
 \FloatBarrier
 
+## Define Custom Functions
+The function below will be used to format p-values later in the output. 
+
+```{r}
+#| label: display-num
+
+display_num <- function(x) {
+  case_when(x >= 1000000 ~ sprintf("%.2e", x),
+            x < .001 ~ sprintf("%.2e", x),
+            .default = sprintf("%.3f", x)) 
+}
+```
+
 ## Declare Path
 This next chunk declares the path to this script relative to the project-level 
 root directory. If the file is not in the right location under the project root
