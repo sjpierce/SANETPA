@@ -1063,10 +1063,10 @@ show the combined result of the two main effects .
 
 ```{r}
 #| label: tbl-emmeans-m4-Threshold
-#| tbl-cap: "Model 4 Conditional Attrition Rate by Threshold"
+#| tbl-cap: Model 4 Conditional Attrition Rate by Threshold (Main Effect)
 
 FN <- paste("Values are on the probability scale.", 
-            "Reseults are averaged over the levels of Motivation_NeedSANE.",
+            "Results are averaged over the levels of Motivation_NeedSANE.",
             "EMM, estimated marginal mean.")
 
 emmeans(m4, specs = ~ Threshold., regrid = "response") %>% 
@@ -1083,10 +1083,12 @@ emmeans(m4, specs = ~ Threshold., regrid = "response") %>%
 
 ```{r}
 #| label: tbl-emmeans-m4-NeedSANE
-#| tbl-cap: "Model 4 Conditional Attrition Rate by Motivation_NeedSANE"
+#| tbl-cap: Model 4 Conditional Attrition Rate by Motivation_NeedSANE (Main 
+#|          Effect)
 
-FN <- paste("Values are on the probability scale.",
-            "Reseults are averaged over the levels of Threshold.",
+FN <- paste("Motivation_NeedSANE has a parallel effect on attrition.",
+            "Values are on the probability scale.",
+            "Results are averaged over the levels of Threshold.",
             "EMM, estimated marginal mean.")
 
 emmeans(m4, specs = ~ Motivation_NeedSANE., regrid = "response") %>% 
@@ -1103,9 +1105,11 @@ emmeans(m4, specs = ~ Motivation_NeedSANE., regrid = "response") %>%
 
 ```{r}
 #| label: tbl-emmeans-m4-Both
-#| tbl-cap: "Model 4 Conditional Attrition Rate by Threshold and Motivation_NeedSANE"
+#| tbl-cap: Model 4 Conditional Attrition Rate by Threshold and 
+#|          Motivation_NeedSANE (Main Effects)
 
-FN <- paste("Values are on the probability scale.", 
+FN <- paste("Motivation_NeedSANE has a parallel effect on attrition.",
+            "Values are on the probability scale.", 
             "EMM, estimated marginal mean.")
 
 emmeans(m4, specs = ~ Threshold. | Motivation_NeedSANE., regrid = "response") %>% 
