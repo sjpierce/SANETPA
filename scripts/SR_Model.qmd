@@ -118,7 +118,7 @@ program and understand predictors of attrition at each of those points.
 
 This file reads an R data file created by another script in this compendium,
 documents some methodology decisions and details, then runs the
-continuation-ratio models that comprise the main analysis for the study. This
+stopping-ratio models that comprise the main analysis for the study. This
 file also contains some narrative interpretation of the results and
 supplementary output such as tables and graphs derived from the models.
 
