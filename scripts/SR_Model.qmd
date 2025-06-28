@@ -959,7 +959,7 @@ emmeans(m4, specs = ~ Threshold. | Motivation_NeedSANE., regrid = "response") %>
   as_tibble() %>% 
   arrange(Threshold., Motivation_NeedSANE.) %>% 
   select(!df) %>% 
-  kable(format = "html", booktabs = TRUE, 
+  kable(format = "latex", booktabs = TRUE, 
         digits = c(0, 0, 3, 3, 3, 3),
         col.names = c("Threshold", "Motivation_NeedSANE.", "Rate (EMM)", "SE", 
                       "LL", "UL")) %>% 
