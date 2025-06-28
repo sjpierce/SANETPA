@@ -652,12 +652,12 @@ test_lrt(m1, m2) %>%
 \FloatBarrier
 
 ::: {.callout-caution}
-This is a simultaneous test of whether adding parallel effects for all of the 
-focal predictors as a block improved the model fit enough to justify adding that 
-many extra parameters. Apparently it did not. However, the Wald tests in 
-@tbl-params-m2 suggest that `Motivation_NeedSANE.` has an effect while none 
-of the other predictors do. We need to look more closely at the effects of 
-individual predictors via single-term deletion tests.
+This is a simultaneous test of whether adding parallel effects for all of the
+focal predictors as a block improved the model fit enough to justify adding that
+many extra parameters. It did not. However, the Wald tests in @tbl-params-m2 
+suggest that `Motivation_NeedSANE.` has an effect while none of the other
+predictors do. We need to look more closely at the effects of individual
+predictors via single-term deletion tests.
 :::
 
 ### Single Term Deletion Tests
