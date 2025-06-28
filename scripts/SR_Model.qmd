@@ -297,11 +297,12 @@ file.info(DataFile, extra_cols = FALSE) %>%
 #| label: tbl-datasets
 #| tbl-cap: "Sizes of the Datasets"
 
-data.frame(Dataset = c("Applicants", "Eligible_Applicants", "Thresholds"),
+data.frame(Dataset = c("Applicants", "Eligible_Applicants", 
+                       "Eligible_Applicants_CD", "Thresholds"),
            N_Rows = c(nrow(Applicants), nrow(Eligible_Applicants), 
-                      nrow(Thresholds)),
-           N_Cols = c(ncol(Applicants), ncol(Eligible_Applicants), 
-                      ncol(Thresholds))) %>% 
+                      nrow(Eligible_Applicants_CD), nrow(Thresholds)),
+           N_Cols = c(ncol(Applicants), ncol(Eligible_Applicants),
+                      ncol(Eligible_Applicants_CD), ncol(Thresholds))) %>% 
   kable(, format = "latex", booktabs = TRUE, 
         col.names = c("Dataset", "N Rows", "N Columns")) %>% 
   kable_styling() 
