@@ -1172,6 +1172,83 @@ emmeans(m4, specs = ~ Motivation_NeedSANE. | Threshold., regrid = "response") %>
   scale_x_continuous(lim = c(0.00, 0.50), labels = label_number(accuracy = 0.01))
 ```
 
+\FloatBarrier
+
+## Model 5: Thresholds & Non-Parallel Effect for `Motivation_NeedSANE` 
+Model 5 uses a non-parallel effect for `Motivation_NeedSANE` without any of the 
+other focal predictors. @tbl-params-m5 shows the parameter estimates and 
+@tbl-fit-m5 shows the fit indices. 
+
+```{r}
+#| label: tbl-params-m5
+#| tbl-cap: "Model 5 Parameters"
+
+m5 <- glm(Attrit ~ Threshold. + Motivation_NeedSANE. + 
+          Threshold.:Motivation_NeedSANE. + 1, 
+          data = Thresholds, family = binomial(link = "logit"))
+
+FN <- paste("Values shown are on the link function (logit) scale.")
+
+tidy(m5) %>% 
+  cbind(confint.default(m5)) %>% 
+  as_tibble() %>% 
+  rename(Parameter = term, Est = estimate, SE = std.error, z = statistic, 
+         p = p.value, LL = `2.5 %`, UL = `97.5 %`) %>% 
+  mutate(Parameter = str_replace(string = Parameter, pattern = ":", 
+                                 replacement = " x "), 
+         p = display_num(p),
+         OR = exp(Est), 
+         OR.LL = exp(LL), 
+         OR.UL = exp(UL)) %>% 
+  relocate(Parameter, Est, SE, LL, UL, OR, OR.LL, OR.UL, z, p) %>% 
+  kable(format = "latex", booktabs = TRUE, digits = 2) %>% 
+  kable_styling(font_size = 10) %>% 
+  add_header_above(header = c(" " = 3, "95% Wald CI" = 2, " " = 1, 
+                              "OR 95% Wald CI" = 2, "Wald Test" =  2)) %>% 
+  column_spec(column = 1, width = "5.5cm")
+```
+
+```{r}
+#| label: tbl-fit-m5
+#| tbl-cap: "Model 5 Fit Statistics"
+
+glance(m5) %>% 
+  kable(format = "latex", booktabs = TRUE, 
+        digits = c(2, 0, 2, 2, 2, 2, 0, 0)) %>% 
+  kable_styling()
+```
+
+\FloatBarrier
+
+### Compare Models 4 and 5
+@tbl-lrt-m4-m5 shows a likelihood ratio test (LRT) comparing Models 4 and 5. 
+
+```{r}
+#| label: tbl-lrt-m4-m5
+#| tbl-cap: "Likehood Ratio Test Comparing Models 4 and 5"
+
+test_lrt(m4, m5) %>% 
+  as_tibble() %>% 
+  mutate(p = display_num(p),
+         Model = if_else(Name == "m4", 
+                         true = "Thesholds + Parallel Effect of Motivation_NeedSANE", 
+                         false = "Thresholds + Non-Parallel Effect of Motivation_NeedSANE")) %>% 
+  #select(-term) %>% 
+  kable(format = "latex", booktabs = TRUE, digits = c(0, 0, 0, 0, 2, 3),
+        col.names = c("Model", "Terms", "df", "df_diff", "LRT", "p")) %>% 
+  kable_styling()
+```
+
+::: {.callout-tip}
+This is a simultaneous test of whether adding a non-parallel effect for
+`Motivation_NeedSANE` improved the model fit enough to justify adding that many
+extra parameters. It did not. We can safely drop the interaction effect from the
+model. That tells us we that if we're comfortable pursuing a more parsimonious 
+model than Model 2, we should interpret Model 4 instead of Model 5. 
+:::
+
+\FloatBarrier
+
 # References
 ::: {#refs}
 :::
