@@ -842,6 +842,16 @@ effects that get canceled out when averaging across them to estimate a parallel
 main effect. Thus, our approach maximizes the chance that we detect any 
 unusually nuanced non-parallel effects if they exist. 
 
+::: {.callout-caution}
+Model 3 is rather ambitious given the sample size we have available. It is
+adding seven interaction effects: that yields many extra parameters. This poses
+some risk for over-fitting the model, but testing for non-parallel effects
+either requires fitting this one model, or fitting a set of seven other models
+where we add only a single non-parallel effect at a time. Fitting this larger
+model is more efficient and reduces the total amount of output we have to
+review.
+:::
+
 ```{r}
 #| label: tbl-params-m3
 #| tbl-cap: "Model 3 Parameters"
