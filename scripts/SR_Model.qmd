@@ -570,9 +570,6 @@ m2 <- glm(Attrit ~ Threshold. + CBarrier_TD + CProQOL_BO + CProQOL_CS +
             Setting. + 1, 
           data = Thresholds, family = binomial(link = "logit"))
 
-m4 <- glm(Attrit ~ Threshold. + Motivation_NeedSANE. + 1 , 
-          data = Thresholds, family = binomial(link = "logit"))
-
 FN <- paste("Values shown are on the link function (logit) scale.")
 
 tidy(m2) %>% 
@@ -722,10 +719,6 @@ m3 <- glm(Attrit ~ Threshold. + CBarrier_TD + CProQOL_BO + CProQOL_CS +
             Threshold.:CProQOL_CS + Threshold.:CProQOL_STS + 
             Threshold.:Motivation_NeedSANE. + 
             Threshold.:Motivation_PersonalConn. + Threshold.:Setting. + 1, 
-          data = Thresholds, family = binomial(link = "logit"))
-
-m5 <- glm(Attrit ~ Threshold. + Motivation_NeedSANE. + 
-          Threshold.:Motivation_NeedSANE. + 1, 
           data = Thresholds, family = binomial(link = "logit"))
 
 FN <- paste("Values shown are on the link function (logit) scale.")
