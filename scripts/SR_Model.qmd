@@ -1,5 +1,5 @@
 ---
-title: Continuation-Ratio Modeling Results
+title: Stopping-Ratio Modeling Results
 subtitle: | 
           | CSTAT Case: C1788
           | Clients: Rebecca Campbell, Autumn Ashley, & Katherine Dontje
@@ -17,11 +17,11 @@ bibliography: references.bib          # File holds BibTeX data for references
 csl: apa.csl                          # File controls citation & reference list format
 params:                               # Default values for parameters
   SourceDir: "scripts/"               # Relative path to folder holding this file
-  SourceFile: "CR_Model.qmd"          # Name of this script file
-  LogFile: "CR_Model_Draft.pdf"       # Name of rendered output file
+  SourceFile: "SR_Model.qmd"          # Name of this script file
+  LogFile: "SR_Model_Draft.pdf"       # Name of rendered output file
 format: 
   pdf:                                # Settings for PDF output
-    output-file: "CR_Model_Draft.pdf" # Default output file name 
+    output-file: "SR_Model_Draft.pdf" # Default output file name 
     output-ext: "pdf"                 # Default file name extension
     documentclass: scrartcl           # LaTeX document type
     papersize: letter
@@ -78,7 +78,7 @@ format:
           \pretitle{\begin{center}\LARGE\bfseries\sffamily}
           \posttitle{\end{center}}
           \pagestyle{fancy}
-          \lhead{SANETPA CR Models}
+          \lhead{SANETPA SR Models}
           \chead{\includegraphics[height=0.85cm]{../graphics/Combomark-Horiz_Pantone-567.eps}}
           \rhead{\today\ \currenttime}
           \cfoot{ }
