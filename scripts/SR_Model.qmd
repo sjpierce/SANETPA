@@ -422,6 +422,13 @@ assessing the effects of predictors on program attrition.
 
 [@Smithson-RN2775]
 
+The reference levels for categorical predictors will be: 
+
+* `Threshold.`: `1`
+* `Setting.`: `Urban`
+* `Motivation_NeedSANE.`: `No`
+* `Motivation_PersonalConn.`: `No`
+
 \FloatBarrier
 
 # Results
@@ -431,6 +438,8 @@ estimate the minimum number of models required to answer research questions
 RQ1, RQ2, and RQ3 and obtain a parsimonious final model. We examine model 
 diagnostics and fit statistics, model comparisons, and other supplementary 
 output (e.g., effect sizes, estimated marginal means, etc.) as needed. 
+
+\FloatBarrier
 
 ## Model 1: Thresholds Alone
 The modeling starts by first fitting a very simple model (`m1`) containing only 
