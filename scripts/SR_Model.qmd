@@ -451,12 +451,10 @@ varies across the thresholds. @tbl-params-m1 shows the model parameters and
 #| label: tbl-params-m1
 #| tbl-cap: "Model 1 Parameters"
 
-m1 <- glm(Attrit ~ Threshold_T - 1, data = Thresholds, 
-          family = binomial(link = "logit"))
-#summary(m1)
+m1 <- glm(Attrit ~ Threshold. + 1, 
+          data = Thresholds, family = binomial(link = "logit"))
 
-FN <- paste("Values shown are on the link function (logit) scale.",
-            "Likelihood profile confidence intervals are reported.")
+FN <- paste("Values shown are on the link function (logit) scale.")
 
 tidy(m1) %>% 
   cbind(confint.default(m1)) %>% 
@@ -473,6 +471,7 @@ tidy(m1) %>%
   add_header_above(header = c(" " = 3, "95% Wald CI" = 2, " " = 1, 
                               "OR 95% Wald CI" = 2, "Wald Test" =  2))
 ```
+
 ```{r}
 #| label: tbl-fit-m1
 #| tbl-cap: "Model 1 Fit Statistics"
@@ -483,21 +482,15 @@ glance(m1) %>%
   kable_styling()
 ```
 
-::: {.callout-tip}
-* We can probably use either `emmeans()` or `glht()` to get contrasts that 
-  clarify simple slopes for interactions. 
-* We can probably use `emmeans()` or `predict()` to get conditional rates for 
-  plotting effects. 
-    
-:::
+\FloatBarrier
 
 ### Single Term Deletion Tests
-@tbl-anova-m1 shows the effect of deleting specific terms from the model to 
-determine whether doing so worsens model fit. Significant effects should be 
-retained in the model because omitting them would damage the model fit.
+@tbl-drop1-m1 shows the effect of deleting the threshold term from the model to 
+determine whether doing so worsens model fit. A significant effect should be 
+retained in the model because omitting it would damage the model fit.
 
 ```{r}
-#| label: tbl-anova-m1
+#| label: tbl-drop1-m1
 #| tbl-cap: "Model 1 Single Term Deletion Tests (Type II SS)"
 #| warning: false
 
@@ -512,12 +505,21 @@ m1 %>%
   kable_styling() 
 ```
 
+::: {.callout-tip}
+Removing the threshold main effect would harm model fit, so we will keep it in 
+all subsequent models.
+:::
+
+\FloatBarrier
+
 ### Estimated Marginal Means
-Because `Threshold_T` is the sole predictor, we get estimated marginal means 
-(EMMs) based on the intercept parameters that can be back-transformed to the
-response (probability) scale. These directly estimate the attrition rate at each
-threshold and agree with the simple descriptive statistics for percent attrition
-at each threshold. @tbl-emmeans-m1 shows the EMMs. 
+The presence of a threshold main effect means that the attrition rate varies
+across thresholds. Next we compute estimated marginal means (EMMs) for each
+threshold and back-transform them to the response (probability) scale to see the
+attrition rate at each threshold. We expect these rates to agree with the simple
+descriptive statistics for percent attrition at each threshold because threshold
+is the sole predictor in Model 1. @tbl-emmeans-m1 shows the EMMs derived from
+Model 1.
 
 ```{r}
 #| label: tbl-emmeans-m1
@@ -526,7 +528,7 @@ at each threshold. @tbl-emmeans-m1 shows the EMMs.
 FN <- paste("Values are on the probability scale.",
             "EMM, estimated marginal mean.")
 
-emmeans(m1, specs = ~ Threshold_T, regrid = "response") %>% 
+emmeans(m1, specs = ~ Threshold., regrid = "response") %>% 
   as_tibble() %>% 
   select(!df) %>% 
   kable(format = "latex", booktabs = TRUE, 
