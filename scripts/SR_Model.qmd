@@ -443,20 +443,9 @@ output (e.g., effect sizes, estimated marginal means, etc.) as needed.
 
 ## Model 1: Thresholds Alone
 The modeling starts by first fitting a very simple model (`m1`) containing only 
-a threshold main effect. Using only `Threshold_T` as a predictor and omitting 
-the normal intercept term allows us to estimate a separate intercept for each 
-threshold. @tbl-params-m1 shows the the model parameters and @tbl-fit-m1 shows 
-its fit statistics. 
-
-```{r}
-#| label: display-num
-
-display_num <- function(x) {
-  case_when(x >= 1000000 ~ sprintf("%.2e", x),
-            x < .001 ~ sprintf("%.2e", x),
-            .default = sprintf("%.3f", x)) 
-}
-```
+a threshold main effect. This should allow is to see whether attrition rate 
+varies across the thresholds. @tbl-params-m1 shows the model parameters and 
+@tbl-fit-m1 shows its fit statistics. 
 
 ```{r}
 #| label: tbl-params-m1
