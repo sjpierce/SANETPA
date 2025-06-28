@@ -833,7 +833,7 @@ allowing the predictor to have both a main effect and an interaction with the
 threshold. Continuous predictors must be appropriately centered before model 
 fitting as usual when testing interactions (i.e., moderator hypotheses). Model 3 
 (`m3`) treats threshold as a moderator of the other predictors' effects. See 
-@tbl-params-m3 for paramter estimates and @tbl-fit-m3 for fit ststistics. 
+@tbl-params-m3 for parameter estimates and @tbl-fit-m3 for fit statistics. 
 
 We are continuing to include predictors that did not have significant main 
 effects in Model 2 because it is possible that threshold moderates the effects 
