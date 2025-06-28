@@ -1240,11 +1240,11 @@ test_lrt(m4, m5) %>%
 ```
 
 ::: {.callout-tip}
-This is a simultaneous test of whether adding a non-parallel effect for
-`Motivation_NeedSANE` improved the model fit enough to justify adding that many
-extra parameters. It did not. We can safely drop the interaction effect from the
-model. That tells us we that if we're comfortable pursuing a more parsimonious 
-model than Model 2, we should interpret Model 4 instead of Model 5. 
+This tests whether adding a non-parallel effect for `Motivation_NeedSANE` 
+improved the model fit enough to justify adding that many extra parameters. It 
+did not. We can safely drop the interaction effect from the model. That tells us
+we that if we're comfortable pursuing a more parsimonious model than Model 2, we
+should interpret Model 4 instead of Model 5.
 :::
 
 \FloatBarrier
