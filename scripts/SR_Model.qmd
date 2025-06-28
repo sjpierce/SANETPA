@@ -1260,7 +1260,7 @@ rates vary across thresholds and all subsequent models continued to demonstrate
 that fact. 
 
 The simplest answer to RQ1 is presented in @tbl-emmeans-m1 and @fig-emmeans-m1,
-but both Model 2 and Model 4 provides better answers. Model 2 output 
+but both Model 2 and Model 4 provide better answers. Model 2 output 
 (@tbl-emmeans-m2-Both and @fig-emmeans-m2-Both) controls for all focal 
 predictors regardless of whether their effects were significant. Model 4 output 
 (@tbl-emmeans-m4-Both and @fig-emmeans-m4-Both) only controls for the sole focal 
