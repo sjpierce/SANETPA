@@ -310,18 +310,6 @@ data.frame(Dataset = c("Applicants", "Eligible_Applicants",
 
 \FloatBarrier
 
-# Prepare Data
-
-```{r}
-#| label: prepare-data
-
-Thresholds <- Thresholds %>% 
-  # Convert variables to factors
-  mutate(Threshold_T = factor(Threshold))
-```
-
-\FloatBarrier
-
 # Overview of Stopping-Ratio Modeling {#sec-SR-Modeling}
 Attrition from the training program can be conceptualized as a sequential 
 filtering process. There are various threshold points between stages of program 
