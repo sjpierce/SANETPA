@@ -989,9 +989,9 @@ without other focal predictors.
 
 \FloatBarrier
 
-## Model 4: Thresholds & Parallel Effect for `Motivation_NeedSANE.`
-Model 2 uses a parallel effect for `Motivation_NeedSANE.` without any of the 
-other focal preddictors. @tbl-params-m4 shows the parameter estimates and 
+## Model 4: Thresholds & Parallel Effect for `Motivation_NeedSANE`
+Model 4 uses a parallel effect for `Motivation_NeedSANE` without any of the 
+other focal predictors. @tbl-params-m4 shows the parameter estimates and 
 @tbl-fit-m4 shows the fit indices. 
 
 ```{r}
