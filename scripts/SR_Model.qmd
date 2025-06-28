@@ -887,7 +887,7 @@ tidy(m3) %>%
 
 ```{r}
 #| label: tbl-fit-m3
-#| tbl-cap: "Model 1 Fit Statistics"
+#| tbl-cap: "Model 3 Fit Statistics"
 
 glance(m3) %>% 
   kable(format = "latex", booktabs = TRUE, 
