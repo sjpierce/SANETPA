@@ -127,15 +127,17 @@ The research questions may be briefly stated as follows:
 
 * **RQ1.** What are the attrition rates from the program at each of the four 
   thresholds representing transitions between stages of program participation?
-* **RQ2.** How much do the following factors predict attrition rates at each 
+* **RQ2.** How well do the following factors predict attrition rates at each 
   those four thresholds? 
-    * Whether the trainee practices nursing in a rural area.
-    * Whether the trainee perceives a lack of other local resources for 
-      survivors of sexual assault.
-    * Whether the trainee has a personal connection to the issue of sexual 
-      assault. 
-    * Whether there are other outside demands on a trainee's time.
-    * The trainee's level of exposure to vicarious trauma. 
+    * Burnout.
+    * Compassion satisfaction.
+    * Secondary traumatic stress.
+    * Barrier time demands.
+    * Primary setting where the trainee practices nursing.
+    * Motivated to seek the training by a need for SANE services in their 
+      community or organization.
+    * Motivated to seek the training by a personal connection to sexual assault 
+      (e.g., someone they know is a survivor). 
 * **RQ3.** Which predictors have parallel effects (constant across thresholds) 
   on attrition and which ones have non-parallel (threshold-specific) effects?
 * **RQ4.** How strongly is starting each of specific modules in the didactic 
@@ -147,7 +149,7 @@ The research questions may be briefly stated as follows:
 
 ::: {.callout-tip}
 This file addresses research questions RQ1, RQ2, and RQ3 because those are best 
-handled via continuation-ratio models. Research questions RQ4 and RQ5 will be 
+handled via stopping-ratio models. Research questions RQ4 and RQ5 will be 
 answered in another file because they are better handled with different 
 statistical methods. 
 :::
