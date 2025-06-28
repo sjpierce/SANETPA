@@ -660,6 +660,8 @@ predictors do. We need to look more closely at the effects of individual
 predictors via single-term deletion tests.
 :::
 
+\FloatBarrier
+
 ### Single Term Deletion Tests
 @tbl-drop1-m2 shows the effect of deleting specific terms from the model to 
 determine whether doing so worsens model fit. Each main effect term is tested 
