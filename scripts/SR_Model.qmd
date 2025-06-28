@@ -503,8 +503,10 @@ m1 %>%
 ```
 
 ::: {.callout-tip}
-Removing the threshold main effect would harm model fit, so we will keep it in 
-all subsequent models.
+The threshold main effect is integral to fitting a stopping-ratio model. It must
+remain in the model to properly test for both parallel and non-parallel effects
+of focal predictors. Removing the threshold main effect would also harm model
+fit, so we will keep it in all subsequent models.
 :::
 
 \FloatBarrier
