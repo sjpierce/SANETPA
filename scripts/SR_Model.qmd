@@ -1055,10 +1055,11 @@ test_lrt(m1, m4) %>%
 ### Estimated Marginal Means
 Next we compute estimated marginal means (EMMs) for each threshold and 
 back-transform them to the response (probability) scale to see the attrition 
-rate at each threshold. @tbl-emmeans-m4-Threshold and tbl-emmeans-m4-NeedSANE 
-respectively show the EMMs derived from Model 4 for each threshold and each 
-level of `Motivation_NeedSANE.`, while @tbl-emmeans-m4-Both shows the combined 
-effect of the two main effects. 
+rate at each threshold. @tbl-emmeans-m4-Threshold and @fig-emmeans-m4-Threshold 
+show the EMMs derived from Model 4 for each threshold, while 
+@tbl-emmeans-m4-NeedSANE and @fig-emmeans-m4-NeedSANE show the EMMs for each 
+level of `Motivation_NeedSANE`. @tbl-emmeans-m4-Both and @fig-emmeans-m4-Both 
+show the combined result of the two main effects .
 
 ```{r}
 #| label: tbl-emmeans-m4-Threshold
