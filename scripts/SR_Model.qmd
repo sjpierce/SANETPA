@@ -1249,6 +1249,64 @@ model than Model 2, we should interpret Model 4 instead of Model 5.
 
 \FloatBarrier
 
+# Conclusions
+
+## RQ1: What are the attrition rates from the program at each of the four thresholds representing transitions between stages of program participation?
+
+If we just want to know the overall average attrition rate at each threshold, we
+need to examine the main effect of threshold. Model 1 demonstrated that the
+attrition rate is not constant throughout the program. Instead, the attrition
+rates vary across thresholds and all subsequent models continued to demonstrate 
+that fact. 
+
+The simplest answer to RQ1 is presented in @tbl-emmeans-m1 and @fig-emmeans-m1,
+but both Model 2 and Model 4 provides better answers. Model 2 output 
+(@tbl-emmeans-m2-Both and @fig-emmeans-m2-Both) controls for all focal 
+predictors regardless of whether their effects were significant. Model 4 output 
+(@tbl-emmeans-m4-Both and @fig-emmeans-m4-Both) only controls for the sole focal 
+predictor that mattered. 
+
+## RQ2: Which focal predictors affect attrition rates? 
+Of the seven focal predictors we examined, only whether an applicant was 
+motivated to seek the training by a need for SANE services in their community or 
+organization had a meaningful effect on attrition. The evidence for this lies 
+in the single-term deletion tests from Model 2 (@tbl-drop1-m2) and the 
+comparison of Models 1 and 4 (@tbl-lrt-m1-m2). 
+
+Applicants who reported having that motivation experienced lower attrition than 
+applicants who did not report that motivation. The odds-ratio for this effect in 
+Model 2 (@tbl-params-m2) controls for all other focal predictors, while the one 
+in Model 4 (@tbl-params-m4) does not. 
+
+Our analyses showed no evidence that the size remaining focal predictors listed
+below exert any influence on attrition from the SANE training program. This is
+surprising and counter-intuitive, but is nonetheless what our analyses show.
+
+* Burnout.
+* Compassion satisfaction.
+* Secondary traumatic stress.
+* Barrier time demands.
+* Primary setting where the trainee practices nursing.
+* Motivated to seek the training by a personal connection to sexual assault 
+  (e.g., someone they know is a survivor). 
+
+## RQ3: Which focal predictors have parallel effects (constant across thresholds) on attrition and which ones have non-parallel (threshold-specific) effects?
+The comparison of Model 2 and 3 (@tbl-lrt-m2-m3), the single-term deletion tests 
+from Model 3 (@tbl-drop1-m3) and the comparison of Models 4 and 5 
+(@tbl-lrt-m4-m5) all demonstrate that none of the focal predictors have 
+non-parallel effects on attrition. 
+
+As notes above in the conclusions regarding RQ2, whether an applicant was 
+motivated to seek the training by a need for SANE services in their community or 
+organization had a parallel effect on attrition. The evidence for this lies 
+in the single-term deletion tests from Model 2 (@tbl-drop1-m2) and the 
+comparison of Models 1 and 4 (@tbl-lrt-m1-m2). 
+
+Applicants who reported having that motivation experienced lower attrition than 
+applicants who did not report that motivation. The odds-ratio for this effect in 
+Model 2 (@tbl-params-m2) controls for all other focal predictors, while the one 
+in Model 4 (@tbl-params-m4) does not. 
+
 # References
 ::: {#refs}
 :::
