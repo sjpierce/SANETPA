@@ -540,20 +540,150 @@ emmeans(m1, specs = ~ Threshold., regrid = "response") %>%
            threeparttable = TRUE)
 ```
 
-## Model 2: Thresholds & Parallel Effects for Focal Predictors
+\FloatBarrier
+
+## Model 2: Thresholds & Parallel Effects for All Focal Predictors
 In SR models, a predictor has a parallel effect when its regression coefficient 
-is constrained equal across all thresholds. Thus, the predictor only has a 
-main effect and does not interact with the threshold. 
+is constrained equal across all thresholds. This is implemented by estimating 
+only a main effect for the predictor (it cannot interact with the threshold). 
+Model 2 (`m2`) uses parallel effects for the focal predictors. See 
+@tbl-params-m2 for parameter estimates and @tbl-fit-m2 for the fit statistics. 
+
+```{r}
+#| label: tbl-params-m2
+#| tbl-cap: "Model 2 Parameters"
+
+m2 <- glm(Attrit ~ Threshold. + CBarrier_TD + CProQOL_BO + CProQOL_CS + 
+            CProQOL_STS + Motivation_NeedSANE. + Motivation_PersonalConn. + 
+            Setting. + 1, 
+          data = Thresholds, family = binomial(link = "logit"))
+
+m4 <- glm(Attrit ~ Threshold. + Motivation_NeedSANE. + 1 , 
+          data = Thresholds, family = binomial(link = "logit"))
+
+FN <- paste("Values shown are on the link function (logit) scale.")
+
+tidy(m2) %>% 
+  cbind(confint.default(m2)) %>% 
+  as_tibble() %>% 
+  rename(Parameter = term, Est = estimate, SE = std.error, z = statistic, 
+         p = p.value, LL = `2.5 %`, UL = `97.5 %`) %>% 
+  mutate(p = display_num(p),
+         OR = exp(Est), 
+         OR.LL = exp(LL), 
+         OR.UL = exp(UL)) %>% 
+  relocate(Parameter, Est, SE, LL, UL, OR, OR.LL, OR.UL, z, p) %>% 
+  kable(format = "latex", booktabs = TRUE, digits = 2) %>% 
+  kable_styling() %>% 
+  add_header_above(header = c(" " = 3, "95% Wald CI" = 2, " " = 1, 
+                              "OR 95% Wald CI" = 2, "Wald Test" =  2))
+```
+
+```{r}
+#| label: tbl-fit-m2
+#| tbl-cap: "Model 2 Fit Statistics"
+
+glance(m2) %>% 
+  kable(format = "latex", booktabs = TRUE, 
+        digits = c(2, 0, 2, 2, 2, 2, 0, 0)) %>% 
+  kable_styling()
+```
+
+\FloatBarrier
+
+### Check for Multicollinearity
+We will check for multicollinearity problems by examining the generalized
+variance inflation factor (GVIF) and a transformation of it that adjusts for
+categorical terms that use multiple degrees of freedom [@Fox-RN3484]. In 
+general, one can compare to $GVIF^{(1/(2*df))}$ to cutoffs defined for 
+$\sqrt{VIF}$. Some suggested cutoffs indicating potential problems are 
+$\sqrt{VIF} \ge 2$ or $\sqrt{VIF} \ge 3$. We are hoping to see 
+$GVIF^{(1/(2*df))} < 3$. 
+
+```{r}
+#| label: tbl-GVIF-m2
+#| tbl-cap: Model 2 Generalized Variance Inflation Factors for Predictors
+
+FN <- paste("Values >= 3 in the last column indicate multicollinearity problems.")
+
+car::vif(m2) %>% 
+  as.data.frame() %>% 
+  rownames_to_column(var = "Term") %>% 
+  kable(format = "latex", booktabs = TRUE, digits = 2) %>% 
+  kable_styling() %>% 
+  footnote(kable_input = ., general = FN, footnote_as_chunk = TRUE, 
+           threeparttable = TRUE)
+```
 
 ::: {.callout-tip}
-* We need all focal predictors to have only main effects in this model to get 
-  parallel effects. 
-* We can probably use `emmeans()` or `predict()` to get conditional rates for 
-  plotting effects. 
-    
+We do not appear to have any multicollinearity problems in Model 2.
 :::
 
-## Model 3: Thresholds & Non-Parallel Effects for Focal Predictors
+\FloatBarrier
+
+### Compare Models 1 and 2
+@tbl-lrt-m1-m2 shows a likelihood ratio test (LRT) comparing Models 1 and 2. 
+
+```{r}
+#| label: tbl-lrt-m1-m2
+#| tbl-cap: "Likehood Ratio Test Comparing Models 1 and 2"
+
+test_lrt(m1, m2) %>% 
+  as_tibble() %>% 
+  mutate(p = display_num(p),
+         Model = if_else(Name == "m1", 
+                         true = "Thesholds", 
+                         false = "Thresholds + All Parallel Effects")) %>% 
+  #select(-term) %>% 
+  kable(format = "latex", booktabs = TRUE, digits = c(0, 0, 0, 0, 2, 3),
+        col.names = c("Model", "Terms", "df", "df_diff", "LRT", "p")) %>% 
+  kable_styling()
+```
+
+\FloatBarrier
+
+::: {.callout-caution}
+This is a simultaneous test of whether adding parallel effects for all of the 
+focal predictors as a block improved the model fit enough to justify adding that 
+many extra parameters. Apparently it did not. However, the Wald tests in 
+@tbl-params-m2 suggest that `Motivation_NeedSANE.` has an effect while none 
+of the other predictors do. We need to look more closely at the effects of 
+individual predictors via single-term deletion tests.
+:::
+
+### Single Term Deletion Tests
+@tbl-drop1-m2 shows the effect of deleting specific terms from the model to 
+determine whether doing so worsens model fit. Each main effect term is tested 
+after controlling for all the other main effects. This is a more focused test 
+of individual predictors than the overall LRT comparing Models 1 and 2. 
+Significant effects should be retained in the model because omitting them would 
+damage the model fit. Non-significant effects can potentially be omitted. 
+
+```{r}
+#| label: tbl-drop1-m2
+#| tbl-cap: "Model 2 Single Term Deletion Tests (Type II SS)"
+#| warning: false
+
+m2 %>% 
+  drop1(., test = "LRT") %>% 
+  tidy() %>% 
+  rename(p = p.value) %>% 
+  mutate(p = display_num(p)) %>% 
+  kable(format = "latex", booktabs = TRUE,
+        digits = c(0, 0, 2, 2, 2, Inf),
+        col.names = c("Term Deleted", "df", "Deviance", "AIC", "LRT", "p")) %>% 
+  kable_styling() 
+```
+
+\FloatBarrier
+
+::: {.callout-tip}
+Only `Threshold` and `Motivation_NeedSANE` have main effects the need to be 
+retained. We could in theory remove all the other focal predictors. 
+:::
+
+\FloatBarrier
+
 In SR models, a predictor has a non-parallel effect when its regression 
 coefficient is allowed to vary across all thresholds. Thus, the predictor has a 
 main effect and an interaction with the threshold. 
