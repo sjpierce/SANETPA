@@ -1159,12 +1159,16 @@ emmeans(m4, specs = ~ Threshold. | Motivation_NeedSANE., regrid = "response") %>
 
 ```{r}
 #| label: fig-emmeans-m4-Both
-#| tbl-cap: "Model 4 Conditional Attrition Rate by Threshold and Motivation_NeedSANE"
+#| fig-cap: Model 4 Conditional Attrition Rate by Threshold and 
+#|          Motivation_NeedSANE (Main Effects Combined)
+#| fig-width: 4.5
+#| fig-height: 2.5
 
 emmeans(m4, specs = ~ Motivation_NeedSANE. | Threshold., regrid = "response") %>% 
   plot(horizontal = FALSE) +
   facet_grid(cols = vars(Threshold.), labeller = label_both) +
   xlab("Attrition Rate") + 
+  ylab("Motivation_NeedSANE") + 
   scale_x_continuous(lim = c(0.00, 0.50), labels = label_number(accuracy = 0.01))
 ```
 
