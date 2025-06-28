@@ -841,6 +841,148 @@ without other focal predictors.
 
 \FloatBarrier
 
+## Model 4: Thresholds & Parallel Effect for `Motivation_NeedSANE.`
+Model 2 uses a parallel effect for `Motivation_NeedSANE.` without any of the 
+other focal preddictors. @tbl-params-m4 shows the parameter estimates and 
+@tbl-fit-m4 shows the fit indices. 
+
+```{r}
+#| label: tbl-params-m4
+#| tbl-cap: "Model 4 Parameters"
+
+m4 <- glm(Attrit ~ Threshold. + Motivation_NeedSANE. + 1 , 
+          data = Thresholds, family = binomial(link = "logit"))
+
+FN <- paste("Values shown are on the link function (logit) scale.")
+
+tidy(m4) %>% 
+  cbind(confint.default(m4)) %>% 
+  as_tibble() %>% 
+  rename(Parameter = term, Est = estimate, SE = std.error, z = statistic, 
+         p = p.value, LL = `2.5 %`, UL = `97.5 %`) %>% 
+  mutate(p = display_num(p),
+         OR = exp(Est), 
+         OR.LL = exp(LL), 
+         OR.UL = exp(UL)) %>% 
+  relocate(Parameter, Est, SE, LL, UL, OR, OR.LL, OR.UL, z, p) %>% 
+  kable(format = "latex", booktabs = TRUE, digits = 2) %>% 
+  kable_styling() %>% 
+  add_header_above(header = c(" " = 3, "95% Wald CI" = 2, " " = 1, 
+                              "OR 95% Wald CI" = 2, "Wald Test" =  2))
+```
+
+```{r}
+#| label: tbl-fit-m4
+#| tbl-cap: "Model 2 Fit Statistics"
+
+glance(m4) %>% 
+  kable(format = "latex", booktabs = TRUE, 
+        digits = c(2, 0, 2, 2, 2, 2, 0, 0)) %>% 
+  kable_styling()
+```
+
+### Compare Models 1 and 2
+@tbl-lrt-m1-m2 shows a likelihood ratio test (LRT) comparing Models 1 and 4. 
+
+```{r}
+#| label: tbl-lrt-m1-m4
+#| tbl-cap: "Likehood Ratio Test Comparing Models 1 and 4"
+
+test_lrt(m1, m4) %>% 
+  as_tibble() %>% 
+  mutate(p = display_num(p),
+         Model = if_else(Name == "m1", 
+                         true = "Thesholds", 
+                         false = "Thresholds + Parallel Motivation_NeedSANE Effect")) %>% 
+  #select(-term) %>% 
+  kable(format = "latex", booktabs = TRUE, digits = c(0, 0, 0, 0, 2, 3),
+        col.names = c("Model", "Terms", "df", "df_diff", "LRT", "p")) %>% 
+  kable_styling()
+```
+
+### Estimated Marginal Means
+Next we compute estimated marginal means (EMMs) for each threshold and 
+back-transform them to the response (probability) scale to see the attrition 
+rate at each threshold. @tbl-emmeans-m4-Threshold and tbl-emmeans-m4-NeedSANE 
+respectively show the EMMs derived from Model 4 for each threshold and each 
+level of `Motivation_NeedSANE.`, while @tbl-emmeans-m4-Both shows the combined 
+effect of the two main effects. 
+
+```{r}
+#| label: tbl-emmeans-m4-Threshold
+#| tbl-cap: "Model 4 Conditional Attrition Rate by Threshold"
+
+FN <- paste("Values are on the probability scale.", 
+            "Reseults are averaged over the levels of Motivation_NeedSANE.",
+            "EMM, estimated marginal mean.")
+
+emmeans(m4, specs = ~ Threshold., regrid = "response") %>% 
+  as_tibble() %>% 
+  select(!df) %>% 
+  kable(format = "latex", booktabs = TRUE, 
+        digits = c(0, 3, 3, 3, 3),
+        col.names = c("Threshold", "Rate (EMM)", "SE", "LL", "UL")) %>% 
+  kable_styling() %>% 
+  add_header_above(header = c(" " = 3, "95% Wald CI" = 2)) %>% 
+  footnote(kable_input = ., general = FN, footnote_as_chunk = TRUE, 
+           threeparttable = TRUE)
+```
+
+```{r}
+#| label: tbl-emmeans-m4-NeedSANE
+#| tbl-cap: "Model 4 Conditional Attrition Rate by Motivation_NeedSANE"
+
+FN <- paste("Values are on the probability scale.",
+            "Reseults are averaged over the levels of Threshold.",
+            "EMM, estimated marginal mean.")
+
+emmeans(m4, specs = ~ Motivation_NeedSANE., regrid = "response") %>% 
+  as_tibble() %>% 
+  select(!df) %>% 
+  kable(format = "latex", booktabs = TRUE, 
+        digits = c(0, 3, 3, 3, 3),
+        col.names = c("Motivation_NeedSANE.", "Rate (EMM)", "SE", "LL", "UL")) %>% 
+  kable_styling() %>% 
+  add_header_above(header = c(" " = 3, "95% Wald CI" = 2)) %>% 
+  footnote(kable_input = ., general = FN, footnote_as_chunk = TRUE, 
+           threeparttable = TRUE)
+```
+
+```{r}
+#| label: tbl-emmeans-m4-Both
+#| tbl-cap: "Model 4 Conditional Attrition Rate by Threshold and Motivation_NeedSANE"
+
+FN <- paste("Values are on the probability scale.", 
+            "EMM, estimated marginal mean.")
+
+emmeans(m4, specs = ~ Threshold. | Motivation_NeedSANE., regrid = "response") %>% 
+  as_tibble() %>% 
+  arrange(Threshold., Motivation_NeedSANE.) %>% 
+  select(!df) %>% 
+  kable(format = "html", booktabs = TRUE, 
+        digits = c(0, 0, 3, 3, 3, 3),
+        col.names = c("Threshold", "Motivation_NeedSANE.", "Rate (EMM)", "SE", 
+                      "LL", "UL")) %>% 
+  kable_styling() %>% 
+  add_header_above(header = c(" " = 4, "95% Wald CI" = 2)) %>% 
+  collapse_rows(columns = 1:2, valign = "top", latex_hline = "major", 
+                custom_latex_hline = 1, 
+                row_group_label_position = "stack") %>% 
+  footnote(kable_input = ., general = FN, footnote_as_chunk = TRUE, 
+           threeparttable = TRUE)
+```
+
+```{r}
+#| label: fig-emmeans-m4-Both
+#| tbl-cap: "Model 4 Conditional Attrition Rate by Threshold and Motivation_NeedSANE"
+
+emmeans(m4, specs = ~ Motivation_NeedSANE. | Threshold., regrid = "response") %>% 
+  plot(horizontal = FALSE) +
+  facet_grid(cols = vars(Threshold.), labeller = label_both) +
+  xlab("Attrition Rate") + 
+  scale_x_continuous(lim = c(0.00, 0.50), labels = label_number(accuracy = 0.01))
+```
+
 # References
 ::: {#refs}
 :::
