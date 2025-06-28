@@ -1151,7 +1151,7 @@ emmeans(m4, specs = ~ Threshold. | Motivation_NeedSANE., regrid = "response") %>
   kable_styling() %>% 
   add_header_above(header = c(" " = 4, "95% Wald CI" = 2)) %>% 
   collapse_rows(columns = 1:2, valign = "top", latex_hline = "major", 
-                custom_latex_hline = 1, 
+                custom_latex_hline = 1, headers_to_remove = 0,
                 row_group_label_position = "stack") %>% 
   footnote(kable_input = ., general = FN, footnote_as_chunk = TRUE, 
            threeparttable = TRUE)
