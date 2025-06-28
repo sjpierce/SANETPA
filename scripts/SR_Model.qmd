@@ -1050,6 +1050,8 @@ test_lrt(m1, m4) %>%
   kable_styling()
 ```
 
+\FloatBarrier
+
 ### Estimated Marginal Means
 Next we compute estimated marginal means (EMMs) for each threshold and 
 back-transform them to the response (probability) scale to see the attrition 
