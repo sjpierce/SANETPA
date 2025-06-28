@@ -539,6 +539,19 @@ emmeans(m1, specs = ~ Threshold., regrid = "response") %>%
            threeparttable = TRUE)
 ```
 
+```{r}
+#| label: fig-emmeans-m1
+#| fig-cap: "Model 1 Conditional Attrition Rate by Threshold (Main Effect)"
+#| fig-width: 4
+#| fig-height: 2.5
+
+emmeans(m1, specs = ~ Threshold., regrid = "response") %>% 
+  plot(horizontal = FALSE) +
+  xlab("Attrition Rate") + 
+  ylab("Threshold") + 
+  scale_x_continuous(lim = c(0.00, 0.50), labels = label_number(accuracy = 0.01))
+```
+
 \FloatBarrier
 
 ## Model 2: Thresholds & Parallel Effects for All Focal Predictors
