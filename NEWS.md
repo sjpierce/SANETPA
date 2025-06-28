@@ -1,5 +1,54 @@
 # SANETPA News 
 
+## 0.13.0
+* `README.qmd` and `README.md`
+    * Update software version & citation info.
+* Renamed `scripts/CR_Model.qmd` to `scripts/SR_Model.qmd`. 
+* `scripts/Descriptive_Analyses.qmd`
+    * Expanded section on reliability of Barrier_TD.
+    * Updated axis for histogram of Barrier_TD.
+    * Improve narrative text. 
+    * Add a table of stage distribution after listwise deletion.
+    * Add a callout about only doing reliability analysis with data before 
+      listwise deletion.
+    * Add a table for continuous predictor descriptives after listwise deletion.
+    * Update figures to use data after listwise deletion.
+    * Update correlation table to use data after listwise deletion.
+    * Update categorical predictor distributions to use data after listwise 
+      deletion.
+    * Update Threshold contingency table title. 
+    * Add callout showing Tthresholds data already relect listwise deletion. 
+* `scripts/Import_Data.qmd`
+    * Updated Barrier_TD scale score.
+    * Update comments about loaded packages. 
+    * Filtered Eligible_Applicants dataset to creates Eligible_Applicants_CD by 
+      using listwise deletion of cases with missing data on variables required 
+      for modeling. 
+    * Updated T1 to T4 and Thresholds dataset to hold only variables required 
+      for modeling.
+    * Updated Dataset Sizes table. 
+    * Now saves out Eligible_Applicants_CD dataset too.
+    * Add centered variables to Thresholds dataset. 
+    * Convert categorical predictors to factors. 
+    * Improve narrative text. 
+* `scripts/references.bib`
+    * Updated software version and citation data. 
+    * Added references for methods papers. 
+* `scripts/SR_Model.qmd`
+    * Updated title left header, filename parameters, and default output 
+      filename.
+    * Improve narrative text. 
+    * Improve research questions. 
+    * Update headings. 
+    * Load more R packages. 
+    * Define a display_num() function.
+    * Update table of dataset sizes. 
+    * Remove Prepare Data section (workl is now done in import script).
+    * Update Model 1 analysis. 
+    * Update Model 2 analysis. 
+    * Update Model 3 analysis. 
+    * Add Model 4 analysis. 
+    
 ## 0.12.0
 * `README.qmd` and `README.md`
     * Update software version & citation info.
@@ -15,7 +64,6 @@
 * `scripts/references.bib`
     * Updated software version and citation data. 
     * Add a reference for ProQOL manual.
-
 
 ## 0.11.0
 * `README.qmd` and `README.md`
