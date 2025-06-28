@@ -22,15 +22,23 @@ Depends:
     R (>= 4.5),
     piercer (>= 0.18.0)
 Suggests: 
+    broom,
+    car,
     devtools,
     dplyr,
+    emmeans,
     git2r,
     haven,
     here,
     kableExtra,
     knitr,
+    labelled,
+    performance,
+    PropCIs,
+    psych,
     quarto,
     rmarkdown, 
+    scales,
     tidyverse,
     tinytex
 VignetteBuilder: knitr
