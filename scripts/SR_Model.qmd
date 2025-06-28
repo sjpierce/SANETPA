@@ -695,6 +695,137 @@ retained. We could in theory remove all the other focal predictors.
 
 \FloatBarrier
 
+### Estimated Marginal Means
+Next we compute estimated marginal means (EMMs) for each threshold and 
+back-transform them to the response (probability) scale to see the attrition 
+rate at each threshold. @tbl-emmeans-m2-Threshold and @fig-emmeans-m2-Threshold 
+show the EMMs derived from Model 2 for each threshold, while 
+@tbl-emmeans-m2-NeedSANE and @fig-emmeans-m2-NeedSANE show the EMMs for each 
+level of `Motivation_NeedSANE`. @tbl-emmeans-m2-Both and @fig-emmeans-m2-Both 
+show the combined result of the two main effects while averaging over the
+results of all other predictors.
+
+```{r}
+#| label: tbl-emmeans-m2-Threshold
+#| tbl-cap: Model 2 Conditional Attrition Rate by Threshold (Main Effect)
+
+FN <- paste("Values are on the probability scale.", 
+            "Results are averaged over the levels of all other categorical", 
+            "predictors and assume values at the mean on continuous focal", 
+            "predictors.",
+            "EMM, estimated marginal mean.")
+
+emmeans(m2, specs = ~ Threshold., regrid = "response") %>% 
+  as_tibble() %>% 
+  select(!df) %>% 
+  kable(format = "latex", booktabs = TRUE, 
+        digits = c(0, 3, 3, 3, 3),
+        col.names = c("Threshold", "Rate (EMM)", "SE", "LL", "UL")) %>% 
+  kable_styling() %>% 
+  add_header_above(header = c(" " = 3, "95% Wald CI" = 2)) %>% 
+  footnote(kable_input = ., general = FN, footnote_as_chunk = TRUE, 
+           threeparttable = TRUE)
+```
+
+```{r}
+#| label: fig-emmeans-m2-Threshold
+#| fig-cap: Model 2 Conditional Attrition Rate by Threshold (Main Effect 
+#|          Averaged Over All Other Predictors)
+#| fig-width: 4
+#| fig-height: 2.5
+
+emmeans(m2, specs = ~ Threshold., regrid = "response") %>% 
+  plot(horizontal = FALSE) +
+  xlab("Attrition Rate") + 
+  ylab("Threshold") + 
+  scale_x_continuous(lim = c(0.00, 0.50), labels = label_number(accuracy = 0.01))
+```
+
+```{r}
+#| label: tbl-emmeans-m2-NeedSANE
+#| tbl-cap: Model 2 Conditional Attrition Rate by Motivation_NeedSANE (Main 
+#|          Effect)
+
+FN <- paste("Motivation_NeedSANE has a parallel effect on attrition.",
+            "Values are on the probability scale.",
+            "Results are averaged over the levels of all other categorical", 
+            "predictors and assume values at the mean on continuous focal", 
+            "predictors.",
+            "EMM, estimated marginal mean.")
+
+emmeans(m2, specs = ~ Motivation_NeedSANE., regrid = "response") %>% 
+  as_tibble() %>% 
+  select(!df) %>% 
+  kable(format = "latex", booktabs = TRUE, 
+        digits = c(0, 3, 3, 3, 3),
+        col.names = c("Motivation_NeedSANE.", "Rate (EMM)", "SE", "LL", "UL")) %>% 
+  kable_styling() %>% 
+  add_header_above(header = c(" " = 3, "95% Wald CI" = 2)) %>% 
+  footnote(kable_input = ., general = FN, footnote_as_chunk = TRUE, 
+           threeparttable = TRUE)
+```
+
+```{r}
+#| label: fig-emmeans-m2-NeedSANE
+#| fig-cap: Model 2 Conditional Attrition Rate by Motivation_NeedSANE (Parallel 
+#|          Main Effect Averaged Over All Other Predictors)
+#| fig-width: 2
+#| fig-height: 2.5
+
+emmeans(m2, specs = ~ Motivation_NeedSANE., regrid = "response") %>% 
+  plot(horizontal = FALSE) +
+  xlab("Attrition Rate") + 
+  ylab("Motivation_NeedSANE") + 
+  scale_x_continuous(lim = c(0.00, 0.50), labels = label_number(accuracy = 0.01))
+```
+
+```{r}
+#| label: tbl-emmeans-m2-Both
+#| tbl-cap: Model 2 Conditional Attrition Rate by Threshold and 
+#|          Motivation_NeedSANE (Main Effects)
+
+FN <- paste("Motivation_NeedSANE has a parallel effect on attrition.",
+            "Results are averaged over the levels of all other categorical", 
+            "predictors and assume values at the mean on continuous focal", 
+            "predictors.",
+            "Values are on the probability scale.", 
+            "EMM, estimated marginal mean.")
+
+emmeans(m2, specs = ~ Threshold. | Motivation_NeedSANE., regrid = "response") %>% 
+  as_tibble() %>% 
+  arrange(Threshold., Motivation_NeedSANE.) %>% 
+  select(!df) %>% 
+  kable(format = "latex", booktabs = TRUE, 
+        digits = c(0, 0, 3, 3, 3, 3),
+        col.names = c("Threshold", "Motivation_NeedSANE.", "Rate (EMM)", "SE", 
+                      "LL", "UL")) %>% 
+  kable_styling() %>% 
+  add_header_above(header = c(" " = 4, "95% Wald CI" = 2)) %>% 
+  collapse_rows(columns = 1:2, valign = "top", latex_hline = "major", 
+                custom_latex_hline = 1, headers_to_remove = 0,
+                row_group_label_position = "stack") %>% 
+  footnote(kable_input = ., general = FN, footnote_as_chunk = TRUE, 
+           threeparttable = TRUE)
+```
+
+```{r}
+#| label: fig-emmeans-m2-Both
+#| fig-cap: Model 2 Conditional Attrition Rate by Threshold and 
+#|          Motivation_NeedSANE (Main Effects, Averaged Over All Other 
+#|          Predictors)
+#| fig-width: 4.5
+#| fig-height: 2.5
+
+emmeans(m2, specs = ~ Motivation_NeedSANE. | Threshold., regrid = "response") %>% 
+  plot(horizontal = FALSE) +
+  facet_grid(cols = vars(Threshold.), labeller = label_both) +
+  xlab("Attrition Rate") + 
+  ylab("Motivation_NeedSANE") + 
+  scale_x_continuous(lim = c(0.00, 0.50), labels = label_number(accuracy = 0.01))
+```
+
+\FloatBarrier
+
 ## Model 3: Thresholds & Non-Parallel Effects for All Focal Predictors
 In SR models, a predictor has a non-parallel effect when its regression 
 coefficient is allowed to vary across all thresholds. That is implemented by 
