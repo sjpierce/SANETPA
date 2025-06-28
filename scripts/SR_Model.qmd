@@ -399,12 +399,9 @@ forward) will also have the same model fit. However, results and interpretation
 will differ between types: the forward and backward CR models are not equivalent 
 because they test different hypotheses. 
 
-
 Because our focus is on predicting attrition--which stops a trainee's 
 progression to the next stage of program participation--we will use the SR 
 nomenclature in most cases. 
-
-
 
 The SR model is attractive because its parameters can be translated into 
 additional estimates and graphs that are easy to interpret and meaningful for 
