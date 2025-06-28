@@ -110,7 +110,7 @@ implemented by this script.
  
 ```{dot}
 //| label: fig-production
-//| fig-cap: "Data Flow Diagram"
+//| fig-cap: "Production Workflow Diagram"
 //| fig-width: 7
 //| fig-height: 3.5
 
@@ -118,32 +118,38 @@ digraph Production {
 rankdir="LR";
 
 node [shape = "box", style= "filled", fontname = "Arial", fontsize = 9, fillcolor = "#C3FFEC"]
-Script2 [label = "CR_Model.qmd\n(Quarto Script)"]
-HTML2 [label = "CR_Model_YYYY-MM-DD.pdf\n(PDF Output)"]
-Script1 [label = "Import_Data.qmd\n(Quarto Script)"]
-RawData [label = "All_group_1_2025-06-03.sav\n(SPSS Data File)"]
-FinalData [label = "Imported_SANETP_Data.RData\n(R Data File)"]
-HTML1 [label = "Import_Data_YYYY-MM-DD.pdf\n(PDF Output)"]
-HTML0 [label = "Production_Run.html\n(HTML Output)"]
-Script0 [label = "Production_Run.qmd\n(Quarto Script)"]
+DAS [label = "Descriptive_Analyses.qmd\n(Quarto Script)"]
+DAO [label = "Descriptive_Analyses_YYYY-MM-DD.pdf\n(PDF Output)", fillcolor = "grey80"]
+SRS [label = "SR_Model.qmd\n(Quarto Script)"]
+SRO [label = "SR_Model_YYYY-MM-DD.pdf\n(PDF Output)", fillcolor = "grey80"]
+IDS [label = "Import_Data.qmd\n(Quarto Script)"]
+RawData [label = "All_group_1_2025-06-03.sav\n(SPSS Data File)", fillcolor = "white"]
+FinalData [label = "Imported_SANETP_Data.RData\n(R Data File)", fillcolor = "white"]
+IDO [label = "Import_Data_YYYY-MM-DD.pdf\n(PDF Output)", fillcolor = "grey80"]
+PRO [label = "Production_Run.html\n(HTML Output)", fillcolor = "grey80"]
+PRS [label = "Production_Run.qmd\n(Quarto Script)"]
 
 edge [fontname = "Arial", fontsize = 9]
-Script0 -> Script1 [label = "Render with\ncustom parameters"]
-Script0 -> Script2 [label = "Render with\ncustom parameters"]
-RawData -> Script1 [label = "Read"]
-Script0 -> HTML0 [label = "Renders"]
-Script1 -> HTML1 [label = "Renders"]
-Script1 -> FinalData [label = "Write"]
-FinalData -> Script2 [label = "Read"]
-Script2 -> HTML2 [label = "Renders"]
+PRS -> IDS [label = "Custom Render"]
+PRS -> DAS [taillabel = "Custom Render"]
+PRS -> SRS [taillabel = "Custom Render"]
+RawData -> IDS [label = "Read"]
+PRS -> PRO [label = "Renders"]
+IDS -> IDO [label = "Renders"]
+IDS -> FinalData [label = "Write"]
+FinalData -> DAS [label = "Read"]
+DAS -> DAO [label = "Renders"]
+FinalData -> SRS [label = "Read"]
+SRS -> SRO [label = "Renders"]
 
-{ rank=same; RawData; Script2; Script1; FinalData}
-{ rank=same; Script0; HTML0}
+{ rank=same; IDS; FinalData; DAS; SRS}
+{ rank=same; IDO; DAO; SRO}
+{ rank=same; RawData; PRS; PRO}
 }
 ```
 
 ::: {.callout-caution}
-Task: Expand the workflow diagram to show the descriptive analyses. 
+Update this diagram as files get added or removed from the workflow!
 :::
 
 # Render Other Scripts
