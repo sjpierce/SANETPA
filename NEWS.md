@@ -1,5 +1,38 @@
 # SANETPA News 
 
+## 0.14.0
+* `DESCRIPTION`
+    * Updated Suggests field to list packages used in various scripts. 
+* `README.qmd` and `README.md`
+    * Update software version & citation info.
+* `scripts/_quarto.yml`
+    * Update render key to use new file name for modeling script.
+* `scripts/Descriptive_Analyses.qmd`
+    * Reduce size of text in code chunks.
+* `scripts/Import_Data.qmd`
+    * Reduce size of text in code chunks.
+* `scripts/Production_Run.qmd`
+    * Updated workflow diagram. 
+    * Updated chunk for running modeling script.
+* `scripts/SR_Model.qmd`
+    * Fixed a table format. 
+    * Improve research question wording.
+    * Improve callout and narrative text.
+    * Add emmeans plot for Model 1.
+    * Remove model fitting code that is now located elsewhere in script.
+    * Add FloatBarriers to control layout. 
+    * Add emmeans for Model 2 and Model 4. 
+    * Fix spelling.
+    * Add callout about Model 3.
+    * Fix headings, table captions, and table footnotes.
+    * Fixed a table format. 
+    * Fix figure caption and size. 
+    * Add Model 5 output.
+    * Add conclusions section.
+    * Reduce size of text in code chunks.
+* `scripts/references.bib`
+    * Updated software version and citation data. 
+    
 ## 0.13.0
 * `README.qmd` and `README.md`
     * Update software version & citation info.
@@ -17,7 +50,7 @@
     * Update categorical predictor distributions to use data after listwise 
       deletion.
     * Update Threshold contingency table title. 
-    * Add callout showing Tthresholds data already relect listwise deletion. 
+    * Add callout showing Thresholds data already reflect listwise deletion. 
 * `scripts/Import_Data.qmd`
     * Updated Barrier_TD scale score.
     * Update comments about loaded packages. 
