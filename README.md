@@ -687,7 +687,7 @@ J. A. (2016). Ten simple rules for taking advantage of Git and GitHub.
 
 Pierce, S. J. (2025). *SANETPA: Research compendium for a study of
 sexual assault nurse examiner training program attrition* (Version
-0.13.0) \[Reproducible Research Materials and Computer Program, R
+0.14.0) \[Reproducible Research Materials and Computer Program, R
 package, Private Repository Until Release\]. GitHub.
 <https://github.com/sjpierce/SANETPA>
 
