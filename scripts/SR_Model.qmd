@@ -376,18 +376,16 @@ yield different insights [@Fullerton-RN8774]. The research questions for this
 study are best aligned with a broad class of ordinal regression models usually
 called continuation-ratio (CR) models, though they are also called 
 stopping-ratio (SR) models or stage models 
-[@Fullerton-RN8774; @Liu-RN8772; @Yee-RN3711]. The CR model is ideally suited
-for ordinal outcome data generated from a sequential selection process where all
-individuals start from the same initial stage, must pass through earlier stages
-to reach later ones, and all stage transitions are irreversible
-[@Fullerton-RN8774; @OConnell-RN8769]. 
-
-One key to understanding CR models is that they divide the analysis of a single 
-ordinal outcome into a series of binary outcomes regarding what happens at each 
-of the thresholds between stages
-
-
-a set of transitions between stages
+[@Fullerton-RN8774; @Liu-RN8772; @Smithson-RN2775; @Yee-RN3711]. The CR model is
+ideally suited for ordinal outcome data generated from a sequential selection
+process where all individuals start from the same initial stage, must pass
+through earlier stages to reach later ones, and all stage transitions are
+irreversible [@Fullerton-RN8774; @OConnell-RN8769]. Because our focus is on
+predicting attrition--which stops a person's progression to the next stage of
+program participation--we will use the SR nomenclature in most of this document
+except when referring to broader literature that uses the CR model nomenclature.
+It should be understood that CR models and SR models are the same statistical
+method. It mostly doesn't matter which which term you use.
 
 @Liu-RN8772 distinguished between forward and backward types of CR models and 
 emphasized that each type can be expressed in two different sub-models depending 
@@ -397,44 +395,132 @@ from the two sub-models of the same type of CR model (forward or backward) have
 the same magnitude but opposite signs. The sub-models for a given type (e.g., 
 forward) will also have the same model fit. However, results and interpretation 
 will differ between types: the forward and backward CR models are not equivalent 
-because they test different hypotheses. 
+because they test different hypotheses. This study uses what @Liu-RN8772 called 
+a forward CR model of sub-type A. That means we are trying to estimate the 
+conditional probability of stopping at stage $j$ conditional on being in or 
+above that category given a set of predictors. 
 
-Because our focus is on predicting attrition--which stops a trainee's 
-progression to the next stage of program participation--we will use the SR 
-nomenclature in most cases. 
+One key to understanding SR models is that they divide the analysis of a single
+ordinal outcome into a series of binary outcomes regarding what happens at each
+of the thresholds between stages. To run the planned model, we first reorganize
+the data from one row per person to one row per person per threshold attempted
+[@Cole-RN8770; @Fullerton-RN8774]. That reorganization allows us to use standard
+logistic regression modeling software to fit the model and flexibly choose
+whether predictor effects are parallel (constrained to equality across
+thresholds), or non-parallel (unconstrained and allowed to vary across
+thresholds) by either omitting or including interaction terms. Because the 
+parallel effect model is nested within the non-parallel effect mode, we can 
+use likelihood ratio tests to discern whether allowing non-parallel effects 
+improves model fit [@Cole-RN8770]. 
 
 The SR model is attractive because its parameters can be translated into 
 additional estimates and graphs that are easy to interpret and meaningful for 
-assessing the effects of predictors on program attrition.
+assessing the effects of predictors on program attrition. One prior study 
+compared CR models to other available models (e.g., logistic regression and 
+cumulative odds models for ordinal outcomes) for examining student persistence 
+through the remedial math sequence and successfully passing a college-level 
+credit bearing math course at 2- and 4-year public institutions 
+[@Davidson-RN8773]. @Davidson-RN8773 concluded that CR models provided richer 
+insights, in part because they revealed non-parallel effects of some predictors 
+that could not be discerned with the other kinds of models. Other studies have 
+used CR models to examine predictors of student proficiency in math 
+[@Liu-RN8771], to validate student self-assessments of oral language proficiency 
+in second language learning [@Winke-RN3795], and predictors of how far sexual 
+assault kits progressed through several stages of forensic testing 
+[@Campbell-RN3126; @Campbell-RN3149; @Campbell-RN3190].
 
-[@Cole-RN8770]
+# Methods
+Below we fit and examine a series of SR models by using the `glm()` function to 
+run logistic regression models on a person-threshold dataset called 
+`Thresholds`. This is one way to fit SR models [@Cole-RN8770]. 
 
-[@Davidson-RN8773]
+The modeling strategy aims to estimate the minimum number of models required to
+answer research questions RQ1, RQ2, and RQ3 and obtain a parsimonious final
+model. All models use the structural thresholds variable to predict attrition 
+because that lays the foundation for a SR model. The modeling sequence starts by 
+fitting Model 1, which only uses the structural thresholds variable as a 
+predictor. That is the baseline model we can compare with models containing the
+focal predictors. Model 2 adds a set of parallel effects for all seven focal
+predictors, then Model 3 expands on Model 2 by adding interaction terms to
+estimate non-parallel effects for all seven focal predictors [@Cole-RN8770].
 
-[@Fullerton-RN8774]
+Models 4 and 5 aim to achieve parsimony by only including the one focal
+predictor that demonstrated an effect in Model 2. Model 4 builds up from Model 1
+by adding a parallel effect for that focal predictor, then Model 5 further 
+extends the analysis to test whether it had a non-parallel effect. 
 
-[@Liu-RN8772]
+We examine model diagnostics and fit statistics, model comparisons via 
+likelihood ratio tests, single-term deletion tests based on Type II sums of 
+squares, and other supplementary output. Effect sizes are quantified by 
+odds-ratios and estimated marginal means for the attrition rates reported on a 
+probability scale. 
 
-[@Liu-RN8771]
+We are using listwise deletion to handle missing data because only 3 of 327
+(0.9%) cases were incomplete (see the output from the data import script). These 
+cases would have to be very influential for omitting them to induce substantial 
+bias in the model results. When more than 5% of cases have missing data, more
+sophisticated approaches may be required [@Fernández-García-RN4151], but this
+dataset is well below that threshold.
 
-[@Smithson-RN2775]
+## Sample
+The sample consists of the eligible applicants to the program who had complete 
+data on all the measures listed in the next section. 
 
-The reference levels for categorical predictors will be: 
+## Measures
+The measures mentioned below include an outcome variable, a structural predictor
+required for SR modeling, and seven focal predictors.
 
-* `Threshold.`: `1`
-* `Setting.`: `Urban`
-* `Motivation_NeedSANE.`: `No`
-* `Motivation_PersonalConn.`: `No`
+### Attrition (Outcome Variable)
+This is the binary, threshold-specific transformation of the `Stage_Reached` 
+ordinal outcome variable. It is the outcome modeled in our SR models. The 
+variable `Attrit` is coded 1 when an applicant attrited, and 0 when they passed 
+the threshold and continued to the next stage of the program. See @fig-Stages 
+for a visualization of the coding for `Attrit`. 
+
+### Threshold (Structural Predictor)
+The `Threshold` variable identifies which of four thresholds a participant was 
+attempting on any given record in the `Threshods` dataset. See @fig-Stages for 
+an overview of the stages. 
+
+### Burnout (Focal Predictor)
+This is a mean-centered, continuous variable (`CProQOL_BO`) derived from the 
+applicants score on the ProQOL burnout scale [@Stamm-RN8775]. 
+
+### Compassion Satisfaction (Focal Predictor)
+This is a mean-centered, continuous variable (`CProQOL_CS`) derived from the 
+applicants score on the ProQOL compassion satisfaction scale [@Stamm-RN8775]. 
+
+### Secondary Traumatic Stress (Focal Predictor)
+This is a mean-centered, continuous variable (`CProQOL_STS`) derived from the 
+applicants score on the ProQOL secondary traumatic stress scale [@Stamm-RN8775]. 
+
+### Barrier Time Demands (Focal Predictor)
+This is a mean-centered, continuous variable (`Barrier_TD`) created for this 
+study. It is based on the sum of two Likert-response ordinal items that were 
+scored on a 5-point scale. See the descriptive analyses output file for this 
+study for more details. 
+
+### Setting (Focal Predictor)
+The primary setting where the trainee practices nursing was a nominal
+categorical factor named `Setting`. It originally had four levels, but was
+recoded to three levels (`Urban`, `Rural/Tribal`, and `Suburban`) due to small
+sample size in the `Tribal` category (which was then combined with `Rural`). See
+the descriptive analyses output file for this study for more details. The
+reference level is`Urban`.
+
+### Motivated by Need for SANE (Focal Predictor)  
+This is a binary variable (`Motivation_NeedSANE`) measuring whether the 
+applicant reported being motivated to seek the training by a need for SANE 
+services in their community or organization. The reference level is `No`. 
+
+### Motivated by Personal Connection (Focal Predictor)
+This is a binary variable (`Motivation_PersonalConn`) measuring whether the 
+to seek the training by a personal connection to sexual assault (e.g., someone 
+they know is a survivor). The reference level is `No`. 
 
 \FloatBarrier
 
 # Results
-Below we fit and examine a series of stopping-ratio models using the 
-`Thresholds` dataset and the `glm()` function. The modeling strategy aims to 
-estimate the minimum number of models required to answer research questions 
-RQ1, RQ2, and RQ3 and obtain a parsimonious final model. We examine model 
-diagnostics and fit statistics, model comparisons, and other supplementary 
-output (e.g., effect sizes, estimated marginal means, etc.) as needed. 
 
 \FloatBarrier
 
