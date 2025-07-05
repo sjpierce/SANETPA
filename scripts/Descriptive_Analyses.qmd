@@ -165,7 +165,7 @@ library(labelled)       # for var_label()
 options(kableExtra.latex.load_packages = FALSE)
 library(kableExtra)     # for kable_styling(), add_header_above(), 
                         # column_spec(), row_spec() etc. 
-library(piercer)        # for git_report(), which_latex()
+library(piercer)        # for file_details(), git_report(), which_latex()
 library(PropCIs)        # for scoreci()
 library(psych)          # for alpha()
 library(quarto)         # for quarto_version()
@@ -218,15 +218,10 @@ load(file = DataFile)
 #| label: tbl-imported-data-file
 #| tbl-cap: "Meta-Data About the Data File Loaded"
 
-file.info(DataFile, extra_cols = FALSE) %>% 
-  rownames_to_column() %>% 
-  mutate(rowname = basename(rowname)) %>% 
-  select(-isdir, -mode) %>% 
+file_details(DataFile) %>% 
   kable(, format = "latex", booktabs = TRUE, 
-        col.names = c("File Name", "Size (Bytes)", "Modified", 
-                      "Last Status Change", "Last Accessed")) %>% 
-  kable_styling() %>% 
-  column_spec(column = 3:5, width = "2cm")
+        col.names = c("File Name", "Size", "Last Modified")) %>% 
+  kable_styling() 
 ```
 
 

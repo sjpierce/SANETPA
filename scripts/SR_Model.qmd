@@ -224,7 +224,7 @@ library(car)            # for vif()
 library(emmeans)        # for emmeans()
 library(performance)    # for model_performance(), r2()
 library(scales)         # for label_number()
-library(piercer)        # for brier(), git_report(), R2Dev()
+library(piercer)        # for brier(), file_details(), git_report(), R2Dev()
 library(quarto)         # for quarto_version()
 library(SANETPA)        # for version info 
 ```
@@ -282,15 +282,10 @@ load(file = DataFile)
 #| label: tbl-imported-data-file
 #| tbl-cap: "Meta-Data About the Data File Loaded"
 
-file.info(DataFile, extra_cols = FALSE) %>% 
-  rownames_to_column() %>% 
-  mutate(rowname = basename(rowname)) %>% 
-  select(-isdir, -mode) %>% 
+file_details(DataFile) %>% 
   kable(, format = "latex", booktabs = TRUE, 
-        col.names = c("File Name", "Size (Bytes)", "Modified", 
-                      "Last Status Change", "Last Accessed")) %>% 
-  kable_styling() %>% 
-  column_spec(column = 3:5, width = "2cm")
+        col.names = c("File Name", "Size", "Last Modified")) %>% 
+  kable_styling() 
 ```
 
 ```{r}
