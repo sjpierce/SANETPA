@@ -956,39 +956,36 @@ stopped participating at the current stage or moved on to the next stage.
 
 ```{dot}
 //| label: fig-Stages
-//| fig-cap: Stages, Thresholds (T1-T4), and Stopping Ratios (SR1-SR4) in the 
+//| fig-cap: Stages, Thresholds (T1-T3), and Stopping Ratios (SR1-SR3) in the 
 //|          SANE Training Program. CSW, clinical skills workshop; DT, didactic 
 //|          training.
-//| fig-width: 6
-//| fig-height: 3
+//| fig-width: 5
+//| fig-height: 2.5
 
 digraph StagesModeled {
 
 graph [rankdir="LR"];
 
 node [shape = "box", style= "filled", fillcolor = "Gray90", fontsize = "7"];
-A1 [label = "Attrited 1\nNot Enrolled\nSR1"]
-A2 [label = "Attrited 2\nBefore DT\nSR2"]
-A3 [label = "Attrited 3\nDuring DT\nSR3"]
-A4 [label = "Attrited 4\nBefore CSW\nSR4"]
+A1 [label = "Attrited\nBefore DT\nSR1"]
+A2 [label = "Attrited\nDuring DT\nSR2"]
+A3 [label = "Attrited\nBefore CSW\nSR3"]
 
 S1 [label = "Stage 1\nEligible"]
-S2 [label = "Stage 2\nEnrolled"]
-S3 [label = "Stage 3\nStarted DT"]
-S4 [label = "Stage 4\nFinished DT"]
-S5 [label = "Stage 5\nFinished CSW"]
+S2 [label = "Stage 2\nStarted DT"]
+S3 [label = "Stage 3\nFinished DT"]
+S4 [label = "Stage 4\nFinished CSW"]
 
-edge [fontsize = "7"];
+edge [fontsize = "7", arrowsize = 0.5];
 
 S1 -> A1 [label = "T1\nAttrit = 1"]
 S2 -> A2 [label = "T2\nAttrit = 1"]
 S3 -> A3 [label = "T3\nAttrit = 1"]
-S4 -> A4 [label = "T4\nAttrit = 1"]
 
 S1 -> S2 [label = "Attrit = 0"]
 S2 -> S3 [label = "Attrit = 0"]
 S3 -> S4 [label = "Attrit = 0"]
-S4 -> S5 [label = "Attrit = 0"]
+
 }
 ```
 
