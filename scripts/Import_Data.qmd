@@ -647,8 +647,8 @@ with respect to cases, variables, and values.
 #| label: tbl-Eligible-Applicants-cvv-missingness
 
  Eligible_Applicants %>% 
-  select(ID, Stage_Reached, Barrier_TD, ProQOL_BO, ProQOL_CS, ProQOL_STS,
-         Motivation_NeedSANE, Motivation_PersonalConn, Setting) %>% 
+  select(ID, Stage_Reached, Barrier_FO, Barrier_WR, ProQOL_BO, ProQOL_CS, 
+         ProQOL_STS, Motivation_NeedSANE, Motivation_PersonalConn, Setting) %>% 
   cvv_missingness() %>% 
   kable(format = "latex", booktabs = TRUE, digits = 1) %>% 
   kable_styling() 
@@ -662,8 +662,8 @@ variable-specific rates of missingness.
 #| label: tbl-Eligible-Applicants-var-missingness
 
  Eligible_Applicants %>% 
-  select(ID, Stage_Reached, Barrier_TD, ProQOL_BO, ProQOL_CS, ProQOL_STS,
-         Motivation_NeedSANE, Motivation_PersonalConn, Setting) %>% 
+  select(ID, Stage_Reached, Barrier_FO, Barrier_WR, ProQOL_BO, ProQOL_CS, 
+         ProQOL_STS, Motivation_NeedSANE, Motivation_PersonalConn, Setting) %>% 
   var_missingness() %>% 
   kable(format = "latex", booktabs = TRUE, digits = 1) %>% 
   kable_styling()
