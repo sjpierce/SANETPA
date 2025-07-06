@@ -741,8 +741,8 @@ To create the person-threshold dataset `Thresholds`, we first create a data
 frame for each distinct threshold by filtering the `Eligible_Applicants` data by 
 `Stage_Reached`, add a binary outcome variable called `Attrit` coded 1 
 for people who attrited at that threshold and 0 for people who did not, then 
-vertically stack the threshold-specific datasets (`T1` to `T4`). Along the way, 
-we create factor versions of the categorical variables that can be identifed by 
+vertically stack the threshold-specific datasets (`T1` to `T3`). Along the way, 
+we create factor versions of the categorical variables that can be identified by 
 the `.` suffix on the variable name. 
 
 ```{r}
@@ -782,31 +782,17 @@ T3 <- Eligible_Applicants_CD %>%
 ```
 
 ```{r}
-#| label: create-T4
-
-T4 <- Eligible_Applicants_CD %>% 
-  select(ID, Stage_Reached, Barrier_TD, ProQOL_BO, ProQOL_CS, ProQOL_STS, 
-         CBarrier_TD, CProQOL_BO, CProQOL_CS, CProQOL_STS, 
-         Motivation_NeedSANE, Motivation_PersonalConn, Setting) %>% 
-  filter(Stage_Reached >= 4) %>% 
-  mutate(Threshold = 4, 
-         Attrit = if_else(Stage_Reached == Threshold, true = 1, false = 0))
-```
-
-```{r}
 #| label: create-value-labels-2
 
-# Create vectors of value labels for reverse-coded NPQ items.
-Threshold_Labels <- c("T1 (Eligible/Enrolled)" = 1,
-                      "T2 (Enrolled/Started DT)" = 2,
-                      "T3 (Started DT/Finished DT)" = 3,
-                      "T4 (Finished DT/Finished CSW)" = 4)
+Threshold_Labels <- c("T1 (Eligible/Started DT)" = 1,
+                      "T2 (Started DT/Finished DT)" = 3,
+                      "T3 (Finished DT/Finished CSW)" = 4)
 ```
 
 ```{r}
 #| label: create-Thresholds
 
-Thresholds <- bind_rows(T1, T2, T3, T4) %>% 
+Thresholds <- bind_rows(T1, T2, T3) %>% 
   relocate(ID, Threshold, Attrit) %>% 
   # Convert categorical predictors to factors with a "." variable name suffix
   mutate(Threshold. = factor(Threshold),
@@ -824,30 +810,29 @@ continued. This allowed me to double-check that the sizes each made sense. For
 the `Applicants` row, the stopped cases are the ineligible applicants, while for 
 `Eligible_Applicants` the stopped cases are those that enrolled but lacked 
 complete data on variables required for modeling. For `Eligible_Applicants_CD`, 
-stopped cases were those who did not enroll. `T1` to `T4` each have one row per
-person, with the stopped cases being those that attrited at the specified
-threshold. The `Thresholds` dataset contains one row per person per threshold
-encountered because it combined the rows of `T1` to `T4`, with the stopped cases
-being all the rows that indicated attrition occurred.
+stopped cases were those who did not start didactic training. `T1` to `T3` each 
+have one row per person, with the stopped cases being those that attrited at the 
+specified threshold. The `Thresholds` dataset contains one row per person per 
+threshold encountered because it combined the rows of `T1` to `T3`, with the 
+stopped cases being all the rows that indicated attrition occurred.
 
 ```{r}
 #| label: tbl-Dataset-Size
 #| tbl-cap: Dataset Sizes
 
 tibble(DataFrame = c("Applicants", "Eligible_Applicants", 
-                     "Eligible_Applicants_CD", "T1", "T2", "T3", "T4", 
-                     "Thresholds"),
+                     "Eligible_Applicants_CD", "T1", "T2", "T3", "Thresholds"),
        N_Rows = c(nrow(Applicants), nrow(Eligible_Applicants), 
                   nrow(Eligible_Applicants_CD), nrow(T1), nrow(T2), nrow(T3), 
-                  nrow(T4), nrow(Thresholds)),
+                  nrow(Thresholds)),
        N_Cols = c(ncol(Applicants), ncol(Eligible_Applicants), 
                   ncol(Eligible_Applicants_CD), ncol(T1), ncol(T2), ncol(T3), 
-                  ncol(T4), ncol(Thresholds)),
+                  ncol(Thresholds)),
        Stopped = c(sum(is.na(Applicants$Stage_Reached)),
                    sum(is.na(Eligible_Applicants$ProQOL_BO)),
                    sum(Eligible_Applicants_CD$Stage_Reached < 2),
                    sum(T1$Attrit), sum(T2$Attrit), sum(T3$Attrit), 
-                   sum(T4$Attrit), sum(Thresholds$Attrit))) %>% 
+                   sum(Thresholds$Attrit))) %>% 
   mutate(Continued = N_Rows - Stopped) %>% 
   kable(format = "latex", booktabs = TRUE) %>% 
   kable_styling()
