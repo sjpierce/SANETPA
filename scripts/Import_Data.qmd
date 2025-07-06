@@ -309,6 +309,37 @@ The expected uses for the `Applicants` data are:
 
 :::
 
+The chunk below defines some value labels we will use when creating the 
+`Applicants` dataset from `Applicants_Raw`. 
+
+```{r}
+#| label: create-value-labels
+
+# Labels for binary variables
+Binary_Labels <- c(No = 0, Yes = 1)
+
+# Create vectors of value labels for reverse-coded NPQ items.
+reversed_NPQ_value_labels <- c(`Very Often` = 1, Often = 2, Sometimes = 3, 
+                               Rarely = 4, Never = 5)
+
+# More concise labels for the raw stages. 
+Stage_Raw_value_labels <- c(`Applied` = 1, `Eligible` = 2, `Enrolled` = 3, 
+                            `Started DT` = 4, `Finished DT` = 5, 
+                            `Started CSW` = 6, `Finished CSW` = 7)
+
+# Final stages to be modeled. 
+Stage_Reached_value_labels <- c(`Eligible` = 1, `Started DT` = 2, 
+                                `Finished DT` = 3, `Finished CSW` = 4)
+
+# Final settings to be modeled
+Setting_Labels <- c("Urban" = 1, "Rural/Tribal" = 2, "Suburban" = 3)
+
+# Reversed training barriers value labels
+Barriers_Reversed_Labels <-  c(`strongly agree` = 1, `somewhat agree` = 2, 
+                               `neither agree nor disagree` = 3, 
+                               `somewhat disagree` = 4, `strongly disagree` = 5)
+```
+
 In the raw data, `stg_reached` was coded into 7 ordered categories to get the 
 most granular set of categories we thought we might need. Below we replace the 
 imported value labels for those stages with more concise labels. We also rename 
@@ -357,35 +388,6 @@ the 3 items and the led us to decide to only use the latter two. See the output
 from that script for why we excluded the first of those items. This script will 
 construct the sum score for the remaining two items, but the descriptive 
 analyses script will assess its reliability. 
-
-```{r}
-#| label: create-value-labels
-
-# Labels for binary variables
-Binary_Labels <- c(No = 0, Yes = 1)
-
-# Create vectors of value labels for reverse-coded NPQ items.
-reversed_NPQ_value_labels <- c(`Very Often` = 1, Often = 2, Sometimes = 3, 
-                               Rarely = 4, Never = 5)
-
-# More concise labels for the raw stages. 
-Stage_Raw_value_labels <- c(`Applied` = 1, `Eligible` = 2, `Enrolled` = 3, 
-                            `Started DT` = 4, `Finished DT` = 5, 
-                            `Started CSW` = 6, `Finished CSW` = 7)
-
-# Final stages to be modeled. 
-Stage_Reached_value_labels <- c(`Eligible` = 1, `Enrolled` = 2, 
-                                `Started DT` = 3, `Finished DT` = 4, 
-                                `Finished CSW` = 5)
-
-# Final settings to be modeled
-Setting_Labels <- c("Urban" = 1, "Rural/Tribal" = 2, "Suburban" = 3)
-
-# Reversed training barriers value labels
-Barriers_Reversed_Labels <-  c(`strongly agree` = 1, `somewhat agree` = 2, 
-                               `neither agree nor disagree` = 3, 
-                               `somewhat disagree` = 4, `strongly disagree` = 5)
-```
 
 ```{r}
 #| label: create-Applicants
