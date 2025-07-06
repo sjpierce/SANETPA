@@ -334,6 +334,11 @@ Stage_Reached_value_labels <- c(`Eligible` = 1, `Started DT` = 2,
 # Final settings to be modeled
 Setting_Labels <- c("Urban" = 1, "Rural/Tribal" = 2, "Suburban" = 3)
 
+# Training barriers value labels
+Barriers_Labels <-  c(`strongly disagree` = 1, `somewhat disagree` = 2, 
+                      `neither agree nor disagree` = 3, `somewhat agree` = 4, 
+                      `strongly agree` = 5)
+
 # Reversed training barriers value labels
 Barriers_Reversed_Labels <-  c(`strongly agree` = 1, `somewhat agree` = 2, 
                                `neither agree nor disagree` = 3, 
@@ -389,10 +394,10 @@ settings. It is an imperfect way to include data from those participants, but we
 have no better option.
 :::
 
-Below we also need to construct a scale measuring the extent to which personal
-and professional demands on participants' time are a barrier to participation in
-the training program (`Barrier_TD`). We considered using the following three 
-items from the training application form:
+We want to use measures of the extent to which personal and professional demands 
+on participants' time are a barrier to participation in the training program.
+We considered using the following three items from the training application 
+form:
 
 * `train_goal_fac_bar_5_numeric`: I have time in my schedule to focus on this 
   course. 
@@ -408,8 +413,9 @@ agree; 3, neither agree or disagree; 4, somewhat disagree; and 5, strongly
 disagree) for that to make sense. The `Descriptive_Analyses.qmd` script examined 
 the 3 items and the led us to decide to only use the latter two. See the output 
 from that script for why we excluded the first of those items. This script will 
-construct the sum score for the remaining two items, but the descriptive 
-analyses script will assess its reliability. 
+create copies of the latter two items with shorter names that reflect potential 
+barriers to participation posed by work responsibilities (`Barrier_WR`) and 
+family obligations (`Barrier_FO`) for use in modeling. 
 
 ```{r}
 #| label: create-Applicants
@@ -564,8 +570,8 @@ Applicants <- Applicants_Raw %>%
   # Reverse code an item, then compute a sum score for a new scale. 
   mutate(Train_Goal_Fac_Bar_5R = 6 - Train_Goal_Fac_Bar_5) %>% 
   rowwise() %>% 
-  mutate(Barrier_TD = sum(c(Train_Goal_Fac_Bar_8, Train_Goal_Fac_Bar_10), 
-                          na.rm = FALSE)) %>% 
+  mutate(Barrier_WR = Train_Goal_Fac_Bar_8,
+         Barrier_FO = Train_Goal_Fac_Bar_10)) %>% 
   ungroup() %>% 
   # Set variable and value labels. 
   set_variable_labels(ID = "Applicant ID (may be blank if application was incomplete)",
@@ -578,7 +584,8 @@ Applicants <- Applicants_Raw %>%
                       Stage_Reached = "Maximum Stage Reached by Participant (Recoded)",
                       Setting = "How would you describe the primary setting you practice nursing in? (recoded)",
                       Train_Goal_Fac_Bar_5R = "I have time in my schedule to focus on this course",
-                      Barrier_TD = "Barrier Time Demands Scale Score (3-item sum, possible range [2, 10])") %>% 
+                      Barrier_WR = "I have a lot of work responsibilities.",
+                      Barrier_FO = "I have a lot of family obligations right now.") %>% 
   set_value_labels(NPQ_1_r = reversed_NPQ_value_labels, 
                    NPQ_4_r = reversed_NPQ_value_labels, 
                    NPQ_15_r = reversed_NPQ_value_labels,
@@ -588,7 +595,9 @@ Applicants <- Applicants_Raw %>%
                    Stage_Reached = Stage_Reached_value_labels,
                    Eligible = Binary_Labels,
                    Setting = Setting_Labels,
-                   Train_Goal_Fac_Bar_5R = Barriers_Reversed_Labels)
+                   Train_Goal_Fac_Bar_5R = Barriers_Reversed_Labels,
+                   Barrier_WR = Barriers_Labels,
+                   Barrier_FO = Barriers_Labels)
 ```
 
 The imported `Applicants` data frame has `r nrow(Applicants)` rows and 
