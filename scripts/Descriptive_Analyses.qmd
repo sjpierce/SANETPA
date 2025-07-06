@@ -577,16 +577,16 @@ Eligible_Applicants %>%
 :::{.callout-note}
 Rather than use a two-item scale with questionable reliability for measuring 
 barriers, the PIs decided it was better to use those two items as separate 
-predictors. Single item measures are not optimal, but they items have strong 
-face validity. They are only modestly correlated, so it may be that distinct 
-predictors for family obligations and work responsibilities will have different 
-relationships with attrition. We We will recommend pursuing better measurement 
-of these constructs in future studies. 
+predictors. Single item measures are not optimal, but these items have strong 
+face validity. They are only modestly correlated, so it may be that treating 
+them as separate predictors for family obligations and work responsibilities 
+will be useful for better understanding attrition. We will recommend pursuing
+better measurement of these constructs in future studies.
 
 One consequence of low reliability in a predictor should be a weaker regression 
 coefficient relating it to an outcome. I suspect that we are more likely to 
-underestimate the effect of barrier time demands on attrition than to 
-overestimate it. 
+underestimate the effects of family obligations and work responsibilities on 
+attrition than to overestimate them. 
 
 We created new versions of these two items for use in modeling because shorter 
 variable names make code and output more readable.
@@ -603,9 +603,9 @@ variable names make code and output more readable.
 ### Continuous Predictors
 We plan to use the ProQual compassion (`ProQOL_CS`), burnout (`ProQOL_BO`), and 
 secondary traumatic stress (`ProQOL_STS`) scale scores [@Stamm-RN8775] as 
-predictors, along with a new, custom scale score measuring barriers to 
-participation due to personal and professional demands on applicants' time 
-(`Barrier_TD`). 
+predictors, along with two single-item measures of barriers to participation due 
+to family obligations (`Barrier_FO`) and work responsibilities (`Barrier_WR`) as 
+competing demands on applicants' time. 
 
 @tbl-continuous-vars-all shows descriptive statistics for each of these 
 continuous predictors among all eligible applicants before application of 
@@ -810,6 +810,9 @@ ggplot(data = Eligible_Applicants_CD, aes(x = Barrier_WR)) +
        y = "Density")
 ```
 
+@tbl-continuous-corr shows the Pearson correlations between the continuous 
+predictors we will use in our stopping-ratio models. 
+
 ```{r}
 #| label: tbl-continuous-corr
 #| tbl-cap: Pearson Correlation Matrix for Continuous Predictor Variables (After 
@@ -889,7 +892,7 @@ Eligible_Applicants_CD %>%
 
 @tbl-Setting-original shows the frequency distribution for the setting where 
 eligible applicants practice in its original coding. It shows that the Tribal 
-category is too small to model as a separate level,, so we need to combine it 
+category is too small to model as a separate level, so we need to combine it 
 with another category. 
 
 ```{r}
