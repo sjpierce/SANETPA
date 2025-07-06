@@ -254,8 +254,8 @@ the eligibility status.
 # Footnote text. 
 FN <- "CSW, clinical skills workshop; DT, didactic training."
 
-xtabs(~as_factor(Stage_Raw) + Eligible, addNA = TRUE, 
-      data = Applicants) %>% 
+Applicants %>% 
+  xtabs(~as_factor(Stage_Raw) + Eligible, addNA = TRUE, data = .) %>% 
   addmargins() %>% 
   kable(format = "latex", booktabs = TRUE, 
         col.names = c("Stage_Raw", "No", "Yes", "Sum")) %>% 
@@ -316,7 +316,8 @@ missing values.
 FN <- paste("The range of possible values for Barrier_FO is [1, 5].",
             "NA, not available (missing data).")
 
-xtabs(~Barrier_FO + Eligible, addNA = TRUE, data = Applicants) %>% 
+Applicants %>% 
+  xtabs(~Barrier_FO + Eligible, addNA = TRUE, data = .) %>% 
   addmargins() %>% 
   kable(format = "latex", booktabs = TRUE, 
         col.names = c("Barrier_FO", "No", "Yes", "Sum")) %>% 
@@ -336,7 +337,8 @@ xtabs(~Barrier_FO + Eligible, addNA = TRUE, data = Applicants) %>%
 FN <- paste("The range of possible values for Barrier_WR is [1, 5].",
             "NA, not available (missing data).")
 
-xtabs(~Barrier_WR + Eligible, addNA = TRUE, data = Applicants) %>% 
+Applicants %>% 
+  xtabs(~Barrier_WR + Eligible, addNA = TRUE, data = .) %>% 
   addmargins() %>% 
   kable(format = "latex", booktabs = TRUE, 
         col.names = c("Barrier_WR", "No", "Yes", "Sum")) %>% 
