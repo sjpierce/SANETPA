@@ -683,8 +683,8 @@ Eligible_Applicants_CD %>%
   summarise(N = n(),
             Mean = mean(Value, na.rm = TRUE),
             SD = sd(Value, na.rm = TRUE),
-            Min = min(Value, na.rm = TRUE),
-            Max = max(Value, na.rm = TRUE)) %>% 
+            Min = round(min(Value, na.rm = TRUE), digits = 1),
+            Max = round(max(Value, na.rm = TRUE), digits = 1)) %>% 
   kable(., format = "latex", booktabs = TRUE, digits = 1, 
         col.names = CNames, row.names = FALSE) %>% 
   kable_styling() %>% 
