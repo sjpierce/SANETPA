@@ -794,8 +794,8 @@ T3 <- Eligible_Applicants_CD %>%
 #| label: create-value-labels-2
 
 Threshold_Labels <- c("T1 (Eligible/Started DT)" = 1,
-                      "T2 (Started DT/Finished DT)" = 3,
-                      "T3 (Finished DT/Finished CSW)" = 4)
+                      "T2 (Started DT/Finished DT)" = 2,
+                      "T3 (Finished DT/Finished CSW)" = 3)
 ```
 
 ```{r}
