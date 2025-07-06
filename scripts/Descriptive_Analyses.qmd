@@ -375,8 +375,8 @@ variables to be included in the model (after listwise deletion).
 FN <- paste("Denominator for percents is the frequency sum.", 
       "CSW, clinical skills workshop; DT, didactic training.")
 
-xtabs(~as_factor(Stage_Reached), addNA = TRUE, 
-      data = Eligible_Applicants) %>% 
+Eligible_Applicants %>% 
+  xtabs(~as_factor(Stage_Reached), addNA = TRUE, data = .) %>% 
   addmargins() %>% 
   as.data.frame() %>% 
   rename(Stage_Reached = as_factor.Stage_Reached.) %>% 
@@ -401,8 +401,8 @@ xtabs(~as_factor(Stage_Reached), addNA = TRUE,
 FN <- paste("Denominator for percents is the frequency sum.", 
       "CSW, clinical skills workshop; DT, didactic training.")
 
-xtabs(~as_factor(Stage_Reached), addNA = TRUE, 
-      data = Eligible_Applicants_CD) %>% 
+Eligible_Applicants_CD %>% 
+  xtabs(~as_factor(Stage_Reached), addNA = TRUE, data = .) %>% 
   addmargins() %>% 
   as.data.frame() %>% 
   rename(Stage_Reached = as_factor.Stage_Reached.) %>% 
