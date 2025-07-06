@@ -421,16 +421,16 @@ Eligible_Applicants_CD %>%
 \FloatBarrier
 
 ## Reliability: Barrier Time Demands
-We need a measure of the extent to which competing personal and professional
-demands on participants' time are a barrier to completing the training program.
-The program staff believe that this construct (`Barrier_TD`) is likely to be a
-major driver of attrition from the program. Similarly, external stakeholders
+We considered creating a measure of the extent to which competing personal and
+professional demands on participants' time are a barrier to completing the
+training program. The program staff believe that this construct is likely to be
+a major driver of attrition from the program. Similarly, external stakeholders
 familiar with forensic nursing emphasized competing demands on time/bandwidth as
-a likely factor in attrition. Therefore, it is a high priority to have some 
-measure of `Barrier_TD` in our models. The challenge is operationalizing it. 
+a likely factor in attrition. Therefore, it is a high priority to have some
+measure of barriers in our models. The challenge is operationalizing it.
 
 There are three items from the training application form that are good 
-candidates for inclusion in the scale. 
+candidates for inclusion in such a scale. 
 
 * `Train_Goal_Fac_Bar_5R`: I have time in my schedule to focus on this course.  
 * `Train_Goal_Fac_Bar_8`: I have a lot of work responsibilities.
@@ -550,8 +550,8 @@ answers than the other two questions, which have more variability, less skew,
 and wording less likely to be seen as a pure screening tool.
 
 :::{.callout-note}
-We decided to omit the problematic item `Train_Goal_Fac_Bar_5R` and just use the 
-other two items. 
+We decided to omit the problematic item `Train_Goal_Fac_Bar_5R` and consider 
+just using the other two items. 
 ::: 
 
 ### 2-Item Scale Reliability
@@ -573,17 +573,25 @@ Eligible_Applicants %>%
 ```
 
 :::{.callout-note}
-We will use the two-item scale for `Barrier_TD` because that has higher
-reliability than using either of those remaining items alone and helps keep the
-number of predictors in the models manageable. It allows us to address a crucial
-hypothesis better than other available options. We are relying here on the
-strong face validity of the items being combined. We will recommend pursuing
-better measurement of this construct in future studies. 
+Rather than use a two-item scale with questionable reliability for measuring 
+barriers, the PIs decided it was better to use those two items as separate 
+predictors. Single item measures are not optimal, but they items have strong 
+face validity. They are only modestly correlated, so it may be that distinct 
+predictors for family obligations and work responsibilities will have different 
+relationships with attrition. We We will recommend pursuing better measurement 
+of these constructs in future studies. 
 
 One consequence of low reliability in a predictor should be a weaker regression 
 coefficient relating it to an outcome. I suspect that we are more likely to 
 underestimate the effect of barrier time demands on attrition than to 
 overestimate it. 
+
+We created new versions of these two items for use in modeling because shorter 
+variable names make code and output more readable.
+
+* `Train_Goal_Fac_Bar_8` became `Barrier_WR`. 
+* `Train_Goal_Fac_Bar_10` became `Barrier_FO`. 
+
 ::: 
 
 ## Predictor Distributions
