@@ -683,11 +683,13 @@ a `C` prefix on the variable name`.
 
 Eligible_Applicants_CD <- Eligible_Applicants %>% 
   # Retain cases with no missing data on variables to be used in models. 
-  filter(if_all(c(ID, Stage_Reached, Barrier_TD, ProQOL_BO, ProQOL_CS, 
-                  ProQOL_STS, Motivation_NeedSANE, Motivation_PersonalConn, 
-                  Setting), ~ !is.na(.x))) %>% 
+  filter(if_all(c(ID, Stage_Reached, Barrier_FO, Barrier_WR, ProQOL_BO, 
+                  ProQOL_CS, ProQOL_STS, Motivation_NeedSANE, 
+                  Motivation_PersonalConn, Setting), ~ !is.na(.x))) %>% 
   # Create mean-centered versions of continuous predictors. 
-  mutate(CProQOL_BO = ProQOL_BO - mean(ProQOL_BO),
+  mutate(CBarrier_FO = Barrier_FO - mean(Barrier_FO), 
+         CBarrier_WR = Barrier_WR - mean(Barrier_WR),
+         CProQOL_BO = ProQOL_BO - mean(ProQOL_BO),
          CProQOL_CS = ProQOL_CS - mean(ProQOL_CS),
          CProQOL_STS = ProQOL_STS - mean(ProQOL_STS),
          CBarrier_TD = Barrier_TD - mean(Barrier_TD))
@@ -757,9 +759,9 @@ the `.` suffix on the variable name.
 #| label: create-T1
 
 T1 <- Eligible_Applicants_CD %>% 
-  select(ID, Stage_Reached, Barrier_TD, ProQOL_BO, ProQOL_CS, ProQOL_STS, 
-         CBarrier_TD, CProQOL_BO, CProQOL_CS, CProQOL_STS, 
-         Motivation_NeedSANE, Motivation_PersonalConn, Setting) %>% 
+  select(ID, Stage_Reached, Barrier_FO, Barrier_WR, ProQOL_BO, ProQOL_CS, 
+         ProQOL_STS, CBarrier_FO, CBarrier_WR, CProQOL_BO, CProQOL_CS, 
+         CProQOL_STS, Motivation_NeedSANE, Motivation_PersonalConn, Setting) %>% 
   filter(Stage_Reached >= 1) %>% 
   mutate(Threshold = 1, 
          Attrit = if_else(Stage_Reached == Threshold, true = 1, false = 0))
@@ -769,9 +771,9 @@ T1 <- Eligible_Applicants_CD %>%
 #| label: create-T2
 
 T2 <- Eligible_Applicants_CD %>% 
-  select(ID, Stage_Reached, Barrier_TD, ProQOL_BO, ProQOL_CS, ProQOL_STS, 
-         CBarrier_TD, CProQOL_BO, CProQOL_CS, CProQOL_STS, 
-         Motivation_NeedSANE, Motivation_PersonalConn, Setting) %>% 
+  select(ID, Stage_Reached, Barrier_FO, Barrier_WR, ProQOL_BO, ProQOL_CS, 
+         ProQOL_STS, CBarrier_FO, CBarrier_WR, CProQOL_BO, CProQOL_CS, 
+         CProQOL_STS, Motivation_NeedSANE, Motivation_PersonalConn, Setting) %>% 
   filter(Stage_Reached >= 2) %>% 
   mutate(Threshold = 2, 
          Attrit = if_else(Stage_Reached == Threshold, true = 1, false = 0))
@@ -781,9 +783,9 @@ T2 <- Eligible_Applicants_CD %>%
 #| label: create-T3
 
 T3 <- Eligible_Applicants_CD %>% 
-  select(ID, Stage_Reached, Barrier_TD, ProQOL_BO, ProQOL_CS, ProQOL_STS, 
-         CBarrier_TD, CProQOL_BO, CProQOL_CS, CProQOL_STS, 
-         Motivation_NeedSANE, Motivation_PersonalConn, Setting) %>% 
+  select(ID, Stage_Reached, Barrier_FO, Barrier_WR, ProQOL_BO, ProQOL_CS, 
+         ProQOL_STS, CBarrier_FO, CBarrier_WR, CProQOL_BO, CProQOL_CS, 
+         CProQOL_STS, Motivation_NeedSANE, Motivation_PersonalConn, Setting) %>% 
   filter(Stage_Reached >= 3) %>% 
   mutate(Threshold = 3, 
          Attrit = if_else(Stage_Reached == Threshold, true = 1, false = 0))
