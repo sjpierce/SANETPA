@@ -365,7 +365,6 @@ tibble(Raw_Value = 1:7,
   kable(format = "latex", booktabs = TRUE) %>% 
   kable_styling() %>% 
   add_header_above(header = c("Stage_Raw" = 2, "Stage_Reached" = 2))
-
 ```
 
 The rationale for collapsing the `Stage_Raw` values of 2 and 3 together is that 
