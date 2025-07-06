@@ -20,7 +20,7 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
 Depends: 
     R (>= 4.5),
-    piercer (>= 0.18.0)
+    piercer (>= 0.21.0)
 Suggests: 
     broom,
     car,
