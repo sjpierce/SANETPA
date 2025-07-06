@@ -344,15 +344,37 @@ In the raw data, `stg_reached` was coded into 7 ordered categories to get the
 most granular set of categories we thought we might need. Below we replace the 
 imported value labels for those stages with more concise labels. We also rename 
 that variable to `Stage_Raw`, then use it to create the `Stage_Reached` variable 
-by recoding `Stage_Raw` = 1 to missing values (ineligible applicants will be 
-excluded from modeling) and then renumering remaining stages after collapsing 
-two stages together because only one participant started the clinical skills 
-training without finishing it (`Stage_Raw` = 6). For that stage, the stopping 
-rate would be really close to 0 for the transition between starting and
-finishing clinical training. That could cause a separation issue (estimation
-could break down due to insufficient outcome variability at that threshold).
-Treating that case as having stopped at finishing the didactic training 
-(`Stage_Raw` = 5; `Stage_Reached` = 4) should avoid that problem.
+by recoding as shown in @tbl-stage-recode. 
+
+```{r}
+#| label: tbl-stage-recode
+#| tbl-cap: Recoding from Stage_Raw to Stage_Reached
+
+tibble(Raw_Value = 1:7,
+       Reached_Value = c(NA, 1, 1, 2, 3, 3, 4)) %>% 
+  set_value_labels(Raw_Value = Stage_Raw_value_labels,
+                   Reached_Value = Stage_Reached_value_labels) %>% 
+  mutate(Raw_Label = as_factor(Raw_Value),
+         Reached_Label = as_factor(Reached_Value)) %>% 
+  select(Raw_Value, Raw_Label, Reached_Value, Reached_Label) %>% 
+  kable(format = "latex", booktabs = TRUE) %>% 
+  kable_styling() %>% 
+  add_header_above(header = c("Stage_Raw" = 2, "Stage_Reached" = 2))
+
+```
+
+The rationale for collapsing the `Stage_Raw` values of 2 and 3 together is that 
+the first stopping rate of interest is the proportion of eligible applicants 
+who drop out before starting the didactic training. As a practical matter from a 
+program management perspective, the PIs decided that distinguishing between
+being eligible (`Stage_Raw` = 2) and enrolled (`Stage_Raw` = 2) was not very
+useful because both values still ultimately mean the person did not start the 
+training. Only one participant started the clinical skills training without
+finishing it (`Stage_Raw` = 6). For that stage, the stopping rate would be
+really close to 0 for the transition between starting and finishing clinical
+training. That could cause a separation issue (estimation could break down due
+to insufficient outcome variability at that threshold). Treating that case as
+having stopped at finishing the didactic training should avoid that problem.
 
 ::: {.callout-important}
 The raw `practicset_dem_num` variable was coded into 4 categories (Urban, Rural,
@@ -529,11 +551,11 @@ Applicants <- Applicants_Raw %>%
          Mod_12_SDate = Mod12Start) %>% 
   # Recode Stage_Raw into final set of stages to be modeled.
   mutate(Stage_Reached = case_when(Stage_Raw == 2 ~ 1,
-                                   Stage_Raw == 3 ~ 2,
-                                   Stage_Raw == 4 ~ 3,
-                                   Stage_Raw == 5 ~ 4,
-                                   Stage_Raw == 6 ~ 4,
-                                   Stage_Raw == 7 ~ 5,
+                                   Stage_Raw == 3 ~ 1,
+                                   Stage_Raw == 4 ~ 2,
+                                   Stage_Raw == 5 ~ 3,
+                                   Stage_Raw == 6 ~ 3,
+                                   Stage_Raw == 7 ~ 4,
                                    .default = NA)) %>% 
   # Recode practicset_dem_num into Setting, combining Rural & Tribal categories.
   mutate(Setting = if_else(practicset_dem_num %in% c(2,4), 
