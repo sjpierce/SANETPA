@@ -570,7 +570,7 @@ Applicants <- Applicants_Raw %>%
   mutate(Train_Goal_Fac_Bar_5R = 6 - Train_Goal_Fac_Bar_5) %>% 
   rowwise() %>% 
   mutate(Barrier_WR = Train_Goal_Fac_Bar_8,
-         Barrier_FO = Train_Goal_Fac_Bar_10)) %>% 
+         Barrier_FO = Train_Goal_Fac_Bar_10) %>% 
   ungroup() %>% 
   # Set variable and value labels. 
   set_variable_labels(ID = "Applicant ID (may be blank if application was incomplete)",
