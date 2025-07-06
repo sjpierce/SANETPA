@@ -305,7 +305,7 @@ data.frame(No = sum(1 - Applicants$Eligible),
 @tbl-Barrier-FO-Eligible and @tbl-Barrier-WR-Eligible respectively show the
 joint distributions of the `Barrier_FO` and `Barrier_WR` scores with the
 `Eligible` indicator. This allows us to demonstrate that all eligible applicants
-have observed scores in the expected range and all ineligible applicants have
+have observed scores in the expected range and many ineligible applicants have
 missing values.
 
 ```{r}
