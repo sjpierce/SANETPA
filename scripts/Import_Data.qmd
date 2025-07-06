@@ -716,17 +716,17 @@ stopped participating at the current stage or moved on to the next stage.
 //| fig-cap: Stages, Thresholds (T1-T3), and Stopping Ratios (SR1-SR3) in the 
 //|          SANE Training Program. CSW, clinical skills workshop; DT, didactic 
 //|          training.
-//| fig-width: 6
-//| fig-height: 3
+//| fig-width: 5
+//| fig-height: 2.5
 
 digraph StagesModeled {
 
 graph [rankdir="LR"];
 
 node [shape = "box", style= "filled", fillcolor = "Gray90", fontsize = "7"];
-A1 [label = "Attrited 1\nBefore DT\nSR1"]
-A2 [label = "Attrited 2\nDuring DT\nSR2"]
-A3 [label = "Attrited 3\nBefore CSW\nSR3"]
+A1 [label = "Attrited\nBefore DT\nSR1"]
+A2 [label = "Attrited\nDuring DT\nSR2"]
+A3 [label = "Attrited\nBefore CSW\nSR3"]
 
 S1 [label = "Stage 1\nEligible"]
 S2 [label = "Stage 2\nStarted DT"]
