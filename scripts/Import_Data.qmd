@@ -691,8 +691,7 @@ Eligible_Applicants_CD <- Eligible_Applicants %>%
          CBarrier_WR = Barrier_WR - mean(Barrier_WR),
          CProQOL_BO = ProQOL_BO - mean(ProQOL_BO),
          CProQOL_CS = ProQOL_CS - mean(ProQOL_CS),
-         CProQOL_STS = ProQOL_STS - mean(ProQOL_STS),
-         CBarrier_TD = Barrier_TD - mean(Barrier_TD))
+         CProQOL_STS = ProQOL_STS - mean(ProQOL_STS))
 ```
 
 ## Create Thresholds Dataset
