@@ -224,25 +224,13 @@ library(car)            # for vif()
 library(emmeans)        # for emmeans()
 library(performance)    # for model_performance(), r2()
 library(scales)         # for label_number()
-library(piercer)        # for brier(), file_details(), git_report(), R2Dev()
+library(piercer)        # for brier(), display_num(), file_details(), 
+                        # git_report(), R2Dev()
 library(quarto)         # for quarto_version()
 library(SANETPA)        # for version info 
 ```
 
 \FloatBarrier
-
-## Define Custom Functions
-The function below will be used to format p-values later in the output. 
-
-```{r}
-#| label: display-num
-
-display_num <- function(x) {
-  case_when(x >= 1000000 ~ sprintf("%.2e", x),
-            x < .001 ~ sprintf("%.2e", x),
-            .default = sprintf("%.3f", x)) 
-}
-```
 
 ## Declare Path
 This next chunk declares the path to this script relative to the project-level 
