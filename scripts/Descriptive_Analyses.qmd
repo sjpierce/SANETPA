@@ -302,23 +302,44 @@ data.frame(No = sum(1 - Applicants$Eligible),
            threeparttable = TRUE)
 ```
 
-@tbl-Time-Demands-Eligible shows the joint distribution of the `Barrier_TD` 
-scale score and the `Eligible` indicator. This allows us to demonstrate that 
-all eligible applicants have observed scale scores in the expected range and all 
-ineligible applicants have missing values. 
+@tbl-Barrier-FO-Eligible and @tbl-Barrier-WR-Eligible respectively show the
+joint distributions of the `Barrier_FO` and `Barrier_WR` scores with the
+`Eligible` indicator. This allows us to demonstrate that all eligible applicants
+have observed scores in the expected range and all ineligible applicants have
+missing values.
 
 ```{r}
-#| label: tbl-Time-Demands-Eligible
-#| tbl-cap: Barrier_TD by Eligible Contingency Table
+#| label: tbl-Barrier-FO-Eligible
+#| tbl-cap: Barrier_FO by Eligible Contingency Table
 
 # Footnote text. 
-FN <- paste("The range of possible values for Barrier_TD is [3, 15].",
+FN <- paste("The range of possible values for Barrier_FO is [1, 5].",
             "NA, not available (missing data).")
 
-xtabs(~Barrier_TD + Eligible, addNA = TRUE, data = Applicants) %>% 
+xtabs(~Barrier_FO + Eligible, addNA = TRUE, data = Applicants) %>% 
   addmargins() %>% 
   kable(format = "latex", booktabs = TRUE, 
-        col.names = c("Barrier_TD", "No", "Yes", "Sum")) %>% 
+        col.names = c("Barrier_FO", "No", "Yes", "Sum")) %>% 
+  kable_styling() %>% 
+  add_header_above(header = c(" ", "Eligible" = 2, " ")) %>% 
+  column_spec(column = 4, italic = TRUE) %>% 
+  row_spec(row = 8, italic = TRUE) %>% 
+  footnote(kable_input = ., general = FN, footnote_as_chunk = TRUE, 
+           threeparttable = TRUE)
+```
+
+```{r}
+#| label: tbl-Barrier-WR-Eligible
+#| tbl-cap: Barrier_WR by Eligible Contingency Table
+
+# Footnote text. 
+FN <- paste("The range of possible values for Barrier_WR is [1, 5].",
+            "NA, not available (missing data).")
+
+xtabs(~Barrier_WR + Eligible, addNA = TRUE, data = Applicants) %>% 
+  addmargins() %>% 
+  kable(format = "latex", booktabs = TRUE, 
+        col.names = c("Barrier_WR", "No", "Yes", "Sum")) %>% 
   kable_styling() %>% 
   add_header_above(header = c(" ", "Eligible" = 2, " ")) %>% 
   column_spec(column = 4, italic = TRUE) %>% 
@@ -583,7 +604,7 @@ for each of these continuous predictors among eligible applicants with complete
 data on the variables to be used in modeling, along with corresponding 
 mean-centered versions of each one. Histograms of the uncentered versions of the 
 variables after listwise deletion are shown in @fig-ProQOL-BO, @fig-ProQOL-CS, 
-@fig-ProQOL-STS, and @fig-Barrier-TD.
+@fig-ProQOL-STS, @fig-Barrier-FO, and @fig-Barrier-WR.
 
 ```{r}
 #| label: tbl-continuous-vars-all
@@ -593,16 +614,19 @@ variables after listwise deletion are shown in @fig-ProQOL-BO, @fig-ProQOL-CS,
 # Footnote text.
 FN <- paste("N_m, number of missing values; N_o, number of observed values.")
 
-VNames <- c("ProQOL_BO", "ProQOL_CS", "ProQOL_STS", "Barrier_TD",
-            "CProQOL_BO", "CProQOL_CS", "CProQOL_STS", "CBarrier_TD")
+VNames <- c("ProQOL_BO", "ProQOL_CS", "ProQOL_STS", "Barrier_FO", "Barrier_WR",
+            "CProQOL_BO", "CProQOL_CS", "CProQOL_STS", "CBarrier_FO", 
+            "CBarrier_WR")
 VLabels <- rep(c("Burnout", "Compassion Satisfaction", 
-                 "Secondary Traumatic Stress", "Time Demands"), times = 2)
+                 "Secondary Traumatic Stress", "Family Obligations", 
+                 "Work Responsibilities"), times = 2)
 CNames <- c("Variable", "Construct", "N", "N_m", "N_o", "Mean", "SD", 
             "Min", "Max")
 
 Eligible_Applicants %>% 
-  select(ID, ProQOL_BO, ProQOL_CS, ProQOL_STS, Barrier_TD) %>% 
-  pivot_longer(cols = c(ProQOL_BO, ProQOL_CS, ProQOL_STS, Barrier_TD),
+  select(ID, ProQOL_BO, ProQOL_CS, ProQOL_STS, Barrier_FO, Barrier_WR) %>% 
+  pivot_longer(cols = c(ProQOL_BO, ProQOL_CS, ProQOL_STS, Barrier_FO, 
+                        Barrier_WR),
                names_to = "VarName", 
                values_to = "Value") %>% 
   mutate(VarName = factor(VarName, levels = VNames, labels = VNames),
@@ -628,17 +652,20 @@ Eligible_Applicants %>%
 #|          Eligible Applicants (After Listwise Deletion)
 
 # Footnote text.
-VNames <- c("ProQOL_BO", "ProQOL_CS", "ProQOL_STS", "Barrier_TD",
-            "CProQOL_BO", "CProQOL_CS", "CProQOL_STS", "CBarrier_TD")
+VNames <- c("ProQOL_BO", "ProQOL_CS", "ProQOL_STS", "Barrier_FO", "Barrier_WR",
+            "CProQOL_BO", "CProQOL_CS", "CProQOL_STS", "CBarrier_FO", 
+            "CBarrier_WR")
 VLabels <- rep(c("Burnout", "Compassion Satisfaction", 
-                 "Secondary Traumatic Stress", "Time Demands"), times = 2)
+                 "Secondary Traumatic Stress", "Family Obligations", 
+                 "Work Responsibilities"), times = 2)
 CNames <- c("Variable", "Construct", "N", "Mean", "SD", "Min", "Max")
 
 Eligible_Applicants_CD %>% 
-  select(ID, ProQOL_BO, ProQOL_CS, ProQOL_STS, Barrier_TD, CProQOL_BO,
-         CProQOL_CS, CProQOL_STS, CBarrier_TD) %>% 
-  pivot_longer(cols = c(ProQOL_BO, ProQOL_CS, ProQOL_STS, Barrier_TD, 
-                        CProQOL_BO, CProQOL_CS, CProQOL_STS, CBarrier_TD),
+  select(ID, ProQOL_BO, ProQOL_CS, ProQOL_STS, Barrier_FO, Barrier_WR, 
+         CProQOL_BO, CProQOL_CS, CProQOL_STS, CBarrier_FO, CBarrier_WR) %>% 
+  pivot_longer(cols = c(ProQOL_BO, ProQOL_CS, ProQOL_STS, Barrier_FO, 
+                        Barrier_WR, CProQOL_BO, CProQOL_CS, CProQOL_STS, 
+                        CBarrier_FO, CBarrier_WR),
                names_to = "VarName", 
                values_to = "Value") %>% 
   mutate(VarName = factor(VarName, levels = VNames, labels = VNames),
@@ -654,9 +681,9 @@ Eligible_Applicants_CD %>%
         col.names = CNames, row.names = FALSE) %>% 
   kable_styling() %>% 
   group_rows(., group_label = "Uncentered Scale Scores", start_row = 1, 
-             end_row = 4, italic = TRUE) %>% 
-  group_rows(., group_label = "Mean-Centered Scale Scores", start_row = 5, 
-             end_row = 8, italic = TRUE) 
+             end_row = 5, italic = TRUE) %>% 
+  group_rows(., group_label = "Mean-Centered Scale Scores", start_row = 6, 
+             end_row = 10, italic = TRUE) 
 ```
 
 ```{r}
@@ -732,23 +759,44 @@ ggplot(data = Eligible_Applicants_CD, aes(x = ProQOL_STS)) +
 ```
 
 ```{r}
-#| label: fig-Barrier-TD
-#| fig-cap: Histogram of Barrier Time Demands Among Eligible Applicants (After 
+#| label: fig-Barrier-FO
+#| fig-cap: Histogram of Family Obligations Among Eligible Applicants (After 
 #|          Listwise Deletion) 
 #| fig-width: 5
 #| fig-height: 2.5
 
-ggplot(data = Eligible_Applicants_CD, aes(x = Barrier_TD)) +
+ggplot(data = Eligible_Applicants_CD, aes(x = Barrier_FO)) +
   geom_histogram(aes(y = after_stat(density)), binwidth = 1, color = "black", 
                  fill = "grey") +
   geom_density(alpha = .6, fill = "#FF6666") +
-  geom_vline(aes(xintercept = mean(Barrier_TD, na.rm = TRUE)), color = "blue", 
+  geom_vline(aes(xintercept = mean(Barrier_FO, na.rm = TRUE)), color = "blue", 
              linetype = "solid", linewidth = 1) +
-  coord_cartesian(xlim = c(1, 11), ylim = c(0, 0.30)) + 
-  scale_x_continuous(breaks = seq(from = 2, to = 10, by = 1)) +
-  scale_y_continuous(breaks = seq(from = 0, to = 0.30, by = 0.05)) +
+  coord_cartesian(xlim = c(1, 5), ylim = c(0, 0.70)) + 
+  scale_x_continuous(breaks = seq(from = 1, to = 5, by = 1)) +
+  scale_y_continuous(breaks = seq(from = 0, to = 0.70, by = 0.10)) +
   labs(subtitle = "", 
-       x = "Barrier Time Demands", 
+       x = "Family Obligations", 
+       y = "Density")
+```
+
+```{r}
+#| label: fig-Barrier-WR
+#| fig-cap: Histogram of Family Obligations Among Eligible Applicants (After 
+#|          Listwise Deletion) 
+#| fig-width: 5
+#| fig-height: 2.5
+
+ggplot(data = Eligible_Applicants_CD, aes(x = Barrier_WR)) +
+  geom_histogram(aes(y = after_stat(density)), binwidth = 1, color = "black", 
+                 fill = "grey") +
+  geom_density(alpha = .6, fill = "#FF6666") +
+  geom_vline(aes(xintercept = mean(Barrier_WR, na.rm = TRUE)), color = "blue", 
+             linetype = "solid", linewidth = 1) +
+  coord_cartesian(xlim = c(1, 5), ylim = c(0, 0.80)) + 
+  scale_x_continuous(breaks = seq(from = 1, to = 5, by = 1)) +
+  scale_y_continuous(breaks = seq(from = 0, to = 0.80, by = 0.10)) +
+  labs(subtitle = "", 
+       x = "Work Responsibilities", 
        y = "Density")
 ```
 
@@ -764,7 +812,7 @@ FN <- paste0("N = ", N_used, " after listwise deletion of missing data (",
              N_omit, " observations).")
 
 Eligible_Applicants_CD %>% 
-  select(ProQOL_BO, ProQOL_CS, ProQOL_STS, Barrier_TD) %>% 
+  select(ProQOL_BO, ProQOL_CS, ProQOL_STS, Barrier_FO, Barrier_WR) %>% 
   cor(x = ., use = "complete.obs", method = "pearson") %>% 
   kable(format = "latex", booktabs = TRUE, digits = 2) %>% 
   kable_styling() %>% 
