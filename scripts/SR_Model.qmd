@@ -575,13 +575,13 @@ fit, so we will keep it in all subsequent models.
 \FloatBarrier
 
 ### Estimated Marginal Means
-The presence of a threshold main effect means that the attrition rate varies
+The presence of a threshold main effect shows that the attrition rate varies
 across thresholds. Next we compute estimated marginal means (EMMs) for each
 threshold and back-transform them to the response (probability) scale to see the
 attrition rate at each threshold. We expect these rates to agree with the simple
 descriptive statistics for percent attrition at each threshold because threshold
-is the sole predictor in Model 1. @tbl-emmeans-m1 shows the EMMs derived from
-Model 1.
+is the sole predictor in Model 1. @tbl-emmeans-m1 and  @fig-emmeans-m1 show the 
+EMMs derived from Model 1.
 
 ```{r}
 #| label: tbl-emmeans-m1
