@@ -131,7 +131,8 @@ The research questions may be briefly stated as follows:
     * Burnout.
     * Compassion satisfaction.
     * Secondary traumatic stress.
-    * Barrier time demands.
+    * Family obligations.
+    * Work responsibilities.
     * Primary setting where the trainee practices nursing.
     * Motivated to seek the training by a need for SANE services in their 
       community or organization.
@@ -466,11 +467,15 @@ applicants score on the ProQOL compassion satisfaction scale [@Stamm-RN8775].
 This is a mean-centered, continuous variable (`CProQOL_STS`) derived from the 
 applicants score on the ProQOL secondary traumatic stress scale [@Stamm-RN8775]. 
 
-### Barrier Time Demands (Focal Predictor)
-This is a mean-centered, continuous variable (`Barrier_TD`) created for this 
-study. It is based on the sum of two Likert-response ordinal items that were 
-scored on a 5-point scale. See the descriptive analyses output file for this 
-study for more details. 
+### Barrier: Family Obligations (Focal Predictor)
+This is a mean-centered, continuous variable (`Barrier_FO`) measured by a single 
+Likert-response item that was scored on a 5-point scale. See the descriptive 
+analyses output file for this study for more details. 
+
+### Barrier: Work Responsibilities (Focal Predictor)
+This is a mean-centered, continuous variable (`Barrier_WR`) measured by a single 
+Likert-response item that was scored on a 5-point scale. See the descriptive 
+analyses output file for this study for more details. 
 
 ### Setting (Focal Predictor)
 The primary setting where the trainee practices nursing was a nominal
@@ -623,9 +628,9 @@ Model 2 (`m2`) uses parallel effects for the focal predictors. See
 #| label: tbl-params-m2
 #| tbl-cap: "Model 2 Parameters"
 
-m2 <- glm(Attrit ~ Threshold. + CBarrier_TD + CProQOL_BO + CProQOL_CS + 
-            CProQOL_STS + Motivation_NeedSANE. + Motivation_PersonalConn. + 
-            Setting. + 1, 
+m2 <- glm(Attrit ~ Threshold. + CBarrier_FO + CBarrier_WR + CProQOL_BO + 
+            CProQOL_CS + CProQOL_STS + Motivation_NeedSANE. + 
+            Motivation_PersonalConn. + Setting. + 1, 
           data = Thresholds, family = binomial(link = "logit"))
 
 FN <- paste("Values shown are on the link function (logit) scale.")
@@ -914,9 +919,10 @@ review.
 #| label: tbl-params-m3
 #| tbl-cap: "Model 3 Parameters"
 
-m3 <- glm(Attrit ~ Threshold. + CBarrier_TD + CProQOL_BO + CProQOL_CS + 
-            CProQOL_STS + Motivation_NeedSANE. + Motivation_PersonalConn. + 
-            Setting. + Threshold.:CBarrier_TD + Threshold.:CProQOL_BO + 
+m3 <- glm(Attrit ~ Threshold. + CBarrier_FO + CBarrier_WR + CProQOL_BO + 
+            CProQOL_CS + CProQOL_STS + Motivation_NeedSANE. + 
+            Motivation_PersonalConn. + Setting. + Threshold.:CBarrier_FO +
+            Threshold.:CBarrier_WR + Threshold.:CProQOL_BO + 
             Threshold.:CProQOL_CS + Threshold.:CProQOL_STS + 
             Threshold.:Motivation_NeedSANE. + 
             Threshold.:Motivation_PersonalConn. + Threshold.:Setting. + 1, 
@@ -1336,14 +1342,15 @@ applicants who did not report that motivation. The odds-ratio for this effect in
 Model 2 (@tbl-params-m2) controls for all other focal predictors, while the one 
 in Model 4 (@tbl-params-m4) does not. 
 
-Our analyses showed no evidence that the size remaining focal predictors listed
+Our analyses showed no evidence that the seven remaining focal predictors listed
 below exert any influence on attrition from the SANE training program. This is
 surprising and counter-intuitive, but is nonetheless what our analyses show.
 
 * Burnout.
 * Compassion satisfaction.
 * Secondary traumatic stress.
-* Barrier time demands.
+* Family obligations.
+* Work responsibilities.
 * Primary setting where the trainee practices nursing.
 * Motivated to seek the training by a personal connection to sexual assault 
   (e.g., someone they know is a survivor). 
