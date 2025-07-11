@@ -869,6 +869,7 @@ FN <- paste("Motivation_NeedSANE has a parallel effect on attrition.",
             "predictors and assume values at the mean on continuous focal", 
             "predictors.",
             "Values are on the probability scale.", 
+            "CSW, clinical skills workshop; DT, didactic training;",
             "EMM, estimated marginal mean.")
 
 emmeans(m2, specs = ~ Threshold. | Motivation_NeedSANE., regrid = "response") %>% 
@@ -1233,6 +1234,7 @@ emmeans(m4, specs = ~ Motivation_NeedSANE., regrid = "response") %>%
 
 FN <- paste("Motivation_NeedSANE has a parallel effect on attrition.",
             "Values are on the probability scale.", 
+            "CSW, clinical skills workshop; DT, didactic training;",
             "EMM, estimated marginal mean.")
 
 emmeans(m4, specs = ~ Threshold. | Motivation_NeedSANE., regrid = "response") %>% 
