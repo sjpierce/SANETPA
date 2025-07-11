@@ -678,7 +678,8 @@ categorical terms that use multiple degrees of freedom [@Fox-RN3484]. In
 general, one can compare to $GVIF^{(1/(2*df))}$ to cutoffs defined for 
 $\sqrt{VIF}$. Some suggested cutoffs indicating potential problems are 
 $\sqrt{VIF} \ge 2$ or $\sqrt{VIF} \ge 3$. We are hoping to see 
-$GVIF^{(1/(2*df))} < 3$. 
+$GVIF^{(1/(2*df))} < 3$. @tbl-GVIF-m2 shows the generalized variance inflation 
+factors (GVIF) for Model 2.
 
 ```{r}
 #| label: tbl-GVIF-m2
@@ -726,7 +727,7 @@ test_lrt(m1, m2) %>%
 This is a simultaneous test of whether adding parallel effects for all of the
 focal predictors as a block improved the model fit enough to justify adding that
 many extra parameters. It did not. However, the Wald tests in @tbl-params-m2 
-suggest that `Motivation_NeedSANE.` has an effect while none of the other
+suggest that `Motivation_NeedSANE` has an effect while none of the other
 predictors do. We need to look more closely at the effects of individual
 predictors via single-term deletion tests.
 :::
@@ -760,7 +761,7 @@ m2 %>%
 \FloatBarrier
 
 ::: {.callout-tip}
-Only `Threshold` and `Motivation_NeedSANE` have main effects the need to be 
+Only `Threshold` and `Motivation_NeedSANE` have main effects that need to be 
 retained. We could in theory remove all the other focal predictors. 
 :::
 
@@ -1368,11 +1369,11 @@ predictors regardless of whether their effects were significant. Model 4 output
 predictor that mattered. 
 
 ## RQ2: Which focal predictors affect attrition rates? 
-Of the seven focal predictors we examined, only whether an applicant was 
+Of the eight focal predictors we examined, only whether an applicant was 
 motivated to seek the training by a need for SANE services in their community or 
 organization had a meaningful effect on attrition. The evidence for this lies 
 in the single-term deletion tests from Model 2 (@tbl-drop1-m2) and the 
-comparison of Models 1 and 4 (@tbl-lrt-m1-m2). 
+comparison of Models 1 and 4 (@tbl-lrt-m1-m4). 
 
 Applicants who reported having that motivation experienced lower attrition than 
 applicants who did not report that motivation. The odds-ratio for this effect in 
@@ -1398,11 +1399,11 @@ from Model 3 (@tbl-drop1-m3) and the comparison of Models 4 and 5
 (@tbl-lrt-m4-m5) all demonstrate that none of the focal predictors have 
 non-parallel effects on attrition. 
 
-As notes above in the conclusions regarding RQ2, whether an applicant was 
+As noted above in the conclusions regarding RQ2, whether an applicant was 
 motivated to seek the training by a need for SANE services in their community or 
 organization had a parallel effect on attrition. The evidence for this lies 
 in the single-term deletion tests from Model 2 (@tbl-drop1-m2) and the 
-comparison of Models 1 and 4 (@tbl-lrt-m1-m2). 
+comparison of Models 1 and 4 (@tbl-lrt-m1-m4). 
 
 Applicants who reported having that motivation experienced lower attrition than 
 applicants who did not report that motivation. The odds-ratio for this effect in 
