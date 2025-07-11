@@ -617,8 +617,10 @@ emmeans(m1, specs = ~ Threshold., regrid = "response") %>%
   plot(horizontal = FALSE) +
   xlab("Attrition Rate") + 
   ylab("Threshold") + 
-  scale_x_continuous(lim = c(0.00, 0.50), labels = label_number(accuracy = 0.01))
+  scale_x_continuous(lim = c(0.00, 0.50), 
+                     labels = label_number(accuracy = 0.01)) +
   scale_y_discrete(labels = TLabels) + 
+  theme_bw()
 ```
 
 \FloatBarrier
@@ -811,8 +813,10 @@ emmeans(m2, specs = ~ Threshold., regrid = "response") %>%
   plot(horizontal = FALSE) +
   xlab("Attrition Rate") + 
   ylab("Threshold") + 
-  scale_x_continuous(lim = c(0.00, 0.50), labels = label_number(accuracy = 0.01))
+  scale_x_continuous(lim = c(0.00, 0.50), 
+                     labels = label_number(accuracy = 0.01))  +
   scale_y_discrete(labels = TLabels) + 
+  theme_bw()
 ```
 
 ```{r}
@@ -850,7 +854,9 @@ emmeans(m2, specs = ~ Motivation_NeedSANE., regrid = "response") %>%
   plot(horizontal = FALSE) +
   xlab("Attrition Rate") + 
   ylab("Motivation_NeedSANE") + 
-  scale_x_continuous(lim = c(0.00, 0.50), labels = label_number(accuracy = 0.01))
+  scale_x_continuous(lim = c(0.00, 0.50), 
+                     labels = label_number(accuracy = 0.01)) + 
+  theme_bw()
 ```
 
 ```{r}
@@ -900,7 +906,9 @@ emmeans(m2, specs = ~ Motivation_NeedSANE. | Threshold., regrid = "response") %>
   facet_grid(cols = vars(Threshold.), labeller = labeller(Threshold. = FLabels)) +
   xlab("Attrition Rate") + 
   ylab("Motivation_NeedSANE") + 
-  scale_x_continuous(lim = c(0.00, 0.50), labels = label_number(accuracy = 0.01))
+  scale_x_continuous(lim = c(0.00, 0.50), 
+                     labels = label_number(accuracy = 0.01)) + 
+  theme_bw()
 ```
 
 \FloatBarrier
@@ -1174,8 +1182,10 @@ emmeans(m4, specs = ~ Threshold., regrid = "response") %>%
   plot(horizontal = FALSE) +
   xlab("Attrition Rate") + 
   ylab("Threshold") + 
-  scale_x_continuous(lim = c(0.00, 0.50), labels = label_number(accuracy = 0.01))
+  scale_x_continuous(lim = c(0.00, 0.50), 
+                     labels = label_number(accuracy = 0.01)) +
   scale_y_discrete(labels = TLabels) + 
+  theme_bw()
 ```
 
 ```{r}
@@ -1211,7 +1221,9 @@ emmeans(m4, specs = ~ Motivation_NeedSANE., regrid = "response") %>%
   plot(horizontal = FALSE) +
   xlab("Attrition Rate") + 
   ylab("Motivation_NeedSANE") + 
-  scale_x_continuous(lim = c(0.00, 0.50), labels = label_number(accuracy = 0.01))
+  scale_x_continuous(lim = c(0.00, 0.50), 
+                     labels = label_number(accuracy = 0.01)) +
+  theme_bw()
 ```
 
 ```{r}
@@ -1254,7 +1266,9 @@ emmeans(m4, specs = ~ Motivation_NeedSANE. | Threshold., regrid = "response") %>
   facet_grid(cols = vars(Threshold.), labeller = labeller(Threshold. = FLabels)) +
   xlab("Attrition Rate") + 
   ylab("Motivation_NeedSANE") + 
-  scale_x_continuous(lim = c(0.00, 0.50), labels = label_number(accuracy = 0.01))
+  scale_x_continuous(lim = c(0.00, 0.50), 
+                     labels = label_number(accuracy = 0.01)) +
+  theme_bw()
 ```
 
 \FloatBarrier
