@@ -388,7 +388,7 @@ logistic regression modeling software to fit the model and flexibly choose
 whether predictor effects are parallel (constrained to equality across
 thresholds), or non-parallel (unconstrained and allowed to vary across
 thresholds) by either omitting or including interaction terms. Because the 
-parallel effect model is nested within the non-parallel effect mode, we can 
+parallel effect model is nested within the non-parallel effect model, we can 
 use likelihood ratio tests to discern whether allowing non-parallel effects 
 improves model fit [@Cole-RN8770]. 
 
@@ -404,8 +404,8 @@ insights, in part because they revealed non-parallel effects of some predictors
 that could not be discerned with the other kinds of models. Other studies have 
 used CR models to examine predictors of student proficiency in math 
 [@Liu-RN8771], to validate student self-assessments of oral language proficiency 
-in second language learning [@Winke-RN3795], and predictors of how far sexual 
-assault kits progressed through several stages of forensic testing 
+in second language learning [@Winke-RN3795], and examine predictors of how far 
+sexual assault kits progressed through several stages of forensic testing 
 [@Campbell-RN3126; @Campbell-RN3149; @Campbell-RN3190].
 
 # Methods
@@ -443,11 +443,12 @@ dataset is well below that threshold.
 
 ## Sample
 The sample consists of the eligible applicants to the program who had complete 
-data on all the measures listed in the next section. 
+data on all the measures listed in the next section. We aim to draw conclusions 
+that generalize to the overall population of eligible applicants to the program. 
 
 ## Measures
 The measures mentioned below include an outcome variable, a structural predictor
-required for SR modeling, and seven focal predictors.
+required for SR modeling, and eight focal predictors.
 
 ### Attrition (Outcome Variable)
 This is the binary, threshold-specific transformation of the `Stage_Reached` 
