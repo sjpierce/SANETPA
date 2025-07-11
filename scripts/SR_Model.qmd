@@ -608,11 +608,16 @@ emmeans(m1, specs = ~ Threshold., regrid = "response") %>%
 #| fig-width: 4
 #| fig-height: 2.5
 
+TLabels = c("T1 Before DT", 
+            "T2 During DT",
+            "T3 Before/\nDuring CSW")
+
 emmeans(m1, specs = ~ Threshold., regrid = "response") %>% 
   plot(horizontal = FALSE) +
   xlab("Attrition Rate") + 
   ylab("Threshold") + 
   scale_x_continuous(lim = c(0.00, 0.50), labels = label_number(accuracy = 0.01))
+  scale_y_discrete(labels = TLabels) + 
 ```
 
 \FloatBarrier
@@ -778,9 +783,12 @@ FN <- paste("Values are on the probability scale.",
             "predictors.",
             "EMM, estimated marginal mean.")
 
+TLabels2 <- c("T1 Before DT", "T2 During DT", "T3 Before/During CSW")
+
 emmeans(m2, specs = ~ Threshold., regrid = "response") %>% 
   as_tibble() %>% 
   select(!df) %>% 
+  mutate(Threshold. = factor(Threshold., labels = TLabels2)) %>% 
   kable(format = "latex", booktabs = TRUE, 
         digits = c(0, 3, 3, 3, 3),
         col.names = c("Threshold", "Rate (EMM)", "SE", "LL", "UL")) %>% 
@@ -802,6 +810,7 @@ emmeans(m2, specs = ~ Threshold., regrid = "response") %>%
   xlab("Attrition Rate") + 
   ylab("Threshold") + 
   scale_x_continuous(lim = c(0.00, 0.50), labels = label_number(accuracy = 0.01))
+  scale_y_discrete(labels = TLabels) + 
 ```
 
 ```{r}
@@ -858,6 +867,7 @@ emmeans(m2, specs = ~ Threshold. | Motivation_NeedSANE., regrid = "response") %>
   as_tibble() %>% 
   arrange(Threshold., Motivation_NeedSANE.) %>% 
   select(!df) %>% 
+  mutate(Threshold. = factor(Threshold., labels = TLabels2)) %>% 
   kable(format = "latex", booktabs = TRUE, 
         digits = c(0, 0, 3, 3, 3, 3),
         col.names = c("Threshold", "Motivation_NeedSANE.", "Rate (EMM)", "SE", 
@@ -879,9 +889,13 @@ emmeans(m2, specs = ~ Threshold. | Motivation_NeedSANE., regrid = "response") %>
 #| fig-width: 4.5
 #| fig-height: 2.5
 
+FLabels = c("1" = "Threshold T1\nBefore DT", 
+            "2" = "Threshold T2\nDuring DT",
+            "3" = "Threshold T3\nBefore/During CSW")
+
 emmeans(m2, specs = ~ Motivation_NeedSANE. | Threshold., regrid = "response") %>% 
   plot(horizontal = FALSE) +
-  facet_grid(cols = vars(Threshold.), labeller = label_both) +
+  facet_grid(cols = vars(Threshold.), labeller = labeller(Threshold. = FLabels)) +
   xlab("Attrition Rate") + 
   ylab("Motivation_NeedSANE") + 
   scale_x_continuous(lim = c(0.00, 0.50), labels = label_number(accuracy = 0.01))
@@ -1136,6 +1150,7 @@ FN <- paste("Values are on the probability scale.",
 emmeans(m4, specs = ~ Threshold., regrid = "response") %>% 
   as_tibble() %>% 
   select(!df) %>% 
+  mutate(Threshold. = factor(Threshold., labels = TLabels2)) %>% 
   kable(format = "latex", booktabs = TRUE, 
         digits = c(0, 3, 3, 3, 3),
         col.names = c("Threshold", "Rate (EMM)", "SE", "LL", "UL")) %>% 
@@ -1157,6 +1172,7 @@ emmeans(m4, specs = ~ Threshold., regrid = "response") %>%
   xlab("Attrition Rate") + 
   ylab("Threshold") + 
   scale_x_continuous(lim = c(0.00, 0.50), labels = label_number(accuracy = 0.01))
+  scale_y_discrete(labels = TLabels) + 
 ```
 
 ```{r}
@@ -1208,6 +1224,7 @@ emmeans(m4, specs = ~ Threshold. | Motivation_NeedSANE., regrid = "response") %>
   as_tibble() %>% 
   arrange(Threshold., Motivation_NeedSANE.) %>% 
   select(!df) %>% 
+  mutate(Threshold. = factor(Threshold., labels = TLabels2)) %>% 
   kable(format = "latex", booktabs = TRUE, 
         digits = c(0, 0, 3, 3, 3, 3),
         col.names = c("Threshold", "Motivation_NeedSANE.", "Rate (EMM)", "SE", 
@@ -1230,7 +1247,7 @@ emmeans(m4, specs = ~ Threshold. | Motivation_NeedSANE., regrid = "response") %>
 
 emmeans(m4, specs = ~ Motivation_NeedSANE. | Threshold., regrid = "response") %>% 
   plot(horizontal = FALSE) +
-  facet_grid(cols = vars(Threshold.), labeller = label_both) +
+  facet_grid(cols = vars(Threshold.), labeller = labeller(Threshold. = FLabels)) +
   xlab("Attrition Rate") + 
   ylab("Motivation_NeedSANE") + 
   scale_x_continuous(lim = c(0.00, 0.50), labels = label_number(accuracy = 0.01))
