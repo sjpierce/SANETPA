@@ -604,7 +604,8 @@ emmeans(m1, specs = ~ Threshold., regrid = "response") %>%
 
 ```{r}
 #| label: fig-emmeans-m1
-#| fig-cap: "Model 1 Conditional Attrition Rate by Threshold (Main Effect)"
+#| fig-cap: "Model 1 Conditional Attrition Rate by Threshold (Main Effect). 
+#|           CSW, clinical skills workshop; DT, didactic training."
 #| fig-width: 4
 #| fig-height: 2.5
 
@@ -801,7 +802,8 @@ emmeans(m2, specs = ~ Threshold., regrid = "response") %>%
 ```{r}
 #| label: fig-emmeans-m2-Threshold
 #| fig-cap: Model 2 Conditional Attrition Rate by Threshold (Main Effect 
-#|          Averaged Over All Other Predictors)
+#|          Averaged Over All Other Predictors). CSW, clinical skills workshop;   
+#|          DT, didactic training.
 #| fig-width: 4
 #| fig-height: 2.5
 
@@ -885,7 +887,7 @@ emmeans(m2, specs = ~ Threshold. | Motivation_NeedSANE., regrid = "response") %>
 #| label: fig-emmeans-m2-Both
 #| fig-cap: Model 2 Conditional Attrition Rate by Threshold and 
 #|          Motivation_NeedSANE (Main Effects, Averaged Over All Other 
-#|          Predictors)
+#|          Predictors). CSW, clinical skills workshop; DT, didactic training.
 #| fig-width: 4.5
 #| fig-height: 2.5
 
@@ -1163,7 +1165,8 @@ emmeans(m4, specs = ~ Threshold., regrid = "response") %>%
 ```{r}
 #| label: fig-emmeans-m4-Threshold
 #| fig-cap: Model 4 Conditional Attrition Rate by Threshold (Main Effect 
-#|          Averaged Over Motivation_NeedSANE)
+#|          Averaged Over Motivation_NeedSANE). CSW, clinical skills workshop;   
+#|          DT, didactic training.
 #| fig-width: 4
 #| fig-height: 2.5
 
@@ -1241,7 +1244,8 @@ emmeans(m4, specs = ~ Threshold. | Motivation_NeedSANE., regrid = "response") %>
 ```{r}
 #| label: fig-emmeans-m4-Both
 #| fig-cap: Model 4 Conditional Attrition Rate by Threshold and 
-#|          Motivation_NeedSANE (Main Effects Combined)
+#|          Motivation_NeedSANE (Main Effects Combined). CSW, clinical skills 
+#|          workshop; DT, didactic training.
 #| fig-width: 4.5
 #| fig-height: 2.5
 
