@@ -974,7 +974,7 @@ graph [rankdir="LR"];
 node [shape = "box", style= "filled", fillcolor = "Gray90", fontsize = "7"];
 A1 [label = "Attrited\nBefore DT\nSR1"]
 A2 [label = "Attrited\nDuring DT\nSR2"]
-A3 [label = "Attrited\nBefore CSW\nSR3"]
+A3 [label = "Attrited\nBefore/During CSW\nSR3"]
 
 S1 [label = "Stage 1\nEligible"]
 S2 [label = "Stage 2\nStarted DT"]
