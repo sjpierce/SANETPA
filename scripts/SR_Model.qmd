@@ -140,18 +140,10 @@ The research questions may be briefly stated as follows:
 * **RQ3.** Which focal predictors have parallel effects (constant across 
   thresholds) on attrition and which ones have non-parallel (threshold-specific) 
   effects?
-* **RQ4.** How strongly is starting each of specific modules in the didactic 
-  training associated with attrition during the didactic training? 
-* **RQ5.** Is starting the module on the physical exam of a sexual assault 
-  survivor a particularly strong predictor of attrition during the didactic 
-  training? Program staff think encountering the content of this module may be a 
-  crucial event that drives trainees to attrit. 
 
 ::: {.callout-tip}
-This file addresses research questions RQ1, RQ2, and RQ3 because those are best 
-handled via stopping-ratio models. Research questions RQ4 and RQ5 will be 
-answered in another file because they are better handled with different 
-statistical methods. 
+This document uses stopping-ratio models to answer all three research questions 
+(RQ1, RQ2, and RQ3). 
 :::
 
 ::: {.callout-note}
