@@ -816,7 +816,7 @@ We do not appear to have any multicollinearity problems in Model 2.
 
 ```{r}
 #| label: tbl-lrt-m1-m2
-#| tbl-cap: "Likehood Ratio Test Comparing Models 1 and 2"
+#| tbl-cap: "Likelihood Ratio Test Comparing Models 1 and 2"
 
 test_lrt(m1, m2) %>% 
   as_tibble() %>% 
@@ -1174,7 +1174,7 @@ We do not appear to have any multicollinearity problems in Model 3
 
 ```{r}
 #| label: tbl-lrt-m2-m3
-#| tbl-cap: "Likehood Ratio Test Comparing Models 2 and 3"
+#| tbl-cap: "Likelihood Ratio Test Comparing Models 2 and 3"
 
 test_lrt(m2, m3) %>% 
   as_tibble() %>% 
@@ -1335,7 +1335,7 @@ multicollinearity issues. Therefore we skip checking for it here.
 
 ```{r}
 #| label: tbl-lrt-m1-m4
-#| tbl-cap: "Likehood Ratio Test Comparing Models 1 and 4"
+#| tbl-cap: "Likelihood Ratio Test Comparing Models 1 and 4"
 
 test_lrt(m1, m4) %>% 
   as_tibble() %>% 
@@ -1587,7 +1587,7 @@ multicollinearity issues. Therefore we skip checking for it here.
 
 ```{r}
 #| label: tbl-lrt-m4-m5
-#| tbl-cap: "Likehood Ratio Test Comparing Models 4 and 5"
+#| tbl-cap: "Likelihood Ratio Test Comparing Models 4 and 5"
 
 test_lrt(m4, m5) %>% 
   as_tibble() %>% 
