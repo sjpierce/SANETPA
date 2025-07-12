@@ -787,14 +787,8 @@ glance(m2) %>%
 \FloatBarrier
 
 ### Check for Multicollinearity
-We will check for multicollinearity problems by examining the generalized
-variance inflation factor (GVIF) and a transformation of it that adjusts for
-categorical terms that use multiple degrees of freedom [@Fox-RN3484]. In 
-general, one can compare to $GVIF^{(1/(2*df))}$ to cutoffs defined for 
-$\sqrt{VIF}$. Some suggested cutoffs indicating potential problems are 
-$\sqrt{VIF} \ge 2$ or $\sqrt{VIF} \ge 3$. We are hoping to see 
-$GVIF^{(1/(2*df))} < 3$. @tbl-GVIF-m2 shows the generalized variance inflation 
-factors (GVIF) for Model 2.
+@tbl-GVIF-m2 shows the generalized variance inflation factors (GVIF) for Model 
+2.
 
 ```{r}
 #| label: tbl-GVIF-m2
@@ -1093,9 +1087,9 @@ unusually nuanced non-parallel effects if they exist.
 
 ::: {.callout-caution}
 Model 3 is rather ambitious given the sample size we have available. It is
-adding seven interaction effects: that yields many extra parameters. This poses
+adding eight interaction effects: that yields many extra parameters. This poses
 some risk for over-fitting the model, but testing for non-parallel effects
-either requires fitting this one model, or fitting a set of seven other models
+either requires fitting this one model, or fitting a set of eight other models
 where we add only a single non-parallel effect at a time. Fitting this larger
 model is more efficient and reduces the total amount of output we have to
 review.
@@ -1327,6 +1321,12 @@ glance(m4) %>%
         digits = c(2, 0, 2, 2, 2, 2, 0, 0)) %>% 
   kable_styling()
 ```
+
+\FloatBarrier
+
+### Check for Multicollinearity
+Model 4 has only a subset of the predictors that were in Model 3, which had no 
+multicollinearity issues. Therefore we skip checking for it here. 
 
 \FloatBarrier
 
@@ -1573,6 +1573,12 @@ glance(m5) %>%
         digits = c(2, 0, 2, 2, 2, 2, 0, 0)) %>% 
   kable_styling()
 ```
+
+\FloatBarrier
+
+### Check for Multicollinearity
+Model 5 has only a subset of the predictors that were in Model 3, which had no 
+multicollinearity issues. Therefore we skip checking for it here. 
 
 \FloatBarrier
 
