@@ -19,6 +19,11 @@ params:                               # Default values for parameters
   SourceDir: "scripts/"               # Relative path to folder holding this file
   SourceFile: "SR_Model.qmd"          # Name of this script file
   LogFile: "SR_Model_Draft.pdf"       # Name of rendered output file
+  DHARMa.seed1: 6347
+  DHARMa.seed2: 9654
+  DHARMa.seed3: 9654
+  DHARMa.seed4: 3321
+  DHARMa.seed5: 1456
 format: 
   pdf:                                # Settings for PDF output
     output-file: "SR_Model_Draft.pdf" # Default output file name 
