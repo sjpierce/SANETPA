@@ -118,8 +118,8 @@ knitr:                                # Default R knitr package chunk options
 # Purpose
 This file is part of a research compendium [@Pierce-RN8756] associated with a 
 study about a sexual assault nurse examiner training program [@Dontje-RN8757]. 
-The study aims to document rates of attrition at four points during the 
-program and understand predictors of attrition at each of those points. 
+The study aims to document rates of attrition at three threshold points during
+the program and understand predictors of attrition at each of those points.
 
 This file reads an R data file created by another script in this compendium,
 documents some methodology decisions and details, then runs the
@@ -130,7 +130,7 @@ supplementary output such as tables and graphs derived from the models.
 # Research Questions
 The research questions may be briefly stated as follows:
 
-* **RQ1.** What are the attrition rates from the program at each of the four 
+* **RQ1.** What are the attrition rates from the program at each of the three 
   thresholds representing transitions between stages of program participation?
 * **RQ2.** Which focal predictors affect attrition rates? 
     * Burnout.
