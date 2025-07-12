@@ -306,10 +306,10 @@ That means an eligible applicant's progress through the training program can be
 measured by an ordinal stage variable that records the maximum stage reached by
 the applicant in that sequential filtering process. In this study, the ordinal 
 variable is called `Stage_Reached`. It is a multinomial ordinal variable with 
-$J = 5$ possible stages and observed values denoted by stage $j$, where 
-$j \in \{1, 2, 3, 4, 5\}$. 
+$J = 4$ possible stages and observed values denoted by stage $j$, where 
+$j \in \{1, 2, 3, 4\}$. 
 
-@fig-Stages shows the final set of stages and thresholds (T1 to T4) between them
+@fig-Stages shows the final set of stages and thresholds (T1 to T3) between them
 at which attrition from the training program could occur. The arrows associated
 with each threshold are labeled according to how the outcome variable is coded
 on the corresponding person-threshold record, depending on whether the person
@@ -419,9 +419,9 @@ model. All models use the structural thresholds variable to predict attrition
 because that lays the foundation for a SR model. The modeling sequence starts by 
 fitting Model 1, which only uses the structural thresholds variable as a 
 predictor. That is the baseline model we can compare with models containing the
-focal predictors. Model 2 adds a set of parallel effects for all seven focal
+focal predictors. Model 2 adds a set of parallel effects for all eight focal
 predictors, then Model 3 expands on Model 2 by adding interaction terms to
-estimate non-parallel effects for all seven focal predictors [@Cole-RN8770].
+estimate non-parallel effects for all eight focal predictors [@Cole-RN8770].
 
 Models 4 and 5 aim to achieve parsimony by only including the one focal
 predictor that demonstrated an effect in Model 2. Model 4 builds up from Model 1
@@ -458,21 +458,21 @@ the threshold and continued to the next stage of the program. See @fig-Stages
 for a visualization of the coding for `Attrit`. 
 
 ### Threshold (Structural Predictor)
-The `Threshold` variable identifies which of four thresholds a participant was 
+The `Threshold` variable identifies which of three thresholds a participant was 
 attempting on any given record in the `Threshods` dataset. See @fig-Stages for 
-an overview of the stages. 
+an overview of the stages and thresholds. 
 
 ### Burnout (Focal Predictor)
 This is a mean-centered, continuous variable (`CProQOL_BO`) derived from the 
-applicants score on the ProQOL burnout scale [@Stamm-RN8775]. 
+applicant's score on the ProQOL burnout scale [@Stamm-RN8775]. 
 
 ### Compassion Satisfaction (Focal Predictor)
 This is a mean-centered, continuous variable (`CProQOL_CS`) derived from the 
-applicants score on the ProQOL compassion satisfaction scale [@Stamm-RN8775]. 
+applicant's score on the ProQOL compassion satisfaction scale [@Stamm-RN8775]. 
 
 ### Secondary Traumatic Stress (Focal Predictor)
 This is a mean-centered, continuous variable (`CProQOL_STS`) derived from the 
-applicants score on the ProQOL secondary traumatic stress scale [@Stamm-RN8775]. 
+applicant's score on the ProQOL secondary traumatic stress scale [@Stamm-RN8775]. 
 
 ### Barrier: Family Obligations (Focal Predictor)
 This is a mean-centered, continuous variable (`Barrier_FO`) measured by a single 
@@ -490,7 +490,7 @@ categorical factor named `Setting`. It originally had four levels, but was
 recoded to three levels (`Urban`, `Rural/Tribal`, and `Suburban`) due to small
 sample size in the `Tribal` category (which was then combined with `Rural`). See
 the descriptive analyses output file for this study for more details. The
-reference level is`Urban`.
+reference level is `Urban`.
 
 ### Motivated by Need for SANE (Focal Predictor)  
 This is a binary variable (`Motivation_NeedSANE`) measuring whether the 
