@@ -1,5 +1,50 @@
 # SANETPA News 
 
+## 0.15.0
+* `DESCRIPTION`
+    * Updated Depends field to require piercer 0.21.0.
+* `README.qmd` and `README.md`
+    * Update software version & citation info.
+* `scripts/Descriptive_Analyses.qmd`
+    * Use new piercer::file_details() function.
+    * Replaced Barrier_TD with Barrier_WR and Barrier_FO variables. 
+    * Improve code readability.
+    * Update explanatory text about measuring barriers construct.
+    * Fix a table formatting issue. 
+    * Improve narrative text.
+* `scripts/Import_Data.qmd`
+    * Use new piercer::file_details() function.
+    * Improve narrative text. 
+    * Revised recoding of Stage_Raw to Stage_Reached. 
+    * Updated stage diagram to match revised Stage_Reached variable.
+    * Updated creation of Thresholds dataset to match revised Stage_Reached 
+      variable. 
+    * Replaced Barrier_TD with Barrier_WR and Barrier_FO variables. 
+    * Update missingness assessments to reflect new variables. 
+    * Update Eligible_Applicants_CD and Thresholds datasets with new variables.
+    * Resize fig-Stages and refine its labeling.
+    * Fix value labels for thresholds.
+* `scripts/SR_Model.qmd`
+    * Use new piercer::file_details() function.
+    * Switch to using new piercer::display_num() function instead of defining it 
+      in this script. 
+    * Resize fig-Stages and refine its labeling.
+    * Improve narrative text. 
+    * Removed research questions we will no longer pursue. 
+    * Updated to reflect revised set of focal predictors.
+    * Improved table and figure labeling. 
+    * Improve table and figure captions. 
+    * Switch to black & white theme for figures. 
+    * Improve table footnotes.
+    * Add random number seed parameters for DHARMa model diagnostics 
+      simulations.
+    * Load more R packages.
+    * Add methods details about software and model diagnostics. 
+    * Add model diagnostics output. 
+* `scripts/references.bib`
+    * Updated software version and citation data. 
+    * Added several more methods references. 
+
 ## 0.14.0
 * `DESCRIPTION`
     * Updated Suggests field to list packages used in various scripts. 
