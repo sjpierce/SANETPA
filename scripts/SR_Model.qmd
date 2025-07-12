@@ -219,6 +219,8 @@ library(kableExtra)     # for kable_styling(), add_header_above(),
 library(kableExtra)     # for add_header_above(), footnote(), kable_styling()
 library(broom)          # for glance(), tidy()
 library(car)            # for vif()
+library(DHARMa)         # for plotQQunif(), plotResiduals(), simulateResiduals(), 
+                        # testDispersion()
 library(emmeans)        # for emmeans()
 library(performance)    # for model_performance(), r2()
 library(scales)         # for label_number()
