@@ -695,6 +695,51 @@ emmeans(m1, specs = ~ Threshold., regrid = "response") %>%
 
 \FloatBarrier
 
+### Model Diagnostics
+@fig-m1-diagnose shows the plots for diagnostic tests of model assumptions. 
+
+``` {r}
+#| label: fig-m1-diagnose
+#| fig-cap: "Diagnostic Plots for Model 1"
+#| fig-subcap: 
+#| - "Q-Q Plot and Test for Overall Uniformity"
+#| - "Residual Boxplots by Threshold"
+#| - "Binomial Outlier Test"
+#| - "Nonparametric Dispersion Test"
+#| fig.width: 6
+#| fig.height: 3
+#| layout-ncol: 2
+#| layout-nrow: 2
+
+# Save simulated residuals for use in diagnostics using DHARMa. 
+# Seed uses a parameter defined in YAML header for reproducibility.
+m1_sim <- simulateResiduals(fittedModel = m1, n = 1000, method = "PIT",
+                                seed = params$DHARMa.seed1)
+
+plotQQunif(simulationOutput = m1_sim, testUniformity = TRUE, 
+           testDispersion = FALSE, testOutliers = FALSE)
+
+invisible(testCategorical(simulationOutput = m1_sim, 
+                          catPred = as_factor(Thresholds$Threshold), 
+                          quantiles = c(0.25, 0.5, 0.75), plot = TRUE)) 
+
+invisible(testOutliers(simulationOutput = m1_sim, alternative  = "two.sided", 
+                       margin = "both", type = "binomial", plot = TRUE))
+
+invisible(testDispersion(simulationOutput = m1_sim, alternative = "two.sided", 
+                         plot = TRUE, type = "DHARMa"))
+```
+
+:::{.callout-tip}
+Model 1 assumptions are plausible. The scaled residuals appear to be uniform
+both overall (@fig-m1-diagnose-1) and within each threshold with no signs of
+heterogeneity of variance (@fig-m1-diagnose-2). There are no outliers
+(@fig-m1-diagnose-3), and there is no evidence of over- or under-dispersion
+(@fig-m1-diagnose-4).
+:::
+
+\FloatBarrier
+
 ## Model 2: Thresholds & Parallel Effects for All Focal Predictors
 In SR models, a predictor has a parallel effect when its regression coefficient 
 is constrained equal across all thresholds. This is implemented by estimating 
@@ -983,6 +1028,53 @@ emmeans(m2, specs = ~ Motivation_NeedSANE. | Threshold., regrid = "response") %>
 
 \FloatBarrier
 
+### Model Diagnostics
+@fig-m2-diagnose shows the plots for diagnostic tests of model assumptions. 
+
+``` {r}
+#| label: fig-m2-diagnose
+#| fig-cap: "Diagnostic Plots for Model 2"
+#| fig-subcap: 
+#| - "Q-Q Plot and Test for Overall Uniformity"
+#| - "Residual Boxplots by Threshold"
+#| - "Binomial Outlier Test"
+#| - "Nonparametric Dispersion Test"
+#| fig.width: 6
+#| fig.height: 3
+#| layout-ncol: 2
+#| layout-nrow: 2
+
+# Save simulated residuals for use in diagnostics using DHARMa. 
+# Seed uses a parameter defined in YAML header for reproducibility.
+m2_sim <- simulateResiduals(fittedModel = m2, n = 1000, method = "PIT",
+                                seed = params$DHARMa.seed2)
+
+plotQQunif(simulationOutput = m2_sim, testUniformity = TRUE, 
+           testDispersion = FALSE, testOutliers = FALSE)
+
+invisible(testCategorical(simulationOutput = m2_sim, 
+                          catPred = as_factor(Thresholds$Threshold), 
+                          quantiles = c(0.25, 0.5, 0.75), plot = TRUE)) 
+
+invisible(testOutliers(simulationOutput = m2_sim, alternative  = "two.sided", 
+                       margin = "both", type = "binomial", plot = TRUE))
+
+invisible(testDispersion(simulationOutput = m2_sim, alternative = "two.sided", 
+                         plot = TRUE, type = "DHARMa"))
+```
+
+\FloatBarrier
+
+:::{.callout-tip}
+Model 2 assumptions are plausible. The scaled residuals appear to be uniform
+both overall (@fig-m2-diagnose-1) and within each threshold with no signs of
+heterogeneity of variance (@fig-m2-diagnose-2). There are no outliers
+(@fig-m2-diagnose-3), and there is no evidence of over- or under-dispersion
+(@fig-m2-diagnose-4).
+:::
+
+\FloatBarrier
+
 ## Model 3: Thresholds & Non-Parallel Effects for All Focal Predictors
 In SR models, a predictor has a non-parallel effect when its regression 
 coefficient is allowed to vary across all thresholds. That is implemented by 
@@ -1137,12 +1229,61 @@ m3 %>%
   kable_styling() 
 ```
 
+\FloatBarrier
+
 ::: {.callout-tip}
 We can safely drop all of the interaction effects from the model. None of them 
 improve the model fit. It may be worth trying a final pair of models that are 
 more parsimonious than Models 2 and 3: they should include models with threshold 
 effect and just parallel and non-parallel effects of `Motivation_NeedSANE` 
 without other focal predictors. 
+:::
+
+\FloatBarrier
+
+### Model Diagnostics
+@fig-m3-diagnose shows the plots for diagnostic tests of model assumptions. 
+
+``` {r}
+#| label: fig-m3-diagnose
+#| fig-cap: "Diagnostic Plots for Model 3"
+#| fig-subcap: 
+#| - "Q-Q Plot and Test for Overall Uniformity"
+#| - "Residual Boxplots by Threshold"
+#| - "Binomial Outlier Test"
+#| - "Nonparametric Dispersion Test"
+#| fig.width: 6
+#| fig.height: 3
+#| layout-ncol: 2
+#| layout-nrow: 2
+
+# Save simulated residuals for use in diagnostics using DHARMa. 
+# Seed uses a parameter defined in YAML header for reproducibility.
+m3_sim <- simulateResiduals(fittedModel = m3, n = 1000, method = "PIT",
+                                seed = params$DHARMa.seed3)
+
+plotQQunif(simulationOutput = m3_sim, testUniformity = TRUE, 
+           testDispersion = FALSE, testOutliers = FALSE)
+
+invisible(testCategorical(simulationOutput = m3_sim, 
+                          catPred = as_factor(Thresholds$Threshold), 
+                          quantiles = c(0.25, 0.5, 0.75), plot = TRUE)) 
+
+invisible(testOutliers(simulationOutput = m3_sim, alternative  = "two.sided", 
+                       margin = "both", type = "binomial", plot = TRUE))
+
+invisible(testDispersion(simulationOutput = m3_sim, alternative = "two.sided", 
+                         plot = TRUE, type = "DHARMa"))
+```
+
+\FloatBarrier
+
+:::{.callout-tip}
+Model 3 assumptions are plausible. The scaled residuals appear to be uniform
+both overall (@fig-m3-diagnose-1) and within each threshold with no signs of
+heterogeneity of variance (@fig-m3-diagnose-2). There are no outliers
+(@fig-m3-diagnose-3), and there is no evidence of over- or under-dispersion
+(@fig-m3-diagnose-4).
 :::
 
 \FloatBarrier
@@ -1344,6 +1485,51 @@ emmeans(m4, specs = ~ Motivation_NeedSANE. | Threshold., regrid = "response") %>
 
 \FloatBarrier
 
+### Model Diagnostics
+@fig-m4-diagnose shows the plots for diagnostic tests of model assumptions. 
+
+``` {r}
+#| label: fig-m4-diagnose
+#| fig-cap: "Diagnostic Plots for Model 4"
+#| fig-subcap: 
+#| - "Q-Q Plot and Test for Overall Uniformity"
+#| - "Residual Boxplots by Threshold"
+#| - "Binomial Outlier Test"
+#| - "Nonparametric Dispersion Test"
+#| fig.width: 6
+#| fig.height: 3
+#| layout-ncol: 2
+#| layout-nrow: 2
+
+# Save simulated residuals for use in diagnostics using DHARMa. 
+# Seed uses a parameter defined in YAML header for reproducibility.
+m4_sim <- simulateResiduals(fittedModel = m4, n = 1000, method = "PIT",
+                                seed = params$DHARMa.seed4)
+
+plotQQunif(simulationOutput = m4_sim, testUniformity = TRUE, 
+           testDispersion = FALSE, testOutliers = FALSE)
+
+invisible(testCategorical(simulationOutput = m4_sim, 
+                          catPred = as_factor(Thresholds$Threshold), 
+                          quantiles = c(0.25, 0.5, 0.75), plot = TRUE)) 
+
+invisible(testOutliers(simulationOutput = m4_sim, alternative  = "two.sided", 
+                       margin = "both", type = "binomial", plot = TRUE))
+
+invisible(testDispersion(simulationOutput = m4_sim, alternative = "two.sided", 
+                         plot = TRUE, type = "DHARMa"))
+```
+
+:::{.callout-tip}
+Model 4 assumptions are plausible. The scaled residuals appear to be uniform
+both overall (@fig-m4-diagnose-1) and within each threshold with no signs of
+heterogeneity of variance (@fig-m4-diagnose-2). There are no outliers
+(@fig-m4-diagnose-3), and there is no evidence of over- or under-dispersion
+(@fig-m4-diagnose-4).
+:::
+
+\FloatBarrier
+
 ## Model 5: Thresholds & Non-Parallel Effect for `Motivation_NeedSANE` 
 Model 5 uses a non-parallel effect for `Motivation_NeedSANE` without any of the 
 other focal predictors. @tbl-params-m5 shows the parameter estimates and 
@@ -1415,6 +1601,51 @@ improved the model fit enough to justify adding that many extra parameters. It
 did not. We can safely drop the interaction effect from the model. That tells us
 we that if we're comfortable pursuing a more parsimonious model than Model 2, we
 should interpret Model 4 instead of Model 5.
+:::
+
+\FloatBarrier
+
+### Model Diagnostics
+@fig-m5-diagnose shows the plots for diagnostic tests of model assumptions. 
+
+``` {r}
+#| label: fig-m5-diagnose
+#| fig-cap: "Diagnostic Plots for Model 5"
+#| fig-subcap: 
+#| - "Q-Q Plot and Test for Overall Uniformity"
+#| - "Residual Boxplots by Threshold"
+#| - "Binomial Outlier Test"
+#| - "Nonparametric Dispersion Test"
+#| fig.width: 6
+#| fig.height: 3
+#| layout-ncol: 2
+#| layout-nrow: 2
+
+# Save simulated residuals for use in diagnostics using DHARMa. 
+# Seed uses a parameter defined in YAML header for reproducibility.
+m5_sim <- simulateResiduals(fittedModel = m5, n = 1000, method = "PIT",
+                                seed = params$DHARMa.seed5)
+
+plotQQunif(simulationOutput = m5_sim, testUniformity = TRUE, 
+           testDispersion = FALSE, testOutliers = FALSE)
+
+invisible(testCategorical(simulationOutput = m5_sim, 
+                          catPred = as_factor(Thresholds$Threshold), 
+                          quantiles = c(0.25, 0.5, 0.75), plot = TRUE)) 
+
+invisible(testOutliers(simulationOutput = m5_sim, alternative  = "two.sided", 
+                       margin = "both", type = "binomial", plot = TRUE))
+
+invisible(testDispersion(simulationOutput = m5_sim, alternative = "two.sided", 
+                         plot = TRUE, type = "DHARMa"))
+```
+
+:::{.callout-tip}
+Model 5 assumptions are plausible. The scaled residuals appear to be uniform
+both overall (@fig-m5-diagnose-1) and within each threshold with no signs of
+heterogeneity of variance (@fig-m5-diagnose-2). There are no outliers
+(@fig-m5-diagnose-3), and there is no evidence of over- or under-dispersion
+(@fig-m5-diagnose-4).
 :::
 
 \FloatBarrier
