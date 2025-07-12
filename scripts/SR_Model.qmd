@@ -504,6 +504,64 @@ they know is a survivor). The reference level is `No`.
 
 \FloatBarrier
 
+## Modeling Software
+We used the base R [@R-Devel-Core-RN8182] function `glm()` to fit the models
+because it is a high-quality, reliable, and flexible tool for fitting logistic 
+regression models. We also used several additional R packages. The `broom` 
+package [@Robinson-RN8669] facilitated extracting model parameters, odds-ratios, 
+and associated confidence intervals, while the `performance` package 
+[@Lüdecke-RN8788] extracted model fit statistics. The `DHARMa` [@Hartig-RN8668] 
+and `car` [@Fox-RN8789] packages provided tools for examining model diagnostics
+(see next section) and the `emmeans` package [@Lenth-RN8188] computed estimated
+marginal means that represent attrition rates.
+
+## Model Diagnostics
+
+### Collinearity
+The `car` package [@Fox-RN8789]  provides a function for examining the
+generalized variance inflation factor (GVIF) for terms in regression models.
+We checked for multicollinearity problems by examining the GVIF and a 
+transformation of it that adjusts for categorical terms that use multiple 
+degrees of freedom [@Fox-RN3484]. In general, one can compare 
+$GVIF^{(1/(2*df))}$ to cutoffs defined for $\sqrt{VIF}$. Some suggested cutoffs 
+indicating potential problems are $\sqrt{VIF} \ge 2$ or $\sqrt{VIF} \ge 3$. We 
+applied the latter cutoff, so hope to see $GVIF^{(1/(2*df))} < 3$ in our models.
+
+### Residual Distributions 
+The `DHARMa` package in R uses simulation-based methods to compute scaled
+residuals that should follow a uniform distribution if the data are consistent
+with the actual distribution used to model the outcome, making it easier to
+check for deviations from model assumptions [@Hartig-RN8668]. We used those 
+residuals to run several tests of model assumptions. 
+
+First, we conducted a Kolmogorov-Smirnov (K-S) test of overall uniformity of the 
+residual distribution, pairing it with a quantile-quantile (Q-Q) plot of the 
+observed versus expected residual values. As usual with a Q-Q plot, data points 
+should lay close to the reference line for the theoretical distribution. 
+
+Second, we split the data by threshold and used both a K-S test of within group
+deviation from uniformity and a Levene test for homogeneity of variance, pairing
+the result with a a set of box plots showing the residual distribution within a
+specific level of threshold. That plot should show the upper and lower edges of
+the boxes laying close to the dashed lines for the 25th and 75th quantiles, and
+the median bar of the box laying at the 50th quantile. Heterogeneity of variance
+would be evident if the boxes associated with different thresholds vary
+substantially in height.
+
+Third, we conducted two-sided binomial tests for outliers on either end of the
+residual distribution. The accompanying plot is a histogram of the residual 
+distribution, annotated with red lines for any outliers detected. 
+
+Finally, we ran a simulation-based a test for over- or under-dispersion in the
+the scaled residuals. This is paired with a histogram of the distribution of 
+simulated dispersion values, with a red line marking the position of the 
+observed dispersion parameter value. 
+
+We applied all of these `DHARMa` tests to the models below, summarizing the
+results in figures. For all of the `DHARMa` tests, good models should produce
+large $p$-values (sometimes displayed on plots as just `n.s.`) because small
+values (e.g., $p < 0.05$) indicate violation of model assumptions.
+
 # Results
 
 \FloatBarrier
