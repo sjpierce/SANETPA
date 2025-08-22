@@ -328,7 +328,7 @@ Stage_Raw_value_labels <- c(`Applied` = 1, `Eligible` = 2, `Enrolled` = 3,
                             `Started CSW` = 6, `Finished CSW` = 7)
 
 # Final stages to be modeled. 
-Stage_Reached_value_labels <- c(`Eligible` = 1, `Started DT` = 2, 
+Stage_Reached_value_labels <- c(`Enrolled` = 1, `Started DT` = 2, 
                                 `Finished DT` = 3, `Finished CSW` = 4)
 
 # Final settings to be modeled
@@ -356,7 +356,7 @@ by recoding as shown in @tbl-stage-recode.
 #| tbl-cap: Recoding from Stage_Raw to Stage_Reached
 
 tibble(Raw_Value = 1:7,
-       Reached_Value = c(NA, 1, 1, 2, 3, 3, 4)) %>% 
+       Reached_Value = c(NA, NA, 1, 2, 3, 3, 4)) %>% 
   set_value_labels(Raw_Value = Stage_Raw_value_labels,
                    Reached_Value = Stage_Reached_value_labels) %>% 
   mutate(Raw_Label = as_factor(Raw_Value),
