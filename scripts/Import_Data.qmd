@@ -622,14 +622,20 @@ kable(ApplicantsVars, format = "latex", booktabs = TRUE, longtable = TRUE) %>%
 \FloatBarrier
 
 ## Create Eligible Applicants Datasets
-The study's focus is on examining attrition among eligible applicants. The 
-research team believes that the recruitment materials were sufficiently clear 
-about the program's eligibility criteria, so while it will be useful to report 
-an eligibility rate, they have no substantive interest examining predictors of 
-ineligibilty. 
+For research question RQ1, we need to compare eligible applicants who enrolled 
+versus did not enroll. Subsetting the `Applicants` dataset to create an 
+`Eligible_Applicants` dataset representing the intended population relevant to 
+that research question will simplify analyses later.  
 
-We need to subset the data to create an `Eligible_Applicants` dataset so we can 
-focus on the intended population to which we want to generalize. 
+:::{.callout-tip}
+The expected uses for the `Eligible_Applicants` data are:
+
+* Compute enrollment rate and associated confidence interval. 
+* Conduct simple inferential analyses comparing eligible vs enrolled applicants 
+  to answer RQ1.
+* Serve as the source from which the `Enrolled_Applicants` dataset is derived. 
+
+:::
 
 ```{r}
 #| label: create-Eligible-Applicants
@@ -638,30 +644,48 @@ Eligible_Applicants <- Applicants %>%
   filter(Stage_Raw >= 2) 
 ```
 
-However, we also need to assess whether these eligible applicants all have 
-complete data on the variables to be used in our models. 
+Next we need to assess whether these eligible applicants all have complete data
+on the variables to be used in our RQ1 analyses.
 @tbl-Eligible-Applicants-cvv-missingness shows an overview of missingness 
 with respect to cases, variables, and values. 
 
 ```{r}
 #| label: tbl-Eligible-Applicants-cvv-missingness
+#| tbl-cap: Cases, Variables, and Values Missingness for RQ1 Among Eligible 
+#|          Applicants
 
  Eligible_Applicants %>% 
-  select(ID, Stage_Reached, Barrier_FO, Barrier_WR, ProQOL_BO, ProQOL_CS, 
-         ProQOL_STS, Motivation_NeedSANE, Motivation_PersonalConn, Setting) %>% 
+  select(ID, Enrolled, Education, License, Setting, Employ_Status, Employ_Nurse, 
+         Nurse_Years, Prior_SANE, Motivation_PersonalConn, Motivation_NeedSANE, 
+         Barrier_FO, Barrier_WR, ProQOL_BO, ProQOL_CS, ProQOL_STS) %>% 
   cvv_missingness() %>% 
-  kable(format = "latex", booktabs = TRUE, digits = 1) %>% 
-  kable_styling() 
+  kable(format = "latex", booktabs = TRUE, digits = 1,
+        col.names = c("Subset", rep(c("Count", "Percent"), times = 3))) %>% 
+  kable_styling() %>% 
+  add_header_above(header = c(" ", "Cases" = 2, "Variables" = 2, "Values" = 2))
 ```
 
-We can see that a few eligible applicants have any missing data on the variables 
-we want to use in the models. @tbl-Eligible-Applicants-var-missingness shows 
-variable-specific rates of missingness. 
+We can see that only a few eligible applicants have any missing data on the
+variables we want to use in the models. @tbl-Eligible-Applicants-var-missingness
+shows variable-specific rates of missingness.
 
 ```{r}
 #| label: tbl-Eligible-Applicants-var-missingness
+#| tbl-cap: Variable-Specific Missingness for RQ1 Among Eligible Applicants
 
  Eligible_Applicants %>% 
+  select(ID, Enrolled, Education, License, Setting, Employ_Status, Employ_Nurse, 
+         Nurse_Years, Prior_SANE, Motivation_PersonalConn, Motivation_NeedSANE, 
+         Barrier_FO, Barrier_WR, ProQOL_BO, ProQOL_CS, ProQOL_STS) %>% 
+  var_missingness() %>% 
+  kable(format = "latex", booktabs = TRUE, digits = 1, 
+        col.names = c("Position", "Name", "N_Total", "N", "%", "N", "%")) %>% 
+  kable_styling() %>% 
+  add_header_above(header = c(" " = 3, "Valid Values" = 2, "Missing Values" = 2))
+```
+
+\FloatBarrier
+
   select(ID, Stage_Reached, Barrier_FO, Barrier_WR, ProQOL_BO, ProQOL_CS, 
          ProQOL_STS, Motivation_NeedSANE, Motivation_PersonalConn, Setting) %>% 
   var_missingness() %>% 
