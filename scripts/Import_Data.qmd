@@ -828,7 +828,7 @@ S3 -> S4 [label = "Attrit = 0"]
 ```
 
 To create the person-threshold dataset `Thresholds`, we first create a data 
-frame for each distinct threshold by filtering the `Eligible_Applicants` data by 
+frame for each distinct threshold by filtering the `Enrolled_Applicants_CD` data by 
 `Stage_Reached`, add a binary outcome variable called `Attrit` coded 1 
 for people who attrited at that threshold and 0 for people who did not, then 
 vertically stack the threshold-specific datasets (`T1` to `T3`). Along the way, 
@@ -838,7 +838,7 @@ the `.` suffix on the variable name.
 ```{r}
 #| label: create-T1
 
-T1 <- Eligible_Applicants_CD %>% 
+T1 <- Enrolled_Applicants_CD %>% 
   select(ID, Stage_Reached, Barrier_FO, Barrier_WR, ProQOL_BO, ProQOL_CS, 
          ProQOL_STS, CBarrier_FO, CBarrier_WR, CProQOL_BO, CProQOL_CS, 
          CProQOL_STS, Motivation_NeedSANE, Motivation_PersonalConn, Setting) %>% 
@@ -850,7 +850,7 @@ T1 <- Eligible_Applicants_CD %>%
 ```{r}
 #| label: create-T2
 
-T2 <- Eligible_Applicants_CD %>% 
+T2 <- Enrolled_Applicants_CD %>% 
   select(ID, Stage_Reached, Barrier_FO, Barrier_WR, ProQOL_BO, ProQOL_CS, 
          ProQOL_STS, CBarrier_FO, CBarrier_WR, CProQOL_BO, CProQOL_CS, 
          CProQOL_STS, Motivation_NeedSANE, Motivation_PersonalConn, Setting) %>% 
@@ -862,7 +862,7 @@ T2 <- Eligible_Applicants_CD %>%
 ```{r}
 #| label: create-T3
 
-T3 <- Eligible_Applicants_CD %>% 
+T3 <- Enrolled_Applicants_CD %>% 
   select(ID, Stage_Reached, Barrier_FO, Barrier_WR, ProQOL_BO, ProQOL_CS, 
          ProQOL_STS, CBarrier_FO, CBarrier_WR, CProQOL_BO, CProQOL_CS, 
          CProQOL_STS, Motivation_NeedSANE, Motivation_PersonalConn, Setting) %>% 
