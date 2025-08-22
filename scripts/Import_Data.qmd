@@ -686,11 +686,66 @@ shows variable-specific rates of missingness.
 
 \FloatBarrier
 
+## Create Enrolled Applicants Datasets
+This section creates the `Enrolled_Applicants` data frame from the
+`Eligible_Applicants` data frame. We need this dataset because some analyses
+focus only on enrolled applicants. Feedback from key stakeholders indicates that
+our audience likely will think of attrition as dropping out the program after
+enrollment, rather than as the broader concept of dropping out of the pipeline 
+that starts at application to the program.
+
+:::{.callout-tip}
+The expected uses for the `Enrolled_Applicants` data are:
+
+* Stopping-ratio modeling to answering RQ2 and RQ3.
+* Descriptive analyses to answer RQ4. 
+
+:::
+
+```{r}
+#| label: create-Enrolled-Applicants
+
+Enrolled_Applicants <- Eligible_Applicants %>% 
+  filter(Stage_Raw >= 3) 
+```
+
+Next, we need to assess whether these enrolled applicants all have complete data 
+on the variables to be used in our RQ2 and RQ3 analyses. 
+@tbl-Enrolled-Applicants-cvv-missingness shows an overview of missingness 
+with respect to cases, variables, and values. 
+
+```{r}
+#| label: tbl-Enrolled-Applicants-cvv-missingness
+#| tbl-cap: Cases, Variables, and Values Missingness for RQ2 & RQ3 Among 
+#|          Enrolled Applicants
+
+Enrolled_Applicants %>% 
+  select(ID, Stage_Reached, Barrier_FO, Barrier_WR, ProQOL_BO, ProQOL_CS, 
+         ProQOL_STS, Motivation_NeedSANE, Motivation_PersonalConn, Setting) %>% 
+  cvv_missingness() %>% 
+  kable(format = "latex", booktabs = TRUE, digits = 1,
+        col.names = c("Subset", rep(c("Count", "Percent"), times = 3))) %>% 
+  kable_styling() %>% 
+  add_header_above(header = c(" ", "Cases" = 2, "Variables" = 2, "Values" = 2))
+```
+
+We can see that only a few eligible applicants have any missing data on the
+variables we want to use in the models. @tbl-Enrolled-Applicants-var-missingness
+shows variable-specific rates of missingness.
+
+```{r}
+#| label: tbl-Enrolled-Applicants-var-missingness
+#| tbl-cap: Variable-Specific Missingness for RQ2 & RQ3 Among Enrolled 
+#|          Applicants
+
+Enrolled_Applicants %>% 
   select(ID, Stage_Reached, Barrier_FO, Barrier_WR, ProQOL_BO, ProQOL_CS, 
          ProQOL_STS, Motivation_NeedSANE, Motivation_PersonalConn, Setting) %>% 
   var_missingness() %>% 
-  kable(format = "latex", booktabs = TRUE, digits = 1) %>% 
-  kable_styling()
+  kable(format = "latex", booktabs = TRUE, digits = 1, 
+        col.names = c("Position", "Name", "N_Total", "N", "%", "N", "%")) %>% 
+  kable_styling() %>% 
+  add_header_above(header = c(" " = 3, "Valid Values" = 2, "Missing Values" = 2))
 ```
 
 The missing data are all ProQOL scale scores and it appears that a handful of 
@@ -699,13 +754,13 @@ is small enough that it should be ignorable and listwise deletion will perform
 adequately. Therefore, below we create `Eligible_Applicants_CD` to include only
 those eligible applicants who have complete (non-missing) data on the variables
 that will be used in the stopping ratio model. Along the way, we create 
-mean-centered versions of the continuous predictors that can be idenified by 
+mean-centered versions of the continuous predictors that can be identified by 
 a `C` prefix on the variable name`. 
 
 ```{r}
-#| label: create-Eligible-Applicants-CD
+#| label: create-Enrolled-Applicants-CD
 
-Eligible_Applicants_CD <- Eligible_Applicants %>% 
+Enrolled_Applicants_CD <- Enrolled_Applicants %>% 
   # Retain cases with no missing data on variables to be used in models. 
   filter(if_all(c(ID, Stage_Reached, Barrier_FO, Barrier_WR, ProQOL_BO, 
                   ProQOL_CS, ProQOL_STS, Motivation_NeedSANE, 
@@ -717,6 +772,8 @@ Eligible_Applicants_CD <- Eligible_Applicants %>%
          CProQOL_CS = ProQOL_CS - mean(ProQOL_CS),
          CProQOL_STS = ProQOL_STS - mean(ProQOL_STS))
 ```
+
+\FloatBarrier
 
 ## Create Thresholds Dataset
 This study will use a stopping-ratio model, which is also called a forward 
