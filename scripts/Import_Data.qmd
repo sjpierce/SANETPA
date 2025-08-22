@@ -939,8 +939,8 @@ tibble(DataFrame = c("Applicants", "Eligible_Applicants",
 #| label: create-save-what
 
 # Character vector of object names that will be saved.
-save_what <- c("Applicants", "Eligible_Applicants", "Eligible_Applicants_CD", 
-               "Thresholds")
+save_what <- c("Applicants", "Eligible_Applicants", "Enrolled_Applicants", 
+               "Enrolled_Applicants_CD", "Thresholds")
 ```
 
 ``` {r}
