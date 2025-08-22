@@ -23,6 +23,22 @@ Dr. Katherine Dontje (PI) and Dr. Rebecca Campbell (Co-I) at Michigan
 State University and was supported by a grant (Dontje & Campbell,
 07/01/2021–06/30/2025).
 
+The study addresses the following research questions:
+
+- **RQ1.** What are the eligibility and enrollment rates for this
+  program, and do eligible vs. enrolled participants differ with respect
+  to their background, motivations, potential barriers, and emotional
+  readiness for this kind of work?
+- **RQ2.** What are the attrition rates from enrollment to completion of
+  the CSW, and when (i.e., at which module\[s\]) did participants
+  commonly attrit?  
+- **RQ3.** Do participants’ background characteristics, motivations for
+  seeking training, potential barriers, and emotional readiness for this
+  work predict attrition rates?
+- **RQ4.** For the participants who completed DT and those who completed
+  the CSW, to what extent did they find each training component to be
+  useful/helpful?
+
 ## Assumptions
 
 We eventually expect two different types of users of this package:
