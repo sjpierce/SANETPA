@@ -372,7 +372,6 @@ tibble(Raw_Value = 1:7,
   add_header_above(header = c("Stage_Raw" = 2, "Stage_Reached" = 2))
 ```
 
-
 Only one participant started the clinical skills training without
 finishing it (`Stage_Raw` = 6). For that stage, the stopping rate would be
 really close to 0 for the transition between starting and finishing clinical
@@ -593,6 +592,7 @@ Applicants <- Applicants_Raw %>%
                    Stage_Raw = Stage_Raw_value_labels,
                    Stage_Reached = Stage_Reached_value_labels,
                    Eligible = Binary_Labels,
+                   Enrolled = Binary_Labels,
                    Setting = Setting_Labels,
                    Train_Goal_Fac_Bar_5R = Barriers_Reversed_Labels,
                    Barrier_WR = Barriers_Labels,
