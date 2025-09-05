@@ -248,6 +248,26 @@ data.frame(Dataset = c("Applicants", "Eligible_Applicants"),
 
 \FloatBarrier
 
+## Update Data {#sec-Update-Data}
+Below, we just convert some variables to factors to improve output formatting 
+later. 
+
+``` {r}
+#| label: update-Eligible-Applicants
+
+Eligible_Applicants <- Eligible_Applicants %>% 
+  mutate(Education = as_factor(Education),
+         Education = fct_relevel(Education, c("Diploma", "Associates degree")),
+         License = as_factor(License),
+         Setting = as_factor(Setting),
+         Employ_Status = as_factor(Employ_Status),
+         Employ_Nurse = as_factor(Employ_Nurse),
+         Prior_SANE = as_factor(Prior_SANE),
+         Enrolled = as_factor(Enrolled))
+```
+
+\FloatBarrier
+
 # Methods
 Estimating the eligibility and enrollment rates is simple: we simply take the 
 means of relevant binary variables representing which applicants were eligible 
