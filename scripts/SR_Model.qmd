@@ -123,9 +123,10 @@ the program and understand predictors of attrition at each of those points.
 
 This file reads an R data file created by another script in this compendium,
 documents some methodology decisions and details, then runs the
-stopping-ratio models that comprise the main analysis for the study. This
-file also contains some narrative interpretation of the results and
-supplementary output such as tables and graphs derived from the models.
+stopping-ratio models that comprise the analyses answering research questions 
+RQ2 and RQ3 for the study. This file also contains some narrative interpretation 
+of the results and supplementary output such as tables and graphs derived from 
+the models.
 
 # Research Questions
 The research questions may be briefly stated as follows:
