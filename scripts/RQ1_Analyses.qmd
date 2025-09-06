@@ -432,6 +432,11 @@ with Welch's t-test [@Delacre-RN8837].
 
 \FloatBarrier
 
+# Results 
+
+\FloatBarrier
+
+## Eligibility and Enrollment Rates {#sec-Rates}
 The eligibility and enrollment rates are summarized in @tbl-Rates. 
 
 ```{r}
@@ -450,25 +455,578 @@ bind_rows(dc_summary(data = Applicants, vars = "Eligible"),
   kable(format = "latex", booktabs = TRUE, digits = 2, align = "llrrrrrr",
         format.args = list(nsmall = 2)) %>% 
   kable_styling() %>% 
-  add_header_above(header = c(" " = 2,"Binary Variable (N)" = 3, " ", "95% CI" = 2)) %>% 
+  add_header_above(header = c(" " = 2,"Binary Variable (N)" = 3, " ", 
+                              "95% CI" = 2)) %>% 
   footnote(kable_input = ., general = FN, footnote_as_chunk = TRUE, 
            threeparttable = TRUE)
 ```
 
 \FloatBarrier
 
-# Compare Eligible vs Enrolled Applicants
+## Comparisons of Eligible vs Enrolled Applicants {#sec-Comparisons}
+This section is divided into subsections by which group of variables 
+(background, motivations, potential barriers, and emotional readiness) is being 
+summarized. All of these comparisons used the `Eligible_Applicants` dataset. 
 
-## Background 
-
-## Motivations
-
-## Potential Barriers
-
-## Emotional Readiness
-
+::: {.callout-tip}
+When inserting these results into the manuscript, it will be more 
+space-efficient to combine tables for outcomes that have the same level of 
+measurement (nominal variables with 3 or more levels, binary, or continuous). 
+The similar table structure across such outcomes should make that easy.
+:::
 
 \FloatBarrier
+
+### Background Characteristics {#sec-Background}
+@tbl-Education shows the contingency table comparing unenrolled and enrolled
+applicants with respect to education, while @tbl-License compares their
+licensing, @tbl-Setting compares the settings where they practice,
+@tbl-Employ-Status compares their employment status, @tbl-Employ-Nurse compares
+whether they were employed as nurses. @tbl-Nurse-Years-means shows the mean
+scores for years of employment as nurses separately for unenrolled and enrolled
+groups of eligible applicants, while @tbl-Nurse-Years-ttests shows the t-tests
+for mean differences between the two groups, along with estimates and confidence
+intervals for the effect size. Finally, @tbl-Prior-SANE shows the contingency
+table comparing unenrolled and enrolled applicants with respect to prior SANE
+training.
+
+```{r}
+#| label: tbl-Education
+#| tbl-cap: Contingency Table for Education by Enrollment Status Among All 
+#|          Eligible Applicants
+#| message: false
+
+CT <- Eligible_Applicants %>% 
+  xtabs(~ Education + Enrolled, addNA = TRUE, data = .) 
+
+FN <- paste0("Two-sided Fisher's exact test for independence, p = ", 
+             display_num(fisher.test(x = CT)$p.value), ".")
+  
+Eligible_Applicants %>% 
+  mutate(Enrolled = as_factor(Enrolled)) %>% 
+  group_by(Enrolled, Education) %>% 
+  summarize(N = n()) %>% 
+  pivot_wider(id_cols = Education, names_from = Enrolled, values_from = N) %>% 
+  mutate(Overall = No + Yes, 
+         Overall.p = 100*Overall/sum(Overall),
+         No.p = 100*No/sum(No),
+         Yes.p = 100*Yes/sum(Yes)) %>% 
+  select(Education, Overall, Overall.p, No, No.p, Yes, Yes.p) %>% 
+  adorn_totals(where = "row") %>% 
+  kable(format = "latex", booktabs = TRUE, digits = 1,
+        col.names = c("Education", "N", "%", "N", "%", "N", "%")) %>% 
+  kable_styling() %>% 
+  add_header_above(header = c(" ", "Overall" = 2, "No" = 2, "Yes" = 2)) %>% 
+  add_header_above(header = c(" " = 3, "Enrolled" = 4)) %>% 
+  footnote(kable_input = ., general = FN, footnote_as_chunk = TRUE, 
+           threeparttable = TRUE)
+```
+
+```{r}
+#| label: tbl-License
+#| tbl-cap: Contingency Table for License by Enrollment Status Among All 
+#|          Eligible Applicants
+#| message: false
+
+CT <- Eligible_Applicants %>% 
+  xtabs(~ License + Enrolled, addNA = FALSE, data = .) 
+
+FN <- paste0("Two-sided Fisher's exact test for independence, p = ", 
+             display_num(fisher.test(x = CT)$p.value), ".")
+  
+Eligible_Applicants %>% 
+  mutate(Enrolled = as_factor(Enrolled)) %>% 
+  group_by(Enrolled, License) %>% 
+  summarize(N = n()) %>% 
+  pivot_wider(id_cols = License, names_from = Enrolled, values_from = N) %>% 
+  mutate(Overall = No + Yes, 
+         Overall.p = 100*Overall/sum(Overall),
+         No.p = 100*No/sum(No),
+         Yes.p = 100*Yes/sum(Yes)) %>% 
+  select(License, Overall, Overall.p, No, No.p, Yes, Yes.p) %>% 
+  adorn_totals(where = "row") %>% 
+  kable(format = "latex", booktabs = TRUE, digits = 1,
+        col.names = c("License", "N", "%", "N", "%", "N", "%")) %>% 
+  kable_styling() %>% 
+  add_header_above(header = c(" ", "Overall" = 2, "No" = 2, "Yes" = 2)) %>% 
+  add_header_above(header = c(" " = 3, "Enrolled" = 4)) %>% 
+  footnote(kable_input = ., general = FN, footnote_as_chunk = TRUE, 
+           threeparttable = TRUE)
+```
+
+```{r}
+#| label: tbl-Setting
+#| tbl-cap: Contingency Table for Practice Setting by Enrollment Status Among 
+#|          All Eligible Applicants
+#| message: false
+
+CT <- Eligible_Applicants %>% 
+  xtabs(~ Setting + Enrolled, addNA = FALSE, data = .) 
+
+FN <- paste0("Two-sided Fisher's exact test for independence, p = ", 
+             display_num(fisher.test(x = CT)$p.value), ".")
+  
+Eligible_Applicants %>% 
+  mutate(Enrolled = as_factor(Enrolled)) %>% 
+  group_by(Enrolled, Setting) %>% 
+  summarize(N = n()) %>% 
+  pivot_wider(id_cols = Setting, names_from = Enrolled, values_from = N) %>% 
+  mutate(Overall = No + Yes, 
+         Overall.p = 100*Overall/sum(Overall),
+         No.p = 100*No/sum(No),
+         Yes.p = 100*Yes/sum(Yes)) %>% 
+  select(Setting, Overall, Overall.p, No, No.p, Yes, Yes.p) %>% 
+  adorn_totals(where = "row") %>% 
+  kable(format = "latex", booktabs = TRUE, digits = 1,
+        col.names = c("Setting", "N", "%", "N", "%", "N", "%")) %>% 
+  kable_styling() %>% 
+  add_header_above(header = c(" ", "Overall" = 2, "No" = 2, "Yes" = 2)) %>% 
+  add_header_above(header = c(" " = 3, "Enrolled" = 4)) %>% 
+  footnote(kable_input = ., general = FN, footnote_as_chunk = TRUE, 
+           threeparttable = TRUE)
+```
+
+```{r}
+#| label: tbl-Employ-Status
+#| tbl-cap: Contingency Table for Employment Status by Enrollment Status Among 
+#|          All Eligible Applicants
+#| message: false
+
+CT <- Eligible_Applicants %>% 
+  xtabs(~ Employ_Status + Enrolled, addNA = FALSE, data = .) 
+
+FN <- paste0("Two-sided Fisher's exact test for independence, p = ", 
+             display_num(fisher.test(x = CT)$p.value), ".")
+  
+Eligible_Applicants %>% 
+  mutate(Enrolled = as_factor(Enrolled)) %>% 
+  group_by(Enrolled, Employ_Status) %>% 
+  summarize(N = n()) %>% 
+  pivot_wider(id_cols = Employ_Status, names_from = Enrolled, values_from = N) %>% 
+  mutate(Overall = No + Yes, 
+         Overall.p = 100*Overall/sum(Overall),
+         No.p = 100*No/sum(No),
+         Yes.p = 100*Yes/sum(Yes)) %>% 
+  select(Employ_Status, Overall, Overall.p, No, No.p, Yes, Yes.p) %>% 
+  adorn_totals(where = "row") %>% 
+  kable(format = "latex", booktabs = TRUE, digits = 1,
+        col.names = c("Employment Status", "N", "%", "N", "%", "N", "%")) %>% 
+  kable_styling() %>% 
+  add_header_above(header = c(" ", "Overall" = 2, "No" = 2, "Yes" = 2)) %>% 
+  add_header_above(header = c(" " = 3, "Enrolled" = 4)) %>% 
+  footnote(kable_input = ., general = FN, footnote_as_chunk = TRUE, 
+           threeparttable = TRUE)
+```
+
+```{r}
+#| label: tbl-Employ-Nurse
+#| tbl-cap: Contingency Table for Employed as Nurse by Enrollment Status Among 
+#|          All Eligible Applicants
+#| message: false
+
+CT <- Eligible_Applicants %>% 
+  xtabs(~ Employ_Nurse + Enrolled, addNA = TRUE, data = .) 
+
+FN <- paste0("Two-sided Fisher's exact test for independence, p = ", 
+             display_num(fisher.test(x = CT)$p.value), ". ",
+             "NA, not available (missing data).")
+  
+Eligible_Applicants %>% 
+  mutate(Enrolled = as_factor(Enrolled)) %>% 
+  group_by(Enrolled, Employ_Nurse) %>% 
+  summarize(N = n()) %>% 
+  pivot_wider(id_cols = Employ_Nurse, names_from = Enrolled, values_from = N) %>% 
+  mutate(Overall = No + Yes, 
+         Overall.p = 100*Overall/sum(Overall),
+         No.p = 100*No/sum(No),
+         Yes.p = 100*Yes/sum(Yes)) %>% 
+  select(Employ_Nurse, Overall, Overall.p, No, No.p, Yes, Yes.p) %>% 
+  adorn_totals(where = "row") %>% 
+  kable(format = "latex", booktabs = TRUE, digits = 1,
+        col.names = c("Employed as Nurse", "N", "%", "N", "%", "N", "%")) %>% 
+  kable_styling() %>% 
+  add_header_above(header = c(" ", "Overall" = 2, "No" = 2, "Yes" = 2)) %>% 
+  add_header_above(header = c(" " = 3, "Enrolled" = 4)) %>% 
+  footnote(kable_input = ., general = FN, footnote_as_chunk = TRUE, 
+           threeparttable = TRUE)
+```
+
+```{r}
+#| label: tbl-Nurse-Years-means
+#| tbl-cap: Nurse Years Means by Enrollment Status Among All Eligible Applicants
+#| message: false
+
+FN <- paste("N, number of eligible applicants;", 
+            "N_m, number of missing values;",
+            "N_o, number of observed values.")
+
+Eligible_Applicants %>% 
+  mutate(Enrolled = as_factor(Enrolled),
+         Enrolled = fct_expand(Enrolled, "Overall", after = 0)) %>% 
+  bind_rows(., Overall) %>% 
+  select(ID, Enrolled, Nurse_Years) %>% 
+  pivot_longer(cols = c(Nurse_Years), names_to = "Variable", 
+               values_to = "Value") %>% 
+  group_by(Variable, Enrolled) %>% 
+  summarize(N = n(), 
+            N_m = sum(is.na(Value)),
+            N_o = sum(!is.na(Value)),
+            Mean = mean(Value, na.rm = TRUE),
+            SD = sd(Value, na.rm = TRUE),
+            SE = SD/sqrt(N_o),
+            LL = Mean - qt(0.975, df = N_o - 1)*SE,
+            UL = Mean + qt(0.975, df = N_o - 1)*SE) %>% 
+  mutate(N = as.character(N),
+         N_m = as.character(N_m),
+         N_o = as.character(N_o)) %>% 
+  kable(format = "latex", booktabs = TRUE, digit = 2, align = "llrrrrrrrr",
+        format.args = list(nsmall = 2)) %>% 
+  kable_styling() %>% 
+  add_header_above(header = c(" " = 2, "Sample Size" = 3, " " = 3, 
+                              "95% CI" = 2)) %>% 
+  collapse_rows(columns = 1:2, valign = "top", latex_hline = "major",
+                row_group_label_position = "first") %>% 
+  footnote(general = FN, footnote_as_chunk = TRUE, threeparttable = TRUE)
+```
+
+```{r}
+#| label: tbl-Nurse-Years-ttests
+#| tbl-cap: T-Tests Comparing Nurse Years Measures Between Unenrolled 
+#|          and Enrolled Groups of Eligible Applicants
+#| message: false
+
+FN <- paste("Difference, difference in means (Unenrolled - Enrolled);", 
+            "LL, lower limit; UL, upper limit.")
+
+Eligible_Applicants %>%
+  mutate(Enrolled = as_factor(Enrolled)) %>% 
+  select(Enrolled, Nurse_Years) %>%
+  pivot_longer(cols = c(Nurse_Years), names_to = "Variable", 
+               values_to = "Value") %>%
+  nest(.by = Variable) %>%
+  mutate(t.test = map(data, ~tidy(t.test(Value ~ Enrolled, data = .x))),
+         Hedges_G = map(data, ~tibble(hedges_g(Value ~ Enrolled, data = .x, 
+                                               pooled_sd = FALSE)))) %>% 
+  unnest(t.test) %>% 
+  rename(Difference = estimate, t = statistic, p = p.value, df = parameter, 
+         LL = conf.low, UL = conf.high) %>% 
+  unnest(Hedges_G) %>% 
+  rename(g_LL = CI_low, g_UL = CI_high) %>% 
+  select(Variable, Difference, LL, UL, Hedges_g, g_LL, g_UL, t, df, p) %>% 
+  mutate(p = display_num(p)) %>% 
+  kable(format = "latex", booktabs = TRUE, digit = 2,
+        format.args = list(nsmall = 2)) %>% 
+  kable_styling() %>% 
+  add_header_above(header = c(" " = 2, "Diff. 95% CI" = 2, 
+                              " ", "g 95% CI" = 2, 
+                              "Welch 2-sample t-test" = 3)) %>% 
+  footnote(general = FN, footnote_as_chunk = TRUE, threeparttable = TRUE)
+```
+
+```{r}
+#| label: tbl-Prior-SANE
+#| tbl-cap: Contingency Table for Prior SANE Training by Enrollment Status Among 
+#|          All Eligible Applicants
+#| message: false
+
+CT <- Eligible_Applicants %>% 
+  xtabs(~ Prior_SANE + Enrolled, addNA = FALSE, data = .) 
+
+FN <- paste0("Two-sided Fisher's exact test for independence, p = ", 
+             display_num(fisher.test(x = CT)$p.value), ".")
+  
+Eligible_Applicants %>% 
+  mutate(Enrolled = as_factor(Enrolled)) %>% 
+  group_by(Enrolled, Prior_SANE) %>% 
+  summarize(N = n()) %>% 
+  pivot_wider(id_cols = Prior_SANE, names_from = Enrolled, values_from = N) %>% 
+  mutate(Overall = No + Yes, 
+         Overall.p = 100*Overall/sum(Overall),
+         No.p = 100*No/sum(No),
+         Yes.p = 100*Yes/sum(Yes)) %>% 
+  select(Prior_SANE, Overall, Overall.p, No, No.p, Yes, Yes.p) %>% 
+  adorn_totals(where = "row") %>% 
+  kable(format = "latex", booktabs = TRUE, digits = 1,
+        col.names = c("Prior SANE Training", "N", "%", "N", "%", "N", "%")) %>% 
+  kable_styling() %>% 
+  add_header_above(header = c(" ", "Overall" = 2, "No" = 2, "Yes" = 2)) %>% 
+  add_header_above(header = c(" " = 3, "Enrolled" = 4)) %>% 
+  footnote(kable_input = ., general = FN, footnote_as_chunk = TRUE, 
+           threeparttable = TRUE)
+```
+
+\FloatBarrier
+
+### Motivations {#sec-Motivations}
+@tbl-motivations-rates shows the endorsement rates for each motivation measure 
+separately for unenrolled and enrolled applicants, while @tbl-motivations-diff
+shows the corresponding tests for differences between the rates for the two
+groups on each measure, along with an estimate of each difference and its
+confidence interval.
+
+```{r}
+#| label: tbl-motivations-rates
+#| tbl-cap: Endorsement Rates for Motivation Measures by Variable and  
+#|          Enrollment Status Among All Eligible Applicants
+#| message: false
+
+FN <- paste("CI, Wilson score confidence interval for a proportion.")
+
+bind_rows(dc_summary(data = Eligible_Applicants, 
+          vars = c("Motivation_PersonalConn", "Motivation_NeedSANE")), 
+          dc_summary(data = Eligible_Applicants %>% filter(Enrolled == 0), 
+          vars = c("Motivation_PersonalConn", "Motivation_NeedSANE")), 
+          dc_summary(data = Eligible_Applicants %>% filter(Enrolled == 1), 
+          vars = c("Motivation_PersonalConn", "Motivation_NeedSANE"))) %>% 
+  bind_cols(Enrolled = c("Overall", "Overall", "No", "No", "Yes", "Yes")) %>% 
+  mutate(No = as.character(No),
+         Yes = as.character(Yes),
+         Total = as.character(Total),
+         Enrolled = factor(Enrolled, levels = c("Overall", "No", "Yes"))) %>% 
+  relocate(Variable, Enrolled) %>% 
+  arrange(Variable, Enrolled) %>% 
+  kable(format = "latex", booktabs = TRUE, digits = 2, align = "llrrrrrr",
+        format.args = list(nsmall = 2)) %>% 
+  kable_styling() %>% 
+  add_header_above(header = c(" " = 2,"Motivation (N)" = 3, " ", 
+                              "95% CI" = 2)) %>% 
+  collapse_rows(columns = 1:2, valign = "top", latex_hline = "major",
+                row_group_label_position = "first") %>% 
+  footnote(kable_input = ., general = FN, footnote_as_chunk = TRUE, 
+           threeparttable = TRUE)
+```
+
+```{r}
+#| label: tbl-motivations-diff
+#| tbl-cap: Tests for Difference in Endorsement Rates of Motivation Measures 
+#|          Between Unenrolled and Enrolled Groups of Eligible Applicants
+#| message: false
+
+FN <- paste("CI, score confidence interval for a difference in independent",
+            "proportions (unenrolled - enrolled), with continuity correction.")
+
+bind_rows(dc_summary(data = Eligible_Applicants %>% filter(Enrolled == 0), 
+          vars = c("Motivation_PersonalConn", "Motivation_NeedSANE")), 
+          dc_summary(data = Eligible_Applicants %>% filter(Enrolled == 1), 
+          vars = c("Motivation_PersonalConn", "Motivation_NeedSANE"))) %>% 
+  bind_cols(Enrolled = c("Unenrolled", "Unenrolled", "Enrolled", "Enrolled")) %>% 
+  arrange(Variable, desc(Enrolled)) %>% 
+  relocate(Variable, Enrolled) %>% 
+  select(Variable, Enrolled, Yes, Total, Rate) %>% 
+  pivot_wider(id_cols = Variable, names_from = Enrolled, 
+              values_from = c(Yes, Total, Rate)) %>% 
+  rowwise() %>% 
+  mutate(p.test = tidy(prop.test(x = c(Yes_Unenrolled, Yes_Enrolled),
+                                 n = c(Total_Unenrolled, Total_Enrolled), 
+                                 conf.level = 0.95))) %>% 
+  unnest(p.test) %>% 
+  rename(Chisq = statistic, p = p.value, df = parameter, LL = conf.low, 
+         UL = conf.high) %>% 
+  mutate(Difference = estimate1 - estimate2,
+         p = display_num(p)) %>% 
+  select(Variable, Difference, LL, UL, Chisq, df, p) %>% 
+  kable(format = "latex", booktabs = TRUE, digits = 2, align = "lrrrrr",
+        format.args = list(nsmall = 2)) %>% 
+  kable_styling() %>% 
+  add_header_above(header = c(" " = 2, "95% CI" = 2,
+                              "Test for Diff. in Proportions" = 3)) %>% 
+  collapse_rows(columns = 1:2, valign = "top", latex_hline = "major",
+                row_group_label_position = "first") %>% 
+  footnote(kable_input = ., general = FN, footnote_as_chunk = TRUE, 
+           threeparttable = TRUE)
+```
+
+\FloatBarrier
+
+### Potential Barriers {#sec-Barriers}
+@tbl-barriers-means shows the mean scores for both barrier measures separately
+for unenrolled and enrolled groups of eligible applicants, while
+@tbl-barriers-ttests shows the t-tests for mean differences between the two
+groups, along with estimates and confidence intervals for the effect size.
+
+```{r}
+#| label: tbl-barriers-means
+#| tbl-cap: Potential Barriers Means by Variable and Enrollment Status Among All 
+#|          Eligible Applicants
+#| message: false
+
+FN <- paste("N, number of eligible applicants;", 
+            "N_m, number of missing values;",
+            "N_o, number of observed values.")
+
+Eligible_Applicants %>% 
+  mutate(Enrolled = as_factor(Enrolled),
+         Enrolled = fct_expand(Enrolled, "Overall", after = 0)) %>% 
+  bind_rows(., Overall) %>% 
+  select(ID, Enrolled, Barrier_FO, Barrier_WR) %>% 
+  pivot_longer(cols = c(Barrier_FO, Barrier_WR), names_to = "Variable", 
+               values_to = "Value") %>% 
+  group_by(Variable, Enrolled) %>% 
+  summarize(N = n(), 
+            N_m = sum(is.na(Value)),
+            N_o = sum(!is.na(Value)),
+            Mean = mean(Value, na.rm = TRUE),
+            SD = sd(Value, na.rm = TRUE),
+            SE = SD/sqrt(N_o),
+            LL = Mean - qt(0.975, df = N_o - 1)*SE,
+            UL = Mean + qt(0.975, df = N_o - 1)*SE) %>% 
+  mutate(N = as.character(N),
+         N_m = as.character(N_m),
+         N_o = as.character(N_o)) %>% 
+  kable(format = "latex", booktabs = TRUE, digit = 2, align = "llrrrrrrrr",
+        format.args = list(nsmall = 2)) %>% 
+  kable_styling() %>% 
+  add_header_above(header = c(" " = 2, "Sample Size" = 3, " " = 3, 
+                              "95% CI" = 2)) %>% 
+  collapse_rows(columns = 1:2, valign = "top", latex_hline = "major",
+                row_group_label_position = "first") %>% 
+  footnote(general = FN, footnote_as_chunk = TRUE, threeparttable = TRUE)
+```
+
+```{r}
+#| label: tbl-barriers-ttests
+#| tbl-cap: T-Tests Comparing Potential Barriers Measures Between Unenrolled 
+#|          and Enrolled Groups of Eligible Applicants
+#| message: false
+
+FN <- paste("Difference, difference in means (Unenrolled - Enrolled);", 
+            "LL, lower limit; UL, upper limit.")
+
+Eligible_Applicants %>%
+  mutate(Enrolled = as_factor(Enrolled)) %>% 
+  select(Enrolled, Barrier_FO, Barrier_WR) %>%
+  pivot_longer(cols = c(Barrier_FO, Barrier_WR), names_to = "Variable", 
+               values_to = "Value") %>%
+  nest(.by = Variable) %>%
+  mutate(t.test = map(data, ~tidy(t.test(Value ~ Enrolled, data = .x))),
+         Hedges_G = map(data, ~tibble(hedges_g(Value ~ Enrolled, data = .x, 
+                                               pooled_sd = FALSE)))) %>% 
+  unnest(t.test) %>% 
+  rename(Difference = estimate, t = statistic, p = p.value, df = parameter, 
+         LL = conf.low, UL = conf.high) %>% 
+  unnest(Hedges_G) %>% 
+  rename(g_LL = CI_low, g_UL = CI_high) %>% 
+  select(Variable, Difference, LL, UL, Hedges_g, g_LL, g_UL, t, df, p) %>% 
+  mutate(p = display_num(p)) %>% 
+  kable(format = "latex", booktabs = TRUE, digit = 2,
+        format.args = list(nsmall = 2)) %>% 
+  kable_styling() %>% 
+  add_header_above(header = c(" " = 2, "Diff. 95% CI" = 2, 
+                              " ", "g 95% CI" = 2, 
+                              "Welch 2-sample t-test" = 3)) %>% 
+  footnote(general = FN, footnote_as_chunk = TRUE, threeparttable = TRUE)
+```
+
+\FloatBarrier
+
+### Emotional Readiness {#sec-Emotional-Readiness}
+@tbl-ProQOL-means shows the mean scores for emotional readiness measures 
+separately for unenrolled and enrolled groups of eligible applicants, while 
+@tbl-ProQOL-ttests shows the t-tests for mean differences between the two 
+groups, along with estimates and confidence intervals for the effect size.
+
+```{r}
+#| label: tbl-ProQOL-means
+#| tbl-cap: Emotional Readness Means by Variable and Enrollment Status Among  
+#|          Eligible Applicants
+#| message: false
+
+FN <- paste("Applicants with missing data were omitted from comutation of",
+            "Means, SDs, SEs, and CIs via listwise deletion.", 
+            "N, number of eligible applicants;", 
+            "N_m, number of missing values;",
+            "N_o, number of observed values.")
+
+Eligible_Applicants %>% 
+  mutate(Enrolled = as_factor(Enrolled),
+         Enrolled = fct_expand(Enrolled, "Overall", after = 0)) %>% 
+  bind_rows(., Overall) %>% 
+  select(ID, Enrolled, ProQOL_BO, ProQOL_CS, ProQOL_STS) %>% 
+  pivot_longer(cols = c(ProQOL_BO, ProQOL_CS, ProQOL_STS), names_to = "Variable", 
+               values_to = "Value") %>% 
+  group_by(Variable, Enrolled) %>% 
+  summarize(N = n(), 
+            N_m = sum(is.na(Value)),
+            N_o = sum(!is.na(Value)),
+            Mean = mean(Value, na.rm = TRUE),
+            SD = sd(Value, na.rm = TRUE),
+            SE = SD/sqrt(N_o),
+            LL = Mean - qt(0.975, df = N_o - 1)*SE,
+            UL = Mean + qt(0.975, df = N_o - 1)*SE) %>% 
+  mutate(N = as.character(N),
+         N_m = as.character(N_m),
+         N_o = as.character(N_o)) %>% 
+  kable(format = "latex", booktabs = TRUE, digit = 2, align = "llrrrrrrrr",
+        format.args = list(nsmall = 2)) %>% 
+  kable_styling() %>% 
+  add_header_above(header = c(" " = 2, "Sample Size" = 3, " " = 3, 
+                              "95% CI" = 2)) %>% 
+  collapse_rows(columns = 1:2, valign = "top", latex_hline = "major",
+                row_group_label_position = "first") %>% 
+  footnote(general = FN, footnote_as_chunk = TRUE, threeparttable = TRUE)
+```
+
+```{r}
+#| label: tbl-ProQOL-ttests
+#| tbl-cap: T-Tests Comparing Emotional Readiness Measures Between Unenrolled 
+#|          and Enrolled Groups of Eligible Applicants
+#| message: false
+
+FN <- paste("Applicants with missing data were omitted via listwise deletion.", 
+            "Difference, difference in means (unenrolled - enrolled);", 
+            "LL, lower limit; UL, upper limit.")
+
+Eligible_Applicants %>%
+  select(Enrolled, ProQOL_BO, ProQOL_CS, ProQOL_STS) %>%
+  pivot_longer(cols = c(ProQOL_BO, ProQOL_CS, ProQOL_STS), names_to = "Variable", 
+               values_to = "Value") %>%
+  nest(.by = Variable) %>%
+  mutate(t.test = map(data, ~tidy(t.test(Value ~ Enrolled, data = .x))),
+         Hedges_G = map(data, ~tibble(hedges_g(Value ~ Enrolled, data = .x, 
+                                               pooled_sd = FALSE, 
+                                               na.action = na.omit)))) %>% 
+  unnest(t.test) %>% 
+  rename(Difference = estimate, t = statistic, p = p.value, df = parameter, 
+         LL = conf.low, UL = conf.high) %>% 
+  unnest(Hedges_G) %>% 
+  rename(g_LL = CI_low, g_UL = CI_high) %>% 
+  select(Variable, Difference, LL, UL, Hedges_g, g_LL, g_UL, t, df, p) %>% 
+  mutate(p = display_num(p)) %>% 
+  kable(format = "latex", booktabs = TRUE, digit = 2,
+        format.args = list(nsmall = 2)) %>% 
+  kable_styling() %>% 
+  add_header_above(header = c(" " = 2, "Diff. 95% CI" = 2, 
+                              " ", "d 95% CI" = 2, 
+                              "Welch 2-sample t-test" = 3)) %>% 
+  footnote(general = FN, footnote_as_chunk = TRUE, threeparttable = TRUE)
+```
+
+\FloatBarrier
+
+### Conclusions {#sec-Conclusions}
+We did not detect differences between unenrolled versus enrolled applicants with 
+respect to any of the background characteristics examined. Instead, those 
+analyses primarily show that: 
+
+* Over half of each group had a bachelor's degree. 
+* The vast majority of applicants were licensed as registered nurses (RNs), 
+  currently employed as nurses, and employed full-time. 
+* The applicants in both groups had on average been employed as nurses less than 
+  1.5 years. 
+* The applicants in both groups were roughly evenly split between practicing 
+  in the three types of settings examined. 
+* Very few applicants in either group had received any prior SANE training. 
+
+Enrolled applicants reported being motivated by a need for SANE services in 
+their community more often than unenrolled applicants. However, there was no 
+difference in the rates at which they reported being motivated by a personal 
+connection to sexual assault. 
+
+We did not detect any differences between groups in the degree to which family 
+obligations and work responsibilities were potential barriers to participation. 
+Similarly, we did not detect any differences between unenrolled and enrolled 
+applicants in their emotional readiness for the training program, as measured by 
+burnout, compassion satisfaction, and secondary traumatic stress. 
 
 # References
 ::: {#refs}
