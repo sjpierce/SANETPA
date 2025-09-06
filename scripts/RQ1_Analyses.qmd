@@ -265,6 +265,25 @@ Eligible_Applicants <- Eligible_Applicants %>%
          Prior_SANE = as_factor(Prior_SANE))
 ```
 
+We will need to create tables that have both overall summaries for all eligible 
+applicants regardless of `Enrolled` value, and breakdowns for `Enrolled = No` 
+and `Enrolled = Yes`. Creating a copy of `Eligible_Applicants` called `Overall` 
+where I've recoded to set `Enrolled = Both` for all cases and made that a 
+factor with 3 levels (`Both`, `No`, and `Yes`) will allow me to bind 
+`Overall` and `Eligible_Applicants` together then use the same code that already 
+worked to get the breakdowns for `Enrolled = No` and `Enrolled = Yes` to also 
+get the overall summary. 
+
+``` {r}
+#| label: create-Overall
+
+Overall <- Eligible_Applicants %>% 
+  mutate(Enrolled = "Overall",
+         Enrolled = factor(Enrolled, levels = c("Overall", "No", "Yes")))
+```
+
+\FloatBarrier
+
 \FloatBarrier
 
 # Methods
