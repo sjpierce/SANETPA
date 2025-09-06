@@ -262,8 +262,7 @@ Eligible_Applicants <- Eligible_Applicants %>%
          Setting = as_factor(Setting),
          Employ_Status = as_factor(Employ_Status),
          Employ_Nurse = as_factor(Employ_Nurse),
-         Prior_SANE = as_factor(Prior_SANE),
-         Enrolled = as_factor(Enrolled))
+         Prior_SANE = as_factor(Prior_SANE))
 ```
 
 \FloatBarrier
