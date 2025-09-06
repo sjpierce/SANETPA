@@ -26,6 +26,7 @@ Suggests:
     car,
     devtools,
     dplyr,
+    effectsize,
     emmeans,
     git2r,
     haven,
