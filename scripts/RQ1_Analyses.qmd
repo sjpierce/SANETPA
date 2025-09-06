@@ -330,7 +330,7 @@ a categorical variable (`License`) with three levels:
 *Registered Nurse (RN)*. 
 
 The primary setting where applicants practiced nursing (`Setting`) was measured 
-by a catgegorical variable with three levels: *Urban*, *Rural/Tribal*, and 
+by a categorical variable with three levels: *Urban*, *Rural/Tribal*, and 
 *Suburban*. As noted in the data import script output, *Tribal* was initially 
 a separate category but later combined with *Rural* because it was too small to 
 be analyzed on its own and those categories represent settings most similar in 
