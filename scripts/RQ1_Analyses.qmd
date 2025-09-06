@@ -284,20 +284,154 @@ Overall <- Eligible_Applicants %>%
 
 \FloatBarrier
 
+# Methods {#sec-Methods}
+This section describes the data sources, measures, and statistical methods used 
+to answer RQ1. 
+
 \FloatBarrier
 
-# Methods
-Estimating the eligibility and enrollment rates is simple: we simply take the 
-means of relevant binary variables representing which applicants were eligible 
-and which ones enrolled. Starting from a dataset with the correct set of 
-applicants ensures that we use the correct denominator for each rate (remember 
-that the mean of a binary variable is the proportion of observations that have a 
-value of 1). The eligibility rate must use data about all applicants, whereas 
-the enrollment rate must use only data from eligible applicants. We used Wilson 
-score confidence intervals to quantify the uncertainty in both rates 
-[@Newcombe-RN2457; @Wilson-RN3223]. 
+## Data Sources
+We rely on two different datasets for answering RQ1. The `Applicants` dataset 
+has one row for every unique applicant regardless of eligibility or enrollment 
+status ($N = `r nrow(Applicants)`$). Meanwhile, the `Eligible_Applicants` 
+dataset contains the subset of applicants who met all eligibility criteria for 
+participating in the program ($N = `r nrow(Eligible_Applicants)`$). Some, but 
+not all, eligible applicants enrolled in the training program. 
 
-# Eligibility and Enrollment Rates 
+## Measures {#sec-Measures}
+The sections below describe the measures used to answer RQ1. 
+\FloatBarrier
+
+### Eligibility Status
+We measured applicants' eligibility status with a binary variable (`Eligible`, 
+coded 0 = *No*, 1 = *Yes*). This was the case selection variable for creating 
+the `Eligible_Applicants` dataset from the `Applicants` dataset and the outcome 
+variable for assessing eligibility rate. 
+
+\FloatBarrier
+
+### Enrollment Status
+Both the eligible and enrolled applicants met the program eligibility criteria. 
+The two groups are actually defined by the applicant's enrollment status, which
+is a binary variable (`Enrolled`, coded 0 = *No*, 1 = *Yes*). We can therefore
+also refer to these groups as unenrolled versus enrolled applicants for a bit
+more clarity. Enrollment status is the outcome variable for estimating the 
+enrollment rate, but becomes the independent variable when we compare unenrolled 
+and enrolled groups of applicants.
+
+\FloatBarrier
+
+### Background Characteristics
+We measured applicants' education via a categorical variable (`Education`) with 
+four levels: *Diploma*, *Associates degree*, *Bachelors degree*, and 
+*Graduate degree*. Their licensure or certification for practice was recorded in 
+a categorical variable (`License`) with three levels: 
+*Certified Nurse Midwife (CNM)*, *Nurse Practitioner (NP)*, and 
+*Registered Nurse (RN)*. 
+
+The primary setting where applicants practiced nursing (`Setting`) was measured 
+by a catgegorical variable with three levels: *Urban*, *Rural/Tribal*, and 
+*Suburban*. As noted in the data import script output, *Tribal* was initially 
+a separate category but later combined with *Rural* because it was too small to 
+be analyzed on its own and those categories represent settings most similar in 
+size. This glosses over important cultural differences between rural and tribal 
+settings, but it is better than omitting the applicants from tribal settings. 
+
+Applicants' current employment status was measured by a categorical variable 
+(`Employ_Status`) with three levels: *Full time*, *Part time*, and *Unemployed*. 
+They were also asked whether they were currently employed as a nurse: 
+`Employ_Nurse` was coded *No*, *Yes*, or *NA* (for missing data that were 
+not available). We also treated that as a categorical variable with three 
+levels. Applicants reported how many years they had been been practicing as a 
+nurse since completing their initial nursing program, with `Nurse_Years` 
+recorded as a continuous variable. 
+
+Finally, applicants were asked whether they had attended any previous SANE 
+training, with `Prior_SANE` recorded as a three level categorical variable coded 
+*No training*, *Completed didactic training*, and 
+*Completed didactic and clinical skills training*. 
+
+\FloatBarrier
+
+### Motivations
+The two motivation measures are binary (coded 0 = *No*, 1 = *Yes*) and include 
+whether the applicant was motivated to seek the training by (a) a need for SANE 
+services in their community or organization (`Motivation_NeedSANE`), and (b) a 
+personal connection to sexual assault (e.g., someone they know is a survivor)
+(`Motivation_PersonalConn`). We refer to the proportions for these outcomes 
+as endorsement rates because they reflect how often applicants endorsed having 
+each of these motivations.
+
+\FloatBarrier
+
+### Potential Barriers
+The potential barriers outcome variables are single-item measures of barriers to
+participation due to family obligations (`Barrier_FO`) and work responsibilities
+(`Barrier_WR`) as competing demands on applicants' time. While these are
+technically ordinal items following a 5-point Likert-response format, that
+should be enough categories to treat them as continuous variables for these
+analyses.
+
+\FloatBarrier
+
+### Emotional Readiness
+The emotional readiness measures are all continuous scores measured by ProQOL 
+subscales for burnout (`ProQOL_BO`), compassion satisfaction (`ProQOL_CS`), and 
+secondary traumatic stress (`ProQOL_STS`) [@Stamm-RN8775].
+
+\FloatBarrier
+
+## Planned Statistical Analyses {#sec-Planned-Analyses}
+This section describes the statistical analysis methods used to answer RQ1. 
+
+\FloatBarrier
+
+### Eligibility and Enrollment Rates
+Estimating the eligibility and enrollment rates was simple. We estimated the
+means of relevant binary variables (`Eligible` and `Enrolled`). Starting from a 
+dataset with the correct set of applicants ensures that we use the correct
+denominator for each rate (the mean of a binary variable is the proportion of
+observations that have a value of 1). The eligibility rate used data about all
+applicants, whereas the enrollment rate used only data from eligible applicants.
+We used Wilson score confidence intervals to quantify the uncertainty in both
+rates [@Newcombe-RN2457; @Wilson-RN3223]. 
+
+### Comparisons of Eligible vs Enrolled Applicants
+The method used to compare groups of applicants depended on the type of outcome
+measure involved. We used an extension of Fisher's exact test to examine whether
+the distributions of nominal outcomes with 3 or more levels differed between
+unenrolled versus enrolled applicants. The null hypothesis is that that 2
+categorical variables representing rows and columns of a 2-way contingency table
+are independent. This test does not produce a test statistic other than a
+p-value. In the contingency tables, rows represent values of the outcome,
+columns represent the unenrolled versus enrolled participants. We report column
+percentages to emphasize the conditional distribution of the outcome within each
+enrollment status group.
+
+We estimated the the proportions of eligible applicants in each group who have a 
+1 (*Yes*) on each binary outcome, along with corresponding Wilson score 
+confidence intervals [@Newcombe-RN2457; @Wilson-RN3223]. Then, we estimated the 
+difference in proportions ($p_1 -p_2$) to obtain an unstandardized effect size 
+measure, conducted a score test with continuity correction to test for a 
+difference between independent proportions (i.e., $H_0: p_1 - p_2 = 0$ or 
+$H_0: p_1 = p_2$) and obtained a corresponding score confidence interval for the
+difference in proportions [@Newcombe-RN8834; @Newcombe-RN2457].
+
+For continuous outcomes, we estimated the mean and corresponding confidence 
+interval for each group, then conducted Welch's t-tests to compare the means 
+using a standard null hypothesis ($H_0: \mu_1 - \mu_2 = 0$ or 
+$H_0: \mu_1 = \mu_2$). Welch's t-test does not assume equal variances between 
+the groups and its degrees of freedom are a function of the group sizes and
+standard deviations [@Delacre-RN8835]. The t-tests are supported by point
+estimates and confidence intervals for two effect size measures: the raw mean
+difference ($\bar{x_1} - \bar{x_2}$, an unstandardized measure in the units of 
+the original variables) and Hedges' $g{^*_s}$. The latter measure is a 
+bias-corrected, standardized mean difference in units of standard deviations 
+that is better than Cohen's $d$ when variances are unequal, so it pairs well 
+with Welch's t-test [@Delacre-RN8837].
+
+\FloatBarrier
+
 The eligibility and enrollment rates are summarized in @tbl-Rates. 
 
 ```{r}
