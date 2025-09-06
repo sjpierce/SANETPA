@@ -129,28 +129,16 @@ of the results and supplementary output such as tables and graphs derived from
 the models.
 
 # Research Questions
-The research questions may be briefly stated as follows:
+The research questions addressed in this file may be briefly stated as follows:
 
-* **RQ1.** What are the attrition rates from the program at each of the three 
-  thresholds representing transitions between stages of program participation?
-* **RQ2.** Which focal predictors affect attrition rates? 
-    * Burnout.
-    * Compassion satisfaction.
-    * Secondary traumatic stress.
-    * Family obligations.
-    * Work responsibilities.
-    * Primary setting where the trainee practices nursing.
-    * Motivated to seek the training by a need for SANE services in their 
-      community or organization.
-    * Motivated to seek the training by a personal connection to sexual assault 
-      (e.g., someone they know is a survivor). 
-* **RQ3.** Which focal predictors have parallel effects (constant across 
-  thresholds) on attrition and which ones have non-parallel (threshold-specific) 
-  effects?
+* **RQ2.** What are the attrition rates from enrollment to completion of the 
+  CSW, and when (i.e., at which module[s]) did participants commonly attrit?  
+* **RQ3.** Do participants’ background characteristics, motivations for seeking 
+  training, potential barriers, and emotional readiness for this work predict 
+  attrition rates? 
 
 ::: {.callout-tip}
-This document uses stopping-ratio models to answer all three research questions 
-(RQ1, RQ2, and RQ3). 
+This document uses stopping-ratio models to answer both RQ2 and RQ3. 
 :::
 
 ::: {.callout-note}
@@ -158,8 +146,6 @@ The investigators and the program staff have explicitly decided that the
 following potential predictors are not of substantive interest and should not be
 pursued in this paper.
 
-* Trainee satisfaction with the training is not of interest because there is 
-  such low variance that it would likely exhibit ceiling effects. 
 * Trainee's learning scores in the didactic training and clinical skills 
   workshop are not of interest. 
 * Trainee demographics (sex, age, race, etc.) are not of interest because the 
