@@ -124,7 +124,7 @@ the program and understand predictors of attrition at each of those points.
 
 This file reads an R data file created by another script in this compendium,
 documents some methodology decisions and details, then runs the
-stopping-ratio models that comprise the analyses answering research questions 
+stopping-ratio (SR) models that comprise the analyses answering research questions 
 RQ2 and RQ3 for the study. This file also contains some narrative interpretation 
 of the results and supplementary output such as tables and graphs derived from 
 the models.
@@ -139,7 +139,7 @@ The research questions addressed in this file may be briefly stated as follows:
   attrition rates? 
 
 ::: {.callout-tip}
-This document uses stopping-ratio models to answer both RQ2 and RQ3. 
+This document uses SR models to answer both RQ2 and RQ3. 
 :::
 
 ::: {.callout-note}
@@ -416,10 +416,10 @@ sexual assault kits progressed through several stages of forensic testing
 
 ## Sample
 The sample consists of the enrolled applicants to the program who had complete 
-data on all the measures used in the stopping-ratio models. The 
+data on all the measures used in the SR models. The 
 `Enrolled_Applicants_CD` dataset contains person-level data ($N = `r N_CD`$) 
 about that sample. Those data were rearranged into the `Thresholds` dataset 
-($N = `r nrow(Thresholds)`$) before fitting the stopping-ratio models (see the
+($N = `r nrow(Thresholds)`$) before fitting the SR models (see the
 data import output for documentation of how that was done and
 @sec-SR-Modeling for why it was necessary). 
 
@@ -432,20 +432,22 @@ substantial bias in the model results. When more than 5% of cases have missing
 data, more sophisticated approaches may be required [@Fernández-García-RN4151],
 but this dataset is far below that threshold.
 
-We use the `StartedDT_Applicants` dataset to answer the part of RQ2 pertaining 
+We use the `StartedDT_Applicants` dataset 
+($N = `r nrow (StartedDT_Applicants)`$) to answer the part of RQ2 pertaining 
 to specific training modules because we need to narrow our focus to the subset 
-of `Enrolled_Applicants_CD` containing only enrolled applicants with 
+of `Enrolled_Applicants_CD` containing only applicants with 
 `Stage_Reached` $\ge 2$ (those who started the didactic training). 
 
 \FloatBarrier
 
 ## Measures
-The measures mentioned below include an outcome variable, a structural predictor
-required for SR modeling, and eight focal predictors.
+The measures mentioned below include a primary outcome variable, a structural 
+predictor required for SR modeling, eight focal predictors, and 24 secondary 
+outcome variables. 
 
 \FloatBarrier
 
-### Attrition (Outcome Variable)
+### Attrition (Primary Outcome)
 This is the binary, threshold-specific transformation of the `Stage_Reached` 
 ordinal outcome variable. It is the outcome modeled in our SR models. The 
 variable `Attrit` is coded 1 when an applicant attrited, and 0 when they passed 
@@ -505,7 +507,7 @@ The didactic training consisted of 12 modules. Binary variables coded 0 (*No*),
 to `Started_Mod_12`) and also whether they had finished it (`Finished_Mod_1` to 
 `Finished_Mod_12`). Unlike the other measures listed above, these variables were 
 not used in the listwise deletion process for selecting enrolled applicants 
-suitable for use in the stopping-ratio models. The start and finish rates for 
+suitable for use in the SR models. The start and finish rates for 
 each module were secondary outcomes. Including them in the listwise deletion 
 process would not have made sense because the models allowed attrition between 
 enrollment and start of the didactic training. Such attrition would have left 
@@ -530,7 +532,7 @@ lays the foundation for a SR model.
 
 The simplest way to answer the first part of RQ2 is to fit a model that only
 accounts for the threshold effect, then extract the estimated marginal means 
-(EMMs) representing the attrition rate (i.e., the stopping-ratio) on the
+(EMMs) representing the attrition rate (i.e., the SR) on the
 probability scale at each threshold. Thus, our modeling sequence starts by
 fitting Model 1, which only uses the structural thresholds variable as a
 predictor. However, we can get a more nuanced answer to RQ2 by examining EMMs
@@ -716,7 +718,7 @@ m1 %>%
 ```
 
 ::: {.callout-tip}
-The threshold main effect is integral to fitting a stopping-ratio model. It must
+The threshold main effect is integral to fitting a SR model. It must
 remain in the model to properly test for both parallel and non-parallel effects
 of focal predictors. Removing the threshold main effect would also harm model
 fit, so we will keep it in all subsequent models.
