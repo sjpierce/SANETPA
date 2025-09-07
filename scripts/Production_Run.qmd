@@ -235,12 +235,12 @@ chunk.end <- proc.time()
 chunk.end - chunk.start
 ```
 
-## Stopping-Ratio Model
+## RQ1 Analyses
 Work on this script has begun but is not yet complete. The modeling script seeks 
 to answer several of the research questions. 
 
 ``` {r}
-#| label: SR-Model
+#| label: RQ1
 #| eval: true
 
 # Memory garbage collection (for more consistent chunk timing).
@@ -249,14 +249,23 @@ gc()
 # Start chunk timer.
 chunk.start <- proc.time()
 
-OutFile <- paste0("SR_Model_", Sys.Date(), ".pdf")
+OutFile <- paste0("RQ1_Analyses_", Sys.Date(), ".pdf")
 
 # Render the script in a fresh R session.
-quarto_render(input = here::here("scripts/SR_Model.qmd"), 
+quarto_render(input = here::here("scripts/RQ1_Analyses.qmd"), 
               output_format = "pdf",
               output_file = OutFile, 
               execute_params = list(SourceDir = params$SourceDir, 
-                                    SourceFile = "SR_Model.qmd", 
+                                    SourceFile = "RQ1_Analyses.qmd", 
+                                    LogFile = OutFile),
+              execute_dir = here::here("scripts"),
+              as_job = "auto")
+
+# End chunk timer
+chunk.end <- proc.time()
+chunk.end - chunk.start
+```
+
                                     LogFile = OutFile),
               execute_dir = here::here("scripts"),
               as_job = "auto")
