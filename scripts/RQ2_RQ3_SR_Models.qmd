@@ -275,11 +275,14 @@ N_LWD  <- N_All - N_CD
 P_LWD  <- 100*N_LWD/N_All
 
 data.frame(Dataset = c("Applicants", "Eligible_Applicants", 
-                       "Eligible_Applicants_CD", "Thresholds"),
+                       "Enrolled_Applicants", "Enrolled_Applicants_CD", 
+                       "Thresholds"),
            N_Rows = c(nrow(Applicants), nrow(Eligible_Applicants), 
-                      nrow(Eligible_Applicants_CD), nrow(Thresholds)),
+                      nrow(Enrolled_Applicants), nrow(Enrolled_Applicants_CD), 
+                      nrow(Thresholds)),
            N_Cols = c(ncol(Applicants), ncol(Eligible_Applicants),
-                      ncol(Eligible_Applicants_CD), ncol(Thresholds))) %>% 
+                      ncol(Enrolled_Applicants), ncol(Enrolled_Applicants_CD), 
+                      ncol(Thresholds))) %>% 
   kable(, format = "latex", booktabs = TRUE, 
         col.names = c("Dataset", "N Rows", "N Columns")) %>% 
   kable_styling() 
