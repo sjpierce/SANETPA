@@ -1830,7 +1830,7 @@ Module_Rates %>%
 
 # Conclusions
 
-## RQ1: What are the attrition rates from the program at each of the four thresholds representing transitions between stages of program participation?
+## RQ2: What are the attrition rates from enrollment to completion of the CSW, and when (i.e., at which module[s]) did participants commonly attrit?
 
 If we just want to know the overall average attrition rate at each threshold, we
 need to examine the main effect of threshold. Model 1 demonstrated that the
@@ -1845,7 +1845,8 @@ predictors regardless of whether their effects were significant. Model 4 output
 (@tbl-emmeans-m4-Both and @fig-emmeans-m4-Both) only controls for the sole focal 
 predictor that mattered. 
 
-## RQ2: Which focal predictors affect attrition rates? 
+## RQ3: Do participants’ background characteristics, motivations for seeking training, potential barriers, and emotional readiness for this work predict attrition rates? 
+
 Of the eight focal predictors we examined, only whether an applicant was 
 motivated to seek the training by a need for SANE services in their community or 
 organization had a meaningful effect on attrition. The evidence for this lies 
