@@ -112,7 +112,7 @@ implemented by this script.
 //| label: fig-production
 //| fig-cap: "Production Workflow Diagram"
 //| fig-width: 7
-//| fig-height: 3.5
+//| fig-height: 5
 
 digraph Production {
 rankdir="LR";
@@ -120,8 +120,10 @@ rankdir="LR";
 node [shape = "box", style= "filled", fontname = "Arial", fontsize = 9, fillcolor = "#C3FFEC"]
 DAS [label = "Descriptive_Analyses.qmd\n(Quarto Script)"]
 DAO [label = "Descriptive_Analyses_YYYY-MM-DD.pdf\n(PDF Output)", fillcolor = "grey80"]
-SRS [label = "SR_Model.qmd\n(Quarto Script)"]
-SRO [label = "SR_Model_YYYY-MM-DD.pdf\n(PDF Output)", fillcolor = "grey80"]
+R1S [label = "RQ1_Analyses.qmd\n(Quarto Script)"]
+R1O [label = "RQ1_Analyses_YYYY-MM-DD.pdf\n(PDF Output)", fillcolor = "grey80"]
+R2S [label = "RQ2_RQ3_SR_Models.qmd\n(Quarto Script)"]
+R2O [label = "RQ2_RQ3_SR_Models_YYYY-MM-DD.pdf\n(PDF Output)", fillcolor = "grey80"]
 IDS [label = "Import_Data.qmd\n(Quarto Script)"]
 RawData [label = "All_group_1_2025-06-03.sav\n(SPSS Data File)", fillcolor = "white"]
 FinalData [label = "Imported_SANETP_Data.RData\n(R Data File)", fillcolor = "white"]
@@ -132,18 +134,21 @@ PRS [label = "Production_Run.qmd\n(Quarto Script)"]
 edge [fontname = "Arial", fontsize = 9]
 PRS -> IDS [label = "Custom Render"]
 PRS -> DAS [taillabel = "Custom Render"]
-PRS -> SRS [taillabel = "Custom Render"]
+PRS -> R1S [taillabel = "Custom Render"]
+PRS -> R2S [taillabel = "Custom Render"]
 RawData -> IDS [label = "Read"]
 PRS -> PRO [label = "Renders"]
 IDS -> IDO [label = "Renders"]
 IDS -> FinalData [label = "Write"]
 FinalData -> DAS [label = "Read"]
 DAS -> DAO [label = "Renders"]
-FinalData -> SRS [label = "Read"]
-SRS -> SRO [label = "Renders"]
+FinalData -> R1S [label = "Read"]
+FinalData -> R2S [label = "Read"]
+R1S -> R1O [label = "Renders"]
+R2S -> R2O [label = "Renders"]
 
-{ rank=same; IDS; FinalData; DAS; SRS}
-{ rank=same; IDO; DAO; SRO}
+{ rank=same; IDS; FinalData; DAS; R1S; R2S}
+{ rank=same; IDO; DAO; R1O; R2O}
 { rank=same; RawData; PRS; PRO}
 }
 ```
