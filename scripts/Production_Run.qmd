@@ -279,7 +279,6 @@ We used [R](https://www.r-project.org/) as our main computing environment and
 - Software chain:
   **qmd file > RStudio > Quarto > R > knitr > md file > Pandoc > HTML file**.
 - Source file: **`{r} paste0(params$SourceDir, params$SourceFile)`**
-- Output file: **`{r} paste0(params$SourceDir, "output/", params$LogFile)`**
 - [Quarto `{r} quarto_version()`](https://quarto.org/) runs `*.qmd` files through 
   [R](https://www.r-project.org/) and [knitr](https://yihui.org/knitr/) to 
   produce `*.md` markdown files.
