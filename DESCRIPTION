@@ -19,8 +19,7 @@ Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.3
 Depends: 
-    R (>= 4.5),
-    piercer (>= 0.21.0)
+    R (>= 4.5)
 Suggests: 
     broom,
     car,
@@ -35,6 +34,7 @@ Suggests:
     knitr,
     labelled,
     performance,
+    piercer (>= 0.23.0),
     PropCIs,
     psych,
     quarto,
