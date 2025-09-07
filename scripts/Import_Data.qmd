@@ -799,6 +799,22 @@ Enrolled_Applicants_CD <- Enrolled_Applicants %>%
 
 \FloatBarrier
 
+## Create Stated DT Subset of Enrolled Applicants
+When answering the part of RQ2 pertaining to specific training modules, we need 
+to narrow our focus to the subset of `Enrolled_Applicants_CD` containing only 
+enrolled applicants with `Stage_Reached` $\ge 2$ (those who started the didactic 
+training). Thus, below we create that additional dataset and call it 
+`StartedDT_Applicants`. 
+
+```{r}
+#| label: create-StartedDT-Applicants
+
+StartedDT_Applicants <- Enrolled_Applicants_CD %>% 
+  filter(Stage_Reached >= 2)
+```
+
+\FloatBarrier
+
 ## Create Thresholds Dataset
 This study will use a stopping-ratio model, which is also called a forward 
 continuation-ratio model or a stage model [@Fullerton-RN8774; @Liu-RN8772]. To 
@@ -964,7 +980,7 @@ tibble(DataFrame = c("Applicants", "Eligible_Applicants",
 
 # Character vector of object names that will be saved.
 save_what <- c("Applicants", "Eligible_Applicants", "Enrolled_Applicants", 
-               "Enrolled_Applicants_CD", "Thresholds")
+               "Enrolled_Applicants_CD", "StartedDT_Applicants", "Thresholds")
 ```
 
 ``` {r}
