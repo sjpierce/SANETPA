@@ -1,5 +1,67 @@
 # SANETPA News 
 
+## 0.16.0
+* `.Rbuildignore`
+    * Ignore the `graphics/` folder when installing package. 
+* `DESCRIPTION`
+    * Update the Suggests field to include effectsize package. 
+    * Moved piercer from Depends to Suggests field to solve a note from 
+      devtools::check(), updated piercer version number.
+* `README.qmd` and `README.md`
+    * Update software version & citation info.
+    * Add research questions. 
+* `scripts/_quarto.yml`
+    * Update Render key to refer to `scripts/RQ1_Analyses.qmd`
+    * Update Render key to refer to `scripts/RQ2_RQ3_SR_Models.qmd`
+* `scripts/Descriptive_Analyses.qmd`
+    * Update to reflect revised imported data file. 
+    * Improve narrative text.
+    * Removed eligibility rate (which is now in RQ1 analyses script).
+    * Updated to reflect change from analyzing eligible applicants to analyzing 
+      enrolled applicants (consistent with SR models for RQ2 and RQ3). 
+* `scripts/Import_Data.qmd`
+    * Update Stage_Reached coding.
+    * Improve narrative text. 
+    * Revise Eligible Applicants section.
+    * Add Enrolled Applicants section.
+    * Add value labels to Enrolled variable.
+    * Update stage diagram.
+    * Update creation of Thresholds data. 
+    * Update table on size of datasets.
+    * Update data saved out. 
+    * Updated value labels for variables about starting/finishing DT modules. 
+    * Add code to create and save `StartedDT_Applicants` dataset.
+* `scripts/references.bib`
+    * Updated software version and citation data. 
+    * Add methods references. 
+* `scripts/RQ1_Analyses.qmd`
+    * Added draft of file. 
+    * Load more R packages. 
+    * Convert categorical variables to factors.
+    * Create a temporary dataset called Overall.
+    * Improved the Methods section.
+    * Update the Results section.
+* `scripts/SR_Model.qmd`
+    * Updated Purpose section to reflect revised research questions.
+    * Updated Research Questions section.
+* Renamed `scripts/SR_Model.qmd` to `scripts/RQ2_RQ3_SR_Models.qmd`.
+*  `scripts/RQ2_RQ3_SR_Models.qmd`
+    * Updated YAML header, including title, left header, default parameter 
+      values, and default output-file value.
+    * Add objects to store sample sizes. 
+    * Update table of dataset sizes.
+    * Update stage diagram.
+    * Improved the Methods section.
+    * Changed order of predictors in Models 2 and 3 to better match RQ3 wording. 
+    * Added callout about Model 2 vs Model 4.
+    * Added module start and finish rates. 
+    * Updated Conclusions section.
+    * Moved creation of `StartedDT_Applicants` to import script. 
+    * Improve narrative text.
+    * Add methods text about DT module start and finish variables.
+    * Improve figure formatting and captions.
+    * Improve Conclusions section, add Recommendations section.
+    
 ## 0.15.0
 * `DESCRIPTION`
     * Updated Depends field to require piercer 0.21.0.
