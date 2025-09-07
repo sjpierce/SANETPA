@@ -405,47 +405,50 @@ in second language learning [@Winke-RN3795], and examine predictors of how far
 sexual assault kits progressed through several stages of forensic testing 
 [@Campbell-RN3126; @Campbell-RN3149; @Campbell-RN3190].
 
+\FloatBarrier
+
 # Methods
-Below we fit and examine a series of SR models by using the `glm()` function to 
-run logistic regression models on a person-threshold dataset called 
-`Thresholds`. This is one way to fit SR models [@Cole-RN8770]. 
 
-The modeling strategy aims to estimate the minimum number of models required to
-answer research questions RQ1, RQ2, and RQ3 and obtain a parsimonious final
-model. All models use the structural thresholds variable to predict attrition 
-because that lays the foundation for a SR model. The modeling sequence starts by 
-fitting Model 1, which only uses the structural thresholds variable as a 
-predictor. That is the baseline model we can compare with models containing the
-focal predictors. Model 2 adds a set of parallel effects for all eight focal
-predictors, then Model 3 expands on Model 2 by adding interaction terms to
-estimate non-parallel effects for all eight focal predictors [@Cole-RN8770].
-
-Models 4 and 5 aim to achieve parsimony by only including the one focal
-predictor that demonstrated an effect in Model 2. Model 4 builds up from Model 1
-by adding a parallel effect for that focal predictor, then Model 5 further 
-extends the analysis to test whether it had a non-parallel effect. 
-
-We examine model diagnostics and fit statistics, model comparisons via 
-likelihood ratio tests, single-term deletion tests based on Type II sums of 
-squares, and other supplementary output. Effect sizes are quantified by 
-odds-ratios and estimated marginal means for the attrition rates reported on a 
-probability scale. 
-
-We are using listwise deletion to handle missing data because only 3 of 327
-(0.9%) cases were incomplete (see the output from the data import script). These 
-cases would have to be very influential for omitting them to induce substantial 
-bias in the model results. When more than 5% of cases have missing data, more
-sophisticated approaches may be required [@Fernández-García-RN4151], but this
-dataset is well below that threshold.
+\FloatBarrier
 
 ## Sample
-The sample consists of the eligible applicants to the program who had complete 
-data on all the measures listed in the next section. We aim to draw conclusions 
-that generalize to the overall population of eligible applicants to the program. 
+The sample consists of the enrolled applicants to the program who had complete 
+data on all the measures listed in the next section. The 
+`Enrolled_Applicants_CD` dataset contains person-level data ($N = `r N_CD`$) 
+about that sample. Those data were rearranged into the `Thresholds` dataset 
+($N = `r nrow(Thresholds)`$) before fitting the stopping-ratio models (see the
+data import output for documentation of how that was done and
+@sec-SR-Modeling for why it was necessary). 
+
+We aim to draw conclusions that generalize to the overall population of enrolled
+applicants to the program. We are using listwise deletion to handle missing data
+because only `r N_LWD` of `r N_All` (`r round(P_LWD, digits = 1)`%) enrolled 
+applicants had incomplete data (see the output from the data import script). 
+These cases would have to be very influential for omitting them to induce 
+substantial bias in the model results. When more than 5% of cases have missing
+data, more sophisticated approaches may be required [@Fernández-García-RN4151],
+but this dataset is far below that threshold.
+
+When answering the part of RQ2 pertaining to specifice training modules, we need 
+to narrow our focus to the subset of `Enrolled_Applicants_CD` containing only 
+enrolled applicants with `Stage_Reached` $\ge 2$ (those who started the didactic 
+training). Thus, below we create that additional dataset and call it 
+`StartedDT_Applicants`. 
+
+```{r}
+#| label: create-StartedDT-Applicants
+
+StartedDT_Applicants <- Enrolled_Applicants_CD %>% 
+  filter(Stage_Reached >= 2)
+```
+
+\FloatBarrier
 
 ## Measures
 The measures mentioned below include an outcome variable, a structural predictor
 required for SR modeling, and eight focal predictors.
+
+\FloatBarrier
 
 ### Attrition (Outcome Variable)
 This is the binary, threshold-specific transformation of the `Stage_Reached` 
@@ -454,34 +457,16 @@ variable `Attrit` is coded 1 when an applicant attrited, and 0 when they passed
 the threshold and continued to the next stage of the program. See @fig-Stages 
 for a visualization of the coding for `Attrit`. 
 
+\FloatBarrier
+
 ### Threshold (Structural Predictor)
 The `Threshold` variable identifies which of three thresholds a participant was 
 attempting on any given record in the `Threshods` dataset. See @fig-Stages for 
 an overview of the stages and thresholds. 
 
-### Burnout (Focal Predictor)
-This is a mean-centered, continuous variable (`CProQOL_BO`) derived from the 
-applicant's score on the ProQOL burnout scale [@Stamm-RN8775]. 
+\FloatBarrier
 
-### Compassion Satisfaction (Focal Predictor)
-This is a mean-centered, continuous variable (`CProQOL_CS`) derived from the 
-applicant's score on the ProQOL compassion satisfaction scale [@Stamm-RN8775]. 
-
-### Secondary Traumatic Stress (Focal Predictor)
-This is a mean-centered, continuous variable (`CProQOL_STS`) derived from the 
-applicant's score on the ProQOL secondary traumatic stress scale [@Stamm-RN8775]. 
-
-### Barrier: Family Obligations (Focal Predictor)
-This is a mean-centered, continuous variable (`Barrier_FO`) measured by a single 
-Likert-response item that was scored on a 5-point scale. See the descriptive 
-analyses output file for this study for more details. 
-
-### Barrier: Work Responsibilities (Focal Predictor)
-This is a mean-centered, continuous variable (`Barrier_WR`) measured by a single 
-Likert-response item that was scored on a 5-point scale. See the descriptive 
-analyses output file for this study for more details. 
-
-### Setting (Focal Predictor)
+### Background Characteristics (Focal Predictor)
 The primary setting where the trainee practices nursing was a nominal
 categorical factor named `Setting`. It originally had four levels, but was
 recoded to three levels (`Urban`, `Rural/Tribal`, and `Suburban`) due to small
@@ -489,17 +474,102 @@ sample size in the `Tribal` category (which was then combined with `Rural`). See
 the descriptive analyses output file for this study for more details. The
 reference level is `Urban`.
 
-### Motivated by Need for SANE (Focal Predictor)  
-This is a binary variable (`Motivation_NeedSANE`) measuring whether the 
-applicant reported being motivated to seek the training by a need for SANE 
-services in their community or organization. The reference level is `No`. 
+\FloatBarrier
 
-### Motivated by Personal Connection (Focal Predictor)
-This is a binary variable (`Motivation_PersonalConn`) measuring whether the 
-to seek the training by a personal connection to sexual assault (e.g., someone 
-they know is a survivor). The reference level is `No`. 
+### Motivations (Focal Predictors)
+The two motivation measures are binary (coded 0 = *No*, 1 = *Yes*) and include 
+whether the applicant was motivated to seek the training by (a) a need for SANE 
+services in their community or organization (`Motivation_NeedSANE`), and (b) a 
+personal connection to sexual assault (e.g., someone they know is a survivor)
+(`Motivation_PersonalConn`). The reference level for each of them is *No*. 
 
 \FloatBarrier
+
+### Potential Barriers (Focal Predictors)
+The potential barriers outcome variables are single-item measures of barriers to
+participation due to family obligations (`Barrier_FO`) and work responsibilities
+(`Barrier_WR`) as competing demands on applicants' time. While these are
+technically ordinal items following a 5-point Likert-response format, that
+should be enough categories to treat them as continuous variables for these
+analyses. Both measures were mean-centered before use in the model. See the 
+descriptive analyses output file for this study for more details. 
+
+\FloatBarrier
+
+### Emotional Readiness (Focal Predictors)
+The emotional readiness measures are all continuous scores measured by ProQOL 
+subscales for burnout (`ProQOL_BO`), compassion satisfaction (`ProQOL_CS`), and 
+secondary traumatic stress (`ProQOL_STS`) [@Stamm-RN8775]. They were all 
+mean-centered prior to use in the model. 
+
+\FloatBarrier
+
+## Planned Statistical Analyses {#sec-Planned-Analyses}
+Below we fit and examine a series of SR models by using the `glm()` function to 
+run logistic regression models on a person-threshold dataset called 
+`Thresholds`. This is one way to fit SR models [@Cole-RN8770]. 
+
+The modeling strategy aims to estimate the minimum number of models required to
+answer research questions RQ2 and RQ3 and obtain a parsimonious final model. All
+models use the structural thresholds variable to predict attrition because that
+lays the foundation for a SR model. 
+
+### RQ2: What are the attrition rates from enrollment to completion of the CSW, and when (i.e., at which module[s]) did participants commonly attrit?
+
+The simplest way to answer the first part of RQ2 is to fit a model that only
+accounts for the threshold effect, then extract the estimated marginal means 
+(EMMs) representing the attrition rate (i.e., the stopping-ratio) on the
+probability scale at each threshold. Thus, our modeling sequence starts by
+fitting Model 1, which only uses the structural thresholds variable as a
+predictor. However, we can get a more nuanced answer to RQ2 by examining EMMs
+extracted from a model that adjusts for covariates. We already plan to fit such
+models to test the effects of focal predictors relevant to RQ3. Therefore it may
+make sense to use EMMs from the model that provides the best answer to RQ3
+rather than the EMMs from Model 1.
+
+We used the a subset of the `StartedDT_Applicants_CD` dataset to examine the 
+proportions of applicants who started and finished each DT module by estimating 
+the means of relevant binary variables (`Started_Mod_*` and `Finished_Mod_*`) to 
+obtain the start and finish rates for modules 1-12. We used Wilson score
+confidence intervals to quantify the uncertainty in those rates
+[@Newcombe-RN2457; @Wilson-RN3223]. 
+
+::: {.callout-caution}
+Missing data for the `Started_Mod_*` and `Finished_Mod_*` variables are 
+currently treated as functionally equivalent to 0 (*not started* or 
+*not finished*) in the rate calculations. So, the denominator includes cases 
+with missing values. We can change that if desired. 
+:::
+
+### RQ3: Do participants’ background characteristics, motivations for seeking training, potential barriers, and emotional readiness for this work predict attrition rates? 
+
+Answering RQ3 properly requires determining whether the focal predictors have 
+parallel or non-parallel effects on attrition. Model 1 is the baseline model we
+can compare with models containing the focal predictors mentioned in RQ3. Model
+2 adds the set of parallel effects for all eight focal predictors, then Model 3
+expands on Model 2 by adding interaction terms to estimate non-parallel effects
+for all eight focal predictors [@Cole-RN8770].
+
+::: {.callout-tip}
+After testing for non-parallel effects, we have to decide whether to simplify 
+the better model (either Model 2 or Model 3) by omitting focal predictors that 
+do not seem to have any effect at all. Doing so could lead to a more 
+parsimonious model, but sacrifices the ability to claim that our results for 
+retained predictors reflect having controlled for all the omitted focal 
+predictors. Only reporting Models 1-3 would reduce the total amount of output 
+in the manuscript. *That is minimum set of models required to address RQ3.* 
+::: 
+
+As a robustness check, we tried simplifying the models. Models 4 and 5 aim to
+achieve parsimony by only including the one focal predictor that demonstrated an
+effect in Model 2. Model 4 builds up from Model 1 by adding a parallel effect
+for that focal predictor, then Model 5 further extends the analysis to test
+whether it had a non-parallel effect.
+
+We examined model diagnostics and fit statistics, model comparisons via 
+likelihood ratio tests, single-term deletion tests based on Type II sums of 
+squares, and other supplementary output. Effect sizes are quantified by 
+odds-ratios and EMMs for the attrition rates reported on a probability scale. 
 
 ## Modeling Software
 We used the base R [@R-Devel-Core-RN8182] function `glm()` to fit the models
@@ -512,7 +582,11 @@ and `car` [@Fox-RN8789] packages provided tools for examining model diagnostics
 (see next section) and the `emmeans` package [@Lenth-RN8188] computed estimated
 marginal means that represent attrition rates.
 
+\FloatBarrier
+
 ## Model Diagnostics
+
+\FloatBarrier
 
 ### Collinearity
 The `car` package [@Fox-RN8789]  provides a function for examining the
@@ -523,6 +597,8 @@ degrees of freedom [@Fox-RN3484]. In general, one can compare
 $GVIF^{(1/(2*df))}$ to cutoffs defined for $\sqrt{VIF}$. Some suggested cutoffs 
 indicating potential problems are $\sqrt{VIF} \ge 2$ or $\sqrt{VIF} \ge 3$. We 
 applied the latter cutoff, so hope to see $GVIF^{(1/(2*df))} < 3$ in our models.
+
+\FloatBarrier
 
 ### Residual Distributions 
 The `DHARMa` package in R uses simulation-based methods to compute scaled
