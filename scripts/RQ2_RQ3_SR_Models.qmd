@@ -416,7 +416,7 @@ sexual assault kits progressed through several stages of forensic testing
 
 ## Sample
 The sample consists of the enrolled applicants to the program who had complete 
-data on all the measures listed in the next section. The 
+data on all the measures used in the stopping-ratio models. The 
 `Enrolled_Applicants_CD` dataset contains person-level data ($N = `r N_CD`$) 
 about that sample. Those data were rearranged into the `Thresholds` dataset 
 ($N = `r nrow(Thresholds)`$) before fitting the stopping-ratio models (see the
