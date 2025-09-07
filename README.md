@@ -627,6 +627,12 @@ the production process, how long it took to render each script called by
 the production script, and information about the software environment
 used.
 
+If you want to get a date-stamped production run output, you can use
+something like the following command in the Terminal after changing to
+the `scripts/` folder.
+
+    quarto render Production_Run.qmd --output Production_Run_2025-09-07.html
+
 ## References
 
 <div id="refs" class="references csl-bib-body hanging-indent"
