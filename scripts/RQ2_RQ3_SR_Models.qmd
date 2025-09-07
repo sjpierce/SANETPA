@@ -1,5 +1,6 @@
 ---
-title: Stopping-Ratio Modeling Results
+title: Research Questions 2 and 3 Stopping-Ratio Models for SANE Training 
+       Program Data
 subtitle: | 
           | CSTAT Case: C1788
           | Clients: Rebecca Campbell, Autumn Ashley, & Katherine Dontje
@@ -17,8 +18,8 @@ bibliography: references.bib          # File holds BibTeX data for references
 csl: apa.csl                          # File controls citation & reference list format
 params:                               # Default values for parameters
   SourceDir: "scripts/"               # Relative path to folder holding this file
-  SourceFile: "SR_Model.qmd"          # Name of this script file
-  LogFile: "SR_Model_Draft.pdf"       # Name of rendered output file
+  SourceFile: "RQ2_RQ3_SR_Models.qmd"          # Name of this script file
+  LogFile: "RQ2_RQ3_SR_Models_Draft.pdf"       # Name of rendered output file
   DHARMa.seed1: 6347
   DHARMa.seed2: 9654
   DHARMa.seed3: 9654
@@ -26,7 +27,7 @@ params:                               # Default values for parameters
   DHARMa.seed5: 1456
 format: 
   pdf:                                # Settings for PDF output
-    output-file: "SR_Model_Draft.pdf" # Default output file name 
+    output-file: "RQ2_RQ3_SR_Models_Draft.pdf" # Default output file name 
     output-ext: "pdf"                 # Default file name extension
     documentclass: scrartcl           # LaTeX document type
     papersize: letter
@@ -83,7 +84,7 @@ format:
           \pretitle{\begin{center}\LARGE\bfseries\sffamily}
           \posttitle{\end{center}}
           \pagestyle{fancy}
-          \lhead{SANETPA SR Models}
+          \lhead{SANETPA RQ2 and RQ3 SR Models}
           \chead{\includegraphics[height=0.85cm]{../graphics/Combomark-Horiz_Pantone-567.eps}}
           \rhead{\today\ \currenttime}
           \cfoot{ }
