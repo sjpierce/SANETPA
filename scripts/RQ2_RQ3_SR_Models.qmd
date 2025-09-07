@@ -499,6 +499,23 @@ mean-centered prior to use in the model.
 
 \FloatBarrier
 
+### Start and Finish Indicators for Didactic Training Modules (Secondary Outcomes) 
+The didactic training consisted of 12 modules. Binary variables coded 0 (*No*),
+1 (*Yes*) recorded whether applicants had started each module (`Started_Mod_1` 
+to `Started_Mod_12`) and also whether they had finished it (`Finished_Mod_1` to 
+`Finished_Mod_12`). Unlike the other measures listed above, these variables were 
+not used in the listwise deletion process for selecting enrolled applicants 
+suitable for use in the stopping-ratio models. The start and finish rates for 
+each module were secondary outcomes. Including them in the listwise deletion 
+process would not have made sense because the models allowed attrition between 
+enrollment and start of the didactic training. Such attrition would have left 
+missing data in these variables. Similarly, if an applicant attrited before a 
+particular module even became available, these variables likely ended up with 
+missing data. We are functionally treating missing values on these variables as 
+*No*. 
+
+\FloatBarrier
+
 ## Planned Statistical Analyses {#sec-Planned-Analyses}
 Below we fit and examine a series of SR models by using the `glm()` function to 
 run logistic regression models on a person-threshold dataset called 
@@ -531,9 +548,9 @@ confidence intervals to quantify the uncertainty in those rates
 
 ::: {.callout-caution}
 Missing data for the `Started_Mod_*` and `Finished_Mod_*` variables are 
-currently treated as functionally equivalent to 0 (*not started* or 
-*not finished*) in the rate calculations. So, the denominator includes cases 
-with missing values. We can change that if desired. 
+currently treated as functionally equivalent to 0 (*No*) in the rate 
+calculations. So, the rate numerator is the number if *Yes* values and the 
+denominator includes all cases (including missing values). 
 :::
 
 ### RQ3: Do participants’ background characteristics, motivations for seeking training, potential barriers, and emotional readiness for this work predict attrition rates? 
