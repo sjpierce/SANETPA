@@ -1821,8 +1821,8 @@ Module_Rates %>%
 #| fig-cap: Start and Finish Rates By Didactic Training Module Among Enrolled 
 #|          Applicants Who Started the Didactic Training, With 95% Confidence 
 #|          Intervals
-#| fig-width: 6
-#| fig-height: 3
+#| fig-width: 7
+#| fig-height: 2.5
 
 Module_Rates %>% 
   mutate(CI_Label = paste0(sprintf("%.2f", Rate), " [", 
@@ -1830,11 +1830,11 @@ Module_Rates %>%
                       sprintf("%.2f", UL), "]")) %>% 
   ggplot(data = ., mapping = aes(y = fct_rev(Module))) + 
   theme_bw() +
-  coord_cartesian(xlim = c(0.5, 1.01)) +
+  coord_cartesian(xlim = c(0.0, 1.01)) +
   facet_wrap(~ Rate_Type, ncol = 2) + 
   geom_point(aes(x=Rate), size = 1.5) +
   geom_linerange(aes(xmin=LL, xmax=UL)) + 
-  geom_text(x = 0.5, aes(label = CI_Label), hjust = 0, cex = 3) +
+  geom_text(x = 0.0, aes(label = CI_Label), hjust = 0, cex = 3) +
   labs(x="Rate", y="Module")
 ```
 
