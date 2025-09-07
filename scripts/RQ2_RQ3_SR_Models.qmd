@@ -1852,58 +1852,90 @@ Module_Rates %>%
 If we just want to know the overall average attrition rate at each threshold, we
 need to examine the main effect of threshold. Model 1 demonstrated that the
 attrition rate is not constant throughout the program. Instead, the attrition
-rates vary across thresholds and all subsequent models continued to demonstrate 
-that fact. 
+rates vary across thresholds and all subsequent models continued to demonstrate
+that fact. *The attrition rate during didactic training is substantially higher*
+*than at any other threshold*.
 
 The simplest answer to RQ1 is presented in @tbl-emmeans-m1 and @fig-emmeans-m1,
-but both Model 2 and Model 4 provide better answers. Model 2 output 
-(@tbl-emmeans-m2-Both and @fig-emmeans-m2-Both) controls for all focal 
-predictors regardless of whether their effects were significant. Model 4 output 
-(@tbl-emmeans-m4-Both and @fig-emmeans-m4-Both) only controls for the sole focal 
-predictor that mattered. 
+but Model 2 provides a better answer. Model 2 output (@tbl-emmeans-m2-Both and @fig-emmeans-m2-Both) controls for all focal predictors regardless of whether 
+their effects were significant. *In that context, we still see a much higher *
+*attrition rate during didactic training than at other thresholds*. 
 
 ## RQ3: Do participants’ background characteristics, motivations for seeking training, potential barriers, and emotional readiness for this work predict attrition rates? 
 
 Of the eight focal predictors we examined, only whether an applicant was 
 motivated to seek the training by a need for SANE services in their community or 
 organization had a meaningful effect on attrition. The evidence for this lies 
-in the single-term deletion tests from Model 2 (@tbl-drop1-m2) and the 
-comparison of Models 1 and 4 (@tbl-lrt-m1-m4). 
+in the single-term deletion tests from Model 2 (@tbl-drop1-m2). 
 
 Applicants who reported having that motivation experienced lower attrition than 
 applicants who did not report that motivation. The odds-ratio for this effect in 
-Model 2 (@tbl-params-m2) controls for all other focal predictors, while the one 
-in Model 4 (@tbl-params-m4) does not. 
+Model 2 (@tbl-params-m2) controls for all other focal predictors. It is 
+noteworthy that the upper end of that confidence interval spans values very 
+close 1. That means this effect *could* be so small as have no practical 
+implications for practice. 
+
 
 Our analyses showed no evidence that the seven remaining focal predictors listed
 below exert any influence on attrition from the SANE training program. This is
 surprising and counter-intuitive, but is nonetheless what our analyses show.
 
+* Primary setting where the trainee practices nursing.
+* Family obligations.
+* Work responsibilities.
+* Motivated to seek the training by a personal connection to sexual assault 
+  (e.g., someone they know is a survivor). 
 * Burnout.
 * Compassion satisfaction.
 * Secondary traumatic stress.
-* Family obligations.
-* Work responsibilities.
-* Primary setting where the trainee practices nursing.
-* Motivated to seek the training by a personal connection to sexual assault 
-  (e.g., someone they know is a survivor). 
 
-## RQ3: Which focal predictors have parallel effects (constant across thresholds) on attrition and which ones have non-parallel (threshold-specific) effects?
 The comparison of Model 2 and 3 (@tbl-lrt-m2-m3), the single-term deletion tests 
 from Model 3 (@tbl-drop1-m3) and the comparison of Models 4 and 5 
-(@tbl-lrt-m4-m5) all demonstrate that none of the focal predictors have 
+(@tbl-lrt-m4-m5) all demonstrated that none of the focal predictors have 
 non-parallel effects on attrition. 
 
 As noted above in the conclusions regarding RQ2, whether an applicant was 
 motivated to seek the training by a need for SANE services in their community or 
 organization had a parallel effect on attrition. The evidence for this lies 
-in the single-term deletion tests from Model 2 (@tbl-drop1-m2) and the 
-comparison of Models 1 and 4 (@tbl-lrt-m1-m4). 
+in the single-term deletion tests from Model 2 (@tbl-drop1-m2). 
 
-Applicants who reported having that motivation experienced lower attrition than 
-applicants who did not report that motivation. The odds-ratio for this effect in 
-Model 2 (@tbl-params-m2) controls for all other focal predictors, while the one 
-in Model 4 (@tbl-params-m4) does not. 
+::: {.callout-caution}
+Trimming Model 2 down to produce Model 4 in pursuit of parsimony yields a
+slightly weaker effect of motivation by a need for SANE services. The shift is
+just large enough to cause the upper end of the odds-ratio's confidence interval
+to overlap 1. A really robust effect would be clearly present whether or not the
+other focal predictors were in the model but that is not what we see here. One
+or more of the other focal predictors may be a confounder or suppressor that
+must be included in the model to see the effect of `Motivation_NeedSANE` even
+though they don't have discernible direct effects of their own on attrition.
+
+The apparent conflict between Model 2 and Model 4 conclusions about the 
+`Motivation_NeedSANE` effect is an artifact of strict, arbitrary application 
+of a null hypothesis significance testing framework. The confidence intervals 
+for the odds-ratio for that effect from the two models overlap to a large 
+degree. Better statistical thinking and practice would suggest that this latter
+fact is what is most salient. This is not a particularly large effect and both
+models suggest that that it could be either strong enough to matter or so weak
+as to be of negligible practical importance. The point estimates lean more
+toward the former possibility, but sampling error leaves room for the latter one
+too.
+:::
+
+# Recommendations
+We should fully report Model 2 in the manuscript. We can perhaps relegate Model 
+3 to a footnote saying that we tested for non-parallel effects but found no 
+support for them and just refer readers to the online research compendium for 
+full details. 
+
+Commenting on the minor conflict between Model 2 and Model 4 could potentially 
+also become a footnote and a referral to the online research compendium. 
+However, we should emphasize thinking about the implications of the range 
+of values spanned by the relevant confidence intervals because that shows 
+there's more similarity between the two results than implied by the overly 
+simplistic interpretation of whether two similar p-values fall above versus 
+below the arbitrary cutoff of 0.05. There is little meaningful difference 
+between a "non-significant" value such as 0.06 and a "significant" one of 0.04
+[@Gelman-RN3545]. 
 
 # References
 ::: {#refs}
