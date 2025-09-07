@@ -27,5 +27,6 @@
 
 # Omit the folders for files that only need to be in the local repository, not
 # in the installed package.
+^graphics$
 ^scripts$
 
