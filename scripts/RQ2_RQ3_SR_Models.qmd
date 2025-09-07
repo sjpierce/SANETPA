@@ -329,7 +329,7 @@ A1 [label = "Attrited\nBefore DT\nSR1"]
 A2 [label = "Attrited\nDuring DT\nSR2"]
 A3 [label = "Attrited\nBefore/During CSW\nSR3"]
 
-S1 [label = "Stage 1\nEligible\nj = 1"]
+S1 [label = "Stage 1\nEnrolled\nj = 1"]
 S2 [label = "Stage 2\nStarted DT\nj = 2"]
 S3 [label = "Stage 3\nFinished DT\nj = 3"]
 S4 [label = "Stage 4\nFinished CSW\nj = 4"]
