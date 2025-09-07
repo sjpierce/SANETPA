@@ -268,21 +268,24 @@ file_details(DataFile) %>%
 #| label: tbl-datasets
 #| tbl-cap: "Sizes of the Datasets"
 
-# Compute sample sizes and percent omitted by listwise deletion
+# Compute sample sizes and percent omitted by listwise deletion. These are used
+# later in the script. 
+
 N_All  <- nrow(Enrolled_Applicants)
 N_CD   <- nrow(Enrolled_Applicants_CD)
 N_LWD  <- N_All - N_CD
 P_LWD  <- 100*N_LWD/N_All
 
+# Create a summary table. 
 data.frame(Dataset = c("Applicants", "Eligible_Applicants", 
                        "Enrolled_Applicants", "Enrolled_Applicants_CD", 
-                       "Thresholds"),
+                       "StartedDT_Applicants", "Thresholds"),
            N_Rows = c(nrow(Applicants), nrow(Eligible_Applicants), 
                       nrow(Enrolled_Applicants), nrow(Enrolled_Applicants_CD), 
-                      nrow(Thresholds)),
+                      nrow(StartedDT_Applicants), nrow(Thresholds)),
            N_Cols = c(ncol(Applicants), ncol(Eligible_Applicants),
                       ncol(Enrolled_Applicants), ncol(Enrolled_Applicants_CD), 
-                      ncol(Thresholds))) %>% 
+                      ncol(StartedDT_Applicants), ncol(Thresholds))) %>% 
   kable(, format = "latex", booktabs = TRUE, 
         col.names = c("Dataset", "N Rows", "N Columns")) %>% 
   kable_styling() 
