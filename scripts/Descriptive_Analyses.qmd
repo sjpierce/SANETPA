@@ -344,19 +344,19 @@ variables to be included in the model (after listwise deletion).
 
 ```{r}
 #| label: tbl-Stage-Reached-all
-#| tbl-cap: Stage_Reached Frequency Distribution Among Eligible Applicants 
+#| tbl-cap: Stage_Reached Frequency Distribution Among Enrolled Applicants 
 #|          (Before Listwise Deletion)
 
 # Footnote text. 
 FN <- paste("Denominator for percents is the frequency sum.", 
       "CSW, clinical skills workshop; DT, didactic training.")
 
-Eligible_Applicants %>% 
+Enrolled_Applicants %>% 
   xtabs(~as_factor(Stage_Reached), addNA = TRUE, data = .) %>% 
   addmargins() %>% 
   as.data.frame() %>% 
   rename(Stage_Reached = as_factor.Stage_Reached.) %>% 
-  mutate(Percent = 100*Freq/nrow(Eligible_Applicants),
+  mutate(Percent = 100*Freq/nrow(Enrolled_Applicants),
          Cumulative = if_else(Stage_Reached == "Sum", 
                               true = 100, 
                               false = cumsum(Percent))) %>% 
@@ -370,19 +370,19 @@ Eligible_Applicants %>%
 
 ```{r}
 #| label: tbl-Stage-Reached-cd
-#| tbl-cap: Stage_Reached Frequency Distribution Among Eligible Applicants 
+#| tbl-cap: Stage_Reached Frequency Distribution Among Enrolled Applicants 
 #|          (After Listwise Deletion)
 
 # Footnote text. 
 FN <- paste("Denominator for percents is the frequency sum.", 
       "CSW, clinical skills workshop; DT, didactic training.")
 
-Eligible_Applicants_CD %>% 
+Enrolled_Applicants_CD %>% 
   xtabs(~as_factor(Stage_Reached), addNA = TRUE, data = .) %>% 
   addmargins() %>% 
   as.data.frame() %>% 
   rename(Stage_Reached = as_factor.Stage_Reached.) %>% 
-  mutate(Percent = 100*Freq/nrow(Eligible_Applicants_CD),
+  mutate(Percent = 100*Freq/nrow(Enrolled_Applicants_CD),
          Cumulative = if_else(Stage_Reached == "Sum", 
                               true = 100, 
                               false = cumsum(Percent))) %>% 
@@ -429,18 +429,18 @@ The frequency distributions for each of those items are shown in
 
 ```{r}
 #| label: tbl-Train-Goal-Fac-Bar-5R
-#| tbl-cap: Train_Goal_Fac_Bar_5R Frequency Distribution Among Eligible Applicants
+#| tbl-cap: Train_Goal_Fac_Bar_5R Frequency Distribution Among Enrolled Applicants
 
 # Footnote text. 
 FN <- paste("Item text: 'I have time in my schedule to focus on this course.'", 
-            "Denominator for percents is total number of eligible applicants.")
+            "Denominator for percents is total number of enrolled applicants.")
 
-Eligible_Applicants %>% 
+Enrolled_Applicants %>% 
 xtabs(~as_factor(Train_Goal_Fac_Bar_5R), addNA = TRUE, data = .) %>% 
   addmargins() %>% 
   as.data.frame() %>% 
   rename(Train_Goal_Fac_Bar_5R = as_factor.Train_Goal_Fac_Bar_5R.) %>% 
-  mutate(Percent = 100*Freq/nrow(Eligible_Applicants),
+  mutate(Percent = 100*Freq/nrow(Enrolled_Applicants),
          Cumulative = if_else(Train_Goal_Fac_Bar_5R == "Sum", 
                               true = 100, 
                               false = cumsum(Percent))) %>% 
@@ -454,18 +454,18 @@ xtabs(~as_factor(Train_Goal_Fac_Bar_5R), addNA = TRUE, data = .) %>%
 
 ```{r}
 #| label: tbl-Train-Goal-Fac-Bar-8
-#| tbl-cap: Train_Goal_Fac_Bar_8 Frequency Distribution Among Eligible Applicants
+#| tbl-cap: Train_Goal_Fac_Bar_8 Frequency Distribution Among Enrolled Applicants
 
 # Footnote text. 
 FN <- paste("Item text: 'I have a lot of work responsibilities.'", 
-            "Denominator for percents is total number of eligible applicants.")
+            "Denominator for percents is total number of enrolled applicants.")
 
-Eligible_Applicants %>% 
+Enrolled_Applicants %>% 
 xtabs(~as_factor(Train_Goal_Fac_Bar_8), addNA = TRUE, data = .) %>% 
   addmargins() %>% 
   as.data.frame() %>% 
   rename(Train_Goal_Fac_Bar_8 = as_factor.Train_Goal_Fac_Bar_8.) %>% 
-  mutate(Percent = 100*Freq/nrow(Eligible_Applicants),
+  mutate(Percent = 100*Freq/nrow(Enrolled_Applicants),
          Cumulative = if_else(Train_Goal_Fac_Bar_8 == "Sum", 
                               true = 100, 
                               false = cumsum(Percent))) %>% 
@@ -479,18 +479,18 @@ xtabs(~as_factor(Train_Goal_Fac_Bar_8), addNA = TRUE, data = .) %>%
 
 ```{r}
 #| label: tbl-Train-Goal-Fac-Bar-10
-#| tbl-cap: Train_Goal_Fac_Bar_10 Frequency Distribution Among Eligible Applicants
+#| tbl-cap: Train_Goal_Fac_Bar_10 Frequency Distribution Among Enrolled Applicants
 
 # Footnote text. 
 FN <- paste("Item text: 'I have a lot of family obligations right now.'", 
-            "Denominator for percents is total number of eligible applicants.")
+            "Denominator for percents is total number of enrolled applicants.")
 
-Eligible_Applicants %>% 
+Enrolled_Applicants %>% 
 xtabs(~as_factor(Train_Goal_Fac_Bar_10), addNA = TRUE, data = .) %>% 
   addmargins() %>% 
   as.data.frame() %>% 
   rename(Train_Goal_Fac_Bar_10 = as_factor.Train_Goal_Fac_Bar_10.) %>% 
-  mutate(Percent = 100*Freq/nrow(Eligible_Applicants),
+  mutate(Percent = 100*Freq/nrow(Enrolled_Applicants),
          Cumulative = if_else(Train_Goal_Fac_Bar_10 == "Sum", 
                               true = 100, 
                               false = cumsum(Percent))) %>% 
@@ -508,7 +508,7 @@ Our first attempt at building this scale used all three items.
 ```{r}
 #| label: reliability-Barrier-TD-3item
 
-Eligible_Applicants %>% 
+Enrolled_Applicants %>% 
   select(Train_Goal_Fac_Bar_5R, Train_Goal_Fac_Bar_8, Train_Goal_Fac_Bar_10) %>% 
   as.data.frame() %>% 
   alpha(x = ., cumulative = TRUE, discrete = TRUE)
@@ -542,7 +542,7 @@ acceptable for research purposes.
 ```{r}
 #| label: reliability-Barrier-TD-2item
 
-Eligible_Applicants %>% 
+Enrolled_Applicants %>% 
   select(Train_Goal_Fac_Bar_8, Train_Goal_Fac_Bar_10) %>% 
   as.data.frame() %>% 
   alpha(x = ., cumulative = TRUE, discrete = TRUE)
@@ -582,9 +582,9 @@ to family obligations (`Barrier_FO`) and work responsibilities (`Barrier_WR`) as
 competing demands on applicants' time. 
 
 @tbl-continuous-vars-all shows descriptive statistics for each of these 
-continuous predictors among all eligible applicants before application of 
+continuous predictors among all enrolled applicants before application of 
 listwise deletion, while @tbl-continuous-vars-cd shows descriptive statistics 
-for each of these continuous predictors among eligible applicants with complete 
+for each of these continuous predictors among enrolled applicants with complete 
 data on the variables to be used in modeling, along with corresponding 
 mean-centered versions of each one. Histograms of the uncentered versions of the 
 variables after listwise deletion are shown in @fig-ProQOL-BO, @fig-ProQOL-CS, 
@@ -593,7 +593,7 @@ variables after listwise deletion are shown in @fig-ProQOL-BO, @fig-ProQOL-CS,
 ```{r}
 #| label: tbl-continuous-vars-all
 #| tbl-cap: Descriptive Statistics for Continuous Predictor Variables Among 
-#|          Eligible Applicants (Before Listwise Deletion)
+#|          Enrolled Applicants (Before Listwise Deletion)
 
 # Footnote text.
 FN <- paste("N_m, number of missing values; N_o, number of observed values.")
@@ -607,7 +607,7 @@ VLabels <- rep(c("Burnout", "Compassion Satisfaction",
 CNames <- c("Variable", "Construct", "N", "N_m", "N_o", "Mean", "SD", 
             "Min", "Max")
 
-Eligible_Applicants %>% 
+Enrolled_Applicants %>% 
   select(ID, ProQOL_BO, ProQOL_CS, ProQOL_STS, Barrier_FO, Barrier_WR) %>% 
   pivot_longer(cols = c(ProQOL_BO, ProQOL_CS, ProQOL_STS, Barrier_FO, 
                         Barrier_WR),
@@ -633,7 +633,7 @@ Eligible_Applicants %>%
 ```{r}
 #| label: tbl-continuous-vars-cd
 #| tbl-cap: Descriptive Statistics for Continuous Predictor Variables Among 
-#|          Eligible Applicants (After Listwise Deletion)
+#|          Enrolled Applicants (After Listwise Deletion)
 
 # Footnote text.
 VNames <- c("ProQOL_BO", "ProQOL_CS", "ProQOL_STS", "Barrier_FO", "Barrier_WR",
@@ -644,7 +644,7 @@ VLabels <- rep(c("Burnout", "Compassion Satisfaction",
                  "Work Responsibilities"), times = 2)
 CNames <- c("Variable", "Construct", "N", "Mean", "SD", "Min", "Max")
 
-Eligible_Applicants_CD %>% 
+Enrolled_Applicants_CD %>% 
   select(ID, ProQOL_BO, ProQOL_CS, ProQOL_STS, Barrier_FO, Barrier_WR, 
          CProQOL_BO, CProQOL_CS, CProQOL_STS, CBarrier_FO, CBarrier_WR) %>% 
   pivot_longer(cols = c(ProQOL_BO, ProQOL_CS, ProQOL_STS, Barrier_FO, 
@@ -672,13 +672,13 @@ Eligible_Applicants_CD %>%
 
 ```{r}
 #| label: fig-ProQOL-BO
-#| fig-cap: Histogram of ProQOL Burnout Among Eligible Applicants (After 
+#| fig-cap: Histogram of ProQOL Burnout Among Enrolled Applicants (After 
 #|          Listwise Deletion)
 #| fig-width: 5
 #| fig-height: 2.5
 #| warning: false
 
-ggplot(data = Eligible_Applicants_CD, aes(x = ProQOL_BO)) +
+ggplot(data = Enrolled_Applicants_CD, aes(x = ProQOL_BO)) +
   geom_histogram(aes(y = after_stat(density)), binwidth = 1, color = "black", 
                  fill = "grey") +
   geom_density(alpha = .6, fill = "#FF6666") +
@@ -696,13 +696,13 @@ ggplot(data = Eligible_Applicants_CD, aes(x = ProQOL_BO)) +
 
 ```{r}
 #| label: fig-ProQOL-CS
-#| fig-cap: Histogram of ProQOL Compassion Satisfaction Among Eligible 
+#| fig-cap: Histogram of ProQOL Compassion Satisfaction Among Enrolled 
 #|          Applicants (After Listwise Deletion)
 #| fig-width: 5
 #| fig-height: 2.5
 #| warning: false
 
-ggplot(data = Eligible_Applicants_CD, aes(x = ProQOL_CS)) +
+ggplot(data = Enrolled_Applicants_CD, aes(x = ProQOL_CS)) +
   geom_histogram(aes(y = after_stat(density)), binwidth = 1, color = "black", 
                  fill = "grey") +
   geom_density(alpha = .6, fill = "#FF6666") +
@@ -720,13 +720,13 @@ ggplot(data = Eligible_Applicants_CD, aes(x = ProQOL_CS)) +
 
 ```{r}
 #| label: fig-ProQOL-STS
-#| fig-cap: Histogram of ProQOL Secondary Traumatic Stress Among Eligible 
+#| fig-cap: Histogram of ProQOL Secondary Traumatic Stress Among Enrolled 
 #|          Applicants (After Listwise Deletion)
 #| fig-width: 5
 #| fig-height: 2.5
 #| warning: false
 
-ggplot(data = Eligible_Applicants_CD, aes(x = ProQOL_STS)) +
+ggplot(data = Enrolled_Applicants_CD, aes(x = ProQOL_STS)) +
   geom_histogram(aes(y = after_stat(density)), binwidth = 1, color = "black", 
                  fill = "grey") +
   geom_density(alpha = .6, fill = "#FF6666") +
@@ -744,12 +744,12 @@ ggplot(data = Eligible_Applicants_CD, aes(x = ProQOL_STS)) +
 
 ```{r}
 #| label: fig-Barrier-FO
-#| fig-cap: Histogram of Family Obligations Among Eligible Applicants (After 
+#| fig-cap: Histogram of Family Obligations Among Enrolled Applicants (After 
 #|          Listwise Deletion) 
 #| fig-width: 5
 #| fig-height: 2.5
 
-ggplot(data = Eligible_Applicants_CD, aes(x = Barrier_FO)) +
+ggplot(data = Enrolled_Applicants_CD, aes(x = Barrier_FO)) +
   geom_histogram(aes(y = after_stat(density)), binwidth = 1, color = "black", 
                  fill = "grey") +
   geom_density(alpha = .6, fill = "#FF6666") +
@@ -765,12 +765,12 @@ ggplot(data = Eligible_Applicants_CD, aes(x = Barrier_FO)) +
 
 ```{r}
 #| label: fig-Barrier-WR
-#| fig-cap: Histogram of Family Obligations Among Eligible Applicants (After 
+#| fig-cap: Histogram of Family Obligations Among Enrolled Applicants (After 
 #|          Listwise Deletion) 
 #| fig-width: 5
 #| fig-height: 2.5
 
-ggplot(data = Eligible_Applicants_CD, aes(x = Barrier_WR)) +
+ggplot(data = Enrolled_Applicants_CD, aes(x = Barrier_WR)) +
   geom_histogram(aes(y = after_stat(density)), binwidth = 1, color = "black", 
                  fill = "grey") +
   geom_density(alpha = .6, fill = "#FF6666") +
@@ -789,16 +789,16 @@ predictors we will use in our stopping-ratio models.
 
 ```{r}
 #| label: tbl-continuous-corr
-#| tbl-cap: Pearson Correlation Matrix for Continuous Predictor Variables (After 
-#|          Listwise Deletion)
+#| tbl-cap: Pearson Correlation Matrix for Continuous Predictor Variables Among 
+#|          Enrolled Applicants (After Listwise Deletion)
 
-N_used <- nrow(Eligible_Applicants_CD)
-N_omit <- nrow(Eligible_Applicants) - N_used
+N_used <- nrow(Enrolled_Applicants_CD)
+N_omit <- nrow(Enrolled_Applicants) - N_used
 
 FN <- paste0("N = ", N_used, " after listwise deletion of missing data (",
              N_omit, " observations).")
 
-Eligible_Applicants_CD %>% 
+Enrolled_Applicants_CD %>% 
   select(ProQOL_BO, ProQOL_CS, ProQOL_STS, Barrier_FO, Barrier_WR) %>% 
   cor(x = ., use = "complete.obs", method = "pearson") %>% 
   kable(format = "latex", booktabs = TRUE, digits = 2) %>% 
@@ -815,19 +815,19 @@ which are both binary variables.
 
 ```{r}
 #| label: tbl-Motivation-NeedSANE
-#| tbl-cap: Motivation_NeedSANE Frequency Distribution Among Eligible Applicants 
+#| tbl-cap: Motivation_NeedSANE Frequency Distribution Among Enrolled Applicants 
 #|          (After Listwise Deletion)
            
 
 # Footnote text. 
 FN <- paste("Denominator for percents is the frequency sum.")
 
-Eligible_Applicants_CD %>% 
+Enrolled_Applicants_CD %>% 
 xtabs(~as_factor(Motivation_NeedSANE), addNA = TRUE, data = .) %>% 
   addmargins() %>% 
   as.data.frame() %>% 
   rename(Motivation_NeedSANE = as_factor.Motivation_NeedSANE.) %>% 
-  mutate(Percent = 100*Freq/nrow(Eligible_Applicants_CD),
+  mutate(Percent = 100*Freq/nrow(Enrolled_Applicants_CD),
          Cumulative = if_else(Motivation_NeedSANE == "Sum", 
                               true = 100, 
                               false = cumsum(Percent))) %>% 
@@ -841,18 +841,18 @@ xtabs(~as_factor(Motivation_NeedSANE), addNA = TRUE, data = .) %>%
 
 ```{r}
 #| label: tbl-Motivation-PersonalConn
-#| tbl-cap: Motivation_PersonalConn Frequency Distribution Among Eligible 
+#| tbl-cap: Motivation_PersonalConn Frequency Distribution Among Enrolled 
 #|          Applicants (After Listwise Deletion)
 
 # Footnote text. 
 FN <- paste("Denominator for percents is the frequency sum.")
 
-Eligible_Applicants_CD %>% 
+Enrolled_Applicants_CD %>% 
   xtabs(~as_factor(Motivation_PersonalConn), addNA = TRUE, data = .) %>% 
   addmargins() %>% 
   as.data.frame() %>% 
   rename(Motivation_PersonalConn = as_factor.Motivation_PersonalConn.) %>% 
-  mutate(Percent = 100*Freq/nrow(Eligible_Applicants_CD),
+  mutate(Percent = 100*Freq/nrow(Enrolled_Applicants_CD),
          Cumulative = if_else(Motivation_PersonalConn == "Sum", 
                               true = 100, 
                               false = cumsum(Percent))) %>% 
@@ -865,24 +865,24 @@ Eligible_Applicants_CD %>%
 ```
 
 @tbl-Setting-original shows the frequency distribution for the setting where 
-eligible applicants practice in its original coding. It shows that the Tribal 
+enrolled applicants practice in its original coding. It shows that the Tribal 
 category is too small to model as a separate level, so we need to combine it 
 with another category. 
 
 ```{r}
 #| label: tbl-Setting-original
-#| tbl-cap: Original Practice Setting Frequency Distribution Among Eligible 
+#| tbl-cap: Original Practice Setting Frequency Distribution Among Enrolled 
 #|          Applicants (After Listwise Deletion)
 
 # Footnote text. 
 FN <- paste("Denominator for percents is the frequency sum.")
 
-Eligible_Applicants_CD %>% 
+Enrolled_Applicants_CD %>% 
   xtabs(~as_factor(practicset_dem_num), addNA = TRUE, data = .) %>% 
   addmargins() %>% 
   as.data.frame() %>% 
   rename(practicset_dem_num = as_factor.practicset_dem_num.) %>% 
-  mutate(Percent = 100*Freq/nrow(Eligible_Applicants_CD),
+  mutate(Percent = 100*Freq/nrow(Enrolled_Applicants_CD),
          Cumulative = if_else(practicset_dem_num == "Sum", 
                               true = 100, 
                               false = cumsum(Percent))) %>% 
@@ -901,18 +901,18 @@ in size.
  
 ```{r}
 #| label: tbl-Setting-recoded
-#| tbl-cap: Recoded Practice Setting Frequency Distribution Among Eligible 
+#| tbl-cap: Recoded Practice Setting Frequency Distribution Among Enrolled 
 #|          Applicants (After Listwise Deletion)
 
 # Footnote text. 
 FN <- paste("Denominator for percents is the frequency sum.")
 
-Eligible_Applicants_CD %>% 
+Enrolled_Applicants_CD %>% 
   xtabs(~as_factor(Setting), addNA = TRUE, data = .) %>% 
   addmargins() %>% 
   as.data.frame() %>% 
   rename(Setting = as_factor.Setting.) %>% 
-  mutate(Percent = 100*Freq/nrow(Eligible_Applicants),
+  mutate(Percent = 100*Freq/nrow(Enrolled_Applicants_CD),
          Cumulative = if_else(Setting == "Sum", 
                               true = 100, 
                               false = cumsum(Percent))) %>% 
@@ -950,7 +950,7 @@ A1 [label = "Attrited\nBefore DT\nSR1"]
 A2 [label = "Attrited\nDuring DT\nSR2"]
 A3 [label = "Attrited\nBefore/During CSW\nSR3"]
 
-S1 [label = "Stage 1\nEligible"]
+S1 [label = "Stage 1\nEnrolled"]
 S2 [label = "Stage 2\nStarted DT"]
 S3 [label = "Stage 3\nFinished DT"]
 S4 [label = "Stage 4\nFinished CSW"]
