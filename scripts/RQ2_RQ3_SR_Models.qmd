@@ -1744,6 +1744,90 @@ heterogeneity of variance (@fig-m5-diagnose-2). There are no outliers
 
 \FloatBarrier
 
+## Start and Finish Rates for DT Modules
+@tbl-DT-module-rates and @fig-DT-module-rates show the estimated start and 
+finish rates for each DT module among enrolled applicants who started the 
+didactic training. 
+
+```{r}
+#| label: tbl-DT-module-rates
+#| tbl-cap: Start and Finish Rates By Didactic Training Module Among Enrolled 
+#|          Applicants Who Started the Didactic Training
+
+FN <- paste("Missing data are included in the total used as the rate", 
+            "denominator. Only Yes values are included in the numerator.",
+            "CI, Wilson score confidence interval for a proportion.")
+
+Module_Content <- c("Overview of Forensic Nursing and Sexual Violence",
+                    "Victim Responses and Crisis Intervention",
+                    "Collaborating with Community Agencies",
+                    "Medical-Forensic History Taking",
+                    "Observing and Assessing Physical Examination Findings",
+                    "Medical-Forensic Specimen Collection",
+                    "Medical-Forensic Photography",
+                    "Sexually Transmitted Infection Testing and Prophylaxis",
+                    "Pregnancy Risk Evaluation and Care",
+                    "Medical-Forensic Documentation",
+                    "Discharge and Follow-up Planning",
+                    "Legal Considerations and Judicial Proceedings")
+
+Module_Rates <- dc_summary(data = StartedDT_Applicants, na.rm = FALSE, 
+                          vars = c(paste0("Started_Mod_", 1:12),
+                                   paste0("Finished_Mod_", 1:12))) %>% 
+  mutate(Module = str_remove(string = Variable, pattern = "Started_Mod_"),
+         Module = str_remove(string = Module, pattern = "Finished_Mod_"),
+         Module = factor(Module, levels = 1:12),
+         Content = factor(Module, levels = 1:12, labels = Module_Content),
+         Rate_Type = if_else(str_starts(string = Variable, 
+                                        pattern = "Started_Mod_"),
+                             true = "Start",
+                             false = "Finish"),
+         Rate_Type = factor(Rate_Type, levels = c("Start", "Finish"))) %>% 
+  mutate(Missing = as.character(Missing),
+         No = as.character(No),
+         Yes = as.character(Yes),
+         Total = as.character(Total)) %>% 
+  relocate(Module, Content, Rate_Type) %>% 
+  arrange(Module, Rate_Type) %>% 
+  select(-Variable) 
+
+Module_Rates %>% 
+  kable(format = "latex", booktabs = TRUE, digits = 2, align = "rlrrrrrr",
+        format.args = list(nsmall = 2)) %>% 
+  kable_styling(font_size = 8) %>% 
+  add_header_above(header = c(" " = 3, "Binary Variable (N)" = 4, " ", 
+                              "95% CI" = 2)) %>% 
+  column_spec(column = 2, width = "6cm") %>% 
+  collapse_rows(columns = 1:2, valign = "top", latex_hline = "major",
+                row_group_label_position = "first", headers_to_remove = 0) %>% 
+  footnote(kable_input = ., general = FN, footnote_as_chunk = TRUE, 
+           threeparttable = TRUE)
+```
+
+```{r}
+#| label: fig-DT-module-rates
+#| fig-cap: Start and Finish Rates By Didactic Training Module Among Enrolled 
+#|          Applicants Who Started the Didactic Training, With 95% Confidence 
+#|          Intervals
+#| fig-width: 6
+#| fig-height: 3
+
+Module_Rates %>% 
+  mutate(CI_Label = paste0(sprintf("%.2f", Rate), " [", 
+                      sprintf("%.2f", LL), ", ", 
+                      sprintf("%.2f", UL), "]")) %>% 
+  ggplot(data = ., mapping = aes(y = fct_rev(Module))) + 
+  theme_bw() +
+  coord_cartesian(xlim = c(0.5, 1.01)) +
+  facet_wrap(~ Rate_Type, ncol = 2) + 
+  geom_point(aes(x=Rate), size = 1.5) +
+  geom_linerange(aes(xmin=LL, xmax=UL)) + 
+  geom_text(x = 0.5, aes(label = CI_Label), hjust = 0, cex = 3) +
+  labs(x="Rate", y="Module")
+```
+
+\FloatBarrier
+
 # Conclusions
 
 ## RQ1: What are the attrition rates from the program at each of the four thresholds representing transitions between stages of program participation?
