@@ -1424,6 +1424,19 @@ test_lrt(m1, m4) %>%
   kable_styling()
 ```
 
+::: {.callout-caution}
+While we saw an effect of `Motivation_NeedSANE` in Model 2 when controlling for 
+all the other focal predictors, we no longer see one in Model 4 when it is the 
+sole focal predictor. This is evident in both @tbl-params-m4 and @tbl-lrt-m1-m4.
+That suggests controlling for other focal predictors is important in revealing
+the effect. Comparing the coefficients and odds-ratios for that predictor
+between @tbl-params-m2 and @tbl-params-m4 shows that sign of the effect is
+consistent across models but it is stronger and has a narrower confidence
+interval for the odds-ratio in Model 2 than in Model 4. I think this may be 
+because one or more of the other focal predictors is a confounder or suppressor
+variable. I'm inclined to rely more on Model 2 than Model 4. 
+:::
+
 \FloatBarrier
 
 ### Estimated Marginal Means
