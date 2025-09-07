@@ -432,18 +432,10 @@ substantial bias in the model results. When more than 5% of cases have missing
 data, more sophisticated approaches may be required [@Fernández-García-RN4151],
 but this dataset is far below that threshold.
 
-When answering the part of RQ2 pertaining to specifice training modules, we need 
-to narrow our focus to the subset of `Enrolled_Applicants_CD` containing only 
-enrolled applicants with `Stage_Reached` $\ge 2$ (those who started the didactic 
-training). Thus, below we create that additional dataset and call it 
-`StartedDT_Applicants`. 
-
-```{r}
-#| label: create-StartedDT-Applicants
-
-StartedDT_Applicants <- Enrolled_Applicants_CD %>% 
-  filter(Stage_Reached >= 2)
-```
+We use the `StartedDT_Applicants` dataset to answer the part of RQ2 pertaining 
+to specific training modules because we need to narrow our focus to the subset 
+of `Enrolled_Applicants_CD` containing only enrolled applicants with 
+`Stage_Reached` $\ge 2$ (those who started the didactic training). 
 
 \FloatBarrier
 
