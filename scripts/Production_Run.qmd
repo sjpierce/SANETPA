@@ -195,7 +195,8 @@ quarto_render(input = here::here("scripts/Import_Data.qmd"),
                                     SourceFile = "Import_Data.qmd", 
                                     LogFile = OutFile),
               execute_dir = here::here("scripts"),
-              as_job = "auto")
+              as_job = "auto", 
+              quarto_args = c('--output', OutFile))
 
 # End chunk timer
 chunk.end <- proc.time()
@@ -228,7 +229,8 @@ quarto_render(input = here::here("scripts/Descriptive_Analyses.qmd"),
                                     SourceFile = "Descriptive_Analyses.qmd", 
                                     LogFile = OutFile),
               execute_dir = here::here("scripts"),
-              as_job = "auto")
+              as_job = "auto", 
+              quarto_args = c('--output', OutFile))
 
 # End chunk timer
 chunk.end <- proc.time()
@@ -259,7 +261,8 @@ quarto_render(input = here::here("scripts/RQ1_Analyses.qmd"),
                                     SourceFile = "RQ1_Analyses.qmd", 
                                     LogFile = OutFile),
               execute_dir = here::here("scripts"),
-              as_job = "auto")
+              as_job = "auto", 
+              quarto_args = c('--output', OutFile))
 
 # End chunk timer
 chunk.end <- proc.time()
@@ -290,7 +293,8 @@ quarto_render(input = here::here("scripts/RQ2_RQ3_SR_Models.qmd"),
                                     SourceFile = "RQ2_RQ3_SR_Models.qmd", 
                                     LogFile = OutFile),
               execute_dir = here::here("scripts"),
-              as_job = "auto")
+              as_job = "auto", 
+              quarto_args = c('--output', OutFile))
 
 # End chunk timer
 chunk.end <- proc.time()
