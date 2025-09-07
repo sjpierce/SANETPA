@@ -824,9 +824,9 @@ Model 2 (`m2`) uses parallel effects for the focal predictors. See
 #| label: tbl-params-m2
 #| tbl-cap: "Model 2 Parameters"
 
-m2 <- glm(Attrit ~ Threshold. + CBarrier_FO + CBarrier_WR + CProQOL_BO + 
-            CProQOL_CS + CProQOL_STS + Motivation_NeedSANE. + 
-            Motivation_PersonalConn. + Setting. + 1, 
+m2 <- glm(Attrit ~ Threshold. + Setting. + Motivation_NeedSANE. + 
+            Motivation_PersonalConn. + CBarrier_FO + CBarrier_WR + 
+            CProQOL_BO + CProQOL_CS + CProQOL_STS  + 1, 
           data = Thresholds, family = binomial(link = "logit"))
 
 FN <- paste("Values shown are on the link function (logit) scale.")
@@ -1172,13 +1172,15 @@ review.
 #| label: tbl-params-m3
 #| tbl-cap: "Model 3 Parameters"
 
-m3 <- glm(Attrit ~ Threshold. + CBarrier_FO + CBarrier_WR + CProQOL_BO + 
-            CProQOL_CS + CProQOL_STS + Motivation_NeedSANE. + 
-            Motivation_PersonalConn. + Setting. + Threshold.:CBarrier_FO +
-            Threshold.:CBarrier_WR + Threshold.:CProQOL_BO + 
-            Threshold.:CProQOL_CS + Threshold.:CProQOL_STS + 
+m3 <- glm(Attrit ~ Threshold. + Setting. + Motivation_NeedSANE. + 
+            Motivation_PersonalConn. + CBarrier_FO + CBarrier_WR + 
+            CProQOL_BO + CProQOL_CS + CProQOL_STS  + 
+            Threshold.:Setting. + 
             Threshold.:Motivation_NeedSANE. + 
-            Threshold.:Motivation_PersonalConn. + Threshold.:Setting. + 1, 
+            Threshold.:Motivation_PersonalConn. + 
+            Threshold.:CBarrier_FO + Threshold.:CBarrier_WR + 
+            Threshold.:CProQOL_BO + Threshold.:CProQOL_CS + 
+            Threshold.:CProQOL_STS + 1, 
           data = Thresholds, family = binomial(link = "logit"))
 
 FN <- paste("Values shown are on the link function (logit) scale.")
