@@ -530,11 +530,11 @@ Enrolled_Applicants %>%
 The results above show poor to questionable reliability and that omitting 
 `Train_Goal_Fac_Bar_5R` may increase the reliability by a very small amount. 
 @tbl-Train-Goal-Fac-Bar-5R provides some clues about why that may be happening. 
-The item has a very skewed distribution: almost none of the eligible applicants
+The item has a very skewed distribution: none of the enrolled applicants
 disagreed with the idea that they had enough time in their schedule to focus on
-this course. One concern is that applicants may have perceived this item to be a 
-screening question where *expressing disagreement might prevent them from* 
-*getting into the program*. It may have elicited less honest and accurate 
+this course. One concern is that applicants may have perceived this item to be a
+screening question where *expressing disagreement might prevent them from*
+*getting into the program*. It may have elicited less honest and accurate
 answers than the other two questions, which have more variability, less skew,
 and wording less likely to be seen as a pure screening tool.
 
