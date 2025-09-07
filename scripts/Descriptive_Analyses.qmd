@@ -193,11 +193,21 @@ here::i_am(path = paste0(params$SourceDir, params$SourceFile))
 # Read Data {#sec-Read-Data}
 We start be reading in the datafile, which contains the following datasets:
 
-* `Applicants`. This is a person-level data file containing one row for every 
-  applicant, regardless of eligibility status., 
+* `Applicants`. This is a person-level dataset containing one row for every 
+  applicant, regardless of eligibility status. 
 * `Eligible_Applicants`. This is a person-level file containing one row for 
   every person who both applied and was eligible for the program. It omits 
-   those who were ineligible. 
+  those who were ineligible. 
+* `Enrolled_Applicants`. This is a person-level file containing one row for 
+  every person who was eligible for the program and actually enrolled. It omits 
+  those who were not enrolled.
+* `Enrolled_Applicants_CD`. This is a person-level file containing one row for 
+  every person who was eligible for the program, actually enrolled, and had 
+  complete data on the variables to be used in the stopping-ratio models for 
+  RQ2 and RQ3. It omits those who had incomplete data on those variables.
+* `StartedDT_Applicants`. This is a person-level file containing one row for 
+  every person who was eligible for the program, enrolled, and actually started 
+  the didactic training. 
 * `Thresholds`. This is a person-threshold level file with one row per threshold 
   encountered by each eligible applicant. 
 
@@ -224,16 +234,19 @@ file_details(DataFile) %>%
   kable_styling() 
 ```
 
-
 ```{r}
 #| label: tbl-datasets
 #| tbl-cap: "Sizes of the Datasets"
 
-data.frame(Dataset = c("Applicants", "Eligible_Applicants", "Thresholds"),
+data.frame(Dataset = c("Applicants", "Eligible_Applicants", 
+                       "Enrolled_Applicants", "Enrolled_Applicants_CD", 
+                       "StartedDT_Applicants", "Thresholds"),
            N_Rows = c(nrow(Applicants), nrow(Eligible_Applicants), 
-                      nrow(Thresholds)),
-           N_Cols = c(ncol(Applicants), ncol(Eligible_Applicants), 
-                      ncol(Thresholds))) %>% 
+                      nrow(Enrolled_Applicants), nrow(Enrolled_Applicants_CD), 
+                      nrow(StartedDT_Applicants), nrow(Thresholds)),
+           N_Cols = c(ncol(Applicants), ncol(Eligible_Applicants),
+                      ncol(Enrolled_Applicants), ncol(Enrolled_Applicants_CD), 
+                      ncol(StartedDT_Applicants), ncol(Thresholds))) %>% 
   kable(, format = "latex", booktabs = TRUE, 
         col.names = c("Dataset", "N Rows", "N Columns")) %>% 
   kable_styling() 
@@ -326,12 +339,12 @@ Applicants %>%
 
 \FloatBarrier
 
-# Summaries of Eligible Applicants Data
-`Eligible_Applicants` is the dataset before listwise deletion of applicants with 
-missing data on any variable to be used in the models. It has 
-`r nrow(Eligible_Applicants)` rows. `Eligible_Applicants_CD` is the dataset of 
-eligible applicants with complete data (remaining after listwise deletion). It 
-has `r nrow(Eligible_Applicants_CD)` rows.
+# Summaries of Enrolled Applicants Data
+`Enrolled_Applicants` is the dataset before listwise deletion of applicants with 
+missing data on any variable to be used in the models for RQ2 and RQ3. It has 
+`r nrow(Enrolled_Applicants)` rows. `Enrolled_Applicants_CD` is the dataset of 
+enrolled applicants with complete data (remaining after listwise deletion). It 
+has `r nrow(Enrolled_Applicants_CD)` rows.
 
 \FloatBarrier
 
