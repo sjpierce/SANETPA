@@ -433,7 +433,7 @@ data, more sophisticated approaches may be required [@Fernández-García-RN4151]
 but this dataset is far below that threshold.
 
 We use the `StartedDT_Applicants` dataset 
-($N = `r nrow (StartedDT_Applicants)`$) to answer the part of RQ2 pertaining 
+($N = `r nrow(StartedDT_Applicants)`$) to answer the part of RQ2 pertaining 
 to specific training modules because we need to narrow our focus to the subset 
 of `Enrolled_Applicants_CD` containing only applicants with 
 `Stage_Reached` $\ge 2$ (those who started the didactic training). 
@@ -541,17 +541,16 @@ models to test the effects of focal predictors relevant to RQ3. Therefore it may
 make sense to use EMMs from the model that provides the best answer to RQ3
 rather than the EMMs from Model 1.
 
-We used the a subset of the `StartedDT_Applicants_CD` dataset to examine the 
-proportions of applicants who started and finished each DT module by estimating 
-the means of relevant binary variables (`Started_Mod_*` and `Finished_Mod_*`) to 
-obtain the start and finish rates for modules 1-12. We used Wilson score
-confidence intervals to quantify the uncertainty in those rates
-[@Newcombe-RN2457; @Wilson-RN3223]. 
+We used the `StartedDT_Applicants` dataset to examine the proportions of
+applicants who started and finished each DT module by estimating the means of
+relevant binary variables (`Started_Mod_*` and `Finished_Mod_*`) for modules 
+1-12. We used Wilson score confidence intervals to quantify the uncertainty in 
+those rates [@Newcombe-RN2457; @Wilson-RN3223].
 
 ::: {.callout-caution}
 Missing data for the `Started_Mod_*` and `Finished_Mod_*` variables are 
 currently treated as functionally equivalent to 0 (*No*) in the rate 
-calculations. So, the rate numerator is the number if *Yes* values and the 
+calculations. So, the rate numerator is the number of *Yes* values and the 
 denominator includes all cases (including missing values). 
 :::
 
@@ -1173,13 +1172,12 @@ main effect. Thus, our approach maximizes the chance that we detect any
 unusually nuanced non-parallel effects if they exist. 
 
 ::: {.callout-caution}
-Model 3 is rather ambitious given the sample size we have available. It is
-adding eight interaction effects: that yields many extra parameters. This poses
-some risk for over-fitting the model, but testing for non-parallel effects
-either requires fitting this one model, or fitting a set of eight other models
-where we add only a single non-parallel effect at a time. Fitting this larger
-model is more efficient and reduces the total amount of output we have to
-review.
+Model 3 is ambitious given the available sample size. Adding eight interaction
+effects yields many extra parameters. This poses some risk for over-fitting the
+model, but testing for non-parallel effects either requires fitting this one
+model, or fitting a set of eight other models where we add only a single
+non-parallel effect at a time. Fitting this larger model is more efficient and
+reduces the total amount of output we have to review.
 :::
 
 ```{r}
@@ -1252,8 +1250,9 @@ car::vif(m3) %>%
            threeparttable = TRUE)
 ```
 
-::: {.callout-tip}
-We do not appear to have any multicollinearity problems in Model 3
+::: {.callout-caution}
+We may have mild multicollinearity problems in Model 3, but that is not uncommon 
+when adding interactions. 
 :::
 
 \FloatBarrier
@@ -1420,7 +1419,7 @@ multicollinearity issues. Therefore we skip checking for it here.
 \FloatBarrier
 
 ### Compare Models 1 and 4
-@tbl-lrt-m1-m2 shows a likelihood ratio test (LRT) comparing Models 1 and 4. 
+@tbl-lrt-m1-m4 shows a likelihood ratio test (LRT) comparing Models 1 and 4. 
 
 ```{r}
 #| label: tbl-lrt-m1-m4
