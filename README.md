@@ -122,7 +122,7 @@ package to work.
 
 Install [RStudio
 Desktop](https://posit.co/products/open-source/rstudio/) version
-2025.05.1+513 (or later). We recommend using RStudio to interact with
+2025.09.0+387 (or later). We recommend using RStudio to interact with
 the files for this package. RStudio is both a good interface to R and
 has built-in support for using some of the other software discussed
 below.
@@ -131,7 +131,7 @@ below.
 
 We rely on [Quarto](https://quarto.org) (Allaire et al., 2025) scripts
 to enhance reproducibility because they provide excellent support for
-generating dynamic reports (Mair, 2016). Install Quarto version 1.7.32
+generating dynamic reports (Mair, 2016). Install Quarto version 1.8.24
 or later. Although RStudio bundles a version of Quarto, we want the most
 recent stable release instead. Quarto also includes a copy of
 [Pandoc](https://pandoc.org/).
@@ -641,7 +641,7 @@ entry-spacing="0" line-spacing="2">
 <div id="ref-Allaire-RN8427" class="csl-entry">
 
 Allaire, J. J., Dervieux, C., Scheidegger, C., Teague, C., & Xie, Y.
-(2025). *Quarto* (Version 1.7.32) \[Computer Program\]. Posit Software,
+(2025). *Quarto* (Version 1.8.24) \[Computer Program\]. Posit Software,
 PBC. <https://quarto.org>
 
 </div>
@@ -709,7 +709,7 @@ J. A. (2016). Ten simple rules for taking advantage of Git and GitHub.
 
 Pierce, S. J. (2025). *SANETPA: Research compendium for a study of
 sexual assault nurse examiner training program attrition* (Version
-0.16.0) \[Reproducible Research Materials and Computer Program, R
+0.17.0) \[Reproducible Research Materials and Computer Program, R
 package, Private Repository Until Release\]. GitHub.
 <https://github.com/sjpierce/SANETPA>
 
@@ -726,7 +726,7 @@ Foundation for Statistical Computing. <http://www.R-project.org>
 <div id="ref-RStudio-Team-RN8351" class="csl-entry">
 
 RStudio Team. (2025). *RStudio Desktop: Integrated development
-environment for R* (Version 2025.05.1+513) \[Computer Program\]. Posit
+environment for R* (Version 2025.09.0+387) \[Computer Program\]. Posit
 Software, PBC. <https://posit.co>
 
 </div>
