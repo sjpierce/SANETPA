@@ -85,7 +85,7 @@ format:
           \posttitle{\end{center}}
           \pagestyle{fancy}
           \lhead{SANETPA RQ2 and RQ3 SR Models}
-          \chead{\includegraphics[height=0.85cm]{../graphics/Combomark-Horiz_Pantone-567.eps}}
+          \chead{\includegraphics[height=0.85cm]{../graphics/Combomark-Horiz_Pantone-567.pdf}}
           \rhead{\today\ \currenttime}
           \cfoot{ }
           \fancyfoot[R]{\thepage\ of \pageref*{LastPage}}
