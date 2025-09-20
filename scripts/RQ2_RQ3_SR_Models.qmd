@@ -541,7 +541,8 @@ predictor. However, we can get a more nuanced answer to RQ2 by examining EMMs
 extracted from a model that adjusts for covariates. We already plan to fit such
 models to test the effects of focal predictors relevant to RQ3. Therefore it may
 make sense to use EMMs from the model that provides the best answer to RQ3
-rather than the EMMs from Model 1.
+rather than the EMMs from Model 1. Effect sizes are quantified by both
+odds-ratios and risk differences (absolute difference between attrition rates).
 
 We used the `StartedDT_Applicants` dataset to examine the proportions of
 applicants who started and finished each DT module by estimating the means of
@@ -583,8 +584,9 @@ whether it had a non-parallel effect.
 
 We examined model diagnostics and fit statistics, model comparisons via 
 likelihood ratio tests, single-term deletion tests based on Type II sums of 
-squares, and other supplementary output. Effect sizes are quantified by 
-odds-ratios and EMMs for the attrition rates reported on a probability scale. 
+squares, and other supplementary output. Effect sizes are quantified by both 
+odds-ratios and risk differences (absolute difference between attrition rates). 
+EMMs for the attrition rates reported on a probability scale. 
 
 ## Modeling Software
 We used the base R [@R-Devel-Core-RN8182] function `glm()` to fit the models
@@ -594,8 +596,8 @@ package [@Robinson-RN8669] facilitated extracting model parameters, odds-ratios,
 and associated confidence intervals, while the `performance` package 
 [@Lüdecke-RN8788] extracted model fit statistics. The `DHARMa` [@Hartig-RN8668] 
 and `car` [@Fox-RN8789] packages provided tools for examining model diagnostics
-(see next section) and the `emmeans` package [@Lenth-RN8188] computed estimated
-marginal means that represent attrition rates.
+(see next section) and the `marginaleffects` package [@Arel-Bundock-RN8812] 
+computed estimated marginal means that represent attrition rates.
 
 \FloatBarrier
 
@@ -734,7 +736,8 @@ threshold and back-transform them to the response (probability) scale to see the
 attrition rate at each threshold. We expect these rates to agree with the simple
 descriptive statistics for percent attrition at each threshold because threshold
 is the sole predictor in Model 1. @tbl-emmeans-m1 and  @fig-emmeans-m1 show the 
-EMMs derived from Model 1.
+EMMs derived from Model 1, while @tbl-emmc-m1 shows the pairwise risk 
+differences between attrition rates at different thresholds. 
 
 ```{r}
 #| label: tbl-emmeans-m1
@@ -747,9 +750,9 @@ TLabels1 = c("T1 Before DT",
              "T2 During DT",
              "T3 Before/During CSW")
 
-emmeans(m1, specs = ~ Threshold., regrid = "response") %>% 
+avg_predictions(m1, variables = "Threshold.") %>% 
   as_tibble() %>% 
-  select(!df) %>% 
+  select(Threshold., estimate, std.error, conf.low, conf.high) %>% 
   mutate(Threshold. = factor(Threshold., labels = TLabels1)) %>% 
   kable(format = "latex", booktabs = TRUE, 
         digits = c(0, 3, 3, 3, 3),
@@ -769,17 +772,44 @@ emmeans(m1, specs = ~ Threshold., regrid = "response") %>%
 #| fig-height: 2.5
 
 TLabels2 = c("T1 Before DT", 
-            "T2 During DT",
-            "T3 Before/\nDuring CSW")
+             "T2 During DT",
+             "T3 Before/\nDuring CSW")
 
-emmeans(m1, specs = ~ Threshold., regrid = "response") %>% 
-  plot(horizontal = FALSE) +
-  xlab("Attrition Rate") + 
-  ylab("Threshold") + 
-  scale_x_continuous(lim = c(0.00, 0.50), 
+avg_predictions(m1, variables = c("Threshold.")) %>% 
+  as_tibble() %>% 
+  select(Threshold., estimate, conf.low, conf.high) %>% 
+  mutate(Threshold. = factor(Threshold., labels = TLabels2)) %>% 
+  ggplot(data = ., mapping = aes(x = Threshold., y = estimate)) + 
+  geom_errorbar(aes(ymin = conf.low, ymax = conf.high), width = .1) + 
+  geom_point(size = 2) + 
+  ylab("Attrition Rate") + 
+  xlab("Threshold") + 
+  scale_y_continuous(lim = c(0.00, 0.50), 
                      labels = label_number(accuracy = 0.01)) +
-  scale_y_discrete(labels = TLabels2) + 
   theme_bw()
+```
+
+```{r}
+#| label: tbl-emmc-m1
+#| tbl-cap: Model 1 Pairwise Comparisons of Conditional Attrition Rates for the 
+#|          Threshold Main Effect
+
+FN <- paste("Values are on the probability scale.",
+            "RD, risk difference between conditional attrition rates.")
+
+avg_comparisons(m1, variables = list(Threshold. = "pairwise"), 
+                comparison = "difference") %>% 
+  as_tibble() %>% 
+  rename(Contrast = contrast, RD = estimate, SE = std.error, z = statistic, 
+         p = p.value, LL = conf.low, UL = conf.high) %>% 
+  select(Contrast, RD, SE, LL, UL, z, p) %>% 
+  mutate(p = display_num(p)) %>% 
+  kable(format = "latex", booktabs = TRUE, 
+        digits = 3) %>% 
+  kable_styling() %>% 
+  add_header_above(header = c(" " = 3, "95% CI" = 2, "Wald Test" = 2)) %>% 
+  footnote(kable_input = ., general = FN, footnote_as_chunk = TRUE, 
+           threeparttable = TRUE)
 ```
 
 \FloatBarrier
@@ -970,24 +1000,26 @@ Next we compute estimated marginal means (EMMs) for each threshold and
 back-transform them to the response (probability) scale to see the attrition 
 rate at each threshold. @tbl-emmeans-m2-Threshold and @fig-emmeans-m2-Threshold 
 show the EMMs derived from Model 2 for each threshold, while 
-@tbl-emmeans-m2-NeedSANE and @fig-emmeans-m2-NeedSANE show the EMMs for each 
-level of `Motivation_NeedSANE`. @tbl-emmeans-m2-Both and @fig-emmeans-m2-Both 
-show the combined result of the two main effects while averaging over the
-results of all other predictors.
+@tbl-emmc-m2-Threshold shows the pairwise contrasts estimating the risk 
+differences between those EMMs. @tbl-emmeans-m2-NeedSANE and 
+@fig-emmeans-m2-NeedSANE show the EMMs for each level of `Motivation_NeedSANE`, 
+while @tbl-emmc-m2-NeedSANE shows the contrast estimating the risk difference 
+between them. @tbl-emmeans-m2-Both and @fig-emmeans-m2-Both show the combined 
+result of the two main effects while averaging over the results of all other 
+predictors. @tbl-emmc-m2-Both shows the contrast of `Motivation_NeedSANE` 
+separately by threshold. 
 
 ```{r}
 #| label: tbl-emmeans-m2-Threshold
 #| tbl-cap: Model 2 Conditional Attrition Rate by Threshold (Main Effect)
 
-FN <- paste("Values are on the probability scale.", 
-            "Results are averaged over the levels of all other categorical", 
-            "predictors and assume values at the mean on continuous focal", 
-            "predictors.",
+FN <- paste("Results are averaged over the levels of all other predictors.",
+            "Values are on the probability scale.", 
             "EMM, estimated marginal mean.")
 
-emmeans(m2, specs = ~ Threshold., regrid = "response") %>% 
+avg_predictions(m2, variables = "Threshold.") %>% 
   as_tibble() %>% 
-  select(!df) %>% 
+  select(Threshold., estimate, std.error, conf.low, conf.high) %>% 
   mutate(Threshold. = factor(Threshold., labels = TLabels1)) %>% 
   kable(format = "latex", booktabs = TRUE, 
         digits = c(0, 3, 3, 3, 3),
@@ -1006,14 +1038,42 @@ emmeans(m2, specs = ~ Threshold., regrid = "response") %>%
 #| fig-width: 4
 #| fig-height: 2.5
 
-emmeans(m2, specs = ~ Threshold., regrid = "response") %>% 
-  plot(horizontal = FALSE) +
-  xlab("Attrition Rate") + 
-  ylab("Threshold") + 
-  scale_x_continuous(lim = c(0.00, 0.50), 
-                     labels = label_number(accuracy = 0.01))  +
-  scale_y_discrete(labels = TLabels2) + 
+avg_predictions(m2, variables = c("Threshold.")) %>% 
+  as_tibble() %>% 
+  select(Threshold., estimate, conf.low, conf.high) %>% 
+  mutate(Threshold. = factor(Threshold., labels = TLabels2)) %>% 
+  ggplot(data = ., mapping = aes(x = Threshold., y = estimate)) + 
+  geom_errorbar(aes(ymin = conf.low, ymax = conf.high), width = .1) + 
+  geom_point(size = 2) + 
+  ylab("Attrition Rate") + 
+  xlab("Threshold") + 
+  scale_y_continuous(lim = c(0.00, 0.50), 
+                     labels = label_number(accuracy = 0.01)) +
   theme_bw()
+```
+
+```{r}
+#| label: tbl-emmc-m2-Threshold
+#| tbl-cap: Model 2 Pairwise Comparisons of Conditional Attrition Rates for the 
+#|          Threshold Main Effect
+
+FN <- paste("Results are averaged over the levels of all other predictors.",
+            "Values are on the probability scale.",
+            "RD, risk difference between conditional attrition rates.")
+
+avg_comparisons(m2, variables = list(Threshold. = "pairwise"), 
+                comparison = "difference") %>% 
+  as_tibble() %>% 
+  rename(Contrast = contrast, RD = estimate, SE = std.error, z = statistic, 
+         p = p.value, LL = conf.low, UL = conf.high) %>% 
+  select(Contrast, RD, SE, LL, UL, z, p) %>% 
+  mutate(p = display_num(p)) %>% 
+  kable(format = "latex", booktabs = TRUE, 
+        digits = 3) %>% 
+  kable_styling() %>% 
+  add_header_above(header = c(" " = 3, "95% CI" = 2, "Wald Test" = 2)) %>% 
+  footnote(kable_input = ., general = FN, footnote_as_chunk = TRUE, 
+           threeparttable = TRUE)
 ```
 
 ```{r}
@@ -1022,18 +1082,16 @@ emmeans(m2, specs = ~ Threshold., regrid = "response") %>%
 #|          Effect)
 
 FN <- paste("Motivation_NeedSANE has a parallel effect on attrition.",
+            "Results are averaged over the levels of all other predictors.",
             "Values are on the probability scale.",
-            "Results are averaged over the levels of all other categorical", 
-            "predictors and assume values at the mean on continuous focal", 
-            "predictors.",
             "EMM, estimated marginal mean.")
 
-emmeans(m2, specs = ~ Motivation_NeedSANE., regrid = "response") %>% 
+avg_predictions(m2, variables = "Motivation_NeedSANE.") %>% 
   as_tibble() %>% 
-  select(!df) %>% 
+  select(Motivation_NeedSANE., estimate, std.error, conf.low, conf.high) %>% 
   kable(format = "latex", booktabs = TRUE, 
         digits = c(0, 3, 3, 3, 3),
-        col.names = c("Motivation_NeedSANE.", "Rate (EMM)", "SE", "LL", "UL")) %>% 
+        col.names = c("Motivation_NeedSANE", "Rate (EMM)", "SE", "LL", "UL")) %>% 
   kable_styling() %>% 
   add_header_above(header = c(" " = 3, "95% Wald CI" = 2)) %>% 
   footnote(kable_input = ., general = FN, footnote_as_chunk = TRUE, 
@@ -1045,16 +1103,44 @@ emmeans(m2, specs = ~ Motivation_NeedSANE., regrid = "response") %>%
 #| fig-cap: Model 2 Conditional Attrition Rate by Motivation_NeedSANE (Parallel 
 #|          Main Effect Averaged Over All Other Predictors), With 95% Confidence 
 #|          Intervals
-#| fig-width: 2
+#| fig-width: 2.2
 #| fig-height: 2.5
 
-emmeans(m2, specs = ~ Motivation_NeedSANE., regrid = "response") %>% 
-  plot(horizontal = FALSE) +
-  xlab("Attrition Rate") + 
-  ylab("Motivation_NeedSANE") + 
-  scale_x_continuous(lim = c(0.00, 0.50), 
-                     labels = label_number(accuracy = 0.01)) + 
+avg_predictions(m2, variables = c("Motivation_NeedSANE.")) %>% 
+  as_tibble() %>% 
+  select(Motivation_NeedSANE., estimate, conf.low, conf.high) %>% 
+  ggplot(data = ., mapping = aes(x = Motivation_NeedSANE., y = estimate)) + 
+  geom_errorbar(aes(ymin = conf.low, ymax = conf.high), width = .1) + 
+  geom_point(size = 2) + 
+  ylab("Attrition Rate") + 
+  xlab("Motivation: Need SANE") + 
+  scale_y_continuous(lim = c(0.00, 0.50), 
+                     labels = label_number(accuracy = 0.01)) +
   theme_bw()
+```
+
+```{r}
+#| label: tbl-emmc-m2-NeedSANE
+#| tbl-cap: Model 2 Pairwise Comparisons of Conditional Attrition Rates for   
+#|          Motivation_NeedSANE Main Effect
+
+FN <- paste("Values and confidence limits are on the probability scale.",
+            "Results are averaged over the levels of all other predictors.",
+            "RD, risk difference between conditional attrition rates.")
+
+avg_comparisons(m2, variables = list(Motivation_NeedSANE. = "pairwise"), 
+                comparison = "difference") %>% 
+  as_tibble() %>% 
+  rename(Contrast = contrast, RD = estimate, SE = std.error, z = statistic, 
+         p = p.value, LL = conf.low, UL = conf.high) %>% 
+  select(Contrast, RD, SE, LL, UL, z, p) %>% 
+  mutate(p = display_num(p)) %>% 
+  kable(format = "latex", booktabs = TRUE, 
+        digits = 3) %>% 
+  kable_styling() %>% 
+  add_header_above(header = c(" " = 3, "95% CI" = 2, "Wald Test" = 2)) %>% 
+  footnote(kable_input = ., general = FN, footnote_as_chunk = TRUE, 
+           threeparttable = TRUE)
 ```
 
 ```{r}
@@ -1063,21 +1149,18 @@ emmeans(m2, specs = ~ Motivation_NeedSANE., regrid = "response") %>%
 #|          Motivation_NeedSANE (Main Effects)
 
 FN <- paste("Motivation_NeedSANE has a parallel effect on attrition.",
-            "Results are averaged over the levels of all other categorical", 
-            "predictors and assume values at the mean on continuous focal", 
-            "predictors.",
+            "Results are averaged over the levels of all other predictors.",
             "Values are on the probability scale.", 
             "CSW, clinical skills workshop; DT, didactic training;",
             "EMM, estimated marginal mean.")
 
-emmeans(m2, specs = ~ Threshold. | Motivation_NeedSANE., regrid = "response") %>% 
+avg_predictions(m2, variables = c("Threshold.", "Motivation_NeedSANE.")) %>% 
   as_tibble() %>% 
-  arrange(Threshold., Motivation_NeedSANE.) %>% 
-  select(!df) %>% 
+  select(Threshold., Motivation_NeedSANE., estimate, std.error, conf.low, conf.high) %>% 
   mutate(Threshold. = factor(Threshold., labels = TLabels1)) %>% 
   kable(format = "latex", booktabs = TRUE, 
         digits = c(0, 0, 3, 3, 3, 3),
-        col.names = c("Threshold", "Motivation_NeedSANE.", "Rate (EMM)", "SE", 
+        col.names = c("Threshold", "Motivation_NeedSANE", "Rate (EMM)", "SE", 
                       "LL", "UL")) %>% 
   kable_styling() %>% 
   add_header_above(header = c(" " = 4, "95% Wald CI" = 2)) %>% 
@@ -1101,14 +1184,44 @@ FLabels = c("1" = "Threshold T1\nBefore DT",
             "2" = "Threshold T2\nDuring DT",
             "3" = "Threshold T3\nBefore/During CSW")
 
-emmeans(m2, specs = ~ Motivation_NeedSANE. | Threshold., regrid = "response") %>% 
-  plot(horizontal = FALSE) +
+avg_predictions(m2, variables = c("Threshold.", "Motivation_NeedSANE.")) %>% 
+  as_tibble() %>% 
+  select(Threshold., Motivation_NeedSANE., estimate, conf.low, conf.high) %>% 
+  ggplot(data = ., mapping = aes(x = Motivation_NeedSANE., y = estimate)) + 
   facet_grid(cols = vars(Threshold.), labeller = labeller(Threshold. = FLabels)) +
-  xlab("Attrition Rate") + 
-  ylab("Motivation_NeedSANE") + 
-  scale_x_continuous(lim = c(0.00, 0.50), 
-                     labels = label_number(accuracy = 0.01)) + 
+  geom_errorbar(aes(ymin = conf.low, ymax = conf.high), width = .1) + 
+  geom_point(size = 2) + 
+  ylab("Attrition Rate") + 
+  xlab("Motivation: Need SANE") + 
+  scale_y_continuous(lim = c(0.00, 0.50), 
+                     labels = label_number(accuracy = 0.01)) +
   theme_bw()
+```
+
+```{r}
+#| label: tbl-emmc-m2-Both
+#| tbl-cap: Model 2 Pairwise Comparisons of Conditional Attrition Rates for   
+#|          Simple Effect of Motivation_NeedSANE at Each Threshold
+
+FN <- paste("Motivation_NeedSANE has a parallel effect on attrition.",
+            "Results are averaged over the levels of all other predictors.", 
+            "Values are on the probability scale.",
+            "RD, risk difference between conditional attrition rates.")
+
+avg_comparisons(m2, variables = list(Motivation_NeedSANE. = "pairwise"), 
+                comparison = "difference", by = "Threshold.") %>% 
+  as_tibble() %>% 
+  rename(Contrast = contrast, RD = estimate, SE = std.error, z = statistic, 
+         p = p.value, LL = conf.low, UL = conf.high) %>% 
+  select(Threshold., Contrast, , RD, SE, LL, UL, z, p) %>% 
+  mutate(Threshold = factor(Threshold., labels = TLabels1)) %>% 
+  select(Threshold, Contrast, RD, SE, LL, UL, z, p) %>% 
+  mutate(p = display_num(p)) %>% 
+  kable(format = "latex", booktabs = TRUE, digits = 3) %>% 
+  kable_styling() %>% 
+  add_header_above(header = c(" " = 4, "95% CI" = 2, "Wald Test" = 2)) %>% 
+  footnote(kable_input = ., general = FN, footnote_as_chunk = TRUE, 
+           threeparttable = TRUE)
 ```
 
 \FloatBarrier
@@ -1458,25 +1571,27 @@ variable. I'm inclined to rely more on Model 2 than Model 4.
 \FloatBarrier
 
 ### Estimated Marginal Means
-Next we compute estimated marginal means (EMMs) for each threshold and 
-back-transform them to the response (probability) scale to see the attrition 
-rate at each threshold. @tbl-emmeans-m4-Threshold and @fig-emmeans-m4-Threshold 
-show the EMMs derived from Model 4 for each threshold, while 
+@tbl-emmeans-m4-Threshold and @fig-emmeans-m4-Threshold show the EMMs derived 
+from Model 4 for each threshold, while @tbl-emmc-m4-Threshold shows the pairwise 
+contrasts estimating the risk differences between those EMMs. 
 @tbl-emmeans-m4-NeedSANE and @fig-emmeans-m4-NeedSANE show the EMMs for each 
-level of `Motivation_NeedSANE`. @tbl-emmeans-m4-Both and @fig-emmeans-m4-Both 
-show the combined result of the two main effects .
+level of `Motivation_NeedSANE`, while @tbl-emmc-m4-NeedSANE shows the contrast 
+estimating the risk difference between them. @tbl-emmeans-m4-Both and 
+@fig-emmeans-m4-Both show the combined result of the two main effects while 
+averaging over the results of all other predictors. @tbl-emmc-m4-Both shows the 
+contrast of `Motivation_NeedSANE` separately by threshold. 
 
 ```{r}
 #| label: tbl-emmeans-m4-Threshold
 #| tbl-cap: Model 4 Conditional Attrition Rate by Threshold (Main Effect)
 
-FN <- paste("Values are on the probability scale.", 
-            "Results are averaged over the levels of Motivation_NeedSANE.",
+FN <- paste("Results are averaged over the levels of Motivation_NeedSANE.",
+            "Values are on the probability scale.", 
             "EMM, estimated marginal mean.")
 
-emmeans(m4, specs = ~ Threshold., regrid = "response") %>% 
+avg_predictions(m4, variables = "Threshold.") %>% 
   as_tibble() %>% 
-  select(!df) %>% 
+  select(Threshold., estimate, std.error, conf.low, conf.high) %>% 
   mutate(Threshold. = factor(Threshold., labels = TLabels1)) %>% 
   kable(format = "latex", booktabs = TRUE, 
         digits = c(0, 3, 3, 3, 3),
@@ -1495,14 +1610,41 @@ emmeans(m4, specs = ~ Threshold., regrid = "response") %>%
 #| fig-width: 4
 #| fig-height: 2.5
 
-emmeans(m4, specs = ~ Threshold., regrid = "response") %>% 
-  plot(horizontal = FALSE) +
-  xlab("Attrition Rate") + 
-  ylab("Threshold") + 
-  scale_x_continuous(lim = c(0.00, 0.50), 
+avg_predictions(m4, variables = c("Threshold.")) %>% 
+  as_tibble() %>% 
+  select(Threshold., estimate, conf.low, conf.high) %>% 
+  mutate(Threshold. = factor(Threshold., labels = TLabels2)) %>% 
+  ggplot(data = ., mapping = aes(x = Threshold., y = estimate)) + 
+  geom_errorbar(aes(ymin = conf.low, ymax = conf.high), width = .1) + 
+  geom_point(size = 2) + 
+  ylab("Attrition Rate") + 
+  xlab("Threshold") + 
+  scale_y_continuous(lim = c(0.00, 0.50), 
                      labels = label_number(accuracy = 0.01)) +
-  scale_y_discrete(labels = TLabels2) + 
   theme_bw()
+```
+
+```{r}
+#| label: tbl-emmc-m4-Threshold
+#| tbl-cap: Model 4 Pairwise Comparisons of Conditional Attrition Rates for the 
+#|          Threshold Main Effect
+
+FN <- paste("Results are averaged over the levels of Motivation_NeedSANE.",
+            "Values are on the probability scale.",
+            "RD, risk difference between conditional attrition rates.")
+
+avg_comparisons(m4, variables = list(Threshold. = "pairwise"), 
+                comparison = "difference") %>% 
+  as_tibble() %>% 
+  rename(Contrast = contrast, RD = estimate, SE = std.error, z = statistic, 
+         p = p.value, LL = conf.low, UL = conf.high) %>% 
+  select(Contrast, RD, SE, LL, UL, z, p) %>% 
+  mutate(p = display_num(p)) %>% 
+  kable(format = "latex", booktabs = TRUE, digits = 3) %>% 
+  kable_styling() %>% 
+  add_header_above(header = c(" " = 3, "95% CI" = 2, "Wald Test" = 2)) %>% 
+  footnote(kable_input = ., general = FN, footnote_as_chunk = TRUE, 
+           threeparttable = TRUE)
 ```
 
 ```{r}
@@ -1511,16 +1653,16 @@ emmeans(m4, specs = ~ Threshold., regrid = "response") %>%
 #|          Effect)
 
 FN <- paste("Motivation_NeedSANE has a parallel effect on attrition.",
-            "Values are on the probability scale.",
             "Results are averaged over the levels of Threshold.",
+            "Values are on the probability scale.",
             "EMM, estimated marginal mean.")
 
-emmeans(m4, specs = ~ Motivation_NeedSANE., regrid = "response") %>% 
+avg_predictions(m4, variables = "Motivation_NeedSANE.") %>% 
   as_tibble() %>% 
-  select(!df) %>% 
+  select(Motivation_NeedSANE., estimate, std.error, conf.low, conf.high) %>% 
   kable(format = "latex", booktabs = TRUE, 
         digits = c(0, 3, 3, 3, 3),
-        col.names = c("Motivation_NeedSANE.", "Rate (EMM)", "SE", "LL", "UL")) %>% 
+        col.names = c("Motivation_NeedSANE", "Rate (EMM)", "SE", "LL", "UL")) %>% 
   kable_styling() %>% 
   add_header_above(header = c(" " = 3, "95% Wald CI" = 2)) %>% 
   footnote(kable_input = ., general = FN, footnote_as_chunk = TRUE, 
@@ -1532,16 +1674,43 @@ emmeans(m4, specs = ~ Motivation_NeedSANE., regrid = "response") %>%
 #| fig-cap: Model 4 Conditional Attrition Rate by Motivation_NeedSANE (Parallel 
 #|          Main Effect Averaged Over Threshold), With 95% Confidence 
 #|          Intervals
-#| fig-width: 2
+#| fig-width: 2.2
 #| fig-height: 2.5
 
-emmeans(m4, specs = ~ Motivation_NeedSANE., regrid = "response") %>% 
-  plot(horizontal = FALSE) +
-  xlab("Attrition Rate") + 
-  ylab("Motivation_NeedSANE") + 
-  scale_x_continuous(lim = c(0.00, 0.50), 
+avg_predictions(m4, variables = c("Motivation_NeedSANE.")) %>% 
+  as_tibble() %>% 
+  select(Motivation_NeedSANE., estimate, conf.low, conf.high) %>% 
+  ggplot(data = ., mapping = aes(x = Motivation_NeedSANE., y = estimate)) + 
+  geom_errorbar(aes(ymin = conf.low, ymax = conf.high), width = .1) + 
+  geom_point(size = 2) + 
+  ylab("Attrition Rate") + 
+  xlab("Motivation: Need SANE") + 
+  scale_y_continuous(lim = c(0.00, 0.50), 
                      labels = label_number(accuracy = 0.01)) +
   theme_bw()
+```
+
+```{r}
+#| label: tbl-emmc-m4-NeedSANE
+#| tbl-cap: Model 4 Pairwise Comparisons of Conditional Attrition Rates for   
+#|          Motivation_NeedSANE Main Effect
+
+FN <- paste("Results are averaged over the levels of Threshold.", 
+            "Values are on the probability scale.",
+            "RD, risk difference between conditional attrition rates.")
+
+avg_comparisons(m4, variables = list(Motivation_NeedSANE. = "pairwise"), 
+                comparison = "difference") %>% 
+  as_tibble() %>% 
+  rename(Contrast = contrast, RD = estimate, SE = std.error, z = statistic, 
+         p = p.value, LL = conf.low, UL = conf.high) %>% 
+  select(Contrast, RD, SE, LL, UL, z, p) %>% 
+  mutate(p = display_num(p)) %>% 
+  kable(format = "latex", booktabs = TRUE, digits = 3) %>% 
+  kable_styling() %>% 
+  add_header_above(header = c(" " = 3, "95% CI" = 2, "Wald Test" = 2)) %>% 
+  footnote(kable_input = ., general = FN, footnote_as_chunk = TRUE, 
+           threeparttable = TRUE)
 ```
 
 ```{r}
@@ -1554,14 +1723,13 @@ FN <- paste("Motivation_NeedSANE has a parallel effect on attrition.",
             "CSW, clinical skills workshop; DT, didactic training;",
             "EMM, estimated marginal mean.")
 
-emmeans(m4, specs = ~ Threshold. | Motivation_NeedSANE., regrid = "response") %>% 
+avg_predictions(m4, variables = c("Threshold.", "Motivation_NeedSANE.")) %>% 
   as_tibble() %>% 
-  arrange(Threshold., Motivation_NeedSANE.) %>% 
-  select(!df) %>% 
+  select(Threshold., Motivation_NeedSANE., estimate, std.error, conf.low, conf.high) %>% 
   mutate(Threshold. = factor(Threshold., labels = TLabels1)) %>% 
   kable(format = "latex", booktabs = TRUE, 
         digits = c(0, 0, 3, 3, 3, 3),
-        col.names = c("Threshold", "Motivation_NeedSANE.", "Rate (EMM)", "SE", 
+        col.names = c("Threshold", "Motivation_NeedSANE", "Rate (EMM)", "SE", 
                       "LL", "UL")) %>% 
   kable_styling() %>% 
   add_header_above(header = c(" " = 4, "95% Wald CI" = 2)) %>% 
@@ -1580,14 +1748,44 @@ emmeans(m4, specs = ~ Threshold. | Motivation_NeedSANE., regrid = "response") %>
 #| fig-width: 4.5
 #| fig-height: 2.5
 
-emmeans(m4, specs = ~ Motivation_NeedSANE. | Threshold., regrid = "response") %>% 
-  plot(horizontal = FALSE) +
+avg_predictions(m4, variables = c("Threshold.", "Motivation_NeedSANE.")) %>% 
+  as_tibble() %>% 
+  select(Threshold., Motivation_NeedSANE., estimate, conf.low, conf.high) %>% 
+  ggplot(data = ., mapping = aes(x = Motivation_NeedSANE., y = estimate)) + 
   facet_grid(cols = vars(Threshold.), labeller = labeller(Threshold. = FLabels)) +
-  xlab("Attrition Rate") + 
-  ylab("Motivation_NeedSANE") + 
-  scale_x_continuous(lim = c(0.00, 0.50), 
+  geom_errorbar(aes(ymin = conf.low, ymax = conf.high), width = .1) + 
+  geom_point(size = 2) + 
+  ylab("Attrition Rate") + 
+  xlab("Motivation: Need SANE") + 
+  scale_y_continuous(lim = c(0.00, 0.50), 
                      labels = label_number(accuracy = 0.01)) +
   theme_bw()
+```
+
+```{r}
+#| label: tbl-emmc-m4-Both
+#| tbl-cap: Model 4 Pairwise Comparisons of Conditional Attrition Rates for   
+#|          Simple Effect of Motivation_NeedSANE at Each Threshold
+
+FN <- paste("Motivation_NeedSANE has a parallel effect on attrition.",
+            "Results are averaged over the levels of all other predictors.", 
+            "Values are on the probability scale.",
+            "RD, risk difference between conditional attrition rates.")
+
+avg_comparisons(m4, variables = list(Motivation_NeedSANE. = "pairwise"), 
+                comparison = "difference", by = "Threshold.") %>% 
+  as_tibble() %>% 
+  rename(Contrast = contrast, RD = estimate, SE = std.error, z = statistic, 
+         p = p.value, LL = conf.low, UL = conf.high) %>% 
+  select(Threshold., Contrast, , RD, SE, LL, UL, z, p) %>% 
+  mutate(Threshold = factor(Threshold., labels = TLabels1)) %>% 
+  select(Threshold, Contrast, RD, SE, LL, UL, z, p) %>% 
+  mutate(p = display_num(p)) %>% 
+  kable(format = "latex", booktabs = TRUE, digits = 3) %>% 
+  kable_styling() %>% 
+  add_header_above(header = c(" " = 4, "95% CI" = 2, "Wald Test" = 2)) %>% 
+  footnote(kable_input = ., general = FN, footnote_as_chunk = TRUE, 
+           threeparttable = TRUE)
 ```
 
 \FloatBarrier
