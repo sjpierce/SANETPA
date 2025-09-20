@@ -194,28 +194,30 @@ work.
 
 ```{r}
 #| label: load-packages
-library(here)           # for here(), i_am(), makes code more portable.
-library(devtools)       # for session_info()
-library(rmarkdown)      # for pandoc_version()
-library(knitr)          # for kable()
-library(dplyr)          # for %>%, filter(), group_by(), mutate(), rename(), etc.
-library(tidyverse)      # for map_dfr(), map_chr(), rowid_to_column(), 
-                        # rownames_to_column()
+
+library(here)            # for here(), i_am(), makes code more portable.
+library(devtools)        # for session_info()
+library(rmarkdown)       # for pandoc_version()
+library(knitr)           # for kable()
+library(dplyr)           # for %>%, filter(), group_by(), mutate(), rename(), etc.
+library(tidyverse)       # for map_dfr(), map_chr(), rowid_to_column(), 
+                         # rownames_to_column()
 options(kableExtra.latex.load_packages = FALSE)
-library(kableExtra)     # for kable_styling(), add_header_above(), 
-                        # column_spec(), row_spec() etc. 
-library(kableExtra)     # for add_header_above(), footnote(), kable_styling()
-library(broom)          # for glance(), tidy()
-library(car)            # for vif()
-library(DHARMa)         # for plotQQunif(), plotResiduals(), simulateResiduals(), 
-                        # testDispersion()
-library(emmeans)        # for emmeans()
-library(performance)    # for model_performance(), r2()
-library(scales)         # for label_number()
-library(piercer)        # for brier(), display_num(), file_details(), 
-                        # git_report(), R2Dev()
-library(quarto)         # for quarto_version()
-library(SANETPA)        # for version info 
+library(kableExtra)      # for kable_styling(), add_header_above(), 
+                         # column_spec(), row_spec() etc. 
+library(kableExtra)      # for add_header_above(), footnote(), kable_styling()
+library(broom)           # for glance(), tidy()
+library(car)             # for vif()
+library(DHARMa)          # for plotQQunif(), plotResiduals(), simulateResiduals(), 
+                         # testDispersion()
+library(marginaleffects) # for avg_comparisons(), avg_predictions(), 
+                         # plot_predictions()
+library(performance)     # for model_performance(), r2()
+library(scales)          # for label_number()
+library(piercer)         # for brier(), display_num(), file_details(), 
+                         # git_report(), R2Dev()
+library(quarto)          # for quarto_version()
+library(SANETPA)         # for version info 
 ```
 
 \FloatBarrier
