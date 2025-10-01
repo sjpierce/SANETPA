@@ -1,0 +1,702 @@
+---
+title: Research Question 4 Analyses for SANE Training Program Data
+subtitle: | 
+          | CSTAT Case: C1788
+          | Clients: Rebecca Campbell, Autumn Ashley, & Katherine Dontje
+author: 
+  - name: Steven J. Pierce
+    orcid: 0000-0002-0679-3019
+    email: pierces1@msu.edu
+    affil-id: 1 
+affiliations: 
+  - id: 1 
+    name: Michigan State University
+    department: Center for Statistical Training and Consulting
+    url: "[https://cstat.msu.edu](https://cstat.msu.edu)"
+bibliography: references.bib          # File holds BibTeX data for references
+csl: apa.csl                          # File controls citation & reference list format
+params:                               # Default values for parameters
+  SourceDir: "scripts/"               # Relative path to folder holding this file
+  SourceFile: "RQ4_Analyses.qmd"    # Name of this script file
+  LogFile: "RQ4_Analyses_Draft.pdf" # Default name of rendered output file
+format: 
+  pdf:                                # Settings for PDF output
+    output-file: "RQ4_Analyses_Draft.pdf" # Default output file name 
+    output-ext: "pdf"                 # Default file name extension
+    documentclass: scrartcl           # LaTeX document type
+    papersize: letter
+    geometry:                         # Control page margins
+      - top=1in
+      - bottom=1in
+      - left=1in
+      - right=1in
+    number-sections: true           # Auto-number each section
+    toc: true                       # Include table of contents (TOC)
+    toc-depth: 3                    # Number of layers in TOC
+    colorlinks: true
+    template-partials: 
+      - title.tex   # Controls author affiliation formatting
+    include-in-header:
+      - file: compact-title.tex    # Controls spacing around title. 
+      - text: |
+          \usepackage{fancyhdr}
+          \usepackage[noblocks]{authblk}
+          \renewcommand*{\Authsep}{, }
+          \renewcommand*{\Authand}{, }
+          \renewcommand*{\Authands}{, }
+          \renewcommand\Affilfont{\small}
+          \usepackage[yyyymmdd,hhmmss]{datetime}    %% for currenttime command
+          \usepackage{lastpage}                     %% For pageref command
+          \usepackage{fontspec}
+          \defaultfontfeatures{Ligatures=TeX}
+          \usepackage[font={small}, margin=1cm, skip=2pt]{caption}
+          \usepackage{url}
+          \usepackage{floatrow}                     %% For controlling float placement
+          \floatsetup[table]{capposition=top}       %% Puts table caption at top.
+          \floatsetup[longtable]{margins=centering} %% Centers longtable tables
+          \floatplacement{figure}{!ht}              %% Control placement of figures
+          \floatplacement{table}{!ht}               %% Control placement of tables
+          \usepackage[labelfont=bf, textfont=bf]{caption}  %% For bolded table/figure captions
+          \usepackage{placeins}                     %% For FloatBarrier command
+          \usepackage{booktabs}                     %% Used by kableExtra
+          \usepackage{longtable}                    %% Used by kableExtra
+          \usepackage{array}                        %% Used by kableExtra
+          \usepackage{multirow}                     %% Used by kableExtra
+          \usepackage{wrapfig}                      %% Used by kableExtra
+          \usepackage{colortbl}                     %% Used by kableExtra
+          \usepackage{pdflscape}                    %% Used by kableExtra
+          \usepackage{tabu}                         %% Used by kableExtra
+          \usepackage[normalem]{ulem}               %% Used by kableExtra
+          \usepackage{makecell}                     %% Used by kableExtra
+          \usepackage{xcolor}                       %% Used by kableExtra
+          \usepackage{dcolumn}                      %% Used by kableExtra
+          \usepackage{threeparttable}               %% Used by kableExtra
+          \usepackage{threeparttablex}              %% Used by kableExtra
+          \usepackage{amsmath}                      %% for equation support. 
+          \usepackage{titling}      
+          \usepackage{verbatim}                     %% For comment command
+          \pretitle{\begin{center}\LARGE\bfseries\sffamily}
+          \posttitle{\end{center}}
+          \pagestyle{fancy}
+          \lhead{SANETPA RQ4 Analyses}
+          \chead{\includegraphics[height=0.85cm]{../graphics/Combomark-Horiz_Pantone-567.pdf}}
+          \rhead{\today\ \currenttime}
+          \cfoot{ }
+          \fancyfoot[R]{\thepage\ of \pageref*{LastPage}}
+          \renewcommand{\headrulewidth}{0.4pt}
+          \renewcommand{\footrulewidth}{0.4pt}
+          \fancypagestyle{plain}{\pagestyle{fancy}}
+          \newcommand*\tocentryformat[1]{{\sffamily#1}}  %% Fix TOC font style
+          \RedeclareSectionCommands                      %% Fix TOC font style
+            [
+              tocentryformat=\tocentryformat,
+              tocpagenumberformat=\tocentryformat
+            ]
+            {section,subsection,subsubsection,paragraph,subparagraph}
+execute:                              # Default Quarto chunk execution options
+  eval: true
+  echo: fenced                        # Show the code in the output file
+  output: true
+  warning: true
+  error: true
+  include: true
+knitr:                                # Default R knitr package chunk options
+  opts_chunk: 
+    message: true
+    cfsize: "tiny"  
+---
+
+\lfoot{\texttt{\small \detokenize{`r params$LogFile`}}}
+
+\FloatBarrier
+
+# Purpose
+This file is part of a research compendium [@Pierce-RN8756] associated with a 
+study about a sexual assault nurse examiner training program [@Dontje-RN8757]. 
+The training program had two major components: didactic training (DT) followed 
+by a clinical skills workshop (CSW). This file contains results from analyses 
+that address RQ4.
+
+# Research Question
+
+* **RQ4.** For the participants who completed DT and those who completed the 
+  CSW, to what extent did they find each training component to be 
+  useful/helpful?
+
+\FloatBarrier
+
+# Setup
+This section documents some setup tasks that are useful to the statistician on 
+the team. Most readers of this document will probably want skip directly to 
+@sec-Read-Data.
+
+\FloatBarrier
+
+## Define Global Options
+Global R chunk options are defined in the YAML header but local chunk options
+will over-ride global options. We can temporarily disable an individual chunk by
+inserting `#| eval: false` on a line at the top of the chunk. The method for
+creating a `cfsize` option that controls font size in code chunks and their text
+output is based on an answer to a question posted on
+[stackoverflow.com](https://stackoverflow.com/a/46526740).
+
+``` {r}
+#| label: global-options
+
+# Create a custom chunk hook/option for controlling font size in chunk & output.
+def.chunk.hook  <- knitr::knit_hooks$get("chunk")
+knitr::knit_hooks$set(chunk = function(x, options) {
+  x <- def.chunk.hook(x, options)
+  ifelse(options$cfsize != "normalsize", 
+         paste0("\n \\", options$cfsize,"\n\n", x, "\n\n \\normalsize"), 
+         x)
+  })
+```
+
+\FloatBarrier
+
+## Load Packages
+R packages usually add new functions to the base R software, allowing you to do 
+more things. Here, we load the specific R packages required for this script to 
+work.
+
+```{r}
+#| label: load-packages
+library(devtools)       # for session_info()
+library(here)           # for here(), i_am(), makes code more portable.
+library(rmarkdown)      # for pandoc_version()
+library(knitr)          # for kable()
+library(dplyr)          # for %>%, filter(), group_by(), mutate(), rename(), etc.
+library(broom)          # for broom()
+library(effectsize)     # for hedges_g()
+library(tidyverse)      # for map(), map_dfr(), map_chr(), rowid_to_column(), 
+                        # unnest(), etc.
+library(haven)          # for as_factor()
+library(janitor)        # for adorn_totals()
+library(labelled)       # for get_variable_labels()
+options(kableExtra.latex.load_packages = FALSE)
+library(kableExtra)     # for kable_styling(), add_header_above(), 
+                        # column_spec(), row_spec() etc. 
+library(piercer)        # for dc_summary(), file_details(), git_report(), 
+                        # which_latex()
+library(psych)          # for alpha()
+library(quarto)         # for quarto_version()
+library(SANETPA)        # for version info 
+```
+
+\FloatBarrier
+
+## Declare Path
+This next chunk declares the path to this script relative to the project-level 
+root directory. If the file is not in the right location under the project root
+you'll get a warning message. This helps ensure relative paths are all working 
+as expected. The chunk below uses the `SourceDir` and `SourceFile` parameters 
+set in the YAML header. 
+
+``` {r}
+#| label: declare-path
+
+# Declare path to this script relative to the project root directory.
+here::i_am(path = paste0(params$SourceDir, params$SourceFile))
+```
+
+\FloatBarrier
+
+## Read Data {#sec-Read-Data}
+We start by reading in the datafile, which contains the following datasets that 
+we need for RQ1 analyses:
+
+* `Applicants`. This is a person-level data file containing one row for every 
+  applicant, regardless of eligibility status., 
+* `Eligible_Applicants`. This is a person-level file containing one row for 
+  every person who both applied and was eligible for the program. It omits 
+   those who were ineligible. 
+
+``` {r}
+#| label: load-data
+#| eval: true
+
+# Store path to data file. 
+DataFile <- here("data/Imported_SANETP_Data.RData")
+
+load(file = DataFile)
+```
+
+@tbl-imported-data-file shows meta-data about the data file we just loaded. 
+
+```{r}
+#| label: tbl-imported-data-file
+#| tbl-cap: "Meta-Data About the Data File Loaded"
+
+file_details(DataFile) %>% 
+  kable(, format = "latex", booktabs = TRUE, 
+        col.names = c("File Name", "Size", "Last Modified")) %>% 
+  kable_styling() 
+```
+
+## Create Subsets of Data {#sec-Update-Data}
+For RQ4, we need two additional subsets of the data. We create the new scale 
+score variables measuring training satisfaction (`DT_Satisfaction` and 
+`CSW_Satisfaction`) while creating those datasets. 
+
+First, we need the subset of `Enrolled_Applicants` that completed the DT
+component because we need to examine their satisfaction with the first part 
+of the training program. The chunk below creates the `Completed_DT` dataset
+
+```{r}
+#| label: create-Completed-DT
+
+Completed_DT <- Enrolled_Applicants %>% 
+  filter(Stage_Reached >= 3) %>% 
+  rowwise() %>%
+  mutate(DT_Satisfaction = mean(c_across(Didactic_Sat_1:Didactic_Sat_7), 
+                               na.rm = TRUE)) %>%
+  ungroup() 
+```
+
+Second, we need the subset of `Enrolled_Applicants` that completed the CSW 
+training component so we can examine their satisfaction with that second part of 
+the training program. The chunk below creates the `Completed_CSW`.
+
+```{r}
+#| label: create-Completed-CSW
+
+Completed_CSW <- Enrolled_Applicants %>% 
+  filter(Stage_Reached == 4)  %>% 
+  rowwise() %>%
+  mutate(CSW_Satisfaction = mean(c_across(CSW_Sat_1:CSW_Sat_7), 
+                                na.rm = TRUE)) %>%
+  ungroup() 
+```
+
+@tbl-datasets shows the shows the sizes of the datasets used in RQ4 analyses. 
+
+```{r}
+#| label: tbl-datasets
+#| tbl-cap: "Sizes of the Datasets Used for RQ1"
+
+data.frame(Dataset = c("Enrolled_Applicants", "Completed_DT", "Completed_CSW"),
+           N_Rows = c(nrow(Enrolled_Applicants), nrow(Completed_DT), 
+                      nrow(Completed_CSW)),
+           N_Cols = c(ncol(Enrolled_Applicants), ncol(Completed_DT), 
+                      ncol(Completed_CSW))) %>% 
+  kable(., format = "latex", booktabs = TRUE, 
+        col.names = c("Dataset", "N Rows", "N Columns")) %>% 
+  kable_styling() 
+```
+
+\FloatBarrier
+
+# Methods {#sec-Methods}
+This section describes the data sources, measures, and statistical methods used 
+to answer RQ1. 
+
+\FloatBarrier
+
+## Data Sources
+We rely on two different datasets for answering RQ1. The `Applicants` dataset 
+has one row for every unique applicant regardless of eligibility or enrollment 
+status ($N = `r nrow(Applicants)`$). Meanwhile, the `Eligible_Applicants` 
+dataset contains the subset of applicants who met all eligibility criteria for 
+participating in the program ($N = `r nrow(Eligible_Applicants)`$). Some, but 
+not all, eligible applicants enrolled in the training program. 
+
+## Measures {#sec-Measures}
+The sections below describe the measures used to answer RQ4. 
+
+\FloatBarrier
+
+### DT Satisfaction
+Satisfaction with the DT component of the program was measured by the set of 7
+items shown in @tbl-DT-Satisfaction-items. The response options comprised a
+5-point Likert scale with values from 1 (*strongly disagree*) to 5 (*strongly
+agree*). All items were worded such that higher values indicated greater
+satisfaction. An overall scale score was obtained by taking the unweighted mean 
+of the non-missing items. 
+
+```{r}
+#| label: tbl-DT-Satisfaction-items
+#| tbl-cap: DT Satisfaction Items
+
+# Table footnote
+FN <- paste("The response options were on a 5-point Likert scale: 1 (strongly",
+            "disagree), 2 (somewhat disagree), 3 (neither agree nor disagree)", 
+            "4 (somewhat agree), 5 (strongly agree).")
+
+DT_Items <- Completed_DT %>% 
+  select(starts_with("Didactic_Sat_")) %>% 
+  get_variable_labels() %>% 
+  as_tibble() %>% 
+  pivot_longer(cols = everything(), names_to = "Variable", 
+               values_to = "Label") %>% 
+  mutate(Label = str_replace_all(string = Label, pattern = ":I", 
+                                 replacement = ": I"))
+
+DT_Items %>% 
+  kable(format = "latex", booktabs = TRUE) %>% 
+  kable_styling(font_size = 9) %>% 
+  column_spec(column = 2, width = "10cm") %>% 
+  footnote(kable_input = ., general = FN, footnote_as_chunk = TRUE,
+           threeparttable = TRUE)
+```
+
+\FloatBarrier
+
+### CSW Satisfaction
+Satisfaction with the CSW component of the program was measured by the set of 7
+items shown in @tbl-CSW-Satisfaction-items. The response options comprised a
+5-point Likert scale with values from 1 (*strongly disagree*) to 5 (*strongly
+agree*). All items were worded such that higher values indicated greater
+satisfaction. An overall scale score was obtained by taking the unweighted mean 
+of the non-missing items. 
+
+```{r}
+#| label: tbl-CSW-Satisfaction-items
+#| tbl-cap: CSW Satisfaction Items
+
+CSW_Items <- Completed_CSW %>% 
+  select(starts_with("CSW_Sat_")) %>% 
+  get_variable_labels() %>% 
+  as_tibble() %>% 
+  pivot_longer(cols = everything(), names_to = "Variable", 
+               values_to = "Label") %>% 
+  mutate(Label = str_replace_all(string = Label, pattern = "_x000D_", 
+                                 replacement = " "))
+
+CSW_Items %>% 
+  kable(format = "latex", booktabs = TRUE) %>% 
+  kable_styling(font_size = 9) %>% 
+  column_spec(column = 2, width = "10cm") %>% 
+  footnote(kable_input = ., general = FN, footnote_as_chunk = TRUE,
+           threeparttable = TRUE)
+```
+
+\FloatBarrier
+
+## Statistical Analyses 
+For each of the two satisfaction scales, we first examine item-level frequency
+distributions, then used the psych package for R [@Revelle-RN2324] to estimate
+Cronbach's alpha as a measure of reliability for the unweighted scale scores, 
+and then provide descriptive statistics and graphs of the scale score
+distributions.
+
+# Results 
+
+\FloatBarrier
+
+## DT Satisfaction
+
+\FloatBarrier
+
+### Item Distributions
+
+```{r}
+#| label: tbl-DT-Satisfaction-freqs
+#| tbl-cap: Frequency Distributions for DT Satisfaction Items
+
+# Table footnote
+FN <- paste("The response options were on a 5-point Likert scale: 1 (strongly",
+            "disagree), 2 (somewhat disagree), 3 (neither agree nor disagree)", 
+            "4 (somewhat agree), 5 (strongly agree).")
+
+Completed_DT %>% 
+  select(starts_with("Didactic_Sat_")) %>% 
+  pivot_longer(cols = everything(), names_to = "Variable", 
+               values_to = "Value") %>% 
+  mutate(Value = addNA(factor(Value, levels = 1:5))) %>% 
+  group_by(Variable, .drop = FALSE) %>% 
+  count(Value) %>% 
+  mutate(pct = 100*n/nrow(Completed_DT)) %>% 
+  ungroup() %>% 
+  left_join(., DT_Items, by = join_by(Variable)) %>%  
+  relocate(Variable, Label) %>% 
+  kable(format = "latex", booktabs = TRUE, digits = 1, 
+        col.names = c("Item", "Label", "Value", "n", "%")) %>% 
+  kable_styling(font_size = 9) %>% 
+  column_spec(column = 2, width = "10cm") %>% 
+  collapse_rows(columns = 1:2, valign = "top", latex_hline = "major",
+                row_group_label_position = "first", headers_to_remove = 0) %>% 
+  footnote(kable_input = ., general = FN, footnote_as_chunk = TRUE,
+           threeparttable = TRUE)
+```
+
+\FloatBarrier
+
+### Scale Score Reliability
+
+```{r}
+#| label: reliability-Barrier-TD-3item
+
+Completed_DT %>% 
+  select(Didactic_Sat_1, Didactic_Sat_2, Didactic_Sat_3, Didactic_Sat_4,
+         Didactic_Sat_5, Didactic_Sat_6, Didactic_Sat_7) %>% 
+  as.data.frame() %>% 
+  alpha(x = ., cumulative = TRUE, discrete = TRUE)
+```
+
+\FloatBarrier
+
+### Scale Score Distribution
+
+```{r}
+#| label: tbl-DT-Satisfaction
+#| tbl-cap: Descriptive Statistics for DT Satisfaction Among Enrolled Applicants 
+#|          Who Completed the DT Component 
+
+# Footnote text.
+FN <- paste("N_m, number of missing values; N_o, number of observed values.")
+
+VNames <- c("DT_Satisfaction", "Didactic_Sat_1", "Didactic_Sat_2", 
+            "Didactic_Sat_3", "Didactic_Sat_4", "Didactic_Sat_5", 
+            "Didactic_Sat_6", "Didactic_Sat_7")
+CNames <- c("Variable", "N", "N_m", "N_o", "Mean", "SD", "Min", "Max")
+
+Completed_DT %>% 
+  select(ID, DT_Satisfaction, Didactic_Sat_1, Didactic_Sat_2, Didactic_Sat_3, 
+         Didactic_Sat_4, Didactic_Sat_5, Didactic_Sat_6, Didactic_Sat_7) %>% 
+  pivot_longer(cols = c(DT_Satisfaction, Didactic_Sat_1, Didactic_Sat_2, 
+                        Didactic_Sat_3, Didactic_Sat_4, Didactic_Sat_5, 
+                        Didactic_Sat_6, Didactic_Sat_7),
+               names_to = "VarName", 
+               values_to = "Value") %>% 
+  mutate(VarName = factor(VarName, levels = VNames, labels = VNames)) %>% 
+  relocate(ID, VarName) %>% 
+  group_by(VarName) %>% 
+  summarise(N = n(),
+            N_missing = sum(is.na(Value)), 
+            N_observed = sum(!is.na(Value)), 
+            Mean = mean(Value, na.rm = TRUE),
+            SD = sd(Value, na.rm = TRUE),
+            Min = round(min(Value, na.rm = TRUE), digits = 1),
+            Max = max(Value, na.rm = TRUE)) %>% 
+  kable(., format = "latex", booktabs = TRUE, digits = 1, 
+        col.names = CNames, row.names = FALSE) %>% 
+  kable_styling() %>% 
+  footnote(kable_input = ., general = FN, footnote_as_chunk = TRUE)
+```
+
+```{r}
+#| label: fig-DT-Satisfaction
+#| fig-cap: Histogram of DT Satisfaction Among Enrolled Applicants 
+#|          Who Completed the DT Component 
+#| fig-width: 5
+#| fig-height: 2.5
+#| warning: false
+
+ggplot(data = Completed_DT, aes(x = DT_Satisfaction)) +
+  geom_histogram(aes(y = after_stat(density)), binwidth = 0.1, color = "black", 
+                 fill = "grey") +
+  geom_density(alpha = .6, fill = "#FF6666") +
+  geom_vline(aes(xintercept = mean(DT_Satisfaction, na.rm = TRUE)), color = "blue", 
+             linetype = "solid", linewidth = 1) +
+  coord_cartesian(xlim = c(1, 5), ylim = c(0, 4)) + 
+  scale_x_continuous(breaks = seq(from = 1, to = 5, by = 1)) +
+  scale_y_continuous(breaks = seq(from = 0, to = 4, by = 0.5)) +
+  theme_bw() +
+  labs(x = "DT Satisfaction", 
+       y = "Density")
+```
+
+\FloatBarrier
+
+## CSW Satisfaction
+
+\FloatBarrier
+
+### Item Distributions
+
+```{r}
+#| label: tbl-CSW-Satisfaction-freqs
+#| tbl-cap: Frequency Distributions for CSW Satisfaction Items
+
+# Table footnote
+FN <- paste("The response options were on a 5-point Likert scale: 1 (strongly",
+            "disagree), 2 (somewhat disagree), 3 (neither agree nor disagree)", 
+            "4 (somewhat agree), 5 (strongly agree).")
+
+Completed_CSW %>% 
+  select(starts_with("CSW_Sat_")) %>% 
+  pivot_longer(cols = everything(), names_to = "Variable", 
+               values_to = "Value") %>% 
+  mutate(Value = addNA(factor(Value, levels = 1:5))) %>% 
+  group_by(Variable, .drop = FALSE) %>% 
+  count(Value) %>% 
+  mutate(pct = 100*n/nrow(Completed_CSW)) %>% 
+  ungroup() %>% 
+  left_join(., CSW_Items, by = join_by(Variable)) %>%  
+  relocate(Variable, Label) %>% 
+  kable(format = "latex", booktabs = TRUE, digits = 1, 
+        col.names = c("Item", "Label", "Value", "n", "%")) %>% 
+  kable_styling(font_size = 9) %>% 
+  column_spec(column = 2, width = "10cm") %>% 
+  collapse_rows(columns = 1:2, valign = "top", latex_hline = "major",
+                row_group_label_position = "first", headers_to_remove = 0) %>% 
+  footnote(kable_input = ., general = FN, footnote_as_chunk = TRUE,
+           threeparttable = TRUE)
+```
+
+\FloatBarrier
+
+### Reliability
+
+```{r}
+#| label: reliability-CSW-Satisfaction
+
+Completed_CSW %>% 
+  select(CSW_Sat_1, CSW_Sat_2, CSW_Sat_3, CSW_Sat_4, CSW_Sat_5, CSW_Sat_6, 
+  CSW_Sat_7) %>% 
+  as.data.frame() %>% 
+  alpha(x = ., cumulative = TRUE, discrete = TRUE)
+```
+
+\FloatBarrier
+
+### Scale Score Distribution
+
+```{r}
+#| label: tbl-CSW-Satisfaction
+#| tbl-cap: Descriptive Statistics for CSW Satisfaction Among Enrolled Applicants 
+#|          Who Completed the CSW Component 
+
+# Footnote text.
+FN <- paste("N_m, number of missing values; N_o, number of observed values.")
+
+VNames <- c("CSW_Satisfaction", "CSW_Sat_1", "CSW_Sat_2", "CSW_Sat_3", 
+            "CSW_Sat_4", "CSW_Sat_5", "CSW_Sat_6", "CSW_Sat_7")
+CNames <- c("Variable", "N", "N_m", "N_o", "Mean", "SD", "Min", "Max")
+
+Completed_CSW %>% 
+  select(ID, CSW_Satisfaction, CSW_Sat_1, CSW_Sat_2, CSW_Sat_3, CSW_Sat_4, 
+        CSW_Sat_5, CSW_Sat_6, CSW_Sat_7) %>% 
+  pivot_longer(cols = c(CSW_Satisfaction, CSW_Sat_1, CSW_Sat_2, CSW_Sat_3, 
+                        CSW_Sat_4, CSW_Sat_5, CSW_Sat_6, CSW_Sat_7),
+               names_to = "VarName", 
+               values_to = "Value") %>% 
+  mutate(VarName = factor(VarName, levels = VNames, labels = VNames)) %>% 
+  relocate(ID, VarName) %>% 
+  group_by(VarName) %>% 
+  summarise(N = n(),
+            N_missing = sum(is.na(Value)), 
+            N_observed = sum(!is.na(Value)), 
+            Mean = mean(Value, na.rm = TRUE),
+            SD = sd(Value, na.rm = TRUE),
+            Min = round(min(Value, na.rm = TRUE), digits = 1),
+            Max = max(Value, na.rm = TRUE)) %>% 
+  kable(., format = "latex", booktabs = TRUE, digits = 1, 
+        col.names = CNames, row.names = FALSE) %>% 
+  kable_styling() %>% 
+  footnote(kable_input = ., general = FN, footnote_as_chunk = TRUE)
+```
+
+```{r}
+#| label: fig-CSW-Satisfaction
+#| fig-cap: Histogram of CSW Satisfaction Among Enrolled Applicants 
+#|          Who Completed the CSW Component 
+#| fig-width: 5
+#| fig-height: 2.5
+#| warning: false
+
+ggplot(data = Completed_CSW, aes(x = CSW_Satisfaction)) +
+  geom_histogram(aes(y = after_stat(density)), binwidth = 0.1, color = "black", 
+                 fill = "grey") +
+  geom_density(alpha = .6, fill = "#FF6666") +
+  geom_vline(aes(xintercept = mean(CSW_Satisfaction, na.rm = TRUE)), color = "blue", 
+             linetype = "solid", linewidth = 1) +
+  coord_cartesian(xlim = c(1, 5), ylim = c(0, 8)) + 
+  scale_x_continuous(breaks = seq(from = 1, to = 5, by = 1)) +
+  scale_y_continuous(breaks = seq(from = 0, to = 8, by = 0.5)) +
+  theme_bw() +
+  labs(x = "CSW Satisfaction", 
+       y = "Density")
+```
+
+\FloatBarrier
+
+# Conclusions {#sec-Conclusions}
+Both the DT and CSW satisfaction scale scores have sufficient reliability
+Cronbach's alpha of 0.75 and 0.78, respectively. All the items for each scale
+have reasonable face validity, are moderately and positively correlated with
+other items, and contribute to improved reliability of the measure.
+
+The item-level frequency distributions show strongly skewed distributions, with 
+responses concentrated in the somewhat agree and strongly agree values, such 
+that item means are nearly all > 4.7. 
+
+Consequently, the scale scores for both DT and CSW satisfaction are also 
+very skewed and concentrated in the upper end of the possible range. Applicants 
+who completed each of these training components were highly satisfied with the 
+training they received. 
+
+# References
+::: {#refs}
+:::
+
+\FloatBarrier
+
+# Software Information
+This section documents information that is important for reproducibility. Most
+users will not need to read it. It is primarily here for use by the statistician 
+on the team if we need to troubleshoot reproducibility issues because someone 
+else is unable to get the same results from the same code. Start by checking for 
+differences in package versions. 
+
+We used [R](https://www.r-project.org/) as our main computing environment and
+[Quarto](https://quarto.org/) scripts to enhance reproducibility. We used
+[RStudio](www.rstudio.org) as the editor to interface with R and Quarto.
+
+- Software chain:
+  **qmd file > RStudio > Quarto > R > knitr > md file > Pandoc > tex file > TinyTeX > PDF file**.
+- Source file: \texttt{\detokenize{`r params$SourceFile`}} 
+- Output file: \texttt{\detokenize{`r params$LogFile`}} 
+- [Quarto `r quarto_version()`](https://quarto.org/) runs `*.qmd` files through 
+  [R](https://www.r-project.org/) and [knitr](https://yihui.org/knitr/) to 
+  produce `*.md` markdown files.
+- [Pandoc `r rmarkdown::pandoc_version()`](https://pandoc.org) converts markdown 
+  files (`*.md`) to other formats, including LaTeX (`*.tex`) and HTML (`*.html`) 
+  among others.
+- [TinyTeX](https://yihui.org/tinytex/) compiles LaTeX files (`*.tex`) into PDF 
+  files. It should be viable to use [MiKTeX](https://miktex.org) or another 
+  LaTeX distribution instead. 
+
+\FloatBarrier
+
+## Versions
+This document was generated using the following computational environment and 
+dependencies:
+
+```{r}
+#| label: show-version
+#| echo: true
+
+# Check and report whether we used TinyTex or other LaTeX software. 
+which_latex()
+
+# Get R and R package version numbers in use.
+devtools::session_info()
+```
+
+\FloatBarrier
+
+## Git Details
+The current Git commit details and status are:
+
+``` {r}
+#| label: git-details
+#| echo: true
+
+git_report()
+```
+
+This is useful because it tells us exactly which commit in the Git history 
+we would need to be using to make sure we are running the exact same code. 
+Sometimes another person is not using the most current code, or has changed the 
+code in some way since it was last committed.  
+
+::: {.callout-tip}
+* Untracked files are files located in the repository that Git has not been told 
+  to entirely ignore, but have also not been committed into the version history. 
+* Unstaged changes to files indicate that some of the contents have been 
+  modified since the last time the file was committed to Git. In production 
+  runs, we want the Git output to not show any unstaged changes to key files!
+
+::: 
