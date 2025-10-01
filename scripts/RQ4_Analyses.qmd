@@ -235,9 +235,9 @@ file_details(DataFile) %>%
 ```
 
 ## Create Subsets of Data {#sec-Update-Data}
-For RQ4, we need two additional subsets of the data. We create the new scale 
-score variables measuring training satisfaction (`DT_Satisfaction` and 
-`CSW_Satisfaction`) while creating those datasets. 
+For RQ4, we derive two additional subsets of the `Enrolled_Applicants` data. We 
+create the new scale score variables measuring training satisfaction
+(`DT_Satisfaction` and `CSW_Satisfaction`) while creating those datasets.
 
 First, we need the subset of `Enrolled_Applicants` that completed the DT
 component because we need to examine their satisfaction with the first part 
@@ -294,12 +294,11 @@ to answer RQ1.
 \FloatBarrier
 
 ## Data Sources
-We rely on two different datasets for answering RQ1. The `Applicants` dataset 
-has one row for every unique applicant regardless of eligibility or enrollment 
-status ($N = `r nrow(Applicants)`$). Meanwhile, the `Eligible_Applicants` 
-dataset contains the subset of applicants who met all eligibility criteria for 
-participating in the program ($N = `r nrow(Eligible_Applicants)`$). Some, but 
-not all, eligible applicants enrolled in the training program. 
+We rely on two different datasets for answering RQ4. The `Completed_DT` dataset 
+has one row per enrolled applicant who completed the DT component of the program 
+($N = `r nrow(Completed_DT)`$). Meanwhile, the `Completed_CSW` dataset contains 
+one row per enrolled applicant who completed the CSW component of the program 
+($N = `r nrow(Completed_CSWE)`$). 
 
 ## Measures {#sec-Measures}
 The sections below describe the measures used to answer RQ4. 
