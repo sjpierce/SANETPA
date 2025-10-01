@@ -238,8 +238,7 @@ chunk.end - chunk.start
 ```
 
 ## RQ1 Analyses
-Work on this script has begun but is not yet complete. The modeling script seeks 
-to answer several of the research questions. 
+Work on this script is complete. 
 
 ``` {r}
 #| label: RQ1
@@ -270,8 +269,7 @@ chunk.end - chunk.start
 ```
 
 ## RQ2 and RQ3 Stopping-Ratio Models
-Work on this script has begun but is not yet complete. The modeling script seeks 
-to answer several of the research questions. 
+Work on this script is complete. 
 
 ``` {r}
 #| label: RQ2-RQ3
@@ -300,6 +298,38 @@ quarto_render(input = here::here("scripts/RQ2_RQ3_SR_Models.qmd"),
 chunk.end <- proc.time()
 chunk.end - chunk.start
 ```
+
+## RQ4 Analyses
+Work on this script is complete. 
+
+``` {r}
+#| label: RQ4
+#| eval: true
+
+# Memory garbage collection (for more consistent chunk timing).
+gc()
+
+# Start chunk timer.
+chunk.start <- proc.time()
+
+OutFile <- paste0("RQ4_Analyses_", Sys.Date(), ".pdf")
+
+# Render the script in a fresh R session.
+quarto_render(input = here::here("scripts/RQ4_Analyses.qmd"), 
+              output_format = "pdf",
+              output_file = OutFile, 
+              execute_params = list(SourceDir = params$SourceDir, 
+                                    SourceFile = "RQ4_Analyses.qmd", 
+                                    LogFile = OutFile),
+              execute_dir = here::here("scripts"),
+              as_job = "auto", 
+              quarto_args = c('--output', OutFile))
+
+# End chunk timer
+chunk.end <- proc.time()
+chunk.end - chunk.start
+```
+
 
 # References
 ::: {#refs}
