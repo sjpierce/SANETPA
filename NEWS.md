@@ -1,5 +1,44 @@
 # SANETPA News 
 
+## 0.17.0
+* `README.qmd` and `README.md`
+    * Added example terminal command for getting date-stamped production run 
+      output. 
+    * Updated software version info & citations.
+* `SANETPA.Rproj`
+    * Switched from XeLaTex to LuaLaTeX due to Quarto verion upgrade.
+* `graphics/Combomark-Horiz_Pantone-567.pdf`
+    * Added PDF version of logo to avoid epstopdf conversion issue.
+* `scripts/.gitignore`
+    * Omit python Jupyter notebook files.
+* `scripts/_quarto.yml`
+    * Updated rendering key to include RQ4 script.
+* `scripts/Descriptive_Analyses.qmd`
+    * Switched to using PDF version of logo file.
+* `scripts/Import_Data.qmd`
+    * Switched to using PDF version of logo file.
+* `scripts/RQ1_Analyses.qmd`
+    * Switched to using PDF version of logo file.
+* `scripts/RQ2_RQ3_SR_Models.qmd`
+    * Switched to using PDF version of logo file.
+    * Updated package loading, replace emmeans w/ marginaleffects. Fix line 
+      breaks.
+    * Switched to marginaleffects instead of emmeans to get EMMs. Add risk 
+      differences.
+* `scripts/RQ4_Analyses.qmd`
+    * Added file.
+* `scripts/Production_Run.qmd`
+    * Updated workflow diagram. 
+    * Added chunk to run RQ1 script.  
+    * Updated chunk to run RQ2 and RQ3 script.
+    * Updated Software Information section to omit name of the output file. 
+    * Use quarto_render(..., quarto_args = c('--output', OutFile)) to control 
+      output file names. 
+    * Added chunk to run RQ4 script. 
+* `scripts/references.bib`
+    * Added new methods reference. 
+    * Updated software version info & citations.
+
 ## 0.16.0
 * `.Rbuildignore`
     * Ignore the `graphics/` folder when installing package. 
