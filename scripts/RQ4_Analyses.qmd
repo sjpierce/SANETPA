@@ -298,7 +298,7 @@ We rely on two different datasets for answering RQ4. The `Completed_DT` dataset
 has one row per enrolled applicant who completed the DT component of the program 
 ($N = `r nrow(Completed_DT)`$). Meanwhile, the `Completed_CSW` dataset contains 
 one row per enrolled applicant who completed the CSW component of the program 
-($N = `r nrow(Completed_CSWE)`$). 
+($N = `r nrow(Completed_CSW)`$). 
 
 ## Measures {#sec-Measures}
 The sections below describe the measures used to answer RQ4. 
