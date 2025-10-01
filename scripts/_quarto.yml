@@ -8,5 +8,6 @@ project:
     - Descriptive_Analyses.qmd
     - RQ1_Analyses.qmd
     - RQ2_RQ3_SR_Models.qmd
+    - RQ4_Analyses.qmd
     - Production_Run.qmd
 
