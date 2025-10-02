@@ -123,7 +123,7 @@ package to work.
 
 Install [RStudio
 Desktop](https://posit.co/products/open-source/rstudio/) version
-2025.09.0+387 (or later). We recommend using RStudio to interact with
+2025.09.1+401 (or later). We recommend using RStudio to interact with
 the files for this package. RStudio is both a good interface to R and
 has built-in support for using some of the other software discussed
 below.
@@ -710,8 +710,8 @@ J. A. (2016). Ten simple rules for taking advantage of Git and GitHub.
 
 Pierce, S. J. (2025). *SANETPA: Research compendium for a study of
 sexual assault nurse examiner training program attrition* (Version
-0.17.0) \[Reproducible Research Materials and Computer Program, R
-package, Private Repository Until Release\]. GitHub.
+0.18.0) \[Reproducible Research Materials and Computer Program, R
+Package, Private Repository Until Release\]. GitHub.
 <https://github.com/sjpierce/SANETPA>
 
 </div>
@@ -727,7 +727,7 @@ Foundation for Statistical Computing. <http://www.R-project.org>
 <div id="ref-RStudio-Team-RN8351" class="csl-entry">
 
 RStudio Team. (2025). *RStudio Desktop: Integrated development
-environment for R* (Version 2025.09.0+387) \[Computer Program\]. Posit
+environment for R* (Version 2025.09.1+401) \[Computer Program\]. Posit
 Software, PBC. <https://posit.co>
 
 </div>

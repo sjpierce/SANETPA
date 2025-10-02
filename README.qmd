@@ -121,7 +121,7 @@ operating system). These will be necessary for the *devtools* package to work.
 
 ### Install RStudio Desktop 
 Install [RStudio Desktop](https://posit.co/products/open-source/rstudio/)
-version 2025.09.0+387 (or later). We recommend using RStudio to interact with
+version 2025.09.1+401 (or later). We recommend using RStudio to interact with
 the files for this package. RStudio is both a good interface to R and has
 built-in support for using some of the other software discussed below.
 
