@@ -450,11 +450,16 @@ outcome variables.
 \FloatBarrier
 
 ### Attrition (Primary Outcome)
-This is the binary, threshold-specific transformation of the `Stage_Reached` 
-ordinal outcome variable. It is the outcome modeled in our SR models. The 
-variable `Attrit` is coded 1 when an applicant attrited, and 0 when they passed 
-the threshold and continued to the next stage of the program. See @fig-Stages 
-for a visualization of the coding for `Attrit`. 
+For measuring conditional attrition rates, we used a binary, threshold-specific 
+transformation of the `Stage_Reached` ordinal variable as the outcome in our SR 
+models. The variable `Attrit` is coded 1 when an applicant attrited at a given 
+threshold, and 0 when they passed the threshold and continued to the next stage 
+of the program. See @fig-Stages for a visualization of the coding for `Attrit`. 
+
+For unconditional attrition rates, we used a binary indicator of whether the
+applicant *ever* attrited from the program (`Attrited`). This was coded 1 when
+an applicant attrited at any threshold, and 0 when they passed all thresholds
+and completed both DT and CSW components of the program.
 
 \FloatBarrier
 
@@ -521,6 +526,23 @@ missing data. We are functionally treating missing values on these variables as
 \FloatBarrier
 
 ## Planned Statistical Analyses {#sec-Planned-Analyses}
+Research questions RQ2 and RQ3 focus on attrition rates. Our primary interest 
+lies in taking a very granular look at these rates, in particular considering 
+whether attrition rates vary across thresholds between different stages of the 
+the training program. We chose SR models for the bulk of the analyses because 
+they can estimate the conditional attrition rate at each threshold. Both the 
+numerators and denominators for the conditional rates change as we progress from 
+the first threshold to each subsequent threshold. The numerator depends on how 
+many enrolled applicants attrit at the specific threshold in question, while the 
+denominator is the number of enrolled applicants who reached the stage 
+immediately preceding that threshold. 
+
+In contrast, the unconditional attrition rate is the total number of enrolled 
+applicants who did not complete the CSW component of the program divided by 
+the number of enrolled applicants. The unconditional rate summarizes the 
+cumulative attrition over the entire set of thresholds, making it a less nuanced 
+summary. 
+
 Below we fit and examine a series of SR models by using the `glm()` function to 
 run logistic regression models on a person-threshold dataset called 
 `Thresholds`. This is one way to fit SR models [@Cole-RN8770]. 
@@ -530,9 +552,11 @@ answer research questions RQ2 and RQ3 and obtain a parsimonious final model. All
 models use the structural thresholds variable to predict attrition because that
 lays the foundation for a SR model. 
 
+\FloatBarrier
+
 ### RQ2: What are the attrition rates from enrollment to completion of the CSW, and when (i.e., at which module[s]) did participants commonly attrit?
 
-The simplest way to answer the first part of RQ2 is to fit a model that only
+One way to answer the first part of RQ2 is to fit a model that only
 accounts for the threshold effect, then extract the estimated marginal means 
 (EMMs) representing the attrition rate (i.e., the SR) on the
 probability scale at each threshold. Thus, our modeling sequence starts by
@@ -544,7 +568,14 @@ make sense to use EMMs from the model that provides the best answer to RQ3
 rather than the EMMs from Model 1. Effect sizes are quantified by both
 odds-ratios and risk differences (absolute difference between attrition rates).
 
-We used the `StartedDT_Applicants` dataset to examine the proportions of
+We estimated the overall unconditional attrition rate via the mean of a relevant
+binary variable (`Attrited`) in the `Enrolled_Applicants_CD` dataset. That mean
+is the proportion of applicants who ever attrited. In practical terms, the
+overall unconditional rate corresponds to the cumulative attrition if we ignore
+the thresholds in SR Model 1. We used a Wilson score confidence interval to
+quantify the uncertainty in the that rate [@Newcombe-RN2457; @Wilson-RN3223].
+
+Next, we used the `StartedDT_Applicants` dataset to examine the proportions of
 applicants who started and finished each DT module by estimating the means of
 relevant binary variables (`Started_Mod_*` and `Finished_Mod_*`) for modules 
 1-12. We used Wilson score confidence intervals to quantify the uncertainty in 
@@ -556,6 +587,8 @@ currently treated as functionally equivalent to 0 (*No*) in the rate
 calculations. So, the rate numerator is the number of *Yes* values and the 
 denominator includes all cases (including missing values). 
 :::
+
+\FloatBarrier
 
 ### RQ3: Do participants’ background characteristics, motivations for seeking training, potential barriers, and emotional readiness for this work predict attrition rates? 
 
@@ -588,6 +621,25 @@ squares, and other supplementary output. Effect sizes are quantified by both
 odds-ratios and risk differences (absolute difference between attrition rates). 
 EMMs for the attrition rates reported on a probability scale. 
 
+We also split `Enrolled_Applicants_CD` dataset to get stratified estimates of 
+the unconditional attrition rates among enrolled applicants at each level of `Motivation_NeedSANE`, with Wilson score confidence intervals 
+[@Newcombe-RN2457; @Wilson-RN3223]. This is comparable to examining the
+cumulative attrition implied by SR Model 4. 
+
+::: {.callout-caution}
+One could estimate unconditional attrition rates that adjust for multiple focal
+predictors simultaneously (e.g., corollary to SR Model 2) via extracting EMMs
+from a logistic regression model fitted to the `Enrolled_Applicants_CD` dataset.
+We skipped that because our main interest was reporting the overall 
+unconditional attrition rate for descriptive purposes. We only added the
+stratified rates because doing so took little extra effort and space. Fitting
+and reporting a logistic model with multiple predictors would generate much more
+output. Interested readers can run such a model themselves using the the data in
+this research compendium [@Pierce-RN8756].
+:::
+
+\FloatBarrier
+
 ## Modeling Software
 We used the base R [@R-Devel-Core-RN8182] function `glm()` to fit the models
 because it is a high-quality, reliable, and flexible tool for fitting logistic 
@@ -597,7 +649,7 @@ and associated confidence intervals, while the `performance` package
 [@Lüdecke-RN8788] extracted model fit statistics. The `DHARMa` [@Hartig-RN8668] 
 and `car` [@Fox-RN8789] packages provided tools for examining model diagnostics
 (see next section) and the `marginaleffects` package [@Arel-Bundock-RN8812] 
-computed estimated marginal means that represent attrition rates.
+computed EMMs that represent attrition rates.
 
 \FloatBarrier
 
@@ -651,6 +703,8 @@ We applied all of these `DHARMa` tests to the models below, summarizing the
 results in figures. For all of the `DHARMa` tests, good models should produce
 large $p$-values (sometimes displayed on plots as just `n.s.`) because small
 values (e.g., $p < 0.05$) indicate violation of model assumptions.
+
+\FloatBarrier
 
 # Results
 
@@ -1961,6 +2015,106 @@ heterogeneity of variance (@fig-m5-diagnose-2). There are no outliers
 
 \FloatBarrier
 
+## Unconditional Attrition Rates
+@tbl-unconditional-attrition-rates shows both the overall unconditional 
+attrition rate among all enrolled applicants and the unconditional attrition 
+rate estimated separately for each level of `Motivation_NeedSANE`. 
+@tbl-unconditional-attrition-diff shows the corresponding test for a difference
+between the unconditional rates for the two groups, along with a confidence 
+interval for the difference. 
+
+```{r}
+#| label: tbl-unconditional-attrition-rates
+#| tbl-cap: Unconditional Attrition Rate (Overall and Stratified By 
+#|          Motivation_NeedSANE) Among All Eligible Applicants
+#| message: false
+
+FN <- paste("CI, Wilson score confidence interval for a proportion.")
+
+bind_rows(dc_summary(data = Enrolled_Applicants_CD, 
+          vars = "Attrited"), 
+          dc_summary(data = Enrolled_Applicants_CD %>% filter(Motivation_NeedSANE == 0), 
+          vars = "Attrited"), 
+          dc_summary(data = Enrolled_Applicants_CD %>% filter(Motivation_NeedSANE == 1), 
+          vars = "Attrited")) %>% 
+  bind_cols(Motivation_NeedSANE = c("Overall", "No", "Yes")) %>% 
+  mutate(No = as.character(No),
+         Yes = as.character(Yes),
+         Total = as.character(Total),
+         Motivation_NeedSANE = factor(Motivation_NeedSANE, 
+                                      levels = c("Overall", "No", "Yes"))) %>% 
+  relocate(Variable, Motivation_NeedSANE) %>% 
+  arrange(Variable, Motivation_NeedSANE) %>% 
+  kable(format = "latex", booktabs = TRUE, digits = 2, align = "llrrrrrr",
+        format.args = list(nsmall = 2)) %>% 
+  kable_styling() %>% 
+  add_header_above(header = c(" " = 2,"Attrited (N)" = 3, " ", 
+                              "95% CI" = 2)) %>% 
+  collapse_rows(columns = 1:2, valign = "top", latex_hline = "major",
+                row_group_label_position = "first") %>% 
+  footnote(kable_input = ., general = FN, footnote_as_chunk = TRUE, 
+           threeparttable = TRUE)
+```
+
+```{r}
+#| label: tbl-unconditional-attrition-diff
+#| tbl-cap: Test for Difference in Unconditional Attrition Rates Between 
+#|          Enrolled Applicants at Different Values of Motivation_NeedSANE
+#| message: false
+
+FN <- paste("CI, score confidence interval for a difference in independent",
+            "proportions (Not motivated - Motivated), with continuity correction.")
+
+bind_rows(dc_summary(data = Enrolled_Applicants_CD %>% filter(Motivation_NeedSANE == 0), 
+          vars = "Attrited"), 
+          dc_summary(data = Enrolled_Applicants_CD %>% filter(Motivation_NeedSANE == 1), 
+          vars = "Attrited"))  %>% 
+  bind_cols(Motivation_NeedSANE = c("No", "Yes")) %>% 
+  arrange(Variable, desc(Motivation_NeedSANE)) %>% 
+  relocate(Variable, Motivation_NeedSANE) %>% 
+  select(Variable, Motivation_NeedSANE, Yes, Total, Rate) %>% 
+  pivot_wider(id_cols = Variable, names_from = Motivation_NeedSANE, 
+              values_from = c(Yes, Total, Rate)) %>% 
+  rowwise() %>% 
+  mutate(p.test = tidy(prop.test(x = c(Yes_No, Yes_Yes),
+                                 n = c(Total_No, Total_Yes), 
+                                 conf.level = 0.95))) %>% 
+  unnest(p.test) %>% 
+  rename(Chisq = statistic, p = p.value, df = parameter, LL = conf.low, 
+         UL = conf.high) %>% 
+  mutate(Difference = estimate1 - estimate2,
+         p = display_num(p)) %>% 
+  select(Variable, Difference, LL, UL, Chisq, df, p) %>% 
+  kable(format = "latex", booktabs = TRUE, digits = 2, align = "lrrrrr",
+        format.args = list(nsmall = 2)) %>% 
+  kable_styling() %>% 
+  add_header_above(header = c(" " = 2, "95% CI" = 2,
+                              "Test for Diff. in Proportions" = 3)) %>% 
+  collapse_rows(columns = 1:2, valign = "top", latex_hline = "major",
+                row_group_label_position = "first") %>% 
+  footnote(kable_input = ., general = FN, footnote_as_chunk = TRUE, 
+           threeparttable = TRUE)
+```
+
+::: {.callout-tip}
+The comparison of unconditional rates in @tbl-unconditional-attrition-diff is
+conceptually similar to SR Model 4 in that it only accounts for one focal
+predictor (`Motivation_NeedSANE`). Thus it is not surprising that this result is
+also similar to that of Model 4: it concludes there may be no effect of
+`Motivation_NeedSANE` on attrition (the difference between the two analyses
+being that SR Model 4 looks for an effect on conditional attrition rates and
+this simpler test looks for an effect on the unconditional attrition rates).
+
+Notice however that while the confidence interval for the difference in
+unconditional rates spans zero, it is not *centered* on zero. Most of it spans
+positive rather than negative values. The lower bound suggests applicants with 
+`Motivation_NeedSANE = No` could have at best slightly lower attrition, but the 
+upper bound suggests that applicants with `Motivation_NeedSANE = Yes` could 
+have much lower attrition. This asymmetry is worth careful consideration. 
+:::
+
+\FloatBarrier
+
 ## Start and Finish Rates for DT Modules
 @tbl-DT-module-rates and @fig-DT-module-rates show the estimated start and 
 finish rates for each DT module among enrolled applicants who started the 
@@ -2049,7 +2203,7 @@ Module_Rates %>%
 
 ## RQ2: What are the attrition rates from enrollment to completion of the CSW, and when (i.e., at which module[s]) did participants commonly attrit?
 
-If we just want to know the overall average attrition rate at each threshold, we
+If we just want to know the conditional attrition rate at each threshold, we
 need to examine the main effect of threshold. Model 1 demonstrated that the
 attrition rate is not constant throughout the program. Instead, the attrition
 rates vary across thresholds and all subsequent models continued to demonstrate
@@ -2060,6 +2214,11 @@ The simplest answer to RQ1 is presented in @tbl-emmeans-m1 and @fig-emmeans-m1,
 but Model 2 provides a better answer. Model 2 output (@tbl-emmeans-m2-Both and @fig-emmeans-m2-Both) controls for all focal predictors regardless of whether 
 their effects were significant. *In that context, we still see a much higher *
 *attrition rate during didactic training than at other thresholds*. 
+
+Meanwhile, the overall unconditional attrition rate corresponding to SR Model 1 
+is reported in @tbl-unconditional-attrition-rates. We skipped running a model to
+estimate the covariate-adjusted unconditional attrition rate that would mirror
+SR Model 2.
 
 ## RQ3: Do participants’ background characteristics, motivations for seeking training, potential barriers, and emotional readiness for this work predict attrition rates? 
 
@@ -2074,7 +2233,6 @@ Model 2 (@tbl-params-m2) controls for all other focal predictors. It is
 noteworthy that the upper end of that confidence interval spans values very 
 close 1. That means this effect *could* be so small as have no practical 
 implications for practice. 
-
 
 Our analyses showed no evidence that the seven remaining focal predictors listed
 below exert any influence on attrition from the SANE training program. This is
@@ -2120,6 +2278,12 @@ as to be of negligible practical importance. The point estimates lean more
 toward the former possibility, but sampling error leaves room for the latter one
 too.
 :::
+
+Finally, the stratified unconditional attrition rates corresponding to the 
+`Motivation_NeedSANE` effect in SR Model 4 are reported in 
+@tbl-unconditional-attrition-rates. We skipped running a model to estimate the
+covariate-adjusted unconditional attrition rate that would mirror SR Model 2, 
+but could add that if needed. 
 
 # Recommendations
 We should fully report Model 2 in the manuscript. We can perhaps relegate Model 
