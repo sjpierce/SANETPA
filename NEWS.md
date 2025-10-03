@@ -1,5 +1,16 @@
 # SANETPA News 
 
+## 0.18.0
+* `README.qmd` and `README.md`
+    * Updated software version info & citations.
+* `scripts/Import_Data.qmd`
+    * Fixed coding of Attrited variable.
+* `scripts/RQ2_RQ3_SR_Models.qmd`
+    * Added unconditional attrition rates. 
+    * Added conclusions about start & finish rates for modules. 
+* `scripts/references.bib`
+    * Updated software version info & citations.
+    
 ## 0.17.0
 * `README.qmd` and `README.md`
     * Added example terminal command for getting date-stamped production run 
