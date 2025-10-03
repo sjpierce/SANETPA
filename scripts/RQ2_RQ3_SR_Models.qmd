@@ -2220,6 +2220,13 @@ is reported in @tbl-unconditional-attrition-rates. We skipped running a model to
 estimate the covariate-adjusted unconditional attrition rate that would mirror
 SR Model 2.
 
+Finally, @fig-DT-module-rates shows that both start and finish rates for each DT
+module decrease monotonically when sorted by module number. The largest change
+was between between modules 5 and 6 (6% decrease in start rate, 5% for finish
+rate), but this was not a sharp discontinuity compared to the changes between
+successive modules. The lowest observed rates were about 75% for both start and
+finish of module 12.
+
 ## RQ3: Do participants’ background characteristics, motivations for seeking training, potential barriers, and emotional readiness for this work predict attrition rates? 
 
 Of the eight focal predictors we examined, only whether an applicant was 
