@@ -293,6 +293,28 @@ We will retain both `finisheddidac` and `Didactic_Status` because each may be
 useful depending on the summary desired.
 :::
 
+@tbl-prog-attrited sshows the value labels associated with the `prog_attrited` 
+variable. While it is a binary indicator variable (as expected), the coding is 
+reversed compared to what I expected given the variable name. Assigning 0 = 
+completed program and 1 = attrited without completing program would make more 
+sense. We will fix that later after renaming the variable to `Attrited`. 
+
+```{r}
+#| label: tbl-prog-attrited
+#| tbl-cap: Original Value Labels for prog_attrited in Applicants_Raw Data
+
+Applicants_Raw %>% 
+  select(prog_attrited) %>% 
+  get_value_labels() %>% 
+  stack() %>% 
+  rename(Variable = ind,
+         Value = values) %>% 
+  rownames_to_column(var = "Label") %>% 
+  relocate(Variable, Value) %>% 
+  kable(format = "latex") %>% 
+  kable_styling()
+```
+               
 \FloatBarrier
 
 ## Create Applicants Dataset
@@ -561,6 +583,8 @@ Applicants <- Applicants_Raw %>%
                                    Stage_Raw == 6 ~ 3,
                                    Stage_Raw == 7 ~ 4,
                                    .default = NA)) %>% 
+  # Recode Attrited to reverse coding the bianry indicator. 
+  mutate(Attrited = 1 - Attrited) %>% 
   # Recode practicset_dem_num into Setting, combining Rural & Tribal categories.
   mutate(Setting = if_else(practicset_dem_num %in% c(2,4), 
                            true = 2, 
@@ -593,6 +617,7 @@ Applicants <- Applicants_Raw %>%
                    Stage_Reached = Stage_Reached_value_labels,
                    Eligible = Binary_Labels,
                    Enrolled = Binary_Labels,
+                   Attrited = Binary_Labels,
                    Started_Mod_1 = Binary_Labels,
                    Started_Mod_2 = Binary_Labels,
                    Started_Mod_3 = Binary_Labels,
