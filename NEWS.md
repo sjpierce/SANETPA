@@ -1,5 +1,13 @@
 # SANETPA News 
 
+## 0.19.0
+* `README.qmd` and `README.md`
+    * Updated software version info & citations.
+* `scripts/Production_Run.qmd`
+    * Updated workflow diagram. 
+* `scripts/references.bib`
+    * Updated software version info & citations.
+    
 ## 0.18.0
 * `README.qmd` and `README.md`
     * Updated software version info & citations.
