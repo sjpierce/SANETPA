@@ -124,6 +124,8 @@ R1S [label = "RQ1_Analyses.qmd\n(Quarto Script)"]
 R1O [label = "RQ1_Analyses_YYYY-MM-DD.pdf\n(PDF Output)", fillcolor = "grey80"]
 R2S [label = "RQ2_RQ3_SR_Models.qmd\n(Quarto Script)"]
 R2O [label = "RQ2_RQ3_SR_Models_YYYY-MM-DD.pdf\n(PDF Output)", fillcolor = "grey80"]
+R4S [label = "RQ4_Analyses.qmd\n(Quarto Script)"]
+R4O [label = "RQ4_Analyses_YYYY-MM-DD.pdf\n(PDF Output)", fillcolor = "grey80"]
 IDS [label = "Import_Data.qmd\n(Quarto Script)"]
 RawData [label = "All_group_1_2025-06-03.sav\n(SPSS Data File)", fillcolor = "white"]
 FinalData [label = "Imported_SANETP_Data.RData\n(R Data File)", fillcolor = "white"]
@@ -136,6 +138,7 @@ PRS -> IDS [label = "Custom Render"]
 PRS -> DAS [taillabel = "Custom Render"]
 PRS -> R1S [taillabel = "Custom Render"]
 PRS -> R2S [taillabel = "Custom Render"]
+PRS -> R4S [taillabel = "Custom Render"]
 RawData -> IDS [label = "Read"]
 PRS -> PRO [label = "Renders"]
 IDS -> IDO [label = "Renders"]
@@ -144,11 +147,13 @@ FinalData -> DAS [label = "Read"]
 DAS -> DAO [label = "Renders"]
 FinalData -> R1S [label = "Read"]
 FinalData -> R2S [label = "Read"]
+FinalData -> R4S [label = "Read"]
 R1S -> R1O [label = "Renders"]
 R2S -> R2O [label = "Renders"]
+R4S -> R4O [label = "Renders"]
 
-{ rank=same; IDS; FinalData; DAS; R1S; R2S}
-{ rank=same; IDO; DAO; R1O; R2O}
+{ rank=same; IDS; FinalData; DAS; R1S; R2S; R4S}
+{ rank=same; IDO; DAO; R1O; R2O; R4O}
 { rank=same; RawData; PRS; PRO}
 }
 ```
