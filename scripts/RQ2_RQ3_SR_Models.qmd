@@ -212,6 +212,7 @@ library(DHARMa)          # for plotQQunif(), plotResiduals(), simulateResiduals(
                          # testDispersion()
 library(marginaleffects) # for avg_comparisons(), avg_predictions(), 
                          # plot_predictions()
+library(patchwork)       # for combining ggplot2 objects, plot_annotation()
 library(performance)     # for model_performance(), r2()
 library(scales)          # for label_number()
 library(piercer)         # for brier(), display_num(), file_details(), 
@@ -1092,7 +1093,7 @@ avg_predictions(m2, variables = "Threshold.") %>%
 #| fig-width: 4
 #| fig-height: 2.5
 
-avg_predictions(m2, variables = c("Threshold.")) %>% 
+p4 <- avg_predictions(m2, variables = c("Threshold.")) %>% 
   as_tibble() %>% 
   select(Threshold., estimate, conf.low, conf.high) %>% 
   mutate(Threshold. = factor(Threshold., labels = TLabels2)) %>% 
@@ -1104,6 +1105,8 @@ avg_predictions(m2, variables = c("Threshold.")) %>%
   scale_y_continuous(lim = c(0.00, 0.50), 
                      labels = label_number(accuracy = 0.01)) +
   theme_bw()
+
+p4
 ```
 
 ```{r}
@@ -1238,7 +1241,7 @@ FLabels = c("1" = "Threshold T1\nBefore DT",
             "2" = "Threshold T2\nDuring DT",
             "3" = "Threshold T3\nBefore/During CSW")
 
-avg_predictions(m2, variables = c("Threshold.", "Motivation_NeedSANE.")) %>% 
+p6 <- avg_predictions(m2, variables = c("Threshold.", "Motivation_NeedSANE.")) %>% 
   as_tibble() %>% 
   select(Threshold., Motivation_NeedSANE., estimate, conf.low, conf.high) %>% 
   ggplot(data = ., mapping = aes(x = Motivation_NeedSANE., y = estimate)) + 
@@ -1250,6 +1253,8 @@ avg_predictions(m2, variables = c("Threshold.", "Motivation_NeedSANE.")) %>%
   scale_y_continuous(lim = c(0.00, 0.50), 
                      labels = label_number(accuracy = 0.01)) +
   theme_bw()
+
+p6
 ```
 
 ```{r}
@@ -2211,9 +2216,44 @@ that fact. *The attrition rate during didactic training is substantially higher*
 *than at any other threshold*.
 
 The simplest answer to RQ1 is presented in @tbl-emmeans-m1 and @fig-emmeans-m1,
-but Model 2 provides a better answer. Model 2 output (@tbl-emmeans-m2-Both and @fig-emmeans-m2-Both) controls for all focal predictors regardless of whether 
-their effects were significant. *In that context, we still see a much higher *
-*attrition rate during didactic training than at other thresholds*. 
+but Model 2 provides a better answer. Model 2 output reflects controls for all 
+focal predictors regardless of whether their effects were significant. 
+@fig-emmeans-m2-Threshold shows the main effect of Threshold while averaging 
+over all focal predictors, while @tbl-emmeans-m2-Both and @fig-emmeans-m2-Both
+show the combined main effects of Threshold and Motivation_NeedSANE. 
+*In that context, we still see a much higher attrition rate during didactic *
+*training than at other thresholds*. For use in the manuscript, we combine 
+those two plots in @fig-emmeans-m2-export.  
+
+```{r}
+#| label: fig-emmeans-m2-export
+#| fig-cap: Model 2 Conditional Attrition Rates With 95% Confidence Intervals By   
+#|          (A) Threshold (Main Effect Averaged Over All Focal Predictors), 
+#|          (B) Threshold and Motivation_NeedSANE (Main Effects Combined, 
+#|          Averaged Over All Other Focal Predictors). 
+#|          CSW, clinical skills workshop; DT, didactic training. 
+#| fig-width: 4.5
+#| fig-height: 5
+
+export_figure <- p4/p6 + 
+  plot_annotation(tag_levels = "A")
+export_figure
+```
+
+Next, we export the combined figure to a TIFF file suitable for use by the 
+intended journal per the instructions for authors. 
+
+```{r}
+#| label: export-figure
+
+tif_file <- paste0("scripts/output/Campbell_Figure_2_", Sys.Date(), ".tif")
+
+ggsave(filename = here(tif_file), 
+       plot = export_figure, 
+       width = 4.5, height = 5, units = "in", dpi = 300)
+
+file_details(here(tif_file))
+```
 
 Meanwhile, the overall unconditional attrition rate corresponding to SR Model 1 
 is reported in @tbl-unconditional-attrition-rates. We skipped running a model to
