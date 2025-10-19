@@ -335,6 +335,36 @@ chunk.end <- proc.time()
 chunk.end - chunk.start
 ```
 
+## Export Diagram
+Work on this script is complete. 
+
+``` {r}
+#| label: Export-Diagram
+#| eval: true
+
+# Memory garbage collection (for more consistent chunk timing).
+gc()
+
+# Start chunk timer.
+chunk.start <- proc.time()
+
+OutFile <- paste0("Export_Diagram_", Sys.Date(), ".pdf")
+
+# Render the script in a fresh R session.
+quarto_render(input = here::here("scripts/Export_Diagram.qmd"), 
+              output_format = "pdf",
+              output_file = OutFile, 
+              execute_params = list(SourceDir = params$SourceDir, 
+                                    SourceFile = "Export_Diagram.qmd", 
+                                    LogFile = OutFile),
+              execute_dir = here::here("scripts"),
+              as_job = "auto", 
+              quarto_args = c('--output', OutFile))
+
+# End chunk timer
+chunk.end <- proc.time()
+chunk.end - chunk.start
+```
 
 # References
 ::: {#refs}
