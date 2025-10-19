@@ -630,9 +630,10 @@ used.
 
 If you want to get a date-stamped production run output, you can use
 something like the following command in the Terminal after changing to
-the `scripts/` folder.
+the `scripts/` folder. Just update the date in the output filename to
+match the current date.
 
-    quarto render Production_Run.qmd --output Production_Run_2025-09-07.html
+    quarto render Production_Run.qmd --output Production_Run_2025-10-19.html
 
 ## References
 
