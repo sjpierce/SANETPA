@@ -1,5 +1,16 @@
 # SANETPA News 
 
+## 0.20.0
+* `README.qmd` and `README.md`
+    * Updated software version info & citations.
+    * Updated example production run command. 
+* `scripts/Export_Diagram.qmd`
+    * Added file.  
+* `scripts/RQ2_RQ3_SR_Models.qmd`
+    * Exported figure for use in manuscript. 
+* `scripts/references.bib`
+    * Updated software version info & citations.
+    
 ## 0.19.0
 * `README.qmd` and `README.md`
     * Updated software version info & citations.
