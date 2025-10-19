@@ -126,6 +126,11 @@ R2S [label = "RQ2_RQ3_SR_Models.qmd\n(Quarto Script)"]
 R2O [label = "RQ2_RQ3_SR_Models_YYYY-MM-DD.pdf\n(PDF Output)", fillcolor = "grey80"]
 R4S [label = "RQ4_Analyses.qmd\n(Quarto Script)"]
 R4O [label = "RQ4_Analyses_YYYY-MM-DD.pdf\n(PDF Output)", fillcolor = "grey80"]
+F2O [label = "Campbell_Figure_2_YYYY-MM-DD.tif\n(TIFF Output)", fillcolor = "grey80"]
+EDS [label = "Export_Diagram.qmd\n(Quarto Script)"]
+F1bO [label = "Campbell_Figure_1_YYYY-MM-DD.tif\n(TIFF Output)", fillcolor = "grey80"]
+EDO [label = "Export_Diagram_YYYY-MM-DD.pdf\n(PDF Output)", fillcolor = "grey80"]
+F1aO [label = "Campbell_Figure_1_YYYY-MM-DD.png\n(PNG Output)", fillcolor = "grey80"]
 IDS [label = "Import_Data.qmd\n(Quarto Script)"]
 RawData [label = "All_group_1_2025-06-03.sav\n(SPSS Data File)", fillcolor = "white"]
 FinalData [label = "Imported_SANETP_Data.RData\n(R Data File)", fillcolor = "white"]
@@ -134,6 +139,7 @@ PRO [label = "Production_Run.html\n(HTML Output)", fillcolor = "grey80"]
 PRS [label = "Production_Run.qmd\n(Quarto Script)"]
 
 edge [fontname = "Arial", fontsize = 9]
+PRS -> EDS [label = "Custom Render"]
 PRS -> IDS [label = "Custom Render"]
 PRS -> DAS [taillabel = "Custom Render"]
 PRS -> R1S [taillabel = "Custom Render"]
@@ -151,9 +157,14 @@ FinalData -> R4S [label = "Read"]
 R1S -> R1O [label = "Renders"]
 R2S -> R2O [label = "Renders"]
 R4S -> R4O [label = "Renders"]
+R4S -> F2O [label = "Exports"]
+EDS -> EDO [label = "Renders"]
+EDS -> F1aO [label = "Exports"]
+EDS -> F1bO [label = "Exports"]
+F1aO -> F1bO [label = "Convert"]
 
-{ rank=same; IDS; FinalData; DAS; R1S; R2S; R4S}
-{ rank=same; IDO; DAO; R1O; R2O; R4O}
+{ rank=same; EDS; IDS; FinalData; DAS; R1S; R2S; R4S}
+{ rank=same; F1aO; F1bO; EDO; IDO; DAO; R1O; R2O; R4O, F2O}
 { rank=same; RawData; PRS; PRO}
 }
 ```
