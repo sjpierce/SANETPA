@@ -1,0 +1,370 @@
+---
+title: Export Diagram for SANE Training Program Data
+subtitle: | 
+          | CSTAT Case: C1788
+          | Clients: Rebecca Campbell, Autumn Ashley, & Katherine Dontje
+author: 
+  - name: Steven J. Pierce
+    orcid: 0000-0002-0679-3019
+    email: pierces1@msu.edu
+    affil-id: 1 
+affiliations: 
+  - id: 1 
+    name: Michigan State University
+    department: Center for Statistical Training and Consulting
+    url: "[https://cstat.msu.edu](https://cstat.msu.edu)"
+bibliography: references.bib          # File holds BibTeX data for references
+csl: apa.csl                          # File controls citation & reference list format
+params:                               # Default values for parameters
+  SourceDir: "scripts/"               # Relative path to folder holding this file
+  SourceFile: "Export_Diagram.qmd"    # Name of this script file
+  LogFile: "Export_Diagram_Draft.pdf" # Default name of rendered output file
+format: 
+  pdf:                                # Settings for PDF output
+    output-file: "Export_Diagram_Draft.pdf" # Default output file name 
+    output-ext: "pdf"                 # Default file name extension
+    documentclass: scrartcl           # LaTeX document type
+    papersize: letter
+    geometry:                         # Control page margins
+      - top=1in
+      - bottom=1in
+      - left=1in
+      - right=1in
+    number-sections: true           # Auto-number each section
+    toc: true                       # Include table of contents (TOC)
+    toc-depth: 3                    # Number of layers in TOC
+    colorlinks: true
+    template-partials: 
+      - title.tex   # Controls author affiliation formatting
+    include-in-header:
+      - file: compact-title.tex    # Controls spacing around title. 
+      - text: |
+          \usepackage{fancyhdr}
+          \usepackage[noblocks]{authblk}
+          \renewcommand*{\Authsep}{, }
+          \renewcommand*{\Authand}{, }
+          \renewcommand*{\Authands}{, }
+          \renewcommand\Affilfont{\small}
+          \usepackage[yyyymmdd,hhmmss]{datetime}    %% for currenttime command
+          \usepackage{lastpage}                     %% For pageref command
+          \usepackage{fontspec}
+          \defaultfontfeatures{Ligatures=TeX}
+          \usepackage[font={small}, margin=1cm, skip=2pt]{caption}
+          \usepackage{url}
+          \usepackage{floatrow}                     %% For controlling float placement
+          \floatsetup[table]{capposition=top}       %% Puts table caption at top.
+          \floatsetup[longtable]{margins=centering} %% Centers longtable tables
+          \floatplacement{figure}{!ht}              %% Control placement of figures
+          \floatplacement{table}{!ht}               %% Control placement of tables
+          \usepackage[labelfont=bf, textfont=bf]{caption}  %% For bolded table/figure captions
+          \usepackage{placeins}                     %% For FloatBarrier command
+          \usepackage{booktabs}                     %% Used by kableExtra
+          \usepackage{longtable}                    %% Used by kableExtra
+          \usepackage{array}                        %% Used by kableExtra
+          \usepackage{multirow}                     %% Used by kableExtra
+          \usepackage{wrapfig}                      %% Used by kableExtra
+          \usepackage{colortbl}                     %% Used by kableExtra
+          \usepackage{pdflscape}                    %% Used by kableExtra
+          \usepackage{tabu}                         %% Used by kableExtra
+          \usepackage[normalem]{ulem}               %% Used by kableExtra
+          \usepackage{makecell}                     %% Used by kableExtra
+          \usepackage{xcolor}                       %% Used by kableExtra
+          \usepackage{dcolumn}                      %% Used by kableExtra
+          \usepackage{threeparttable}               %% Used by kableExtra
+          \usepackage{threeparttablex}              %% Used by kableExtra
+          \usepackage{amsmath}                      %% for equation support. 
+          \usepackage{titling}      
+          \usepackage{verbatim}                     %% For comment command
+          \pretitle{\begin{center}\LARGE\bfseries\sffamily}
+          \posttitle{\end{center}}
+          \pagestyle{fancy}
+          \lhead{SANETPA Export Diagram}
+          \chead{\includegraphics[height=0.85cm]{../graphics/Combomark-Horiz_Pantone-567.pdf}}
+          \rhead{\today\ \currenttime}
+          \cfoot{ }
+          \fancyfoot[R]{\thepage\ of \pageref*{LastPage}}
+          \renewcommand{\headrulewidth}{0.4pt}
+          \renewcommand{\footrulewidth}{0.4pt}
+          \fancypagestyle{plain}{\pagestyle{fancy}}
+          \newcommand*\tocentryformat[1]{{\sffamily#1}}  %% Fix TOC font style
+          \RedeclareSectionCommands                      %% Fix TOC font style
+            [
+              tocentryformat=\tocentryformat,
+              tocpagenumberformat=\tocentryformat
+            ]
+            {section,subsection,subsubsection,paragraph,subparagraph}
+execute:                              # Default Quarto chunk execution options
+  eval: true
+  echo: fenced                        # Show the code in the output file
+  output: true
+  warning: true
+  error: true
+  include: true
+knitr:                                # Default R knitr package chunk options
+  opts_chunk: 
+    message: true
+    cfsize: "tiny"  
+---
+
+\lfoot{\texttt{\small \detokenize{`r params$LogFile`}}}
+
+\FloatBarrier
+
+# Purpose
+This file is part of a research compendium [@Pierce-RN8756] associated with a 
+study about a sexual assault nurse examiner training program [@Dontje-RN8757]. 
+It just exports a diagram we want to include in a manuscript to a graphics file. 
+
+\FloatBarrier
+
+# Setup
+This section documents some setup tasks that are useful to the statistician on 
+the team. Most readers of this document will probably want skip directly to 
+@sec-Read-Data.
+
+\FloatBarrier
+
+## Define Global Options
+Global R chunk options are defined in the YAML header but local chunk options
+will over-ride global options. We can temporarily disable an individual chunk by
+inserting `#| eval: false` on a line at the top of the chunk. The method for
+creating a `cfsize` option that controls font size in code chunks and their text
+output is based on an answer to a question posted on
+[stackoverflow.com](https://stackoverflow.com/a/46526740).
+
+``` {r}
+#| label: global-options
+
+# Create a custom chunk hook/option for controlling font size in chunk & output.
+def.chunk.hook  <- knitr::knit_hooks$get("chunk")
+knitr::knit_hooks$set(chunk = function(x, options) {
+  x <- def.chunk.hook(x, options)
+  ifelse(options$cfsize != "normalsize", 
+         paste0("\n \\", options$cfsize,"\n\n", x, "\n\n \\normalsize"), 
+         x)
+  })
+```
+
+\FloatBarrier
+
+## Load Packages
+R packages usually add new functions to the base R software, allowing you to do 
+more things. Here, we load the specific R packages required for this script to 
+work.
+
+```{r}
+#| label: load-packages
+library(devtools)       # for session_info()
+library(here)           # for here(), i_am(), makes code more portable.
+library(rmarkdown)      # for pandoc_version()
+library(knitr)          # for kable()
+library(DiagrammeR)     # for create_edge_df(), create_graph(), 
+                        #     create_node_df(), export_graph()
+library(magick)         # for image_read(), image_write()
+library(piercer)        # for file_details(), git_report(), which_latex()
+library(quarto)         # for quarto_version()
+library(SANETPA)        # for version info 
+```
+
+\FloatBarrier
+
+## Declare Path
+This next chunk declares the path to this script relative to the project-level 
+root directory. If the file is not in the right location under the project root
+you'll get a warning message. This helps ensure relative paths are all working 
+as expected. The chunk below uses the `SourceDir` and `SourceFile` parameters 
+set in the YAML header. 
+
+``` {r}
+#| label: declare-path
+
+# Declare path to this script relative to the project root directory.
+here::i_am(path = paste0(params$SourceDir, params$SourceFile))
+```
+
+\FloatBarrier
+
+# Stage Diagram
+@fig-Stages shows the final set of stages and thresholds between them at which
+attrition from the training program could occur. The arrows associated with each
+threshold are labeled according to how the outcome variable is coded on the
+corresponding person-threshold record, depending on whether the person
+stopped participating at the current stage or moved on to the next stage.
+
+```{dot}
+//| label: fig-Stages
+//| fig-cap: Stages, Thresholds (T1-T3), and Stopping Ratios (SR1-SR3) in the 
+//|          SANE Training Program. CSW, clinical skills workshop; DT, didactic 
+//|          training.
+//| fig-width: 5
+//| fig-height: 2.5
+
+digraph StagesModeled {
+
+graph [rankdir="LR"];
+
+node [shape = "box", style= "filled", fillcolor = "Gray90", fontsize = "7"];
+A1 [label = "Attrited\nBefore DT\nSR1"]
+A2 [label = "Attrited\nDuring DT\nSR2"]
+A3 [label = "Attrited\nBefore/During CSW\nSR3"]
+
+S1 [label = "Stage 1\nEnrolled"]
+S2 [label = "Stage 2\nStarted DT"]
+S3 [label = "Stage 3\nFinished DT"]
+S4 [label = "Stage 4\nFinished CSW"]
+
+edge [fontsize = "7", arrowsize = 0.5];
+
+S1 -> A1 [label = "T1\nAttrit = 1"]
+S2 -> A2 [label = "T2\nAttrit = 1"]
+S3 -> A3 [label = "T3\nAttrit = 1"]
+
+S1 -> S2 [label = "Attrit = 0"]
+S2 -> S3 [label = "Attrit = 0"]
+S3 -> S4 [label = "Attrit = 0"]
+
+}
+```
+
+Below, I use the `DiagrammeR` package to create a graph object corresponding to 
+the contents of @fig-Stages. 
+
+```{r}
+#| label: create-diagram
+
+my_nodes <- create_node_df(n = 7, shape = "box", style= "filled", 
+                           color = "black", fillcolor = "Gray90", 
+                           fontname = "Times New Roman", fontsize = "12",
+                           fontcolor = "black", fixedsize = FALSE, 
+                           label = c("Attrited\nBefore DT\nSR1", 
+                                     "Attrited\nDuring DT\nSR2",
+                                     "Attrited\nBefore/During CSW\nSR3",
+                                     "Stage 1\nEnrolled",
+                                     "Stage 2\nStarted DT",
+                                     "Stage 3\nFinished DT",
+                                     "Stage 4\nFinished CSW"))
+
+my_edges <- create_edge_df(from = c(4, 5, 6, 4, 5, 6),
+                           to =   c(1, 2, 3, 5, 6, 7),
+                           label = c("T1\nAttrit = 1",
+                                     "T2\nAttrit = 1",
+                                     "T3\nAttrit = 1",
+                                     "Attrit = 0",
+                                     "Attrit = 0",
+                                     "Attrit = 0"),
+                           fontname = "Times New Roman", fontsize = "12",
+                           color = "black", arrowsize = 0.5)
+
+stage_diagram <- create_graph(nodes_df = my_nodes, edges_df = my_edges,
+                              directed = TRUE, attr_theme = "lr",
+                              graph_name = "StagesModeled")
+```
+
+Now we need to export the graph to a PNG file with sufficient resolution. I 
+converted the `fig-width` and `fig-height` settings for @fig-Stages from inches 
+to pixels in `export_graph()` width and height settings by multiplying by 300 
+dpi. 
+
+```{r}
+#| label: export-diagram-png
+
+png_file <- paste0("scripts/output/Campbell_Figure_1_", Sys.Date(), ".png")
+
+export_graph(graph = stage_diagram, 
+             file_name = here(png_file),
+             file_type = "png", width = 1500, height = 750)
+
+file_details(here(png_file))
+```
+
+Now, I read in the PNG file and convert it to a TIFF file suitable for 
+submission to the intended journal (which requires a JPEG or TIFF file with 
+dpi $\ge$ 300). 
+
+```{r}
+#| label: convert-diagram-tif
+
+tif_file <- paste0("scripts/output/Campbell_Figure_1_", Sys.Date(), ".tif")
+
+image_write(image = image_read(path = here(png_file)), 
+            path = here(tif_file), 
+            format = "tiff")
+
+file_details(here(tif_file))
+```
+
+\FloatBarrier
+
+# References
+::: {#refs}
+:::
+
+\FloatBarrier
+
+# Software Information
+This section documents information that is important for reproducibility. Most
+users will not need to read it. It is primarily here for use by the statistician 
+on the team if we need to troubleshoot reproducibility issues because someone 
+else is unable to get the same results from the same code. Start by checking for 
+differences in package versions. 
+
+We used [R](https://www.r-project.org/) as our main computing environment and
+[Quarto](https://quarto.org/) scripts to enhance reproducibility. We used
+[RStudio](www.rstudio.org) as the editor to interface with R and Quarto.
+
+- Software chain:
+  **qmd file > RStudio > Quarto > R > knitr > md file > Pandoc > tex file > TinyTeX > PDF file**.
+- Source file: \texttt{\detokenize{`r params$SourceFile`}} 
+- Output file: \texttt{\detokenize{`r params$LogFile`}} 
+- [Quarto `r quarto_version()`](https://quarto.org/) runs `*.qmd` files through 
+  [R](https://www.r-project.org/) and [knitr](https://yihui.org/knitr/) to 
+  produce `*.md` markdown files.
+- [Pandoc `r rmarkdown::pandoc_version()`](https://pandoc.org) converts markdown 
+  files (`*.md`) to other formats, including LaTeX (`*.tex`) and HTML (`*.html`) 
+  among others.
+- [TinyTeX](https://yihui.org/tinytex/) compiles LaTeX files (`*.tex`) into PDF 
+  files. It should be viable to use [MiKTeX](https://miktex.org) or another 
+  LaTeX distribution instead. 
+
+\FloatBarrier
+
+## Versions
+This document was generated using the following computational environment and 
+dependencies:
+
+```{r}
+#| label: show-version
+#| echo: true
+
+# Check and report whether we used TinyTex or other LaTeX software. 
+which_latex()
+
+# Get R and R package version numbers in use.
+devtools::session_info()
+```
+
+\FloatBarrier
+
+## Git Details
+The current Git commit details and status are:
+
+``` {r}
+#| label: git-details
+#| echo: true
+
+git_report()
+```
+
+This is useful because it tells us exactly which commit in the Git history 
+we would need to be using to make sure we are running the exact same code. 
+Sometimes another person is not using the most current code, or has changed the 
+code in some way since it was last committed.  
+
+::: {.callout-tip}
+* Untracked files are files located in the repository that Git has not been told 
+  to entirely ignore, but have also not been committed into the version history. 
+* Unstaged changes to files indicate that some of the contents have been 
+  modified since the last time the file was committed to Git. In production 
+  runs, we want the Git output to not show any unstaged changes to key files!
+
+::: 
