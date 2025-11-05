@@ -107,7 +107,7 @@ necessary because the main branch of the package repository is stored on GitHub.
 You will need to be able to use Git and GitHub to synchronize changes between 
 your local copy of the repository and GitHub. 
 
-### Install R 4.5.1 or later. 
+### Install R 4.5.2 or later. 
 You can get the most recent version of R [@R-Devel-Core-RN8182] from the 
 [Comprehensive R Archive Network (CRAN)](https://cran.r-project.org/). 
 
@@ -121,7 +121,7 @@ operating system). These will be necessary for the *devtools* package to work.
 
 ### Install RStudio Desktop 
 Install [RStudio Desktop](https://posit.co/products/open-source/rstudio/)
-version 2025.09.1+401 (or later). We recommend using RStudio to interact with
+version 2025.09.2+418 (or later). We recommend using RStudio to interact with
 the files for this package. RStudio is both a good interface to R and has
 built-in support for using some of the other software discussed below.
 
