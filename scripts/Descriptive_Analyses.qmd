@@ -159,9 +159,11 @@ library(here)           # for here(), i_am(), makes code more portable.
 library(rmarkdown)      # for pandoc_version()
 library(knitr)          # for kable()
 library(dplyr)          # for %>%, filter(), group_by(), mutate(), rename(), etc.
+library(effectsize)     # for cramers_v()
 library(tidyverse)      # for map_dfr(), map_chr(), rowid_to_column(), etc.
 library(haven)          # for as_factor()
 library(labelled)       # for var_label()
+library(janitor)        # for adorn_totals()
 options(kableExtra.latex.load_packages = FALSE)
 library(kableExtra)     # for kable_styling(), add_header_above(), 
                         # column_spec(), row_spec() etc. 
@@ -418,6 +420,77 @@ Enrolled_Applicants_CD %>%
   footnote(kable_input = ., general = FN, footnote_as_chunk = TRUE, 
            threeparttable = TRUE)
 ```
+
+\FloatBarrier
+
+## Relationship Between Setting and Motivation_NeedSANE
+Previous research found nurses in rural settings were more likely to complete a 
+SANE training program than nurses from other settings [@Patterson-RN8742]. Our
+analysis did not find that, but instead found that Motivation_NeedSANE was 
+associated with lower attrition (see RQ2/RQ3 output). @Patterson-RN8742 had also
+measured  similar motivation variable but it did not make it into their logistic 
+regression models (they used a bivariate association screening process). To help 
+us think about the difference in findings, I tested whether Setting and 
+Motivation_NeedSANE are independent using a chi-square test, then computed a 
+bias-corrected estimate of Cramer's V (which measures association 
+between nominal variables and can range from 0 to 1) 
+[@Ben-Shachar-RN8895; @Ben-Shachar-RN8896]. We use the data for enrolled 
+applicants with complete data on the variables used in the SR models for this.
+
+```{r}
+#| label: tbl-Setting-Motivation_NeedSANE
+#| tbl-cap: Contingency Table for Setting by Motivation_NeedSANE Among Enrolled 
+#|          Applicants with Complete Data
+#| message: false
+
+CT <- Enrolled_Applicants_CD %>% 
+  xtabs(~ Setting. + Motivation_NeedSANE., addNA = FALSE, data = .) 
+
+CT.CV <- cramers_v(x = CT, adjust = TRUE, ci = 0.95, alternative = "greater")
+
+FN <- paste0("Chi-square test for independence, X^2(",
+             chisq.test(x = CT)$parameter, ") = ",
+             round(chisq.test(x = CT)$statistic, digits = 2),
+             ", p = ", display_num(chisq.test(x = CT)$p.value), "; ",
+             "Cramer's V (adjusted) = ", 
+             round(CT.CV$Cramers_v_adjusted, digits = 2), 
+             ", 1-tailed 95% CI = [",
+             round(CT.CV$CI_low, digits = 2), ", ",
+             format(CT.CV$CI_high, nsmall = 2), "].")
+  
+bind_rows(dc_summary(data = Enrolled_Applicants_CD, 
+          vars = c("Motivation_NeedSANE")), 
+          dc_summary(data = Enrolled_Applicants_CD %>% filter(Setting == 1), 
+          vars = c("Motivation_NeedSANE")), 
+          dc_summary(data = Enrolled_Applicants_CD %>% filter(Setting == 2), 
+          vars = c("Motivation_NeedSANE")),
+          dc_summary(data = Enrolled_Applicants_CD %>% filter(Setting == 3), 
+          vars = c("Motivation_NeedSANE"))) %>% 
+  bind_cols(Setting = c("Overall", "Urban", "Rural/Tribal", "Suburban")) %>% 
+  mutate(No = as.character(No),
+         Yes = as.character(Yes),
+         Total = as.character(Total),
+         Setting = factor(Setting, levels = c("Overall", "Urban", 
+                                               "Rural/Tribal", "Suburban"))) %>% 
+  relocate(Variable, Setting) %>% 
+  arrange(Variable, Setting) %>% 
+  kable(format = "latex", booktabs = TRUE, digits = 2, align = "llrrrrrr",
+        format.args = list(nsmall = 2)) %>% 
+  kable_styling() %>% 
+  add_header_above(header = c(" " = 2,"Motivation (N)" = 3, " ", 
+                              "95% CI" = 2)) %>% 
+  collapse_rows(columns = 1:2, valign = "top", latex_hline = "major",
+                row_group_label_position = "first") %>% 
+  footnote(kable_input = ., general = FN, footnote_as_chunk = TRUE, 
+           threeparttable = TRUE)
+```
+
+:::{.callout-tip}
+@tbl-Setting-Motivation_NeedSANE shows that Setting and Motivation_NeedSANE are 
+not independent. Nurses from rural/tribal settings report the highest rate of 
+endorsing being motivated to participate in the training by a need for SANE 
+service in their communities. However, the association has a small effect size. 
+:::
 
 \FloatBarrier
 
