@@ -234,6 +234,18 @@ file_details(DataFile) %>%
   kable_styling() 
 ```
 
+Next I expand the `Enrolled_Applicants_CD` dataset by converting a couple 
+variables to factors for later convenience. 
+
+```{r}
+#| label: update-Enrolled-Appplicants-CD
+
+Enrolled_Applicants_CD <- Enrolled_Applicants_CD %>% 
+  # Convert categorical predictors to factors with a "." variable name suffix
+  mutate(Setting. = as_factor(Setting),
+         Motivation_NeedSANE. = as_factor(Motivation_NeedSANE))
+```
+
 ```{r}
 #| label: tbl-datasets
 #| tbl-cap: "Sizes of the Datasets"
