@@ -295,7 +295,7 @@ We will retain both `finisheddidac` and `Didactic_Status` because each may be
 useful depending on the summary desired.
 :::
 
-@tbl-prog-attrited sshows the value labels associated with the `prog_attrited` 
+@tbl-prog-attrited shows the value labels associated with the `prog_attrited` 
 variable. While it is a binary indicator variable (as expected), the coding is 
 reversed compared to what I expected given the variable name. Assigning 0 = 
 completed program and 1 = attrited without completing program would make more 
@@ -826,7 +826,7 @@ Enrolled_Applicants_CD <- Enrolled_Applicants %>%
 
 \FloatBarrier
 
-## Create Stated DT Subset of Enrolled Applicants
+## Create Started DT Subset of Enrolled Applicants
 When answering the part of RQ2 pertaining to specific training modules, we need 
 to narrow our focus to the subset of `Enrolled_Applicants_CD` containing only 
 enrolled applicants with `Stage_Reached` $\ge 2$ (those who started the didactic 
