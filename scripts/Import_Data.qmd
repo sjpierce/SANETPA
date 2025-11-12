@@ -585,7 +585,7 @@ Applicants <- Applicants_Raw %>%
                                    Stage_Raw == 6 ~ 3,
                                    Stage_Raw == 7 ~ 4,
                                    .default = NA)) %>% 
-  # Recode Attrited to reverse coding the bianry indicator. 
+  # Recode Attrited to reverse coding of the binary indicator. 
   mutate(Attrited = 1 - Attrited) %>% 
   # Recode practicset_dem_num into Setting, combining Rural & Tribal categories.
   mutate(Setting = if_else(practicset_dem_num %in% c(2,4), 
