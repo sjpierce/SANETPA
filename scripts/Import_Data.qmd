@@ -527,7 +527,7 @@ Applicants <- Applicants_Raw %>%
          Finished_CSW = finishedCSW,
          Finished_Didactic = finisheddidac,
          Completed_Didactic_NotCSW = completediddnotcsw,
-         CSW_Incomplete = incompleteCSW,
+         Started_CSW = incompleteCSW,
          Didactic_Sat_1 = didacticsat1_num,
          Didactic_Sat_2 = didacticsat2_num,
          Didactic_Sat_3 = didacticsat3_num,
