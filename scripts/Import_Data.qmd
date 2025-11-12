@@ -313,7 +313,7 @@ Applicants_Raw %>%
          Value = values) %>% 
   rownames_to_column(var = "Label") %>% 
   relocate(Variable, Value) %>% 
-  kable(format = "latex") %>% 
+  kable(format = "latex", booktabs = TRUE) %>% 
   kable_styling()
 ```
                
