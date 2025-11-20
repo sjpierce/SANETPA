@@ -629,11 +629,12 @@ the production script, and information about the software environment
 used.
 
 If you want to get a date-stamped production run output, you can use
-something like the following command in the Terminal after changing to
-the `scripts/` folder. Just update the date in the output filename to
-match the current date.
+something like the following command in the Terminal to change into the
+`scripts/` folder and render that output. Just update the date in the
+output filename to match the current date.
 
-    quarto render Production_Run.qmd --output Production_Run_2025-10-19.html
+    cd scripts
+    quarto render Production_Run.qmd --output Production_Run_2025-11-20.html
 
 ## References
 
@@ -711,7 +712,7 @@ J. A. (2016). Ten simple rules for taking advantage of Git and GitHub.
 
 Pierce, S. J. (2025). *SANETPA: Research compendium for a study of
 sexual assault nurse examiner training program attrition* (Version
-0.22.0) \[Reproducible Research Materials and Computer Program, R
+0.23.0) \[Reproducible Research Materials and Computer Program, R
 Package, Private Repository Until Release\]. GitHub.
 <https://github.com/sjpierce/SANETPA>
 
