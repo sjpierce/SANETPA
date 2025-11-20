@@ -2319,11 +2319,12 @@ The apparent conflict between Model 2 and Model 4 conclusions about the
 of a null hypothesis significance testing framework. The confidence intervals 
 for the odds-ratio for that effect from the two models overlap to a large 
 degree. Better statistical thinking and practice would suggest that this latter
-fact is what is most salient. This is not a particularly large effect and both
-models suggest that that it could be either strong enough to matter or so weak
-as to be of negligible practical importance. The point estimates lean more
-toward the former possibility, but sampling error leaves room for the latter one
-too.
+fact is what is most salient. Model 2 produces a narrower CI for that effect 
+because it controls for other focal predictors. This is not a particularly large
+effect and both models suggest that that it could be either strong enough to
+matter or so weak as to be of negligible practical importance. The point
+estimates lean more toward the former possibility, but sampling error leaves
+room for the latter one too.
 :::
 
 Finally, the stratified unconditional attrition rates corresponding to the 
@@ -2342,7 +2343,7 @@ Commenting on the minor conflict between Model 2 and Model 4 could potentially
 also become a footnote and a referral to the online research compendium. 
 However, we should emphasize thinking about the implications of the range 
 of values spanned by the relevant confidence intervals because that shows 
-there's more similarity between the two results than implied by the overly 
+there is more similarity between the two results than implied by the overly 
 simplistic interpretation of whether two similar p-values fall above versus 
 below the arbitrary cutoff of 0.05. There is little meaningful difference 
 between a "non-significant" value such as 0.06 and a "significant" one of 0.04
