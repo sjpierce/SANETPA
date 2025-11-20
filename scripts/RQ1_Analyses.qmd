@@ -1034,15 +1034,27 @@ analyses primarily show that:
 * Very few applicants in either group had received any prior SANE training. 
 
 Enrolled applicants reported being motivated by a need for SANE services in 
-their community more often than unenrolled applicants. However, there was no 
-difference in the rates at which they reported being motivated by a personal 
-connection to sexual assault. 
+their community more often than unenrolled applicants. Similarly, the enrolled 
+applicants reported being motivated by a personal connection to sexual assault 
+more often than unenrolled applicants. For both these measures there were subtle
+discrepancies between whether zero fell just inside versus just outside the 95%
+CI and the p-values fell just above versus below the $\alpha = 0.05$ cutoff, but
+the CIs show that nearly all plausible values for the differences in proportions
+are consistent with the interpretation above.
 
-We did not detect any differences between groups in the degree to which family 
-obligations and work responsibilities were potential barriers to participation. 
-Similarly, we did not detect any differences between unenrolled and enrolled 
-applicants in their emotional readiness for the training program, as measured by 
-burnout, compassion satisfaction, and secondary traumatic stress. 
+Regarding potential barriers to participation, we found that enrolled applicants 
+reported slightly lower mean levels of family obligations than unenrolled 
+applicants. Our best estimate is that it was a small effect size, but it could 
+be anywhere from trivially small to medium. We did firmly establish the presence 
+or direction an effect of enrollment status on mean levels of work 
+responsibilities, but the point estimate of the effect size was only a bit 
+smaller than the effect on family obligations and the CI is wide enough to 
+suggest that there could be up to a medium size effect such that enrolled 
+applicants have fewer work responsibilities than unenrolled applicants.
+
+We did not detect any differences between unenrolled and enrolled applicants in
+their emotional readiness for the training program, as measured by burnout,
+compassion satisfaction, and secondary traumatic stress.
 
 # References
 ::: {#refs}
