@@ -539,7 +539,7 @@ FN <- paste0("Chi-square test for independence, X^2(",
              round(chisq.test(x = CT)$statistic, digits = 2),
              ", p = ", display_num(chisq.test(x = CT)$p.value), "; ",
              "Cramer's V (adjusted) = ", 
-             round(CT.CV$Cramers_v_adjusted, digits = 2), 
+             format(round(CT.CV$Cramers_v_adjusted, digits = 2), nsmall = 2),
              ", 1-tailed 95% CI = [",
              round(CT.CV$CI_low, digits = 2), ", ",
              format(CT.CV$CI_high, nsmall = 2), "].")
