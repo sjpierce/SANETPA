@@ -1,5 +1,15 @@
 # SANETPA News 
 
+## 0.23.0
+* `scripts/quarto.yml`
+    * Updated render key to include `Export_Diagram.qmd` script (that puts 
+      output into `scripts/output/`).
+* `README.qmd` and `README.md`
+    * Updated software version info & citations.
+    * Updated example command for production runs.
+* `scripts/references.bib`
+    * Updated software version info & citations.
+    
 ## 0.22.0
 * `README.qmd` and `README.md`
     * Updated software version info & citations.
