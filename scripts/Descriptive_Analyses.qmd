@@ -362,6 +362,92 @@ has `r nrow(Enrolled_Applicants_CD)` rows.
 
 \FloatBarrier
 
+## Demographics
+Here we provide descriptive statistics on demographic variables for the set of 
+enrolled applicants with complete data (remaining after listwise deletion). 
+While our RQ1 analyses use a broader sample, the SR models used for RQ2 and RQ3 
+are the main study results, so we wanted to provide descriptives for the sample 
+used in those analyses. @tbl-Age shows the age distribution, @tbl-Sex shows the 
+sex distribution, and @tbl-Race-Ethnicity shows the race distribution. 
+
+```{r}
+#| label: tbl-Age
+#| tbl-cap: Descriptive Statistics for Age Variables Among Enrolled Applicants 
+#|          (After Listwise Deletion)
+
+VNames <- c("Age")
+VLabels <- c("Age (years)")
+CNames <- c("Variable", "Construct", "N", "Mean", "SD", "Min", "Max")
+
+Enrolled_Applicants %>% 
+  select(ID, Age) %>% 
+  pivot_longer(cols = c(Age), names_to = "VarName", values_to = "Value") %>% 
+  mutate(VarName = factor(VarName, levels = VNames, labels = VNames),
+         Construct = factor(VarName, levels = VNames, labels = VLabels)) %>% 
+  relocate(ID, VarName, Construct) %>% 
+  group_by(VarName, Construct) %>% 
+  summarise(N = n(),
+            Mean = mean(Value, na.rm = TRUE),
+            SD = sd(Value, na.rm = TRUE),
+            Min = min(Value, na.rm = TRUE),
+            Max = max(Value, na.rm = TRUE)) %>% 
+  kable(., format = "latex", booktabs = TRUE, digits = 1, 
+        col.names = CNames, row.names = FALSE) %>% 
+  kable_styling()
+```
+
+```{r}
+#| label: tbl-Sex
+#| tbl-cap: Sex Frequency Distribution Among Enrolled Applicants 
+#|          (After Listwise Deletion)
+
+# Footnote text. 
+FN <- paste("Denominator for percents is the frequency sum.")
+
+Enrolled_Applicants_CD %>% 
+  xtabs(~as_factor(Sex), addNA = TRUE, data = .) %>% 
+  addmargins() %>% 
+  as.data.frame() %>% 
+  rename(Sex = as_factor.Sex.) %>% 
+  mutate(Percent = 100*Freq/nrow(Enrolled_Applicants_CD),
+         Cumulative = if_else(Sex == "Sum", 
+                              true = 100, 
+                              false = cumsum(Percent))) %>% 
+  kable(format = "latex", booktabs = TRUE, digits = 1,
+        col.names = c("Sex", "Freq", "%", "Cumulative %")) %>% 
+  kable_styling() %>% 
+  row_spec(row = 3, italic = TRUE) %>% 
+  footnote(kable_input = ., general = FN, footnote_as_chunk = TRUE, 
+           threeparttable = TRUE)
+```
+
+```{r}
+#| label: tbl-Race-Ethnicity
+#| tbl-cap: Race/Ethnicity Frequency Distribution Among Enrolled Applicants 
+#|          (After Listwise Deletion)
+
+# Footnote text. 
+FN <- paste("Denominator for percents is the frequency sum.")
+
+Enrolled_Applicants_CD %>% 
+  xtabs(~as_factor(Race_Ethnicity), addNA = TRUE, data = .) %>% 
+  addmargins() %>% 
+  as.data.frame() %>% 
+  rename(Race = as_factor.Race_Ethnicity.) %>% 
+  mutate(Percent = 100*Freq/nrow(Enrolled_Applicants_CD),
+         Cumulative = if_else(Race == "Sum", 
+                              true = 100, 
+                              false = cumsum(Percent))) %>% 
+  kable(format = "latex", booktabs = TRUE, digits = 1,
+        col.names = c("Race/Ethnicity", "Freq", "%", "Cumulative %")) %>% 
+  kable_styling() %>% 
+  row_spec(row = 8, italic = TRUE) %>% 
+  footnote(kable_input = ., general = FN, footnote_as_chunk = TRUE, 
+           threeparttable = TRUE)
+```
+
+\FloatBarrier
+
 ## Outcome Distribution
 `Stage_Reached` is the stage variable we will use for modeling purposes. 
 @tbl-Stage-Reached-all shows the frequency distribution for the stage reached 
