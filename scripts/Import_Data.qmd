@@ -672,6 +672,108 @@ kable(ApplicantsVars, format = "latex", booktabs = TRUE, longtable = TRUE) %>%
 
 \FloatBarrier
 
+## Compare Stage_Raw to Binary Stage Indicators
+Here we are comparing the stage variables against the binary indicators
+associated with specific stages to ensure logical consistency between variables.
+This helped us detect and correct some problems with the data. We leave it here 
+now to document that we did it. 
+
+In the crosstab below check that:
+
+* All (and only) applicants with `Stage_Raw` = `Applied` should have 
+  `Eligible` = 0.
+* All (and only) applicants with `Stage_Raw` $\ge$ `Eligible` should have 
+ `Eligible` = 1. 
+
+```{r}
+#| label: xtab-Stage-Raw-Eligible
+
+xtabs(~as_factor(Stage_Raw) + Eligible, addNA = TRUE, 
+      data = Applicants) %>% 
+  addmargins() 
+```
+
+In the crosstab below check that:
+
+* All (and only) applicants with `Stage_Raw` $\le$ `Eligible` should have 
+  `Enrolled` = 0.
+* All (and only) applicants with `Stage_Raw` $\ge$ `Enrolled` should have 
+ `Enrolled` = 1. 
+
+```{r}
+#| label: xtab-Stage-Raw-Enrolled
+
+xtabs(~as_factor(Stage_Raw) + Enrolled, addNA = TRUE, 
+      data = Applicants) %>% 
+  addmargins()
+```
+
+In the crosstab below check that:
+
+* All (and only) applicants with `Stage_Raw` $\le$ `Eligible` should have 
+  `Started_Mod_1` = `<NA>` (missing).
+* All applicants with `Stage_Raw` = `Enrolled` should have `Started_Mod_1` = 0.
+* Only applicants with `Stage_Raw` $\ge$ `Started_DT` should have 
+  `Started_Mod_1` = 1. 
+
+Here we are using starting didactic module 1 as a rough proxy for starting the 
+didactic training component. 
+
+```{r}
+#| label: xtab-Stage-Raw-Started-Mod-1
+
+xtabs(~as_factor(Stage_Raw) + Started_Mod_1, addNA = TRUE, 
+      data = Applicants) %>% 
+  addmargins()
+```
+
+In the crosstab below check that:
+
+* All (and only) applicants with `Stage_Raw` $\le$ `Started DT` should have 
+  `Finished_Didactic` = 0.
+* All (and only) applicants with `Stage_Raw` $\ge$ `Finished DT` should have 
+  `Finished_Didactic` = 1. 
+
+```{r}
+#| label: xtab-Stage-Raw-Finished-Didactic
+
+xtabs(~as_factor(Stage_Raw) + Finished_Didactic, addNA = TRUE, 
+      data = Applicants) %>% 
+  addmargins()
+```
+
+In the crosstab below check that:
+
+* All (and only) applicants with `Stage_Raw` $\le$ `Finished DT` should have 
+  `Started_CSW` = 0.
+* All (and only) applicants with `Stage_Raw` $\ge$ `Started CSW` should have 
+  `Started_CSW` = 1. 
+
+```{r}
+#| label: xtab-Stage-Raw-CSW-Incomplete
+
+xtabs(~as_factor(Stage_Raw) + Started_CSW, addNA = TRUE, 
+      data = Applicants) %>% 
+  addmargins()
+```
+
+In the crosstab below check that:
+
+* All (and only) applicants with `Stage_Raw` $\le$ `Started CSW` should have 
+  `Finished_CSW` = 0.
+* All (and only) applicants with `Stage_Raw` = `Finished CSW` should have 
+  `Finished_CSW` = 1. 
+
+```{r}
+#| label: xtab-Stage-Raw-Finished-CSW
+
+xtabs(~as_factor(Stage_Raw) + Finished_CSW, addNA = TRUE, 
+      data = Applicants) %>% 
+  addmargins()
+```
+
+\FloatBarrier
+
 ## Create Eligible Applicants Datasets
 For research question RQ1, we need to compare eligible applicants who enrolled 
 versus did not enroll. Subsetting the `Applicants` dataset to create an 
