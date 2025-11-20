@@ -836,6 +836,22 @@ bind_rows(dc_summary(data = Eligible_Applicants %>% filter(Enrolled == 0),
            threeparttable = TRUE)
 ```
 
+:::{.callout-caution}
+Notice that both p-values in @tbl-motivations-diff are very close to the 
+$\alpha = 0.05$ cutoff. There is also a subtle discrepancy between the p-values 
+and the 95% confidence intervals for the difference in propoortions: normally 0 
+should fall *outside* the CI if $p < 0.05$ and *inside* the CI if $p \ge 0.05$, 
+but we see the exact opposite here. We are using a base R function to do the 
+Wilson score tests and get the CIs, so I am certain it has been extensively 
+vetted by competent professional statisticians and programmers. We seem to be 
+right at some boundary between significant vs. non-significant differences in 
+these proportions because 0 is extremely close to the upper limit of both CIs. 
+I'm inclined to say that the bulk of the evidence here suggests there are 
+differences for both of these measures because nearly all values in the CIs are 
+negative (suggesting that enrolled applicants endorse both motivations more 
+often than unenrolled, eligible applicants). 
+:::
+
 \FloatBarrier
 
 ### Potential Barriers {#sec-Barriers}
