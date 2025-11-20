@@ -224,7 +224,7 @@ file name is when I received the file.
 #| tbl-cap: "Meta-Data About Raw Data File"
 
 # Store path to raw data file. 
-RawFile <- here("scripts/extdata/All_group_1_2025-06-03.sav")
+RawFile <- here("scripts/extdata/All_group_1_2025-11-19.sav")
 
 file_details(RawFile) %>% 
   kable(, format = "latex", booktabs = TRUE, 
