@@ -132,7 +132,7 @@ below.
 
 We rely on [Quarto](https://quarto.org) (Allaire et al., 2025) scripts
 to enhance reproducibility because they provide excellent support for
-generating dynamic reports (Mair, 2016). Install Quarto version 1.8.25
+generating dynamic reports (Mair, 2016). Install Quarto version 1.8.26
 or later. Although RStudio bundles a version of Quarto, we want the most
 recent stable release instead. Quarto also includes a copy of
 [Pandoc](https://pandoc.org/).
@@ -643,7 +643,7 @@ entry-spacing="0" line-spacing="2">
 <div id="ref-Allaire-RN8427" class="csl-entry">
 
 Allaire, J. J., Dervieux, C., Scheidegger, C., Teague, C., & Xie, Y.
-(2025). *Quarto* (Version 1.8.25) \[Computer Program\]. Posit Software,
+(2025). *Quarto* (Version 1.8.26) \[Computer Program\]. Posit Software,
 PBC. <https://quarto.org>
 
 </div>
@@ -736,7 +736,7 @@ Software, PBC. <https://posit.co>
 <div id="ref-Torvalds-RN3929" class="csl-entry">
 
 Torvalds, L., Hamano, J. C., & other contributors to the Git Project.
-(2025). *Git for Windows* (Version 2.51.2(1)) \[Computer Program\].
+(2025). *Git for Windows* (Version 2.52.0(1)) \[Computer Program\].
 Software Freedom Conservancy. <https://git-scm.com>
 
 </div>
