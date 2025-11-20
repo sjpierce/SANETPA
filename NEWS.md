@@ -1,5 +1,33 @@
 # SANETPA News 
 
+## 0.22.0
+* `README.qmd` and `README.md`
+    * Updated software version info & citations.
+* `scripts/Descriptive_Analyses.qmd`
+    * Convert some variables to factors for use in analyses.
+    * Add an analysis of Setting x Motivation_NeedSANE. 
+    * Added Demographics section.
+    * Fixed formatting of a Cramer's V value in a table. 
+* `scripts/Import_Data.qmd`
+    * Add heading.
+    * Improve narrative text. 
+    * Fix spelling in code comments.
+    * Improve table format.
+    * Rename a variable. 
+    * Added Compare Stage_Raw to Binary Stage Indicators section.
+    * Updated SPSS data file to fix data entry errors that created logical 
+      discrepancies between binary Enrolled and ordinal stg_reached variables. 
+* `scripts/references.bib`
+    * Updated software version info & citations.
+    * Add references.
+* `scripts/RQ1_Analyses.qmd`
+    * Added a callout.
+    * Improved narrative text. 
+* `scripts/RQ2_RQ3_Analyses.qmd`
+    * Improved narrative text. 
+* `scripts/RQ4_Analyses.qmd`
+    * Fixed a heading.
+    
 ## 0.21.0
 * `README.qmd` and `README.md`
     * Updated software version info & citations.
