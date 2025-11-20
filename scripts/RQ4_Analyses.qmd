@@ -536,7 +536,7 @@ Completed_CSW %>%
 
 \FloatBarrier
 
-### Reliability
+### Scale Score Reliability
 
 ```{r}
 #| label: reliability-CSW-Satisfaction
