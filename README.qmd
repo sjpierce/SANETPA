@@ -614,7 +614,7 @@ cd scripts
 quarto render Production_Run.qmd --output Production_Run_2025-11-20.html
 ```
 
-## References
+## References 
 ::: {#refs}
 :::
 
