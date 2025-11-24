@@ -1,5 +1,21 @@
 # SANETPA News 
 
+## 0.24.0
+* `README.qmd` and `README.md`
+    * Updated software version info & citations.
+    * Updated example command for production runs.
+    * Updated Repository Structure section.
+    * Update text about production runs. 
+    * Cite our draft manuscript.
+* `scripts/Production_Run.qmd`
+    * Updated workflow diagram. 
+* `scripts/RQ1_Analyses.qmd`
+    * Improved narrative text. 
+* `scripts/references.bib`
+    * Updated software version info & citations.
+    * Added some new methods references.
+    * Added a reference for our draft manuscript.
+    
 ## 0.23.0
 * `scripts/quarto.yml`
     * Updated render key to include `Export_Diagram.qmd` script (that puts 
