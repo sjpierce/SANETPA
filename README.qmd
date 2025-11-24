@@ -35,10 +35,10 @@ knitr::opts_chunk$set(
 
 This package [@Pierce-RN8756] is a research compendium [@Marwick-RN3899] for a 
 study examining attrition from a sexual assault nurse examiner (SANE) training 
-program. The research team is led by Dr. Katherine Dontje (PI) and Dr. Rebecca 
-Campbell (Co-I) at Michigan State University and was supported by a grant 
-[@Dontje-RN8757]. The training program had two major components: didactic 
-training (DT) followed by a clinical skills workshop (CSW). 
+program [@Campbell-RN8818]. The research team is led by Dr. Katherine Dontje 
+(PI) and Dr. Rebecca Campbell (Co-I) at Michigan State University and was
+supported by a grant [@Dontje-RN8757]. The training program had two major
+components: didactic training (DT) followed by a clinical skills workshop (CSW).
 
 The study addresses the following research questions:
 

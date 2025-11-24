@@ -18,11 +18,12 @@ status](https://www.r-pkg.org/badges/version/SANETPA.png)](https://CRAN.R-projec
 
 This package (Pierce, 2025) is a research compendium (Marwick et al.,
 2018) for a study examining attrition from a sexual assault nurse
-examiner (SANE) training program. The research team is led by
-Dr. Katherine Dontje (PI) and Dr. Rebecca Campbell (Co-I) at Michigan
-State University and was supported by a grant (Dontje & Campbell,
-07/01/2021–06/30/2025). The training program had two major components:
-didactic training (DT) followed by a clinical skills workshop (CSW).
+examiner (SANE) training program (Campbell et al., 2025). The research
+team is led by Dr. Katherine Dontje (PI) and Dr. Rebecca Campbell (Co-I)
+at Michigan State University and was supported by a grant (Dontje &
+Campbell, 07/01/2021–06/30/2025). The training program had two major
+components: didactic training (DT) followed by a clinical skills
+workshop (CSW).
 
 The study addresses the following research questions:
 
@@ -742,6 +743,16 @@ control? *The American Statistician*, *72*(1), 20–27.
 
 Bryan, J., TAs, T. S. 545., & Hester, J. (n.d.). *Happy Git and GitHub
 for the useR* \[Web Page\]. <https://happygitwithr.com>
+
+</div>
+
+<div id="ref-Campbell-RN8818" class="csl-entry">
+
+Campbell, R., Pierce, S. J., Ashley, A., Markowitz, J., & Dontje, K.
+(2025). *Predicting trainee attrition rates in a state-wide sexual
+assault nurse examiner (SANE) didactic and clinical training program*
+\[Manuscript in preparation\]. Department of Psychology, Michigan State
+University.
 
 </div>
 
