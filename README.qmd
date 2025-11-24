@@ -385,6 +385,9 @@ an
               `data` subfolder will be created when you clone the repository 
               or extract files from ZIP file copy of the repository obtained 
               from GitHub.
+    * `graphics/`: This folder stores `.eps`, `.pdf`, and `.png` graphics files 
+      for CSTAT and MSU logos and/or wordmarks used in my scripts for branding 
+      purposes.
     * `man/`: This folder contains R documentation help files (`*.Rd`) for the
       package and its custom functions. It is required by R package building
       conventions. You should not edit these files manually and you really only
@@ -399,13 +402,23 @@ an
         * `extdata/`: This subfolder is where you will need to put any raw data
           files mentioned in the Obtaining Data Files section below.
         * `output/`: This subfolder holds rendered output files. 
-            * `CR_Model_Draft.pdf`: This is temporary draft output obtained 
-              by rendering the `scripts/CR_Model.qmd` script directly. 
-            * `CR_Model_yyyy-mm-dd.pdf`: Production output obtained by using 
-              `scripts/Production_Run.qmd` to render the 
-              `scripts/CR_Model.qmd` script will have names following this 
-              date-stamped naming convention. An actual rendering date will 
-              replace the `yyyy-mm-dd` notation. 
+            * `Campbell_Figure_1_yyyy-mm-dd.png`: This image file is a temporary
+              file that gets converted to a `.tif` file. It is created by the 
+              `scripts/Export_Diagram.qmd` script.
+            * `Campbell_Figure_1_yyyy-mm-dd.tif`: This image file is suitable
+              for submission to a journal. It is created by the 
+              `scripts/Export_Diagram.qmd` script.
+            * `Campbell_Figure_2_yyyy-mm-dd.tif`: This image file is suitable
+              for submission to a journal. It is created by the 
+              `scripts/RQ2_RQ3_Analyses.qmd` script.
+            * `Descriptive_Analyses_Draft.pdf`: This is temporary draft output 
+              obtained by rendering the `scripts/Descriptive_Analyses.qmd` 
+              script directly. 
+            * `Descriptive_Analyses_yyyy-mm-dd.pdf`: Production output obtained 
+              by using `scripts/Production_Run.qmd` to render the 
+              `scripts/Descriptive_Analyses.qmd` script will have names 
+              following this date-stamped naming convention. An actual rendering 
+              date will replace the `yyyy-mm-dd` notation. 
             * `Import_Data_Draft.pdf`: This is temporary draft output obtained 
               by rendering the `scripts/Import_Data.qmd` script directly. 
             * `Import_Data_yyyy-mm-dd.pdf`: Production output obtained by using 
@@ -413,9 +426,38 @@ an
               `scripts/Import_Data.qmd` script will have names following this 
               date-stamped naming convention. An actual rendering date will 
               replace the `yyyy-mm-dd` notation. 
+            * `RQ1_Analyses_Draft.pdf`: This is temporary draft output obtained 
+              by rendering the `scripts/RQ1_Analyses.qmd` script directly. 
+            * `RQ1_Analyses_yyyy-mm-dd.pdf`: Production output obtained by using 
+              `scripts/Production_Run.qmd` to render the 
+              `scripts/RQ1_Analyses.qmd` script will have names following this 
+              date-stamped naming convention. An actual rendering date will 
+              replace the `yyyy-mm-dd` notation. 
+            * `RQ2_RQ3_Analyses_Draft.pdf`: This is temporary draft output 
+              obtained by rendering the `scripts/RQ2_RQ3_Analyses.qmd` script 
+              directly. 
+            * `RQ2_RQ3_Analyses_yyyy-mm-dd.pdf`: Production output obtained by 
+              using `scripts/Production_Run.qmd` to render the 
+              `scripts/RQ2_RQ3_Analyses.qmd` script will have names following 
+              this date-stamped naming convention. An actual rendering date will 
+              replace the `yyyy-mm-dd` notation. 
+            * `RQ4_Analyses_Draft.pdf`: This is temporary draft output obtained 
+              by rendering the `scripts/RQ4_Analyses.qmd` script directly. 
+            * `RQ4_Analyses_yyyy-mm-dd.pdf`: Production output obtained by using 
+              `scripts/Production_Run.qmd` to render the 
+              `scripts/RQ4_Analyses.qmd` script will have names following this 
+              date-stamped naming convention. An actual rendering date will 
+              replace the `yyyy-mm-dd` notation.
             * `Production_Run.html`: This is the log resulting from rendering 
-              `scripts/Production_Run.qmd`. This documents when the production 
-              process was last run and the result of each step. 
+              `scripts/Production_Run.qmd` directly with the Render button. This 
+              documents when the production process was run and the result of 
+              each step.
+            * `Production_Run_yyyy-mm-dd.html`: This is the log resulting from 
+              rendering `scripts/Production_Run.qmd` with a Terminal command as
+              shown below in the Reproducing Our Results section of this 
+              document. It documents when the production process was run and the 
+              result of each step. An actual rendering date will replace the 
+              `yyyy-mm-dd` notation.  
         * `.gitignore`: This was auto-created by Quarto. Don't edit or delete 
           it. 
         * `.quarto/`: This hidden folder may be created by Quarto to hold 
@@ -433,22 +475,35 @@ an
            YAML header via the in_header option. It just formats the title of 
            the rendered PDF file so it uses less vertical white space. It is 
            used by multiple other scripts.
-        * `CR_Model.qmd`: This script runs the continuation-ratio model(s) that 
-          comprises the main analysis for the study. Methodology notes, 
-          references, and results interpretation will be built into this script
-          and its output. Rendering this directly generates draft output named 
-          `output/CR_Model_Draft.pdf`; you can get date-stamped production 
-          output (e.g., `output/CR_Model_yyyy-mm-dd.html`) by using 
-          `scripts/Production_Run.qmd` to render this script. 
+        * `CSTAT_style.css`:  This custom style sheet provides logo and title 
+           banner formatting settings and classes for my HTML outputs. It 
+           supplements `_brand.yml` and `CSTAT_theme.scss`.
+        * `CSTAT_theme.scss`: This is a Sassy custom style sheet file to provide 
+          formatting settings and classes for my slides and other HTML outputs. 
+          It supplements `_brand.yml` and `CSTAT_style.css`.
         * `Delete_nul_file.bat`: This is a Windows batch file that automates 
           removing a nuisance file sometimes left over when rendering a Quarto 
           or R Markdown script doesn't work right. 
+        * `Descriptive_Analyses.qmd`: This script runs some supplemental 
+          analyses that don;t directly address the research questions. 
+          Methodology notes, references, and results interpretation are built 
+          into this script and its output. Rendering this directly 
+          generates draft output named `output/Descriptive_Analyses_Draft.pdf`; 
+          you can get date-stamped production output (e.g., 
+          `output/Descriptive_Analyses_yyyy-mm-dd.pdf`) by using 
+          `scripts/Production_Run.qmd` to render this script. 
         * `Development_Tools.R`: This contains some examples of R commands I use 
           interactively when working on the package. 
         * `Example_Render_to_HTML.qmd`: This is just an example script that you 
           can copy to start a new script that will produce an HTML output file. 
         * `Example_Render_to_PDF.qmd`: This is just an example script that you 
           can copy to start a new script that will produce a PDF output file. 
+        * `Export_Diagram.qmd`: This script runs exports Figure 1 for the . 
+          manuscript. Rendering this directly 
+          generates draft output named `output/Export_Diagram_Draft.pdf`; 
+          you can get date-stamped production output (e.g., 
+          `output/Export_Diagram_yyyy-mm-dd.pdf`) by using 
+          `scripts/Production_Run.qmd` to render this script. 
         * `Import_Data.qmd`: This script imports the raw data from SPSS and 
           saves it in an .RData file for use by other scripts here. Rendering 
           this directly generates draft output named 
@@ -468,6 +523,27 @@ an
           scratch. It automates an otherwise tedious process. You would use this
           before and after upgrading to a new version of R (e.g., when going 
           from version 4.3.x to 4.4.x). 
+        * `RQ1_Analyses.qmd`: This script runs the analyses for Research 
+          Question 1. Methodology notes, references, and results interpretation 
+          are built into this script and its output. Rendering this directly 
+          generates draft output named `output/RQ1_Analyses_Draft.pdf`; you 
+          can get date-stamped production output (e.g., 
+          `output/RQ1_Analyses_yyyy-mm-dd.pdf`) by using 
+          `scripts/Production_Run.qmd` to render this script. 
+        * `RQ2_RQ3_Analyses.qmd`: This script runs the stopping-ratio model(s) 
+          that comprise the analyses for Research Questions 2 and 3. Methodology 
+          notes, references, and results interpretation are built into this 
+          script and its output. Rendering this directly generates draft output 
+          named `output/RQ2_RQ3_Analyses_Draft.pdf`; you can get date-stamped 
+          production output (e.g., `output/RQ2_RQ3_Analyses_yyyy-mm-dd.pdf`) by 
+          using `scripts/Production_Run.qmd` to render this script. 
+        * `RQ4_Analyses.qmd`: This script runs the analyses for Research 
+          Question 4. Methodology notes, references, and results interpretation 
+          are built into this script and its output. Rendering this directly 
+          generates draft output named `output/RQ4_Analyses_Draft.pdf`; you 
+          can get date-stamped production output (e.g., 
+          `output/RQ4_Analyses_yyyy-mm-dd.pdf`) by using 
+          `scripts/Production_Run.qmd` to render this script. 
         * `Setup_as_Package.qmd`: This is a script I used to remind myself of 
           how to rapidly do various parts of turning a new repository into an R
           package. It's only really used once. 
