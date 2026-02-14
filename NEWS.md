@@ -1,5 +1,48 @@
 # SANETPA News 
 
+## 1.0.0
+The manuscript will be accepted by *Journal of Continuing Education in Nursing* 
+([https://journals.healio.com/journal/jcen](https://journals.healio.com/journal/jcen)) 
+pending minor revisions. One of the final edits is inserting info about this 
+research compendium. Once version 1.0.0 of this package/repository is published 
+and publicly available, I will get a DOI assigned and then release a version 
+1.0.1 that adds that information to the repository, along with rendered output. 
+Subsequent updates after that may also add final citation information for the 
+paper (after it is published and gets a DOI of its own). 
+
+Package changes listed below all relate to final preparations for public release
+of the package. I'm cleaning things up, removing obsolete files, etc. 
+
+* `DESCRIPTION`
+    * Updated Suggests field with final list of packages used in our scripts. 
+    * Updated License field. 
+* Updated licensing for the package. 
+    * `LICENSE`
+    * `LICENSE.md`
+    * `LICENSE.note`
+* `README.qmd` and `README.md`
+    * Updated software version info & citations.
+    * Updated badges. 
+    * Updated text to prepare for public release.
+* `R/Placeholder.R`
+    * Removed a file that is no longer needed. 
+* `scripts/extdata/All_group_1_2025-11-19.sav`
+    * Added final raw data file. 
+* Removed citation style language files that I did not use in this particular
+  package. 
+    * `scripts/apa-numeric-superscript.csl`
+    * `scripts/apa-numeric-superscript-brackets.csl`    
+* Removed example scripts that are no longer needed. Final scripts remain in 
+  the repository.
+    * `scripts/Example_Render_to_HTML.qmd`
+    * `scripts/Example_Render_to_PDF.qmd`
+* `scripts/Import_Data.qmd`
+    * Updated a callout with notes about the raw data file.
+* `scripts/Production_Run.qmd`
+    * Added a callout to caution about overwriting the imported data.
+* `scripts/references.bib`
+    * Updated software version info & citations.
+
 ## 0.24.0
 * `README.qmd` and `README.md`
     * Updated software version info & citations.
