@@ -210,11 +210,15 @@ would have had to get through all of the questions for part a first" (A. Ashley,
 personal communication, May 18, 2025). 
 
 :::{.callout-note}
-I recevied an updated data file called `All_group_1_2025-06-03.sav` that fixed
+I received an updated data file called `All_group_1_2025-06-03.sav` that fixed
 some inaccurate data values detected by a previous iteration of the descriptive
-analyses. It is now in my local repository and replaced the previous data file.
-It includes all applicants (even those who were ineligible). The date in the
-file name is when I received the file.
+analyses. It replaced the previous data file and included all applicants (even 
+those who were ineligible). However, I later edited that file to produce the 
+final raw data file because `All_group_1_2025-06-03.sav` had some data entry 
+errors that created logical discrepancies between binary `Enrolled` and ordinal 
+`stg_reached` variables. The final raw data file is 
+`All_group_1_2025-11-19.sav`. The date in the file name is when I fixed the 
+discrepancies.
 :::
 
 @tbl-raw-data-file shows meta-data about the raw data file we will import.
