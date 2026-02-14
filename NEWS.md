@@ -1,5 +1,26 @@
 # SANETPA News 
 
+## 1.0.1
+This is a maintenance release to finish adding a DOI and final rendered files. 
+It corresponds to the content of the published paper. 
+
+* `README.qmd` and `README.md`
+    * Added DOI badge, updated reference list entry. 
+* Rendered scripts & committed resulting data & output files to GitHub. 
+    * `data/Imported_SANETP_Data.RData`
+    * `scripts/output/Campbell_Figure_1_2026-02-104.png`
+    * `scripts/output/Campbell_Figure_1_2026-02-104.tif`
+    * `scripts/output/Campbell_Figure_2_2026-02-104.tif`
+    * `scripts/output/Descriptive_Analyses_2026-02-14.pdf`
+  	* `scripts/output/Export_Diagram_2026-02-14.pdf`
+    * `scripts/output/Import_Data_2026-02-14.pdf`
+	  * `scripts/output/Production_Run_2026-02-14.html`
+    * `scripts/output/RQ1_Analyses_2026-02-14.pdf`
+    * `scripts/output/RQ2_RQ3_Analyses_2026-02-14.pdf`
+    * `scripts/output/RQ4_Analyses_2026-02-14.pdf`
+* `scripts/references.bib`
+    * Updated reference data for the package to include DOI. 
+    
 ## 1.0.0
 The manuscript will be accepted by *Journal of Continuing Education in Nursing* 
 ([https://journals.healio.com/journal/jcen](https://journals.healio.com/journal/jcen)) 
