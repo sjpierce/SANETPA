@@ -1,5 +1,12 @@
-Source code in this package falls under the GPL (>= 3) license 
-(see https://www.gnu.org/licenses/gpl-3.0.en.html or the 
-LICENSE.md file). All other contents are licensed under the CC 
-BY-SA-4.0 license (see https://creativecommons.org/licenses/by-sa/4.0/ 
+Source code in this package falls under the GPL (>= 3) license
+(see https://www.gnu.org/licenses/gpl-3.0.en.html or the
+LICENSE.md file). All other contents except the logo files in the `graphics/`
+folder are licensed under the CC
+BY-SA-4.0 license (see https://creativecommons.org/licenses/by-sa/4.0/
 or the LICENSE file).
+
+The logo files in the `graphics/` folder are intellectual property owned by
+Michigan State University and do not fall under the CC BY-NC-SA license. I use
+them for branding purposes because I am an MSU employee. They include the
+Michigan State University (MSU) wordmark and the logos for the Center for
+Statistical Training and Consulting (CSTAT)
