@@ -78,16 +78,16 @@ installed R packages.
 
 ## Installation
 
-This package is only available from a *private* repository available on
+This package is only available from a *public* repository available on
 the [GitHub server](https://github.com) at
-https://github.com/sjpierce/SANETPA. Private repositories are only
-visible to GitHub users who are logged in and have been registered by
-the repository owner as a collaborator on the project.
+https://github.com/sjpierce/SANETPA. Public repositories are visible to
+everyone but can only be edited by GitHub users who are logged in and
+have been registered by the repository owner as a collaborator on the
+project.
 
-This package’s repository will remain private until the associated
-manuscript has been accepted for publication. Once that happens, the
-repository may be made public to enable readers to reproduce the
-analyses.
+This package’s repository was private until the associated manuscript
+was accepted for publication. After that, we made it public to enable
+readers to reproduce the analyses.
 
 The package can be installed with the information shown below. The
 overall goal here is to set you up for using a suite of software tools
@@ -388,8 +388,12 @@ project](https://support.rstudio.com/hc/en-us/articles/200526207-Using-RStudio-P
   - `.git/`: This hidden folder is used by Git. Leave it alone!
   - `.Rproj.user/`: This hidden folder is used by Rstudio. Leave it
     alone!
-  - `data/`: This folder is where the data file produced by our scripts
-    will be stored. This is a standard folder for R package structures.
+  - `data/`: This folder is where the `.RData` file produced by our
+    scripts will be stored. This is a standard folder for R package
+    structures.
+    - `Imported_SANETP_Data.RData`: This file is created by rendering
+      the `scripts/Import_Data.qmd` script. Re-running the script will
+      overwrite it.
     - `Placeholder.text` This text file is just present to ensure that
       the `data` subfolder will be created when you clone the repository
       or extract files from ZIP file copy of the repository obtained
@@ -408,8 +412,12 @@ project](https://support.rstudio.com/hc/en-us/articles/200526207-Using-RStudio-P
       package level help files. Do not edit it manually.
   - `scripts/` The folder is configured as a Quarto project. It holds
     meta-data files, `.qmd` scripts, and files used by the scripts.
-    - `extdata/`: This subfolder is where you will need to put any raw
-      data files mentioned in the Obtaining Data Files section below.
+    - `.quarto/`: This hidden folder may be created by Quarto to hold
+      temporary files. Do not edit or delete any of these files unless
+      you know what you are doing! This folder is not tracked by Git.
+    - `extdata/`: This subfolder contains raw data used by my scripts.
+      - `All_group_1_2025-11-19.sav`: This SPSS data file holds all the
+        de-identified raw data.
     - `output/`: This subfolder holds rendered output files.
       - `Campbell_Figure_1_yyyy-mm-dd.png`: This image file is a
         temporary file that gets converted to a `.tif` file. It is
@@ -506,19 +514,13 @@ project](https://support.rstudio.com/hc/en-us/articles/200526207-Using-RStudio-P
       `scripts/Production_Run.qmd` to render this script.
     - `Development_Tools.R`: This contains some examples of R commands I
       use interactively when working on the package.
-    - `Example_Render_to_HTML.qmd`: This is just an example script that
-      you can copy to start a new script that will produce an HTML
-      output file.
-    - `Example_Render_to_PDF.qmd`: This is just an example script that
-      you can copy to start a new script that will produce a PDF output
-      file.
     - `Export_Diagram.qmd`: This script runs exports Figure 1 for the .
       manuscript. Rendering this directly generates draft output named
       `output/Export_Diagram_Draft.pdf`; you can get date-stamped
       production output (e.g., `output/Export_Diagram_yyyy-mm-dd.pdf`)
       by using `scripts/Production_Run.qmd` to render this script.
     - `Import_Data.qmd`: This script imports the raw data from SPSS and
-      saves it in an .RData file for use by other scripts here.
+      saves it in an `.RData` file for use by other scripts here.
       Rendering this directly generates draft output named
       `output/Import_Data_Draft.pdf`; you can get date-stamped
       production output (e.g., `output/Import_Data_yyyy-mm-dd.pdf`) by
@@ -535,7 +537,7 @@ project](https://support.rstudio.com/hc/en-us/articles/200526207-Using-RStudio-P
       code for reading that file and re-installing all of those packages
       from scratch. It automates an otherwise tedious process. You would
       use this before and after upgrading to a new version of R (e.g.,
-      when going from version 4.3.x to 4.4.x).
+      when going from version 4.4.x to 4.5.x).
     - `RQ1_Analyses.qmd`: This script runs the analyses for Research
       Question 1. Methodology notes, references, and results
       interpretation are built into this script and its output.
@@ -571,7 +573,11 @@ project](https://support.rstudio.com/hc/en-us/articles/200526207-Using-RStudio-P
     package that is required by R package building conventions. It holds
     essential meta-data.
   - `LICENSE`: This file contains the terms of the license that applies
-    to all source code in this repository.
+    to all content other than source code in this repository.
+  - `LICENSE.md`: This file contains the terms of the license that
+    applies to all source code in this repository.
+  - `LICENSE.note`: This file describes which license applies to
+    different kinds of content in this repository.
   - `NAMESPACE`: This file is created automatically by R when building
     the package. You should not edit it manually. It is required by R
     package building conventions.
@@ -612,30 +618,25 @@ time. It also helps if we are using the same versions wherever possible
 because version differences can introduce discrepancies in the results
 we each obtain.
 
-## Obtaining Data Files
+## Data Files
 
-The data required to use this package are not available in the GitHub
-repository and should not be checked into Git version control. This
-reduces the number of servers where the data files may be stored and
-thereby increases data security.
+The final raw data required to use this package are available in the
+GitHub repository’s `scripts/extdata/` folder. They have been
+de-identified to protect participant privacy and confidentiality.
 
-To obtain the data files, you can contact the package author Steven J.
-Pierce at pierces1@msu.edu. If you are a CSTAT employee assigned to the
-project team, you can find the data files on CSTAT’s secure network
-drive at `P:\Consulting\Cases_1600-1799\C1788\Data`. When you get the
-files, you will need to put them all in the `scripts/extdata/` subfolder
-of your local repository.
+The SPSS data file `script/extdata/All_group_1_2025-11-19.sav` has
+variable and value labels defined. The `scripts/Import_Data.qmd` script
+reads that file into R, produces a list of all the variables in the raw
+data, does a fair bit of data management, then writes out the
+`data/Imported_SANETP_Data.RData` file that is used by the analysis
+scripts. That imported data file contains multiple R data frames derived
+from the raw data. Read the output of the script that produces it to see
+exactly what happens with the data and get additional information about
+the data.
 
-Members of our research team should not distribute the data files to
-other parties outside the research team without Dr. Dontje’s approval.
-They should not put them on servers not controlled or approved for use
-by MSU without her approval either.
-
-The PI will decide later whether to add the data to the repository or
-archive them separately for reproducibility purposes.
-
-Once you have completed this step and all the others listed above, you
-should be ready to use this package to reproduce our results.
+The file `data/Imported_SANETP_Data.RData` included in the repository is
+the result I obtained with the final production run of the import
+script.
 
 ## Loading the *SANETPA* Package in R
 
@@ -716,7 +717,7 @@ file will overwrite an existing output file if they have the same file
 name).
 
     cd scripts
-    quarto render Production_Run.qmd --output Production_Run_2025-11-23.html
+    quarto render Production_Run.qmd --output Production_Run_2026-02-14.html
 
 ## References
 
