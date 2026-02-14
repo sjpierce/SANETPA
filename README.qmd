@@ -25,9 +25,10 @@ knitr::opts_chunk$set(
 )
 ```
 
-# SANETPA Package Documentation 
+# SANETPA Package Documentation
 
 <!-- badges: start -->
+[![Latest version DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18643254.svg)](https://doi.org/10.5281/zenodo.18643254)
 [![](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 [![Project Status: Inactive – The project has reached a stable, usable state but is no longer being actively developed; support/maintenance will be provided as time allows.](https://www.repostatus.org/badges/latest/inactive.svg)](https://www.repostatus.org/#inactive)
 [![CRAN status](https://www.r-pkg.org/badges/version/SANETPA)](https://CRAN.R-project.org/package=SANETPA)

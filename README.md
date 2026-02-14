@@ -7,6 +7,8 @@ Steven J. Pierce
 
 <!-- badges: start -->
 
+[![Latest version
+DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18643254.svg)](https://doi.org/10.5281/zenodo.18643254)
 [![](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 [![Project Status: Inactive – The project has reached a stable, usable
 state but is no longer being actively developed; support/maintenance
@@ -805,9 +807,10 @@ J. A. (2016). Ten simple rules for taking advantage of Git and GitHub.
 
 Pierce, S. J. (2026). *SANETPA: Research compendium for a study of
 sexual assault nurse examiner training program attrition* (Version
-1.0.0) \[Reproducible Research Materials and Computer Program, R
+1.0.1) \[Reproducible Research Materials and Computer Program, R
 Package, Public Repository\]. GitHub.
-<https://github.com/sjpierce/SANETPA>
+<https://github.com/sjpierce/SANETPA>. Zenodo.
+<https://doi.org/10.5281/zenodo.18643254>
 
 </div>
 
