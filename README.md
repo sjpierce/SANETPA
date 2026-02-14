@@ -16,9 +16,9 @@ allows.](https://www.repostatus.org/badges/latest/inactive.svg)](https://www.rep
 status](https://www.r-pkg.org/badges/version/SANETPA.png)](https://CRAN.R-project.org/package=SANETPA)
 <!-- badges: end -->
 
-This package (Pierce, 2025) is a research compendium (Marwick et al.,
+This package (Pierce, 2026) is a research compendium (Marwick et al.,
 2018) for a study examining attrition from a sexual assault nurse
-examiner (SANE) training program (Campbell et al., 2025). The research
+examiner (SANE) training program (Campbell et al., 2026). The research
 team is led by Dr. Katherine Dontje (PI) and Dr. Rebecca Campbell (Co-I)
 at Michigan State University and was supported by a grant (Dontje &
 Campbell, 07/01/2021–06/30/2025). The training program had two major
@@ -55,11 +55,11 @@ To collaborate on the code for this package, you must have a GitHub
 account. You can request such access by emailing the package maintainer
 your GitHub username and ask to be added as a collaborator on this
 repository. You will need to use [Git](https:/git-scm.com) (Torvalds et
-al., 2025) for version control on files associated with this package and
+al., 2026) for version control on files associated with this package and
 to synchronize changes between your local copy of the repository and
 [GitHub](https://github.com), with
 [RStudio](https://posit.co/products/open-source/rstudio/) (RStudio Team,
-2025) as the primary editor. There is a lot of useful information about
+2026) as the primary editor. There is a lot of useful information about
 using these tools at the [Happy Git and GitHub for the
 userR](https://happygitwithr.com) website (Bryan et al., n.d.). Other
 useful resources on using Git and GitHub include Bryan (2018) and
@@ -124,7 +124,7 @@ package to work.
 
 Install [RStudio
 Desktop](https://posit.co/products/open-source/rstudio/) version
-2025.09.2+418 (or later). We recommend using RStudio to interact with
+2026.01.0+392 (or later). We recommend using RStudio to interact with
 the files for this package. RStudio is both a good interface to R and
 has built-in support for using some of the other software discussed
 below.
@@ -133,7 +133,7 @@ below.
 
 We rely on [Quarto](https://quarto.org) (Allaire et al., 2025) scripts
 to enhance reproducibility because they provide excellent support for
-generating dynamic reports (Mair, 2016). Install Quarto version 1.8.26
+generating dynamic reports (Mair, 2016). Install Quarto version 1.8.27
 or later. Although RStudio bundles a version of Quarto, we want the most
 recent stable release instead. Quarto also includes a copy of
 [Pandoc](https://pandoc.org/).
@@ -727,7 +727,7 @@ entry-spacing="0" line-spacing="2">
 <div id="ref-Allaire-RN8427" class="csl-entry">
 
 Allaire, J. J., Dervieux, C., Scheidegger, C., Teague, C., & Xie, Y.
-(2025). *Quarto* (Version 1.8.26) \[Computer Program\]. Posit Software,
+(2025). *Quarto* (Version 1.8.27) \[Computer Program\]. Posit Software,
 PBC. <https://quarto.org>
 
 </div>
@@ -750,10 +750,10 @@ for the useR* \[Web Page\]. <https://happygitwithr.com>
 <div id="ref-Campbell-RN8818" class="csl-entry">
 
 Campbell, R., Pierce, S. J., Ashley, A., Markowitz, J., & Dontje, K.
-(2025). *Predicting trainee attrition rates in a state-wide sexual
+(2026). *Predicting trainee attrition rates in a state-wide sexual
 assault nurse examiner (SANE) didactic and clinical training program*
-\[Manuscript in preparation\]. Department of Psychology, Michigan State
-University.
+\[Manuscript submitted for publication\]. Department of Psychology,
+Michigan State University.
 
 </div>
 
@@ -803,10 +803,10 @@ J. A. (2016). Ten simple rules for taking advantage of Git and GitHub.
 
 <div id="ref-Pierce-RN8756" class="csl-entry">
 
-Pierce, S. J. (2025). *SANETPA: Research compendium for a study of
+Pierce, S. J. (2026). *SANETPA: Research compendium for a study of
 sexual assault nurse examiner training program attrition* (Version
-0.24.0) \[Reproducible Research Materials and Computer Program, R
-Package, Private Repository Until Release\]. GitHub.
+1.0.0) \[Reproducible Research Materials and Computer Program, R
+Package, Public Repository\]. GitHub.
 <https://github.com/sjpierce/SANETPA>
 
 </div>
@@ -821,8 +821,8 @@ Foundation for Statistical Computing. <http://www.R-project.org>
 
 <div id="ref-RStudio-Team-RN8351" class="csl-entry">
 
-RStudio Team. (2025). *RStudio Desktop: Integrated development
-environment for R* (Version 2025.09.2+418) \[Computer Program\]. Posit
+RStudio Team. (2026). *RStudio Desktop: Integrated development
+environment for R* (Version 2026.01.0+392) \[Computer Program\]. Posit
 Software, PBC. <https://posit.co>
 
 </div>
@@ -830,7 +830,7 @@ Software, PBC. <https://posit.co>
 <div id="ref-Torvalds-RN3929" class="csl-entry">
 
 Torvalds, L., Hamano, J. C., & other contributors to the Git Project.
-(2025). *Git for Windows* (Version 2.52.0(1)) \[Computer Program\].
+(2026). *Git for Windows* (Version 2.53.0(1)) \[Computer Program\].
 Software Freedom Conservancy. <https://git-scm.com>
 
 </div>
@@ -846,8 +846,8 @@ and share your code*. O’Reilly Media. <https://r-pkgs.org>
 
 ## Citing This Package
 
-Please cite the package itself (Pierce, 2025), plus any associated data
-files.
+Please cite the package itself (Pierce, 2026), which includes the
+necessary data.
 
 ## Disclaimer
 
