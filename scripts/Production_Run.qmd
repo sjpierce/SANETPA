@@ -189,7 +189,15 @@ called `scripts/output/example/`).
 ## Import Data
 We now have a working data file and a working data import script. The chunk 
 below runs the data import script, which creates a data file used by other 
-scripts.
+scripts. 
+
+:::{.callout-caution} 
+Whenever the `scripts/Import_Data.qmd` script is rendered (either in draft or 
+production runs), it will overwrite the `data/Imported_SANETP_Data.RData` file. 
+Rename that data file before you render the script if you want to preserve the
+version of it that is distributed with the repository. Alternatively, you can
+download the original file from GitHub again.
+:::
 
 ``` {r}
 #| label: Import-Data
